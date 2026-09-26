@@ -84,12 +84,17 @@ async def main():
                       if heard_buf[0].endswith((".", "?", "!", "。")) or len(heard_buf[0]) > 160:
                           txt = heard_buf[0].strip(); heard_buf[0] = ""
                           live.emit("heard", text=txt)
-                          before = len(fired)
-                          if live.NEED.search(txt) and time.time() - live.LAST_TOOL["t"] >= 8:
+                          async def fallback(txt=txt, t_heard=time.time()):
+                              if not live.NEED.search(txt):
+                                  return
+                              await asyncio.sleep(3)
+                              if live.LAST_TOOL["t"] >= t_heard - 2:
+                                  return
                               r = await asyncio.to_thread(live.engine.rank, txt)
                               live.LAST_TOOL["t"] = time.time()
                               fired.append((time.time(), "show_candidates", {"criterion": txt, "via": "transcript"}))
                               live.emit("show_candidates", criterion=txt, ranking=[x["candidate"] for x in r["ranking"]], via="transcript")
+                          asyncio.create_task(fallback())
                   if sc and sc.output_transcription and sc.output_transcription.text:
                       said.append(sc.output_transcription.text)
                   if msg.tool_call:
