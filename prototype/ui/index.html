@@ -37,7 +37,8 @@
   main{display:grid;grid-template-columns:280px minmax(0,1fr) 320px;gap:24px;padding:24px;max-width:1440px;margin:0 auto}
   body.noL main{grid-template-columns:minmax(0,1fr) 320px}
   body.noR main{grid-template-columns:280px minmax(0,1fr)}
-  body.noL.noR main{grid-template-columns:minmax(0,1fr)}
+  body.noL.noR main{grid-template-columns:minmax(0,1fr);max-width:920px}
+  body.noL main,body.noR main{max-width:1200px}
   body.noL .left,body.noR .right{display:none}
   @media(max-width:1100px){main{grid-template-columns:260px minmax(0,1fr)}.right{grid-column:1/-1}body.noL main{grid-template-columns:minmax(0,1fr)}}
   .sidebtn{border:1px solid var(--hair2);background:var(--card);color:var(--body);border-radius:6px;padding:7px 10px;font:500 13px/20px var(--sans);letter-spacing:-.26px;cursor:pointer}
@@ -286,7 +287,8 @@ async function loadAudit(){const a=await (await fetch('/api/audit')).json();
   $('#audit').innerHTML=`<span class="h">Read</span>`+Object.entries(a.used).map(([k,v])=>`<span class="n">${v.count}</span><span>${esc(k)}, ${esc(v.note)}</span>`).join('')
     +`<span class="h">Never read</span>`+Object.entries(a.never_read).map(([k,v])=>`<span class="n never">${v.count}</span><span class="never">${esc(k)}, ${esc(v.note)}</span>`).join('');
 }
-function toggleSide(w){document.body.classList.toggle('no'+w);$('#t'+w).classList.toggle('off',document.body.classList.contains('no'+w));}
+function toggleSide(w){document.body.classList.toggle('no'+w);const off=document.body.classList.contains('no'+w);$('#t'+w).classList.toggle('off',off);try{localStorage.setItem('side'+w,off?'0':'1')}catch(e){}}
+for(const w of ['L','R']){try{if(localStorage.getItem('side'+w)==='0'){document.body.classList.add('no'+w);$('#t'+w).classList.add('off');}}catch(e){}}
 document.addEventListener('toggle',syncSums,true);
 $('#crit').addEventListener('input',syncSums);
 init();

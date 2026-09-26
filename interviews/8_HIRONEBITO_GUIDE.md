@@ -4,7 +4,7 @@ Sat Sep 26. Name as Gemini transcribed it from Ryo (12-20 02:40): mentor, former
 
 Why him: the VP gave the top-down view, Ryo the evaluated side. Hironebito is the third seat: a manager who has staffed teams and judged engineers, and an engineer who will poke the technical 30%.
 
-Open with: "Can I record this for our notes? Audio only, for transcription." Then the 7 steps. Cap at 10 minutes; leave the last 3 for step 6.
+Open with: "Can I record this for our notes? Audio only, for transcription." Then the 7 steps. Laptop stays closed. The running UI (localhost:8787) is a last resort: only if he asks to see it, or if step 6 stalls with nothing concrete to react to. Interview evidence first, demo never before step 6.
 
 ### 1. Who
 "At Meta, how many people did you evaluate or staff a year, and who evaluated you?"
@@ -26,7 +26,7 @@ Follow-up: "How much of that was things you could point to, and how much was wha
 
 ### 6. Reveal, as a question
 "We're building a page for one decision: who goes on a team or a posting. It pulls what each person wrote and shipped, from sources a policy allows, every line links to its source, no score, and the person sees the same page and can contest a line. Would that have changed the call you got wrong, or is it just more reading?"
-Then the technical probe: "What would make you not believe the demo?" and "Where does this break at 3,000 managers?"
+Then the technical probe: "What would make you not believe this?" and "Where does this break at 3,000 managers?" If, and only if, he can't picture it from words, open the laptop on Rin and hand him the trackpad.
 
 ### 7. Close
 "Who at Meta owned this problem, and what did they buy or build?" "Who else here should we ask?"
