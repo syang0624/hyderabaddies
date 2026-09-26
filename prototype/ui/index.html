@@ -10,7 +10,7 @@
   :root{
     --page:#0a0a0a;--card:#111111;--inset:#161616;--hair:#262626;--hair2:#333333;
     --ink:#ededed;--body:#a1a1a1;--mute:#7a7a7a;
-    --ok:#52a8ff;--ok-bg:#0d2440;--bad:#ff6166;--bad-bg:#3c1618;--warn:#f5a623;--warn-bg:#33260d;
+    --ok:#52a8ff;--ok-bg:#0d2440;--warn:#f5a623;--warn-bg:#33260d;
     --sans:Geist,Inter,system-ui,-apple-system,sans-serif;--mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
     --r:8px;--shadow:0 0 0 1px #ffffff0f,0 1px 1px #00000040,0 2px 2px #00000040;
   }
@@ -18,225 +18,218 @@
   html{background:var(--page)}
   body{margin:0;background:var(--page);color:var(--ink);font:14px/20px var(--sans);letter-spacing:-.28px;-webkit-font-smoothing:antialiased}
   ::selection{background:#ededed;color:#171717}
-  a{color:var(--ok)}
   h1,h2,h3,p{margin:0}
+  .lbl{font-size:12px;line-height:16px;font-weight:500;color:var(--mute)}
   .mono{font-family:var(--mono);letter-spacing:0}
-  .eyebrow{font:400 12px/16px var(--mono);letter-spacing:0;text-transform:uppercase;color:var(--mute)}
 
   header{position:sticky;top:0;z-index:5;background:#0a0a0ae6;backdrop-filter:blur(8px);border-bottom:1px solid var(--hair);padding:14px 24px;display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}
   header h1{font-size:20px;line-height:28px;font-weight:600;letter-spacing:-.6px}
   header .sub{color:var(--body);font-size:13px;margin-top:2px}
-  .pill{display:inline-block;font:400 12px/16px var(--mono);letter-spacing:0;padding:2px 8px;border-radius:9999px;text-transform:uppercase}
-  .pill.ok{background:var(--ok-bg);color:var(--ok)}
-  .pill.warn{background:var(--warn-bg);color:var(--warn)}
-  .pill.bad{background:var(--bad-bg);color:var(--bad)}
+  header .sub a{color:var(--body);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
   .seg{display:inline-flex;border:1px solid var(--hair2);border-radius:6px;overflow:hidden;background:var(--card)}
   .seg button{border:0;background:transparent;color:var(--body);padding:7px 14px;font:500 13px/20px var(--sans);letter-spacing:-.26px;cursor:pointer}
   .seg button.on{background:var(--ink);color:#171717}
 
-  main{display:grid;grid-template-columns:280px minmax(0,1fr) 320px;gap:24px;padding:24px;max-width:1440px;margin:0 auto}
-  @media(max-width:1100px){main{grid-template-columns:260px minmax(0,1fr)}.right{grid-column:1/-1}}
-  @media(max-width:760px){main{grid-template-columns:1fr;padding:16px;gap:16px}}
-
+  main{display:grid;grid-template-columns:340px minmax(0,1fr);gap:24px;padding:24px;max-width:1280px;margin:0 auto}
+  @media(max-width:820px){main{grid-template-columns:1fr;padding:16px;gap:16px}}
   .card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:20px;margin-bottom:24px}
-  .card>.eyebrow{margin-bottom:12px}
+  .card>.lbl{margin-bottom:12px}
 
-  /* candidates */
-  .cand{display:block;width:100%;text-align:left;background:transparent;border:0;border-top:1px solid var(--hair);padding:14px 0;cursor:pointer;color:inherit;font:inherit;letter-spacing:inherit}
-  .cand:first-child{border-top:0;padding-top:0}
-  .cand .nm{font-weight:600;font-size:15px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-  .cand .nm .ord{font:400 12px/16px var(--mono);color:var(--mute)}
-  .cand .meta{color:var(--body);font-size:13px;margin-top:2px}
-  .cand .tags{margin-top:10px;display:grid;grid-template-columns:1fr auto 64px;gap:2px 10px;align-items:center;font:400 12px/18px var(--mono);letter-spacing:0;color:var(--mute)}
-  .cand .tags span:nth-child(3n+1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .cand .tags .bar{height:3px;background:var(--hair);border-radius:2px;overflow:hidden}
-  .cand .tags .bar i{display:block;height:100%;background:var(--body)}
-  .cand.on .nm{color:var(--ink)}
-  .cand.on .tags .bar i{background:var(--ok)}
-  .cand:not(.on){opacity:.7}
-  .cand:hover{opacity:1}
-  .cand.on{position:relative}
-  .cand.on::before{content:"";position:absolute;left:-20px;top:14px;bottom:14px;width:2px;background:var(--ok);border-radius:1px}
-  .cand.on:first-child::before{top:0}
-
-  /* the two quotes */
-  .duet{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-  @media(max-width:760px){.duet{grid-template-columns:1fr}}
-  .quote{padding-top:12px;border-top:1px solid var(--hair)}
-  .quote .eyebrow{margin-bottom:8px}
-  .quote .q{font-size:20px;line-height:28px;font-weight:500;letter-spacing:-.6px;color:var(--ink)}
-  .quote.mgr .q{color:var(--body)}
-  .quote .src{margin-top:10px}
-
-  /* claims */
-  .group{margin-top:20px}
-  .group:first-of-type{margin-top:0}
-  .group .eyebrow{display:flex;justify-content:space-between;padding-bottom:8px;border-bottom:1px solid var(--hair)}
-  .claim{padding:10px 0;border-top:1px solid var(--hair);cursor:pointer}
-  .claim:not(.open) .txt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .claim:not(.open) .src{display:none}
-  .claim.open .src{display:block}
-  .claim .ctx .tagc{margin-left:auto}
-  .group .claim:first-of-type{border-top:0}
-  .claim .ctx{font:400 12px/16px var(--mono);letter-spacing:0;color:var(--mute);margin-bottom:4px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
-  .claim .txt{color:var(--ink);font-size:14px;line-height:20px}
-  .claim .txt.body{color:var(--body)}
-  .fn{display:inline-block;font:400 11px/16px var(--mono);letter-spacing:0;padding:0 6px;border-radius:4px;border:1px solid var(--hair2);color:var(--ok);background:var(--inset);cursor:pointer;vertical-align:1px}
-  .fn:hover,.fn.open{background:var(--ok-bg);border-color:var(--ok-bg)}
-  .tagc{font:400 11px/16px var(--mono);letter-spacing:0;color:var(--mute)}
-  .src{display:none;margin-top:8px;padding:10px 12px;border-radius:6px;background:var(--inset);border:1px solid var(--hair);font:400 12.5px/18px var(--mono);letter-spacing:0;color:var(--body);white-space:pre-wrap}
-  .src.show{display:block}
-  .ann{margin-top:8px;padding:8px 12px;border-left:2px solid var(--warn);background:var(--warn-bg);border-radius:0 6px 6px 0;font-size:13px;color:var(--ink)}
-  .ann b{color:var(--warn);font-weight:500}
-  .annbox{display:flex;gap:8px;margin-top:8px}
-  input[type=text],textarea{width:100%;padding:8px 10px;border:1px solid var(--hair2);border-radius:6px;background:var(--page);color:var(--ink);font:14px/20px var(--sans);letter-spacing:-.28px;resize:vertical}
-  input[type=text]:focus,textarea:focus{outline:none;border-color:var(--body)}
+  /* left: criterion + ranked candidates */
+  textarea,input[type=text]{width:100%;padding:8px 10px;border:1px solid var(--hair2);border-radius:6px;background:var(--page);color:var(--ink);font:14px/20px var(--sans);letter-spacing:-.28px;resize:vertical}
+  textarea:focus,input:focus{outline:none;border-color:var(--body)}
   button.act{padding:7px 14px;border-radius:6px;border:1px solid var(--ink);background:var(--ink);color:#171717;cursor:pointer;font:500 13px/20px var(--sans);letter-spacing:-.26px;white-space:nowrap}
   button.act.ghost{background:transparent;color:var(--ink);border-color:var(--hair2)}
   button.act.ghost:hover{border-color:var(--body)}
   button.act.warn{background:var(--warn);border-color:var(--warn);color:#171717}
   .btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .cand{display:block;width:100%;text-align:left;background:transparent;border:0;border-top:1px solid var(--hair);padding:14px 0;cursor:pointer;color:inherit;font:inherit;letter-spacing:inherit;position:relative}
+  .cand:first-of-type{border-top:0}
+  .cand .nm{font-weight:600;font-size:15px;display:flex;align-items:baseline;gap:10px}
+  .cand .nm .ord{font:400 12px/16px var(--mono);color:var(--mute);min-width:16px}
+  .cand .meta{color:var(--body);font-size:13px;margin-top:2px;padding-left:26px}
+  .cand .why{color:var(--body);font-size:13px;margin-top:6px;padding-left:26px}
+  .cand .strong{color:var(--mute);font-size:12px;margin-top:6px;padding-left:26px}
+  .cand:not(.on){opacity:.65}
+  .cand:hover{opacity:1}
+  .cand.on::before{content:"";position:absolute;left:-20px;top:14px;bottom:14px;width:2px;background:var(--ok);border-radius:1px}
+  .cand.on:first-of-type::before{top:0}
+  .rankfoot{color:var(--mute);font-size:12px;line-height:18px;margin-top:12px;padding-top:12px;border-top:1px solid var(--hair)}
 
-  /* rank */
-  .rank{list-style:none;padding:0;margin:14px 0 0}
-  .rank li{padding:12px 0;border-top:1px solid var(--hair)}
-  .rank .top{display:flex;align-items:baseline;gap:10px}
-  .rank .fit{font:400 13px/20px var(--mono);letter-spacing:0;color:var(--ink);min-width:32px;text-align:right;font-variant-numeric:tabular-nums}
-  .rank .nm{font-weight:600;flex:1}
-  .rank .bar{height:3px;background:var(--hair);border-radius:2px;overflow:hidden;margin:6px 0 6px 42px}
-  .rank .bar i{display:block;height:100%;background:var(--ok)}
-  .rank .why{color:var(--mute);font-size:12px;margin-left:42px}
-  .rank .rc{color:var(--body);font-size:13px;margin:6px 0 0 42px}
-  .rank .foot{color:var(--mute);font:400 12px/16px var(--mono);letter-spacing:0;margin-top:12px}
-
-  /* audit */
-  .audit{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font:400 12px/18px var(--mono);letter-spacing:0;color:var(--body)}
-  .audit .n{color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
-  .audit .never .n,.audit .never{color:var(--warn)}
-  .audit .h{grid-column:1/-1;color:var(--mute);text-transform:uppercase;margin-top:6px}
-
+  /* right: the person */
   .banner{background:var(--warn-bg);border-left:2px solid var(--warn);color:var(--ink);padding:12px 16px;border-radius:0 var(--r) var(--r) 0;margin-bottom:24px;font-size:13px;line-height:20px}
   .banner b{color:var(--warn);font-weight:500}
+  .who{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+  .who h2{font-size:24px;line-height:32px;font-weight:600;letter-spacing:-.96px}
+  .who .meta{color:var(--body);font-size:13px}
+  .duet{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:600px){.duet{grid-template-columns:1fr}}
+  .quote{padding-top:12px;border-top:1px solid var(--hair)}
+  .quote .lbl{margin-bottom:8px}
+  .quote .q{font-size:18px;line-height:26px;font-weight:500;letter-spacing:-.5px;color:var(--ink)}
+  .quote.mgr .q{color:var(--body)}
+  .quote .from{margin-top:8px}
+  .cmp{margin-top:16px;padding:10px 14px;border-radius:6px;background:var(--inset);color:var(--body);font-size:13px;line-height:20px}
+  .cmp b{color:var(--ink);font-weight:500}
+
+  .group{margin-top:20px}
+  .group:first-of-type{margin-top:0}
+  .group>.lbl{display:flex;justify-content:space-between;padding-bottom:8px;border-bottom:1px solid var(--hair)}
+  .claim{padding:10px 0;border-top:1px solid var(--hair)}
+  .group .claim:first-of-type{border-top:0}
+  .claim .txt{color:var(--ink)}
+  .claim .txt.body{color:var(--body)}
+  .claim .from{margin-top:4px;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center}
+  .fn{display:inline-block;font-size:12px;line-height:18px;padding:0 8px;border-radius:9999px;border:1px solid var(--hair2);color:var(--body);background:transparent;cursor:pointer}
+  .fn:hover,.fn.open{color:var(--ok);border-color:var(--ok-bg);background:var(--ok-bg)}
+  .tagc{font-size:12px;color:var(--mute);margin-left:auto}
+  .src{display:none;margin-top:8px;padding:10px 12px;border-radius:6px;background:var(--inset);border:1px solid var(--hair);font:400 12.5px/18px var(--mono);letter-spacing:0;color:var(--body);white-space:pre-wrap}
+  .src.show{display:block}
+  .src .id{color:var(--mute);display:block;margin-bottom:4px}
+  .ann{margin-top:8px;padding:8px 12px;border-left:2px solid var(--warn);background:var(--warn-bg);border-radius:0 6px 6px 0;font-size:13px;color:var(--ink)}
+  .ann b{color:var(--warn);font-weight:500}
+  .annbox{display:flex;gap:8px;margin-top:8px}
   .memo{white-space:pre-wrap;font:400 13px/20px var(--mono);letter-spacing:0;color:var(--body);background:var(--inset);border:1px solid var(--hair);border-radius:6px;padding:16px;margin-top:12px}
   .hidden{display:none}
-  .spin{color:var(--mute);font:400 12px/16px var(--mono);letter-spacing:0}
+  .spin{color:var(--mute);font-size:12px}
   .hdr{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
-  .hdr .eyebrow{margin:0}
-  @media(prefers-reduced-motion:no-preference){.cand,.fn,button.act{transition:opacity .12s,background .12s,border-color .12s}}
+  .hdr .lbl{margin:0}
+
+  /* audit drawer */
+  dialog{background:var(--card);color:var(--ink);border:0;border-radius:12px;box-shadow:var(--shadow),0 24px 32px -8px #00000080;padding:24px;max-width:520px;width:calc(100% - 32px)}
+  dialog::backdrop{background:#00000099}
+  dialog h3{font-size:18px;line-height:26px;font-weight:600;letter-spacing:-.5px;margin-bottom:12px}
+  .audit{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:13px;color:var(--body)}
+  .audit .n{font-family:var(--mono);letter-spacing:0;color:var(--ink);text-align:right;font-variant-numeric:tabular-nums}
+  .audit .h{grid-column:1/-1;color:var(--mute);font-size:12px;font-weight:500;margin-top:8px}
+  .audit .never{color:var(--warn)}
+  .rules{margin:16px 0 0;padding:0;list-style:none;color:var(--mute);font-size:12px;line-height:18px}
+  .rules li{padding:6px 0;border-top:1px solid var(--hair)}
+  @media(prefers-reduced-motion:no-preference){.cand,.fn,button.act{transition:opacity .12s,background .12s,border-color .12s,color .12s}}
 </style>
 </head>
 <body>
 <header>
   <div>
     <h1 id="title">Receipts</h1>
-    <div class="sub"><span id="sub">loading</span></div>
+    <div class="sub"><span id="sub">loading</span> <a id="auditlink" onclick="openAudit()">Sources</a></div>
   </div>
-  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-    <span class="pill ok" id="backend">backend</span>
-    <div class="seg">
-      <button id="vEval" class="on" onclick="setView('eval')">Evaluator</button>
-      <button id="vSub" onclick="setView('subject')">What the candidate sees</button>
-    </div>
+  <div class="seg">
+    <button id="vEval" class="on" onclick="setView('eval')">Evaluator</button>
+    <button id="vSub" onclick="setView('subject')">What the candidate sees</button>
   </div>
 </header>
 
 <main>
   <aside class="left">
     <div class="card">
-      <p class="eyebrow">Candidates, one slot</p>
+      <p class="lbl">What matters for this slot, in your own words</p>
+      <textarea id="crit" rows="3">Someone who will push back on a job-based culture rather than absorb it, and can hold their own in English.</textarea>
+      <div class="btnrow">
+        <button class="act" onclick="doRank()">Sort candidates by this</button>
+        <button class="act ghost" onclick="doMemo()">Decision memo</button>
+      </div>
+    </div>
+    <div class="card">
+      <p class="lbl" id="candlbl">Candidates, one slot</p>
       <div id="cands"></div>
+      <div class="rankfoot hidden" id="rankfoot"></div>
     </div>
   </aside>
 
   <section class="center">
     <div id="banner" class="banner hidden"></div>
     <div class="card">
-      <p class="eyebrow">The same person, two descriptions</p>
+      <div class="who"><h2 id="who"></h2><span class="meta" id="whometa"></span></div>
       <div class="duet">
-        <div class="quote own"><p class="eyebrow">In their own words, Will Can Must sheet</p><div class="q" id="ownwords"></div><div id="ownsrc"></div></div>
-        <div class="quote mgr"><p class="eyebrow">Manager's paraphrase</p><div class="q" id="mgrwords"></div><div id="mgrsrc"></div></div>
+        <div class="quote own"><p class="lbl">What they wrote about what they want</p><div class="q" id="ownwords"></div><div class="from" id="ownsrc"></div></div>
+        <div class="quote mgr"><p class="lbl">How their manager described them</p><div class="q" id="mgrwords"></div><div class="from" id="mgrsrc"></div></div>
       </div>
+      <div class="cmp">The right column is a paraphrase. It is shown beside the person's words, never instead of them. Where the two differ, ask the person.</div>
     </div>
     <div class="card">
-      <div class="hdr">
-        <p class="eyebrow">Evidence with receipts <span id="evmeta"></span></p>
-        <button class="act ghost" onclick="loadEvidence(cur,true)">Re-extract</button>
-      </div>
+      <div class="hdr"><p class="lbl">What they did, with receipts</p><span class="lbl" id="evmeta"></span></div>
       <div id="claims"></div>
     </div>
-    <div class="card hidden" id="memoCard"><p class="eyebrow">Decision memo</p><div class="memo" id="memo"></div></div>
+    <div class="card hidden" id="memoCard"><p class="lbl">Decision memo</p><div class="memo" id="memo"></div></div>
   </section>
-
-  <aside class="right">
-    <div class="card">
-      <p class="eyebrow">Criterion, in your own words</p>
-      <textarea id="crit" rows="3">Someone who will push back on a job-based culture rather than absorb it, and can hold their own in English.</textarea>
-      <div class="btnrow">
-        <button class="act" onclick="doRank()">Re-rank on evidence</button>
-        <button class="act ghost" onclick="doMemo()">Decision memo</button>
-      </div>
-      <ol class="rank" id="rank"></ol>
-    </div>
-    <div class="card">
-      <p class="eyebrow">Audit, what was read</p>
-      <div class="audit" id="audit"></div>
-    </div>
-  </aside>
 </main>
 
+<dialog id="auditDlg">
+  <h3>What this page read, and what it never read</h3>
+  <div class="audit" id="audit"></div>
+  <ul class="rules" id="rules"></ul>
+  <div class="btnrow"><button class="act ghost" onclick="loadEvidence(cur,true)">Re-extract this candidate</button><button class="act" onclick="document.getElementById('auditDlg').close()">Close</button></div>
+</dialog>
+
 <script>
-let company=null, cur=null, view='eval', evcache={};
+let company=null, cur=null, view='eval', evcache={}, lastRank=null, auditData=null;
 const $=s=>document.querySelector(s);
 const nd=s=>String(s).replace(/[—–]/g,'-');
 const esc=s=>nd(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const KINDS=[['revealed_will','What they chose to do'],['strength','What others said'],['gap','Gaps']];
-
+const KINDS=[['revealed_will','Things they chose to do'],['strength','What others said'],['gap','Open questions']];
+const cname=id=>{const c=company.candidates.find(x=>x.id===id);return c?c.name.split(' ')[0]:id};
+function label(it,id){
+  if(!it) return id;
+  switch(it.source){
+    case 'slack': return `Slack ${it.channel}, ${it.date}${it.author&&it.author!==cur?`, by ${cname(it.author)}`:''}`;
+    case 'wcm': return `Will Can Must sheet, ${it.date}`;
+    case 'manager_notes': return `${it.manager}'s note, ${it.date}`;
+    case 'docs': return `Doc: ${it.title.replace(/,$/,'')}`;
+    case 'sessions': return `AI session, opted in, ${it.date}`;
+    default: return id;
+  }
+}
 async function init(){
   company=await (await fetch('/api/company')).json();
   $('#title').textContent=nd(company.decision.title);
   $('#sub').textContent=nd(`${company.name}. ${company.decision.purpose}`);
-  setBackend(company.backend);
   renderCands(); await selectCand(company.candidates[0].id); loadAudit();
 }
-function setBackend(b){const el=$('#backend'); el.textContent=b; el.className='pill '+(b==='heuristic'?'warn':'ok');}
-function renderCands(order){
-  const list=order?order.map(id=>company.candidates.find(c=>c.id===id)):company.candidates;
-  $('#cands').innerHTML=list.map((c,i)=>{const ts=Object.entries(company.tag_scores[c.id]||{}).sort((a,b)=>b[1]-a[1]).slice(0,4);
+function strongest(c){const ts=Object.entries(company.tag_scores[c.id]||{}).filter(([,v])=>v>=5).map(([t])=>t);return ts.length?`Strongest: ${ts.slice(0,3).join(', ')}`:''}
+function renderCands(){
+  const order=lastRank?lastRank.ranking.map(x=>x.candidate):company.candidates.map(c=>c.id);
+  $('#cands').innerHTML=order.map((id,i)=>{const c=company.candidates.find(x=>x.id===id); const r=lastRank&&lastRank.ranking.find(x=>x.candidate===id);
+    const why=r&&r.receipts.length?`<div class="why">${esc(splitClaim(r.receipts[0].text).txt)}</div>`:'';
     return `<button class="cand ${c.id===cur?'on':''}" onclick="selectCand('${c.id}')">
-      <div class="nm"><span>${esc(c.name)}</span><span class="ord">${order?String(i+1).padStart(2,'0'):''}</span></div>
-      <div class="meta">${esc(c.role)}, ${esc(c.team)}. ${c.tenure_years} yrs, reports to ${esc(c.manager)}</div>
-      <div class="tags">${ts.map(([t,v])=>`<span>${esc(t)}</span><span>${v}/5</span><div class="bar"><i style="width:${v*20}%"></i></div>`).join('')}</div>
+      <div class="nm"><span class="ord">${lastRank?i+1:''}</span><span>${esc(c.name)}</span></div>
+      <div class="meta">${esc(c.role)}, ${esc(c.team)}. ${c.tenure_years} yrs</div>${why}
+      <div class="strong">${esc(strongest(c))}</div>
     </button>`}).join('');
+  $('#candlbl').textContent=lastRank?'Candidates, sorted by your criterion':'Candidates, one slot';
+  $('#rankfoot').classList.toggle('hidden',!lastRank);
+  if(lastRank) $('#rankfoot').textContent=`Order comes from how much of each person's evidence touches your criterion (${lastRank.backend}). It is not a verdict, and the candidate never sees it.`;
 }
 async function selectCand(id){cur=id;renderCands();await loadEvidence(id,false);setView(view);}
 async function loadEvidence(id,force){
-  $('#claims').innerHTML='<div class="spin">extracting evidence</div>';
+  $('#claims').innerHTML='<div class="spin">reading the evidence</div>';
   const r=await (await fetch(`/api/evidence/${id}?force=${force?1:0}`)).json();
   evcache[id]=r; renderEvidence(r);
 }
-function splitClaim(t){const m=/^(.+?): ["“](.*)["”]$/s.exec(t); return m?{ctx:m[1],txt:m[2],quoted:true}:{ctx:'',txt:t,quoted:false};}
+function splitClaim(t){const m=/^(.+?): ["“](.*)["”]$/s.exec(t); return m?{ctx:m[1],txt:m[2]}:{ctx:'',txt:t};}
+function srcBox(it,s,k,anns,box){return `<div class="src" id="src-${s}-${k}"><span class="id">${s}</span>${esc(it?it.rendered:s)}${anns}${box}</div>`}
 function renderEvidence(r){
   const {evidence,items,annotations}=r; const c=company.candidates.find(x=>x.id===evidence.candidate);
-  setBackend(evidence.backend);
-  $('#evmeta').textContent=`${evidence.claims.length} claims, ${evidence.dropped_unsourced} dropped for no source`;
+  $('#who').textContent=c.name; $('#whometa').textContent=nd(`${c.role}, ${c.team}. Reports to ${c.manager}. ${c.tenure_years} years at ${company.name.replace(' (fictional)','')}`);
+  $('#evmeta').textContent=`${evidence.claims.length} items, each with a source`;
   const wcm=Object.values(items).find(i=>i.source==='wcm'); const mn=Object.values(items).find(i=>i.source==='manager_notes');
   $('#ownwords').textContent=wcm?nd(wcm.will):'';
-  $('#ownsrc').innerHTML=wcm?`<div style="margin-top:8px"><span class="fn" onclick="toggleSrc('${wcm.id}',this)">${wcm.id}</span><div class="src" id="src-${wcm.id}">${esc(wcm.rendered)}</div></div>`:'';
+  $('#ownsrc').innerHTML=wcm?`<span class="fn" onclick="toggleSrc('${wcm.id}',this)">${esc(label(wcm,wcm.id))}</span>${srcBox(wcm,wcm.id,'',``,``)}`:'';
   $('#mgrwords').textContent=mn?nd(mn.text):'';
-  $('#mgrsrc').innerHTML=mn?`<div style="margin-top:8px"><span class="fn" onclick="toggleSrc('${mn.id}',this)">${mn.id}</span><div class="src" id="src-${mn.id}">${esc(mn.rendered)}</div></div>`:'';
+  $('#mgrsrc').innerHTML=mn?`<span class="fn" onclick="toggleSrc('${mn.id}',this)">${esc(label(mn,mn.id))}</span>${srcBox(mn,mn.id,'',``,``)}`:'';
   const annBy={}; annotations.forEach(a=>(annBy[a.source_id]=annBy[a.source_id]||[]).push(a));
   let i=0;
-  $('#claims').innerHTML=KINDS.map(([kind,label])=>{
+  $('#claims').innerHTML=KINDS.map(([kind,title])=>{
     const cs=evidence.claims.filter(cl=>cl.kind===kind); if(!cs.length) return '';
-    return `<div class="group"><p class="eyebrow"><span>${label}</span><span>${cs.length}</span></p>`+cs.map(cl=>{i++;const k=i;
-      const {ctx,txt}=splitClaim(cl.text);
-      const fns=cl.source_ids.map(s=>`<span class="fn" onclick="this.closest('.claim').classList.add('open');toggleSrc('${s}-${k}',this)">${s}</span>`).join('');
+    return `<div class="group"><p class="lbl"><span>${title}</span><span>${cs.length}</span></p>`+cs.map(cl=>{i++;const k=i;
+      const {txt}=splitClaim(cl.text);
+      const fns=cl.source_ids.map(s=>`<span class="fn" onclick="toggleSrc('${s}-${k}',this)">${esc(label(items[s],s))}</span>`).join('');
       const tags=cl.tags.length?`<span class="tagc">${cl.tags.map(esc).join(', ')}</span>`:'';
-      const srcs=cl.source_ids.map(s=>{const it=items[s];const anns=(annBy[s]||[]).map(a=>`<div class="ann"><b>${esc(c.name)}:</b> ${esc(a.text)}</div>`).join('');
+      const srcs=cl.source_ids.map(s=>{const anns=(annBy[s]||[]).map(a=>`<div class="ann"><b>${esc(c.name)}:</b> ${esc(a.text)}</div>`).join('');
         const box=view==='subject'?`<div class="annbox"><input type="text" id="an-${s}-${k}" placeholder="Add context, or contest this line"><button class="act warn" onclick="addAnn('${s}','an-${s}-${k}')">Add note</button></div>`:'';
-        return `<div class="src show" id="src-${s}-${k}">${esc(it?it.rendered:s)}${anns}${box}</div>`}).join('');
+        return srcBox(items[s],s,k,anns,box)}).join('');
       const anns=view==='subject'?'':cl.source_ids.flatMap(s=>annBy[s]||[]).map(a=>`<div class="ann"><b>${esc(c.name)} says:</b> ${esc(a.text)}</div>`).join('');
-      return `<div class="claim" onclick="if(!event.target.closest('input,button,.fn')) this.classList.toggle('open')"><div class="ctx">${ctx?`<span>${esc(ctx)}</span>`:''}${fns}${tags}</div><div class="txt ${kind==='manager_paraphrase'?'body':''}">${esc(txt)}</div>${anns}${srcs}</div>`}).join('')+'</div>'}).join('');
+      return `<div class="claim"><div class="txt ${kind==='strength'?'body':''}">${esc(txt)}</div><div class="from">${fns}${tags}</div>${anns}${srcs}</div>`}).join('')+'</div>'}).join('');
 }
 function toggleSrc(id,btn){const el=document.getElementById('src-'+id); if(el){el.classList.toggle('show'); if(btn) btn.classList.toggle('open',el.classList.contains('show'));}}
 async function addAnn(sid,inputId){const t=document.getElementById(inputId).value.trim(); if(!t) return;
@@ -245,20 +238,20 @@ async function addAnn(sid,inputId){const t=document.getElementById(inputId).valu
 function setView(v){view=v; $('#vEval').classList.toggle('on',v==='eval'); $('#vSub').classList.toggle('on',v==='subject');
   const c=company.candidates.find(x=>x.id===cur);
   $('#banner').classList.toggle('hidden',v!=='subject');
-  $('#banner').innerHTML=v==='subject'?`<b>You are ${esc(c.name)}.</b> This is exactly the page the evaluator sees about you. Open any receipt and add a note; it appears on their page before the decision is made.`:'';
-  document.querySelector('.right').classList.toggle('hidden',v==='subject');
+  $('#banner').innerHTML=v==='subject'?`<b>You are ${esc(c.name)}.</b> This is exactly the page the evaluator sees about you. Open any source and add a note; it appears on their page before the decision is made.`:'';
+  $('.left').classList.toggle('hidden',v==='subject');
   if(evcache[cur]) renderEvidence(evcache[cur]);}
-async function doRank(){const crit=$('#crit').value.trim(); $('#rank').innerHTML='<li class="spin" style="border:0">re-ranking on evidence</li>';
-  const r=await (await fetch('/api/rank',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({criterion:crit})})).json();
-  const max=Math.max(1,...r.ranking.map(x=>x.fit));
-  $('#rank').innerHTML=r.ranking.map(x=>`<li><div class="top"><span class="fit">${x.fit}</span><span class="nm">${esc(x.name)}</span></div><div class="bar"><i style="width:${Math.round(100*x.fit/max)}%"></i></div><div class="why">${esc(x.rationale)}</div>${x.receipts.map(rc=>{const {txt}=splitClaim(rc.text);return `<div class="rc">${esc(txt)} ${rc.source_ids.map(s=>`<span class="fn" onclick="selectCand('${x.candidate}')">${s}</span>`).join(' ')}</div>`}).join('')}</li>`).join('')
-    +`<li class="foot" style="border:0">${esc(r.backend)}. Fit re-orders the evidence for this criterion. It is not a verdict and the candidate never sees it.</li>`;
-  renderCands(r.ranking.map(x=>x.candidate));}
+async function doRank(){const crit=$('#crit').value.trim(); $('#cands').innerHTML='<div class="spin">sorting on evidence</div>';
+  lastRank=await (await fetch('/api/rank',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({criterion:crit})})).json();
+  renderCands();}
 async function doMemo(){const crit=encodeURIComponent($('#crit').value.trim()); const t=await (await fetch(`/api/memo/${cur}?criterion=${crit}`)).text(); $('#memo').textContent=nd(t); $('#memoCard').classList.remove('hidden'); $('#memoCard').scrollIntoView({behavior:'smooth'});}
-async function loadAudit(){const a=await (await fetch('/api/audit')).json();
-  $('#audit').innerHTML=`<span class="h">Read</span>`+Object.entries(a.used).map(([k,v])=>`<span class="n">${v.count}</span><span>${esc(k)}, ${esc(v.note)}</span>`).join('')
-    +`<span class="h">Never read</span>`+Object.entries(a.never_read).map(([k,v])=>`<span class="n never">${v.count}</span><span class="never">${esc(k)}, ${esc(v.note)}</span>`).join('');
-}
+async function loadAudit(){auditData=await (await fetch('/api/audit')).json(); const a=auditData;
+  const total=Object.values(a.used).reduce((n,v)=>n+v.count,0); const never=Object.values(a.never_read).reduce((n,v)=>n+v.count,0);
+  $('#auditlink').textContent=`Read ${total} sources, never read ${never} private ones. See which.`;
+  $('#audit').innerHTML=`<span class="h">Read</span>`+Object.entries(a.used).map(([k,v])=>`<span class="n">${v.count}</span><span>${esc(v.note)}</span>`).join('')
+    +`<span class="h">Never read</span>`+Object.entries(a.never_read).map(([k,v])=>`<span class="n never">${v.count}</span><span class="never">${esc(k.replace('_',' '))}: ${esc(v.note)}</span>`).join('');
+  $('#rules').innerHTML=(a.rules||[]).map(r=>`<li>${esc(r)}</li>`).join('');}
+function openAudit(){document.getElementById('auditDlg').showModal();}
 init();
 </script>
 </body>
