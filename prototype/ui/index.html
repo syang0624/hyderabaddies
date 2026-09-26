@@ -35,7 +35,13 @@
   .seg button.on{background:var(--ink);color:#171717}
 
   main{display:grid;grid-template-columns:280px minmax(0,1fr) 320px;gap:24px;padding:24px;max-width:1440px;margin:0 auto}
-  @media(max-width:1100px){main{grid-template-columns:260px minmax(0,1fr)}.right{grid-column:1/-1}}
+  body.noL main{grid-template-columns:minmax(0,1fr) 320px}
+  body.noR main{grid-template-columns:280px minmax(0,1fr)}
+  body.noL.noR main{grid-template-columns:minmax(0,1fr)}
+  body.noL .left,body.noR .right{display:none}
+  @media(max-width:1100px){main{grid-template-columns:260px minmax(0,1fr)}.right{grid-column:1/-1}body.noL main{grid-template-columns:minmax(0,1fr)}}
+  .sidebtn{border:1px solid var(--hair2);background:var(--card);color:var(--body);border-radius:6px;padding:7px 10px;font:500 13px/20px var(--sans);letter-spacing:-.26px;cursor:pointer}
+  .sidebtn.off{color:var(--mute);border-style:dashed}
   @media(max-width:760px){main{grid-template-columns:1fr;padding:16px;gap:16px}}
 
   .card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:20px;margin-bottom:24px}
@@ -140,6 +146,8 @@
   </div>
   <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
     <span class="pill ok" id="backend">backend</span>
+    <button class="sidebtn" id="tL" onclick="toggleSide('L')" title="Show or hide the candidates sidebar">Candidates</button>
+    <button class="sidebtn" id="tR" onclick="toggleSide('R')" title="Show or hide the criterion sidebar">Criterion</button>
     <div class="seg">
       <button id="vEval" class="on" onclick="setView('eval')">Evaluator</button>
       <button id="vSub" onclick="setView('subject')">What the candidate sees</button>
@@ -150,8 +158,8 @@
 <main>
   <aside class="left">
     <div class="card">
-      <p class="eyebrow">Candidates, one slot</p>
-      <div id="cands"></div>
+      <details open id="candsD"><summary><p class="eyebrow" id="candsum">Candidates, one slot</p></summary>
+      <div id="cands" style="margin-top:12px"></div></details>
     </div>
   </aside>
 
@@ -176,13 +184,15 @@
 
   <aside class="right">
     <div class="card">
-      <p class="eyebrow">Criterion, in your own words</p>
+      <details open id="critD"><summary><p class="eyebrow" id="critsum">Criterion, in your own words</p></summary>
+      <div style="margin-top:12px">
       <textarea id="crit" rows="3">Someone who will push back on a job-based culture rather than absorb it, and can hold their own in English.</textarea>
       <div class="btnrow">
         <button class="act" onclick="doRank()">Re-rank on evidence</button>
         <button class="act ghost" onclick="doMemo()">Decision memo</button>
       </div>
       <ol class="rank" id="rank"></ol>
+      </div></details>
     </div>
     <div class="card">
       <details><summary><p class="eyebrow" id="auditsum">Audit, what was read</p></summary>
@@ -222,7 +232,8 @@ function renderCands(order){
       <div class="tags">${ts.map(([t,v])=>`<span>${esc(t)}</span><span>${v}/5</span><div class="bar"><i style="width:${v*20}%"></i></div>`).join('')}</div>
     </button>`}).join('');
 }
-async function selectCand(id){cur=id;renderCands();await loadEvidence(id,false);setView(view);}
+function syncSums(){if(!company) return;const c=company.candidates.find(x=>x.id===cur);$('#candsum').textContent=$('#candsD').open?'Candidates, one slot':`Candidate: ${c?c.name:''}`;const q=$('#crit').value.trim();$('#critsum').textContent=$('#critD').open?'Criterion, in your own words':`Criterion: ${q.length>48?q.slice(0,48)+'...':q}`;}
+async function selectCand(id){cur=id;renderCands();syncSums();await loadEvidence(id,false);setView(view);}
 async function loadEvidence(id,force){
   $('#claims').innerHTML='<div class="spin">extracting evidence</div>';
   const r=await (await fetch(`/api/evidence/${id}?force=${force?1:0}`)).json();
@@ -275,6 +286,9 @@ async function loadAudit(){const a=await (await fetch('/api/audit')).json();
   $('#audit').innerHTML=`<span class="h">Read</span>`+Object.entries(a.used).map(([k,v])=>`<span class="n">${v.count}</span><span>${esc(k)}, ${esc(v.note)}</span>`).join('')
     +`<span class="h">Never read</span>`+Object.entries(a.never_read).map(([k,v])=>`<span class="n never">${v.count}</span><span class="never">${esc(k)}, ${esc(v.note)}</span>`).join('');
 }
+function toggleSide(w){document.body.classList.toggle('no'+w);$('#t'+w).classList.toggle('off',document.body.classList.contains('no'+w));}
+document.addEventListener('toggle',syncSums,true);
+$('#crit').addEventListener('input',syncSums);
 init();
 </script>
 </body>
