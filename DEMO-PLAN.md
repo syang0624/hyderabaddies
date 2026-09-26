@@ -1,5 +1,7 @@
 # Demo plan: the evidence layer, worked backwards from the judging clock
 
+> **Superseded (Sat Sep 26 ~07:45).** The scripts, beats, VP card, truth table and Q&A now live in `PRD.md` §9 and §13; the build order is `PRD.md` §12. Two things to know before quoting anything below: the figures in §2, §4 and §9 are **not cleared** for public use (see `sync.md` §J), and the line "you can bother me anytime" in §6 was Carl's, not the VP's (`sync.md` §D). Kept as the record of the 02:00 plan.
+
 Written Sat Sep 26 ~02:00 PDT, right after the VP meeting. Input: `interviews/5_VP_MEETING_SUMMARY.md`, `STEVEN-RESEARCH.md`, `codex-packet/outputs/00-start-here.md`, `05-saturday-runsheet.md`, and the Day 1 deck (`codex-packet/work/event.txt`). This is a plan for Carl and Steven to argue with, not a decision.
 
 Steven's "defining innovation" riff is now in `interviews/raw/6_steven-innovation_01-30-00.md` (glasses, ~01:30 Sat). Section 1 and the scripts in section 9 are built on it.

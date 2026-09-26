@@ -1,5 +1,7 @@
 # Prep: Steven with Ho Joon Cha (OpenAI)
 
+> **Partly superseded (Sat Sep 26 ~07:45).** The Q&A lines now live in `PRD.md` §9.8 (single source; this table has drifted from it). The lens notes and the "do not" list below still apply.
+
 Written Sat Sep 26 ~02:15 PDT. What the repo knows about him: event title "Applied AI Architect, OpenAI"; one of the four judges (Day 1 deck p16); OpenAI tech support core time 10–11 AM and 8–9 PM in `#ask-mentors-techsupporters`, mention `@hojoon`; a May 2026 OpenAI Academy webinar for ChatGPT Enterprise admins on workspace agents, approvals, safeguards and governance (`codex-packet/work/judges-research.md`, verified). Everything below infers an enterprise-deployment lens from that public record. None of it is his opinion.
 
 He is also a judge on Sunday, so this conversation is a preview of Q&A. Treat it as disconfirmation, not pitching: show the running thing, ask what would make him not believe it.
