@@ -50,6 +50,17 @@ class H(BaseHTTPRequestHandler):
         try:
             if p in ("/", "/index.html"):
                 return self._text((UI / "index.html").read_text(), "text/html; charset=utf-8")
+            if p.startswith("/fonts/") and p.endswith(".woff2") and "/" not in p[7:]:
+                f = UI / "fonts" / p[7:]
+                if not f.is_file():
+                    return self._json({"error": "not found"}, 404)
+                body = f.read_bytes()
+                self.send_response(200)
+                self.send_header("Content-Type", "font/woff2")
+                self.send_header("Cache-Control", "public, max-age=86400")
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                return self.wfile.write(body)
             if p == "/favicon.ico":
                 self.send_response(204)
                 self.end_headers()
