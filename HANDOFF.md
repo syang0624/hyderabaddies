@@ -2,15 +2,19 @@
 
 Carl's Codex thread hit its usage limit around 23:14 on Fri. This file is where it stopped and what's in the repo now.
 
+## UPDATE ~14:15 Sat: PRD v3
+- `PRD.md` v3 re-aligns the plan with the prototype + live layer and the Ryo interview: Sunday's plan is **§11.A** (a ten-item patch list for `prototype/`) and **§12** (build order from 14:15); the demo opens on the live meeting (§9.2); the FastAPI/React design in §11.0–§11.13 is the post-event target. `sync.md` D28–D30 say why.
+
 ## UPDATE ~04:45 Sat: PRD and sync
 - **`PRD.md`** (repo root) is the build spec: problem with alternative readings of the VP evidence, principles, personas, pipeline, surfaces (Slack real / email stub / web), UI spec, the four demo beats with re-timed scripts, every number labelled, full architecture and codebase with build order and cut lines, truth table, roadmap to 2050, risks, clearances.
+- **Repo decision (PRD §11.0, sync D18), needs Carl's yes at 08:30 Sat:** the product ships from a new public repo `hyderabaddies-receipts`; this research repo goes private the same minute because the VP transcripts are already on `origin/main`.
 - **`sync.md`** is the reasoning log for both of you and your agents: every decision with its evidence pointers and reversal fact, the corrections to earlier files (§D, including two misattributed VP quotes), what has already been researched with URLs (§F), the rules, and the **public-repo handling item (§H)**. Read `sync.md` §A–§D before doing anything else.
 
 ## UPDATE ~02:30 Sat: for the Fable session
-- **Best VP source now:** `interviews/5_VP_MEETING_TRANSCRIPT_RECONCILED.md`. It merges phone and glasses audio (aligned at 00:09:40), labels speakers, translates all 243 Japanese lines, and lists 24 unresolved spots per chunk. Prefer it over `5_VP_MEETING_TRANSCRIPT.md` (single source, no translation). Per-chunk raw output and the script are in `interviews/raw/vp-reconcile-chunks/`.
+- **Best VP source now:** `interviews/5_VP_MEETING_TRANSCRIPT_RECONCILED.md`. It merges phone and glasses audio (aligned at 00:09:40), labels speakers, translates all 243 Japanese lines, and lists 24 unresolved spots in total (1–3 per chunk). Prefer it over `5_VP_MEETING_TRANSCRIPT.md` (single source, no translation). Per-chunk raw output and the script are in `interviews/raw/vp-reconcile-chunks/`.
 - Detailed summary: `interviews/5_VP_MEETING_SUMMARY.md` (written from the single-source transcript; check quotes against the reconciled one).
 - Steven's "define innovation" riff (glasses, 01:30): `interviews/6_STEVEN_INNOVATION_FRAME.md`.
-- Prototype: `prototype/` (`make run-heuristic`, then open http://localhost:8787; `make smoke` checks every endpoint). The pitch scripts are in `DEMO-PLAN.md` section 9.
+- Prototype: `prototype/` (`make run-heuristic`, then open http://localhost:8787; `make smoke` checks every endpoint). The pitch scripts now live in `PRD.md` §9 (DEMO-PLAN §9 is superseded).
 - Open before Sunday: run `make run-gemini` once; get the VP or Shion to clear which figures and quotes can go in the public deck.
 
 ## UPDATE 01:30 Sat: VP meeting happened (72 min, ~00:14-01:26)
