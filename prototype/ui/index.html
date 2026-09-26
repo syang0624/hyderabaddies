@@ -262,16 +262,19 @@ function renderCands(order){
 }
 function syncSums(){if(!company) return;const c=company.candidates.find(x=>x.id===cur);$('#candsum').textContent=$('#candsD').open?'Candidates, one slot':`Candidate: ${c?c.name:''}`;const q=$('#crit').value.trim();$('#critsum').textContent=$('#critD').open?'Criterion, in your own words':`Criterion: ${q.length>48?q.slice(0,48)+'...':q}`;}
 async function selectCand(id){cur=id;renderCands();syncSums();await loadEvidence(id,false);setView(view);}
-async function loadEvidence(id,force){
+async function loadEvidence(id,force,mode){
   $('#claims').innerHTML='<div class="spin">extracting evidence</div>';
-  const r=await (await fetch(`/api/evidence/${id}?force=${force?1:0}`)).json();
+  const resp=await fetch(`/api/evidence/${id}?force=${force?1:0}${mode?'&mode='+mode:''}`);
+  if(!resp.ok){const e=await resp.json().catch(()=>({error:'server error'}));
+    $('#claims').innerHTML=`<div class="claim" style="cursor:default"><div class="txt" style="color:var(--warn)">${esc(e.error||'error')}</div><div class="btnrow"><button class="act ghost" onclick="loadEvidence(cur,true)">Retry Gemini</button><button class="act" onclick="loadEvidence(cur,true,'heuristic')">Use keyword mode</button></div></div>`; return;}
+  const r=await resp.json();
   evcache[id]=r; renderEvidence(r);
 }
 function splitClaim(t){const m=/^(.+?): ["“](.*)["”]$/s.exec(t); return m?{ctx:m[1],txt:m[2],quoted:true}:{ctx:'',txt:t,quoted:false};}
 function renderEvidence(r){
   const {evidence,items,annotations}=r; const c=company.candidates.find(x=>x.id===evidence.candidate);
   setBackend(evidence.backend);
-  $('#evmeta').textContent=`${evidence.claims.length} claims, ${evidence.dropped_unsourced} dropped for no source`;
+  $('#evmeta').textContent=`${evidence.claims.length} claims, ${evidence.dropped_unsourced} dropped for no source${evidence.dropped_unfaithful?`, ${evidence.dropped_unfaithful} dropped as unfaithful`:''}`;
   const wcm=Object.values(items).find(i=>i.source==='wcm'); const mn=Object.values(items).find(i=>i.source==='manager_notes');
   $('#ownwords').textContent=wcm?nd(wcm.will):'';
   $('#ownsrc').innerHTML=wcm?`<div style="margin-top:8px"><span class="fn" onclick="toggleSrc('${wcm.id}',this)">${ico(wcm)}${wcm.id}</span><div class="src" id="src-${wcm.id}">${esc(wcm.rendered)}</div></div>`:'';

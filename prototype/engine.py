@@ -16,7 +16,7 @@ from pathlib import Path
 
 HERE = Path(__file__).parent
 DATA = HERE / "data"
-STATE = HERE / "state"
+STATE = Path(os.environ.get("STATE") or (HERE / "state"))
 STATE.mkdir(exist_ok=True)
 
 MODE = os.environ.get("MODE", "auto")  # auto | gemini | heuristic
@@ -166,7 +166,23 @@ def heuristic_claims(cid, items, tags):
     return claims
 
 
-def extract_claims(cid, force=False):
+class LLMUnavailable(RuntimeError):
+    pass
+
+
+def _norm(t):
+    t = str(t).lower().replace("\u2019", "'").replace("\u201c", '"').replace("\u201d", '"')
+    return " ".join(re.sub(r"[^\w' ]+", " ", t).split())
+
+
+def _item_text_fields(it):
+    return " ".join(str(it.get(k, "")) for k in ("text", "will", "can", "must", "excerpt", "title", "problem", "approach", "outcome"))
+
+
+def extract_claims(cid, force=False, mode=None):
+    global MODE
+    if mode in ("gemini", "heuristic") and mode != MODE:
+        MODE = mode
     cache = STATE / f"evidence-{cid}-{backend_name()}.json"
     if cache.exists() and not force:
         return json.loads(cache.read_text())
@@ -179,9 +195,10 @@ def extract_claims(cid, force=False):
     prompt = f"""You are an evidence extractor for an HR decision. Decision: {company['decision']['title']}.
 Person: {name} ({cid}). Below are the ONLY items you may use, each with an id in [brackets].
 
-Produce JSON: {{"claims": [{{"text": str, "kind": "declared_will|revealed_will|manager_paraphrase|strength|gap", "source_ids": [str], "tags": [str]}}]}}
+Produce JSON: {{"claims": [{{"text": str, "quote": str, "kind": "declared_will|revealed_will|manager_paraphrase|strength|gap", "source_ids": [str], "tags": [str]}}]}}
 Rules:
 - Every claim must cite one or more ids from the items below. No id, no claim.
+- "quote" = 5 to 25 words copied exactly, character for character, from one of the cited items. A claim whose quote is not found in its item is discarded.
 - "declared_will" = what the person wrote about what they want, quoted closely from the Will Can Must sheet.
 - "revealed_will" = what they voluntarily did or chose to work on, beyond their assigned duties.
 - "manager_paraphrase" = the manager's description, kept separate so it can be compared with the person's own words.
@@ -195,19 +212,27 @@ Items:
     out = llm_json(prompt)
     backend = "gemini"
     if not out or "claims" not in out:
+        if MODE == "gemini":
+            raise LLMUnavailable("Gemini did not answer (credentials, quota or network). Retry, or use keyword mode.")
         out = {"claims": heuristic_claims(cid, items, tags)}
         backend = "heuristic"
 
-    kept, dropped = [], 0
+    by_id = {it["id"]: it for it in items}
+    kept, dropped, unfaithful = [], 0, 0
     for c in out["claims"]:
         ids = [s for s in c.get("source_ids", []) if s in store_ids]
         if not ids:
             dropped += 1
             continue
+        if backend == "gemini":
+            q = _norm(c.get("quote", ""))
+            if len(q.split()) < 3 or not any(q in _norm(_item_text_fields(by_id[i])) for i in ids):
+                unfaithful += 1
+                continue
         c["source_ids"] = ids
         c["tags"] = [t for t in c.get("tags", []) if t in tags]
         kept.append(c)
-    result = {"candidate": cid, "backend": backend, "claims": kept, "dropped_unsourced": dropped, "generated_at": time.time()}
+    result = {"candidate": cid, "backend": backend, "claims": kept, "dropped_unsourced": dropped, "dropped_unfaithful": unfaithful, "generated_at": time.time()}
     cache.write_text(json.dumps(result, indent=1, ensure_ascii=False))
     return result
 

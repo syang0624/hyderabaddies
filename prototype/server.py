@@ -79,7 +79,11 @@ class H(BaseHTTPRequestHandler):
             if p.startswith("/api/evidence/"):
                 cid = p.rsplit("/", 1)[1]
                 force = q.get("force", ["0"])[0] == "1"
-                ev = engine.extract_claims(cid, force=force)
+                mode = q.get("mode", [None])[0]
+                try:
+                    ev = engine.extract_claims(cid, force=force, mode=mode)
+                except engine.LLMUnavailable as e:
+                    return self._json({"error": str(e), "code": "llm_unavailable"}, 503)
                 items = {it["id"]: dict(it, rendered=engine.item_text(it)) for it in engine.items_for(cid)}
                 return self._json({"evidence": ev, "items": items, "annotations": [a for a in engine.annotations() if a["candidate"] == cid]})
             if p.startswith("/api/memo/"):
