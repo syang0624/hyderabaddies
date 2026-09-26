@@ -74,40 +74,41 @@ async def main():
         live.emit("status", text=f"simulated call via {live.MODEL}" + (f" (reconnect {drops})" if drops else ""))
 
         async def listen():
-            async for msg in session.receive():
-                if msg.session_resumption_update and msg.session_resumption_update.resumable and msg.session_resumption_update.new_handle:
-                    RESUME["handle"] = msg.session_resumption_update.new_handle
-                sc = msg.server_content
-                if sc and sc.input_transcription and sc.input_transcription.text:
-                    heard_buf[0] += sc.input_transcription.text
-                    if heard_buf[0].endswith((".", "?", "!", "。")) or len(heard_buf[0]) > 160:
-                        txt = heard_buf[0].strip(); heard_buf[0] = ""
-                        live.emit("heard", text=txt)
-                        before = len(fired)
-                        if live.NEED.search(txt) and time.time() - live.LAST_TOOL["t"] >= 8:
-                            r = await asyncio.to_thread(live.engine.rank, txt)
-                            live.LAST_TOOL["t"] = time.time()
-                            fired.append((time.time(), "show_candidates", {"criterion": txt, "via": "transcript"}))
-                            live.emit("show_candidates", criterion=txt, ranking=[x["candidate"] for x in r["ranking"]], via="transcript")
-                if sc and sc.output_transcription and sc.output_transcription.text:
-                    said.append(sc.output_transcription.text)
-                if msg.tool_call:
-                    responses = []
-                    for fc in msg.tool_call.function_calls:
-                        args = dict(fc.args or {})
-                        fired.append((time.time(), fc.name, args))
-                        result = {"ok": True}
-                        if fc.name == "show_candidates":
-                            live.LAST_TOOL["t"] = time.time()
-                            r = await asyncio.to_thread(live.engine.rank, args.get("criterion", ""))
-                            result = {"shown": [{"id": x["candidate"], "name": x["name"]} for x in r["ranking"]]}
-                            live.emit("show_candidates", criterion=args.get("criterion", ""), ranking=[x["candidate"] for x in r["ranking"]])
-                        elif fc.name == "conclude":
-                            live.emit("conclude", **args)
-                        elif fc.name == "note":
-                            live.emit("note", text=args.get("text", ""))
-                        responses.append(types.FunctionResponse(id=fc.id, name=fc.name, response=result))
-                    await session.send_tool_response(function_responses=responses)
+            while True:  # receive() returns after every turn_complete; keep reading until the socket closes
+              async for msg in session.receive():
+                  if msg.session_resumption_update and msg.session_resumption_update.resumable and msg.session_resumption_update.new_handle:
+                      RESUME["handle"] = msg.session_resumption_update.new_handle
+                  sc = msg.server_content
+                  if sc and sc.input_transcription and sc.input_transcription.text:
+                      heard_buf[0] += sc.input_transcription.text
+                      if heard_buf[0].endswith((".", "?", "!", "。")) or len(heard_buf[0]) > 160:
+                          txt = heard_buf[0].strip(); heard_buf[0] = ""
+                          live.emit("heard", text=txt)
+                          before = len(fired)
+                          if live.NEED.search(txt) and time.time() - live.LAST_TOOL["t"] >= 8:
+                              r = await asyncio.to_thread(live.engine.rank, txt)
+                              live.LAST_TOOL["t"] = time.time()
+                              fired.append((time.time(), "show_candidates", {"criterion": txt, "via": "transcript"}))
+                              live.emit("show_candidates", criterion=txt, ranking=[x["candidate"] for x in r["ranking"]], via="transcript")
+                  if sc and sc.output_transcription and sc.output_transcription.text:
+                      said.append(sc.output_transcription.text)
+                  if msg.tool_call:
+                      responses = []
+                      for fc in msg.tool_call.function_calls:
+                          args = dict(fc.args or {})
+                          fired.append((time.time(), fc.name, args))
+                          result = {"ok": True}
+                          if fc.name == "show_candidates":
+                              live.LAST_TOOL["t"] = time.time()
+                              r = await asyncio.to_thread(live.engine.rank, args.get("criterion", ""))
+                              result = {"shown": [{"id": x["candidate"], "name": x["name"]} for x in r["ranking"]]}
+                              live.emit("show_candidates", criterion=args.get("criterion", ""), ranking=[x["candidate"] for x in r["ranking"]])
+                          elif fc.name == "conclude":
+                              live.emit("conclude", **args)
+                          elif fc.name == "note":
+                              live.emit("note", text=args.get("text", ""))
+                          responses.append(types.FunctionResponse(id=fc.id, name=fc.name, response=result, scheduling="SILENT"))
+                      await session.send_tool_response(function_responses=responses)
 
         lt = asyncio.create_task(listen())
         try:

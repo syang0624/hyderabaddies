@@ -36,7 +36,7 @@ EVENTS = engine.STATE / "live.jsonl"
 
 TOOLS = [types.Tool(function_declarations=[
     types.FunctionDeclaration(
-        name="show_candidates",
+        name="show_candidates", behavior="NON_BLOCKING",
         description=("Call this as soon as the speakers describe the kind of person they need for the slot "
                      "(skills, attitude, language, what they must be willing to do). Pass their words, lightly cleaned, "
                      "as one criterion sentence. Call it again whenever the criterion changes."),
@@ -45,7 +45,7 @@ TOOLS = [types.Tool(function_declarations=[
         }, required=["criterion"]),
     ),
     types.FunctionDeclaration(
-        name="conclude",
+        name="conclude", behavior="NON_BLOCKING",
         description=("Call this when the speakers agree on a next step, pick someone to talk to, or wrap up the call. "
                      "Summarise only what was actually said. Do not recommend anyone yourself."),
         parameters=types.Schema(type="OBJECT", properties={
@@ -57,7 +57,7 @@ TOOLS = [types.Tool(function_declarations=[
         }, required=["summary"]),
     ),
     types.FunctionDeclaration(
-        name="note",
+        name="note", behavior="NON_BLOCKING",
         description="Call this for any other fact the speakers state that should be on the record (a constraint, a date, a budget). One short sentence.",
         parameters=types.Schema(type="OBJECT", properties={"text": types.Schema(type="STRING")}, required=["text"]),
     ),
@@ -86,8 +86,12 @@ LAST_TOOL = {"t": 0.0}
 
 
 async def maybe_trigger(text):
-    """If a heard sentence states a need and the model has not called show_candidates in the last 8 s, rank on it anyway."""
-    if not NEED.search(text) or time.time() - LAST_TOOL["t"] < 8:
+    """Fallback: if a heard sentence states a need and the model has not called show_candidates within 3 s of it, rank on it anyway."""
+    if not NEED.search(text):
+        return
+    t_heard = time.time()
+    await asyncio.sleep(3)
+    if LAST_TOOL["t"] >= t_heard - 2:  # the model handled it
         return
     r = await asyncio.to_thread(engine.rank, text.strip())
     LAST_TOOL["t"] = time.time()
@@ -176,34 +180,35 @@ async def run_session(session, q):
 
         async def listen():
             heard = ""
-            async for msg in session.receive():
-                if msg.session_resumption_update and msg.session_resumption_update.resumable and msg.session_resumption_update.new_handle:
-                    RESUME["handle"] = msg.session_resumption_update.new_handle
-                sc = msg.server_content
-                if sc and sc.input_transcription and sc.input_transcription.text:
-                    heard += sc.input_transcription.text
-                    if heard.endswith((".", "?", "!", "。")) or len(heard) > 160:
-                        emit("heard", text=heard.strip())
-                        await maybe_trigger(heard)
-                        heard = ""
-                if sc and sc.output_transcription and sc.output_transcription.text:
-                    emit("said", text=sc.output_transcription.text)
-                if msg.tool_call:
-                    responses = []
-                    for fc in msg.tool_call.function_calls:
-                        args = dict(fc.args or {})
-                        result = {"ok": True}
-                        if fc.name == "show_candidates":
-                            LAST_TOOL["t"] = time.time()
-                            r = await asyncio.to_thread(engine.rank, args.get("criterion", ""))
-                            result = {"shown": [{"id": x["candidate"], "name": x["name"], "evidence_items": len(x["receipts"])} for x in r["ranking"]]}
-                            emit("show_candidates", criterion=args.get("criterion", ""), ranking=[x["candidate"] for x in r["ranking"]])
-                        elif fc.name == "conclude":
-                            emit("conclude", **args)
-                        elif fc.name == "note":
-                            emit("note", text=args.get("text", ""))
-                        responses.append(types.FunctionResponse(id=fc.id, name=fc.name, response=result))
-                    await session.send_tool_response(function_responses=responses)
+            while True:  # receive() returns after every turn_complete; keep reading until the socket closes
+              async for msg in session.receive():
+                  if msg.session_resumption_update and msg.session_resumption_update.resumable and msg.session_resumption_update.new_handle:
+                      RESUME["handle"] = msg.session_resumption_update.new_handle
+                  sc = msg.server_content
+                  if sc and sc.input_transcription and sc.input_transcription.text:
+                      heard += sc.input_transcription.text
+                      if heard.endswith((".", "?", "!", "。")) or len(heard) > 160:
+                          emit("heard", text=heard.strip())
+                          asyncio.create_task(maybe_trigger(heard))
+                          heard = ""
+                  if sc and sc.output_transcription and sc.output_transcription.text:
+                      emit("said", text=sc.output_transcription.text)
+                  if msg.tool_call:
+                      responses = []
+                      for fc in msg.tool_call.function_calls:
+                          args = dict(fc.args or {})
+                          result = {"ok": True}
+                          if fc.name == "show_candidates":
+                              LAST_TOOL["t"] = time.time()
+                              r = await asyncio.to_thread(engine.rank, args.get("criterion", ""))
+                              result = {"shown": [{"id": x["candidate"], "name": x["name"], "evidence_items": len(x["receipts"])} for x in r["ranking"]]}
+                              emit("show_candidates", criterion=args.get("criterion", ""), ranking=[x["candidate"] for x in r["ranking"]])
+                          elif fc.name == "conclude":
+                              emit("conclude", **args)
+                          elif fc.name == "note":
+                              emit("note", text=args.get("text", ""))
+                          responses.append(types.FunctionResponse(id=fc.id, name=fc.name, response=result, scheduling="SILENT"))
+                      await session.send_tool_response(function_responses=responses)
 
         lt = asyncio.create_task(listen())
         pt = asyncio.create_task(pump())
