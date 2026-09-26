@@ -133,6 +133,12 @@
   .banner b{color:var(--warn);font-weight:500}
   .memo{white-space:pre-wrap;font:400 13px/20px var(--mono);letter-spacing:0;color:var(--body);background:var(--inset);border:1px solid var(--hair);border-radius:6px;padding:16px;margin-top:12px}
   .hidden{display:none}
+  body.present #backend,body.present #tL,body.present #tR,body.present .hdr button,body.present .card details#auditD{display:none}
+  body.present{font-size:16px;line-height:24px}
+  body.present .quote .q{font-size:22px;line-height:30px}
+  body.present .claim .txt{font-size:16px;line-height:24px}
+  body.present header h1{font-size:24px;line-height:32px;letter-spacing:-.96px}
+  body.present .eyebrow{font-size:13px}
   .live{position:sticky;top:0;z-index:6;display:none;align-items:center;gap:12px;padding:10px 24px;background:var(--ok-bg);border-bottom:1px solid #1d3a5c;color:var(--ink);font-size:13px}
   .live.on{display:flex}
   .live .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px #52a8ff33}
@@ -213,7 +219,7 @@
       </div></details>
     </div>
     <div class="card">
-      <details><summary><p class="eyebrow" id="auditsum">Audit, what was read</p></summary>
+      <details id="auditD"><summary><p class="eyebrow" id="auditsum">Audit, what was read</p></summary>
       <div class="audit" id="audit" style="margin-top:12px"></div></details>
     </div>
   </aside>
@@ -318,6 +324,7 @@ async function loadAudit(){const a=await (await fetch('/api/audit')).json();
     +`<span class="h">Never read</span>`+Object.entries(a.never_read).map(([k,v])=>`<span class="n never">${v.count}</span><span class="never">${esc(k)}, ${esc(v.note)}</span>`).join('');
 }
 function toggleSide(w){document.body.classList.toggle('no'+w);const off=document.body.classList.contains('no'+w);$('#t'+w).classList.toggle('off',off);try{localStorage.setItem('side'+w,off?'0':'1')}catch(e){}}
+if(new URLSearchParams(location.search).get('present')==='1'){document.body.classList.add('present');}
 for(const w of ['L','R']){try{if(localStorage.getItem('side'+w)==='0'){document.body.classList.add('no'+w);$('#t'+w).classList.add('off');}}catch(e){}}
 document.addEventListener('toggle',syncSums,true);
 $('#crit').addEventListener('input',syncSums);
