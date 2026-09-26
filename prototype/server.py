@@ -113,6 +113,17 @@ class H(BaseHTTPRequestHandler):
                 return self._json(engine.rank(b.get("criterion", "")))
             if p == "/api/annotate":
                 return self._json(engine.annotate(b["candidate"], b["source_id"], b.get("author", "subject"), b["text"]))
+            if p == "/api/snapshot":
+                # dev only: the page posts a PNG data URL of itself (html2canvas) for deck stills
+                import base64, re as _re
+                name = _re.sub(r"[^a-z0-9_-]", "", (b.get("name") or "still").lower())
+                data = b.get("data", "")
+                if "," in data:
+                    out = Path(__file__).parent.parent / "deck" / "assets" / f"{name}.png"
+                    out.parent.mkdir(parents=True, exist_ok=True)
+                    out.write_bytes(base64.b64decode(data.split(",", 1)[1]))
+                    return self._json({"ok": True, "path": str(out), "bytes": out.stat().st_size})
+                return self._json({"error": "no data"}, 400)
             if p == "/api/view":
                 return self._json({"views": engine.views(b["candidate"]), "ok": bool(engine.record_view(b["candidate"], b.get("who", "evaluator")))})
             if p == "/api/reset":
