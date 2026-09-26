@@ -1,0 +1,191 @@
+```json
+{
+  "metadata": {
+    "speaker": "Carl, Steven, and Interviewee",
+    "duration": "10:00",
+    "overall_summary": "Carl and Steven meet with a tech leader who previously managed large engineering organizations at Meta and Indeed and currently consults for Recruit. Carl explains their user research into internal mobility, team dynamics, and the challenges of bias and subjectivity in employee performance evaluations. The interviewee details how evaluation and promotion cycles were conducted under his leadership, describing calibration meetings where managers pitched reports to align rating scales across teams, the distinction between short-term output evaluations and promotion consistency panels, and the pros and cons of checkbox-driven promotion criteria."
+  },
+  "transcript_segments": [
+    {
+      "start_time": "00:00",
+      "end_time": "00:09",
+      "text": "[ambient: background chatter] [groan] Let me just",
+      "emotional_indicator": "tired"
+    },
+    {
+      "start_time": "00:09",
+      "end_time": "00:23",
+      "text": "You know you're pretty famous for us because Shion talked a lot about you. As part of our user interviews. [laughter] Only the good thing, yeah. He said you're famous. [laughter]",
+      "emotional_indicator": "friendly"
+    },
+    {
+      "start_time": "00:23",
+      "end_time": "00:35",
+      "text": "Yeah, um, anyway, thanks so much for taking the time to meet. Um, Ah, yes, of course, introductions. My name's Carl. I live in San Francisco, but I'm originally from the Philippines. Uh, nice to meet you. [laughter]",
+      "emotional_indicator": "polite"
+    },
+    {
+      "start_time": "00:35",
+      "end_time": "00:46",
+      "text": "Oh yeah, for me, I'm Steven. Um, I was born in Korea, like Jeju Island, you know where it is? Yeah yeah, I was born there, also lived there kind of growing up, but back and forth between US and Korea, although like you know, growing up. I also live in San Francisco now.",
+      "emotional_indicator": "conversational"
+    },
+    {
+      "start_time": "00:46",
+      "end_time": "00:54",
+      "text": "Oh, yeah yeah. Nice to meet you. Yoroshiku. [laughter] Yeah, and how about you? What's your role at Recruit?",
+      "emotional_indicator": "inquisitive"
+    },
+    {
+      "start_time": "00:54",
+      "end_time": "01:13",
+      "text": "Oh, what's my role at Recruit? Uh, I am pretty a random guy. I am just mentoring whatever people, like PMs, engineers, like leaders, like helping out hiring. So I'm not really doing much engineering work at work.",
+      "emotional_indicator": "casual"
+    },
+    {
+      "start_time": "01:13",
+      "end_time": "01:34",
+      "text": "Uh, I'm doing a lot outside of work. And then my outside of work is maybe 80% of my time, so actually, um, yeah, I'm an employee, but I'm not spending too much time with them. So it's kind of like contractor-ish.",
+      "emotional_indicator": "candid"
+    },
+    {
+      "start_time": "01:34",
+      "end_time": "01:54",
+      "text": "I see. So is this for Recruit or do you also work across their portfolio companies like Indeed, Glassdoor? Uh, so I helped Indeed, I helped Recruit, I did work on Glassdoor too a bit. Uh, I used to work full-time for Indeed though. So, um, but now uh it's yeah I am an FTE for one of their companies. [laughter] I run my own projects, I do consulting, so yeah.",
+      "emotional_indicator": "explanatory"
+    },
+    {
+      "start_time": "01:54",
+      "end_time": "02:18",
+      "text": "So, Ryo also mentioned you used to work at Meta if I'm if he's correct? Yeah, and so basically we're we've we haven't written a single line of code yet actually, cuz we're trying to interview people. And the problem that we're trying to fix, and this there could be a lot of sub-problems that could be solved with this, but really helping teams, uh helping with internal mobility so that groups can form better teams",
+      "emotional_indicator": "earnest"
+    },
+    {
+      "start_time": "02:18",
+      "end_time": "02:40",
+      "text": "considering um team dynamics, where they shine, and also trying to factor in the fact that this person's good great at Team A, but if you put them at Team B, they might not bring good results, and a lot of that are driven by the Will-Can-Must sheet system as well. [laughter] So like we've really uh we've really interviewed a lot and um now we want to specifically target the part",
+      "emotional_indicator": "engaged"
+    },
+    {
+      "start_time": "02:40",
+      "end_time": "03:07",
+      "text": "of evaluations, because based on our interviews, a lot of evaluations or the decision as to when to promote someone is like gut feelings during your one-to-one with your managers. And sometimes even though you present a slide deck containing what you did during the week or like during your one-to-one promotion, it's still not Some people feel like their managers didn't see enough of the efforts they put in.",
+      "emotional_indicator": "thoughtful"
+    },
+    {
+      "start_time": "03:07",
+      "end_time": "03:26",
+      "text": "So with that said, I guess I'm going to be putting you back in um use whichever company you like, Meta, Recruit, but I assume you're in a leadership position? So, in that case, how many people did you evaluate every year? And who evaluated you? [laughter]",
+      "emotional_indicator": "humorous"
+    },
+    {
+      "start_time": "03:26",
+      "end_time": "03:49",
+      "text": "[sigh] Good question. Uh, so I had So at Meta, I I didn't work too long, so I had maybe like 30, 40 people I manage. Uh, at Indeed, I had at max 150 under me. Um, how much time we spend on that, a lot. That that is",
+      "emotional_indicator": "reflective"
+    },
+    {
+      "start_time": "03:49",
+      "end_time": "04:12",
+      "text": "So we had been evaluating them every 3 months. 150 people. Oh, wow. So we, you know, split them up into some cohorts, we run, you know, like a day-long meeting to for their managers to pitch their members, Interesting. and I I, you know, I have this meeting with multiple, so like say 5 to 10 managers sitting together and directors and me,",
+      "emotional_indicator": "informative"
+    },
+    {
+      "start_time": "04:12",
+      "end_time": "04:36",
+      "text": "uh, and everybody pitch each member, and then we rate them. So it's a very intense, information-heavy meeting. Um, [ambient: background chatter] so how much time? I don't know, like easily 4 or 5 days per quarter back then.",
+      "emotional_indicator": "serious"
+    },
+    {
+      "start_time": "04:36",
+      "end_time": "05:00",
+      "text": "And then we thought that was too much, so we kind of going back and forth like reducing that uh to like say every 6 months. Hmm. I think every 6 months is pretty common in the industry right now, Uh-huh. uh, but yeah, that's a lot of work. And at Meta too, it was every 6 months. Interesting.",
+      "emotional_indicator": "matter-of-fact"
+    },
+    {
+      "start_time": "05:00",
+      "end_time": "05:22",
+      "text": "Hm. And it's very interesting because you said this is the first time we're hearing that you actually interview like five managers at a time who pitch their um individual contributors Uh-huh. to be promoted to you? Uh, so there two Okay, two kinds of meetings here.",
+      "emotional_indicator": "intrigued"
+    },
+    {
+      "start_time": "05:22",
+      "end_time": "05:43",
+      "text": "So one is quarterly or bi-quarterly evaluation. Uh-huh. So to, one, you know, give give them feedback, two, to decide the amount of bonus. Bonus, okay. And three, to just pass around the information about all the employees, Right. and uh kind of level set the evaluation we have for them. So like, if one manager evaluates eight eng- engineers, Right.",
+      "emotional_indicator": "structured"
+    },
+    {
+      "start_time": "05:43",
+      "end_time": "06:08",
+      "text": "and they might not be you know, their scale may not be aligned with other manager's scale. Mmm. So we want to make sure they all share the same kind of scale. Metrics. So we kind of just have them pitch in front of other managers and me in there too, so that",
+      "emotional_indicator": "explanatory"
+    },
+    {
+      "start_time": "06:08",
+      "end_time": "06:27",
+      "text": "we couldn't say like, \"Oh, this this manager's too easy on evaluation,\" Mmm. and you know, we're gonna adjust their expectations a bit. [gasp] Very That's a very nice answer because there's so many Yeah. So that's that's one type of so evaluation meeting. And then the promotion could be separate.",
+      "emotional_indicator": "satisfied"
+    },
+    {
+      "start_time": "06:27",
+      "end_time": "06:49",
+      "text": "So, there two two ways. So one is the promotion panel happens on different cadence, so sometimes like they say promotion can only happen every year Uh-huh. in some places. Some places promotion happen at the same time as quarterly evaluation. Of course.",
+      "emotional_indicator": "informative"
+    },
+    {
+      "start_time": "06:49",
+      "end_time": "07:11",
+      "text": "So that that kind of makes it easier, but also makes the, you know, evaluation meeting longer, Hm. and a little kind of mixed up. Cuz, so the thing is quarterly eval is about your output in that time period. Hm, makes sense. But",
+      "emotional_indicator": "analytical"
+    },
+    {
+      "start_time": "07:11",
+      "end_time": "07:34",
+      "text": "promotion decision is more like, \"Hey, can this person consistently perform at this level?\" So it's more about consistency, uh so we I used to split them as separate meetings, Makes sense. so we flag who is getting ready for promotion conversation,",
+      "emotional_indicator": "instructive"
+    },
+    {
+      "start_time": "07:34",
+      "end_time": "07:56",
+      "text": "and then we kind of shared We kind of understand, \"Okay, this and that, and that that guy are getting ready for it.\" Right. And then we have separate panel for promotions, Interesting. and discuss whether, hey, this person is ready, or this person probably need another quarter or two. Um, so those are how we run.",
+      "emotional_indicator": "deliberate"
+    },
+    {
+      "start_time": "07:56",
+      "end_time": "08:18",
+      "text": "And for both of those, which data do you use? Cuz what we are aware of is like the one-to-one meeting conversation notes and the skill tagging, I'm not sure if you have a different um system you guys use, cuz it sounds like you quantify this a lot, especially in making sure the managers' level of feedback is aligned. That was really interesting. Yeah, depends on the company too, again. Yeah. And also depends on the manager, depends on the leader. So, uh,",
+      "emotional_indicator": "curious"
+    },
+    {
+      "start_time": "08:18",
+      "end_time": "08:38",
+      "text": "I was in a position where I can actually uh change the rules for evaluation, and I can set the rules. So uh, Indeed had their own system. Hm. So basically their back then their model was more like a checkbox model. So, okay, you are given 50 checkboxes to become senior. [laughter] Oh gosh! [laughter]",
+      "emotional_indicator": "amused"
+    },
+    {
+      "start_time": "08:38",
+      "end_time": "08:59",
+      "text": "And then you prove that you check this box and that box. [sigh] So, that's you know, one way. It's very standardized, it sounds fair, it might be fair. [laughter] Uh, and I hated it [laughter] somehow. Yeah, but just to clarify, so for every check box you talk like 5 minutes and then see if",
+      "emotional_indicator": "ironic"
+    },
+    {
+      "start_time": "08:59",
+      "end_time": "09:22",
+      "text": "Yeah, so basically like you know your manager uh and you uh keep the evidences there. So, \"Okay, I did close this many PRs. I did propose this this idea. I did run this project,\" whatever. And then, \"Okay, you did this, check. You did this, check. You're still missing this one, so let's do this next month, Hm. and then let's check it.\" Mmm.",
+      "emotional_indicator": "matter-of-fact"
+    },
+    {
+      "start_time": "09:22",
+      "end_time": "09:47",
+      "text": "Um, so that's that's a pretty common way, though. Interesting. Uh, so basically you know the company manage the expectation for each level. Hm. So for staff engineer, we expect you to do be doing this. For principal, we expect you to be able to do that. Uh-huh. And we break it down into like you know multiple check boxes, unfortunately.",
+      "emotional_indicator": "explanatory"
+    },
+    {
+      "start_time": "09:47",
+      "end_time": "10:00",
+      "text": "That's how we do. Um, and so, Indeed engineering team had that, and I didn't necessarily like that list of check boxes, Right. so I",
+      "emotional_indicator": "reflective"
+    }
+  ]
+}
+```

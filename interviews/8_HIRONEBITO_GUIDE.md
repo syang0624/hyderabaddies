@@ -1,3 +1,5 @@
+> Done. Interview happened 13:40 to ~14:05 Sat. Notes in `INTERVIEW_NOTES.md` §9.
+
 # Hironebito-san interview guide (evaluator side)
 
 Sat Sep 26. Name as Gemini transcribed it from Ryo (12-20 02:40): mentor, former engineering lead at Meta. Check the spelling on his badge. He may be the "Hiro" with the lunch-mentoring reservation (Golden Gates 1F, 1:30 slot); if so, this is that slot.

@@ -151,3 +151,49 @@ Not asked directly. The nearest answer is step 3: honest peer perception over ti
 
 ### Signal strength
 **Strong on the self-evidence pain** (a recurring hand-built deck, a 360 he calls useless, and he named the Slack + Docs route himself). **Strong on team formation as the problem framing.** **Weak on chain-of-command drift**; drop it from the pitch unless someone else confirms it.
+
+---
+
+## 9. Hiro (Recruit mentor; ex-Meta manager, ex-Indeed engineering leader of up to 150 people), Sat Sep 26, 13:40 to ~14:05 PDT
+
+Source: Mentra glasses, `interviews/raw/9_hiro_13-40-00.json`, `9_hiro_13-50-00.json` (Gemini 3.8 Flash). The last segment (14:00 onward) is still uploading and will be appended. Recording consent is not on these two segments (the first starts mid-conversation); Carl to confirm he asked. Timestamps are `segment+offset`.
+
+**Focus: the evaluator's side. Who decides, with what, and what the leader actually wants solved.**
+
+### 1. Who
+- Describes himself as "a random guy" at Recruit: mentors PMs, engineers and leaders, helps hiring; ~80% of his time is his own projects and consulting (13-40 00:54 to 01:34). FTE of one Recruit company; has worked for Indeed full-time, helped Recruit and Glassdoor.
+- Managed 30 to 40 people at Meta, up to 150 at Indeed (13-40 03:26).
+
+### 2. The last time (how evaluation actually ran under him)
+- At Indeed, 150 people evaluated **every three months**. Cohorts; a day-long meeting where 5 to 10 managers plus directors pitch each of their members and the room rates them together. "Very intense, information-heavy." **"Easily 4 or 5 days per quarter"** (13-40 03:49 to 04:36). Later moved toward every six months, which he calls the industry norm now; Meta was six months.
+- Two separate meetings: the quarterly evaluation (feedback, bonus, and level-setting so one manager's scale matches another's) and the promotion panel (is this person consistent at the next level) (13-40 05:22 to 07:34).
+- Data: at Indeed a **checkbox model**, about 50 boxes to make senior, each backed by evidence the engineer keeps ("I closed this many PRs, I proposed this, I ran this project") and the manager checks (13-40 08:18 to 09:47). He "hated it" and rewrote the rubric for his org around people leadership and customer-facing behaviour shown consistently over time (13-40 09:47, 13-50 00:00 to 00:15). All pre-LLM.
+
+### 3. Where it gets hard
+- Scales differ between managers; the pitch meeting exists to fix that (13-40 05:43 to 06:08).
+- Checkboxes can't hold exceptions: the one algorithm engineer who makes the search engine faster but doesn't interface with other teams. He and his managers made exceptions by hand, "way more overhead for us" (13-50 02:44 to 03:57).
+- At Meta, one assessment input was **how many likes your internal posts got**; people post their projects to be seen. "Social hack." People from non-majority backgrounds lose out (13-50 05:03 to 06:05).
+
+### 4. Workaround today
+- "Let people write everything for you": the engineer writes the evidence, the manager checks and defends it; if the manager can't defend it, it goes back as "not enough." Engineers who hate doing it get slower promotions; eager ones "do everything they can to check the boxes" (13-50 01:29 to 02:30). Third person to describe the employee assembling their own evidence (Ryo's deck, Meta's posts, Indeed's checkbox evidence).
+
+### 5. Magic wand
+Not asked directly. Closest: putting people "in an environment where they can thrive," and the manager-engineer fit is judged by hand: "manager is not a machine... we think this manager and this engineer would work well" (13-50 08:44 to 09:19, cut off).
+
+### 6. Reveal (AI reads Slack, Docs, WCM sheets, Salesforce; evidence page)
+- His answer reframed the problem: "each company has their own ways of doing this... having their own way is very critical to maintain their culture" (13-50 04:53).
+- **The line that matters:** "You guys might think that people assignment and evaluation is just evaluate their performance, impact, potential. **It's not. It's not the problem they are solving, or they want the solution for. They want to maintain their culture, they want to stick with their own rules of evaluation**, because evaluation, people assignment, promotion... those are tools. Carrot and stick." (13-50 06:30 to 07:12)
+- Ask HR at Recruit and you get a Will Can Must solution "because that's the culture. That's a tool they built to maintain and cultivate their culture." Ask leaders elsewhere and you get something totally different (13-50 07:40 to 08:13).
+- On the judges: Jim (ex-Google, now CPO of Indeed) and Robert (ex-Microsoft, founder and ex-CEO of Glassdoor) "would have different ideas about management" (13-50 08:13 to 08:34). Treat as his recollection of the judge list.
+
+### 7. Close and leads
+- Offered as context for tomorrow: the two judges above.
+- Nothing promised on tape so far.
+
+### Signal strength
+**Strong, and it changes the pitch.** Three things:
+1. **The buyer moment is the calibration meeting.** 5 to 10 managers, 4 to 5 days per quarter, pitching people from memory and self-written decks. Receipts is the packet each manager walks in with, in the company's own rubric, with every line linked to its source. That is a cost the leader already pays and can name.
+2. **Never impose a model.** The product must borrow the customer's rubric (checkboxes, WCM, behaviours), not replace it. The PRD already says "borrow the customer's taxonomy"; Hiro makes it the headline: the rules stay theirs, the receipts are ours.
+3. **Exceptions and non-majority people are the fairness story.** Receipts of what the algorithm engineer shipped, instead of likes on internal posts. Say this to the American judges; it's their world.
+
+Weak: nothing here supports the drift chain either. Three for three.
