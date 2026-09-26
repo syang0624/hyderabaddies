@@ -434,7 +434,7 @@ Ryo could not picture the drift chain and understood team formation at once; Car
 
 ### 9.3 The 90-second video, beat by beat (submitted artifact; prerecorded is allowed and the first frame says so)
 
-Record at 1920×1080, browser 1440 px wide at 110% zoom, after `make reset`, with `make run` (Gemini if ADC works, badged) and `make live` on a headset microphone; the spoken criterion and the re-rank are live calls. Word budgets are at 150 wpm per beat.
+Record at 1920×1080, browser 1440 px wide at 110% zoom, after `make reset` and `make manifest`, with `make run` (Gemini extraction if ADC works; run `make warm` first so the three pages are cached; ranking is the instant keyword ranker by default), the page open at `/?present=1`, and `make live` on a headset microphone; the spoken criterion and the re-rank are live calls. The phone for the mirror beat opens `http://<laptop LAN IP>:8787/?as=rin` (one person, no scores, no other candidates, enforced by the server). Word budgets are at 150 wpm per beat.
 
 | t (s) | Beat | On screen | Narration budget | Real / seeded |
 |---|---|---|---|---|
