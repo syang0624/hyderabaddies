@@ -156,7 +156,7 @@ Not asked directly. The nearest answer is step 3: honest peer perception over ti
 
 ## 9. Hiro (Recruit mentor; ex-Meta manager, ex-Indeed engineering leader of up to 150 people), Sat Sep 26, 13:40 to ~14:05 PDT
 
-Source: Mentra glasses, `interviews/raw/9_hiro_13-40-00.json`, `9_hiro_13-50-00.json` (Gemini 3.8 Flash). The last segment (14:00 onward) is still uploading and will be appended. Recording consent is not on these two segments (the first starts mid-conversation); Carl to confirm he asked. Timestamps are `segment+offset`.
+Source: Mentra glasses, `interviews/raw/9_hiro_13-40-00.json`, `9_hiro_13-50-00.json`, `9_hiro_14-00-00.json` (Gemini 3.8 Flash). Recording consent is not on these two segments (the first starts mid-conversation); Carl to confirm he asked. Timestamps are `segment+offset`.
 
 **Focus: the evaluator's side. Who decides, with what, and what the leader actually wants solved.**
 
@@ -178,7 +178,7 @@ Source: Mentra glasses, `interviews/raw/9_hiro_13-40-00.json`, `9_hiro_13-50-00.
 - "Let people write everything for you": the engineer writes the evidence, the manager checks and defends it; if the manager can't defend it, it goes back as "not enough." Engineers who hate doing it get slower promotions; eager ones "do everything they can to check the boxes" (13-50 01:29 to 02:30). Third person to describe the employee assembling their own evidence (Ryo's deck, Meta's posts, Indeed's checkbox evidence).
 
 ### 5. Magic wand
-Not asked directly. Closest: putting people "in an environment where they can thrive," and the manager-engineer fit is judged by hand: "manager is not a machine... we think this manager and this engineer would work well" (13-50 08:44 to 09:19, cut off).
+Not asked directly, but he supplied one. Manager-engineer fit is judged by hand ("manager is not a machine... we think this manager and this engineer would work well"), they try it, and "sometimes it doesn't work out." His question: **"Can we sense that earlier or not? Could we have better ways to detect the failure? Like a unit test for it?"** (13-50 08:44 to 14-00 00:08). Carl said on tape he is skeptical of the "unit test" direction and does not want it (14-00 01:25).
 
 ### 6. Reveal (AI reads Slack, Docs, WCM sheets, Salesforce; evidence page)
 - His answer reframed the problem: "each company has their own ways of doing this... having their own way is very critical to maintain their culture" (13-50 04:53).
@@ -186,9 +186,12 @@ Not asked directly. Closest: putting people "in an environment where they can th
 - Ask HR at Recruit and you get a Will Can Must solution "because that's the culture. That's a tool they built to maintain and cultivate their culture." Ask leaders elsewhere and you get something totally different (13-50 07:40 to 08:13).
 - On the judges: Jim (ex-Google, now CPO of Indeed) and Robert (ex-Microsoft, founder and ex-CEO of Glassdoor) "would have different ideas about management" (13-50 08:13 to 08:34). Treat as his recollection of the judge list.
 
+- Carl's reveal (14-00 00:18 to 01:46): a shared dashboard where the agent is "merely an observability tool," telemetry over Slack, Docs and Salesforce, so the worker "doesn't have to worry about self-promoting on Facebook" and the manager gets "another layer of evidence"; the achievements list is automated and works with a checkbox model if the company has one; "instead of a tool where the AI scores you, a tool that helps the humans evaluate another." Hiro's reaction: "So you built something already?" then "I'm going to go back to you guys later" (14-00 01:54). No verdict on tape; he left before seeing the UI.
+
 ### 7. Close and leads
+- He said he would come back to see the build (14-00 01:58). Nothing else promised.
 - Offered as context for tomorrow: the two judges above.
-- Nothing promised on tape so far.
+- Team debrief after he left (14-00 02:26 to 03:04): "very much on the right track"; the solution "was too simple: just automate the boring parts so that they can focus on working, and make it more fair"; "the live thing could work, we just need to be very clear instead of very flashy."
 
 ### Signal strength
 **Strong, and it changes the pitch.** Three things:
