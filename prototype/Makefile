@@ -4,6 +4,8 @@ VENV = .venv
 PIP = $(VENV)/bin/pip
 PYV = $(VENV)/bin/python
 PORT ?= 8787
+ADC ?= $(HOME)/.config/carl-life-os/gcloud-tmuc/application_default_credentials.json
+export GOOGLE_APPLICATION_CREDENTIALS ?= $(ADC)
 
 .PHONY: setup run run-heuristic run-gemini test reset open smoke live
 
