@@ -104,3 +104,50 @@ Strong signal on recruiting data silos and automated candidate dossier generatio
   * Concrete story shared: Prioritizing search vs. recommendation for the new construction job board.
   * Workaround exists: Fast prototyping in meetings + hard rule deferring to the PM’s construction domain intuition to avoid debating all day.
   * Why not strong: Explicitly downplayed pain ("I wouldn't call it frustrating, but like challenging", "technically... I don't have any frustrations"). The team did not test a pitch or ask for a magic wand fix.
+
+---
+
+## 7. Ryo (Recruit, product org mentor), Sat Sep 26, ~11:42 to ~12:30 PDT
+
+Source: Mentra glasses, `interviews/raw/7_ryo_11-40-00.json`, `7_ryo_11-50-00.json`, `7_ryo_12-00-00.json`, `7_ryo_12-20-00.json` (the last two local only; Gemini 3.8 Flash). Timestamps are `segment+offset`. The 12-10 segment and the back half of 12-00 are social chat (Cebu, Minerva, a mutual friend joining his team, visas) and are not distilled. Consent: Carl asked Ryo after the interview and he said yes (Carl, 12:40 Sat); the ask itself is not on tape. Raw `12-00` and `12-20` stay local and untracked: past the interview they are personal talk, including a third party joining Ryo's team.
+
+**Focus: how he is evaluated, from the evaluated side.**
+
+### 1. Who
+- Manages product managers ("product managers' manager"): 5 to 6 PMs, 30 to 40 people including engineers and designers (11-40 03:38).
+- Evaluated by his boss, the VP of product (11-40 03:38).
+- Product owner of Indeed Plus AI Assistant, an AI recruiter for Japanese SMBs, launched last August (11-40 04:00 to 05:04).
+
+### 2. The last time
+- Senior PMs are judged on results, not process: adoption and outcome per client, the product's KGI, with targets set early in the period (11-40 08:47 to 09:34).
+- As a junior PM he was judged on whether he delivered, regardless of the result (11-50 00:00).
+
+### 3. Where it gets hard
+- His boss does not see all his work (11-50 00:26).
+- What he really wants his boss to know is how his colleagues' view of him changed over the half year, as he changes his management style. His self-report can't show that (11-50 02:47 to 03:08).
+- The 360 survey is "useless": answering is mandatory but the free-text part is optional, and "almost nobody answers the optional part, which is the most important part." He got his results last month (11-50 03:38 to 04:00).
+
+### 4. Workaround today
+- **Every cycle he builds his own presentation deck** of the past year, "put out all the things that even my boss didn't see", including PR and product impact (11-50 00:26 to 00:44). A deliberate, recurring manual workaround: real pain.
+- Nothing automates it. Asked if he'd built one: "No, that I haven't, but that's a good idea." (11-50 01:21)
+- He sees the route himself: "if we gather all the Slack conversation, I think it's really easy to actually put out the outputs... all the Google Docs and stuff are linked to your Slack messages" (11-50 01:49). Product org runs on Slack + Google Docs, not Microsoft (11-50 02:26).
+- For peer perception he has no workaround: "I haven't figured out a way at all." Spoken feedback is polite, so it has to be written (11-50 04:52).
+
+### 5. Magic wand
+Not asked directly. The nearest answer is step 3: honest peer perception over time, in a form his boss would believe.
+
+### 6. Reveal (evidence dashboard shared by employee and evaluator, evidence tags, no AI score, used for team matching)
+- Did not land at first: "in the beginning... I wasn't sure what is the problem you guys are trying to solve" (12-00 00:47).
+- **Team formation is what landed**: "that is a very specific, easy to understand problem... very big, but very difficult" and he asked what the product plan is (12-00 00:47 to 01:26). "Team formation is very intuitive... maybe we can actually prove from data instead" (12-00 00:06).
+- He added his own example: HR needs an engineer with deep HR domain knowledge rather than two more HR hires, and internal search can't find one today (11-50 09:23 to 09:47).
+- Chain-of-communication drift (the VP's second gap) did **not** land: "it could happen... I'm not clear on what is actually the scenarios", since there is no formal meeting where a boss discusses a member's member (11-50 06:33).
+
+### 7. Close and leads
+- **Business hook, his words:** Recruit is only in hiring now but "we have to get into talent enablement". If internal mobility finds nobody inside, "you can hire this person in Indeed and... make them pay more for our product" (12-00 02:25 to 03:14). This ties the idea to Recruit's revenue.
+- **Competition:** "I heard one of the other teams were also considering a similar idea" (12-00 02:25).
+- **Lead:** Hironebito-san (name as transcribed), a mentor and former Meta engineering lead (12-20 02:40).
+- He agreed to think about figures to quantify internal mobility; nothing promised (12-20 06:48 to 07:29).
+- Coaching: spend most time on problem definition; judges expect an idea plus MVP, "very niche and sharp" (12-20 01:34 to 01:58).
+
+### Signal strength
+**Strong on the self-evidence pain** (a recurring hand-built deck, a 360 he calls useless, and he named the Slack + Docs route himself). **Strong on team formation as the problem framing.** **Weak on chain-of-command drift**; drop it from the pitch unless someone else confirms it.

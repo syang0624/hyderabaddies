@@ -1,0 +1,185 @@
+```json
+{
+  "metadata": {
+    "speaker": "Karl & Ryo",
+    "duration": "10:00",
+    "overall_summary": "In this recording, Karl locates and conducts an impromptu discovery interview with Ryo, a product manager manager at Recruit. Karl begins by reviewing his notes and tracking down Ryo in an open office or event setting. Once they sit down, Karl explains that his team has pivoted ideas to focus on performance evaluations, talent management, and internal progression within Recruit, referencing the company's 'will-can-must' framework. Ryo discusses his current responsibilities managing thirty to forty team members and serving as the product owner for an AI recruiting product (Indeed Plus AI Assistant) tailored for small-to-medium businesses in Japan. They explore differences between the US and Japanese hiring landscapes, the challenges of subjective candidate screening, and how AI can optimize job postings and candidate matching. Towards the end of the conversation, Karl redirects the discussion to internal employee evaluations, prompting Ryo to explain how product managers at Recruit are evaluated primarily on measurable business results and key goal indicators rather than procedural processes."
+  },
+  "transcript_segments": [
+    {
+      "start_time": "00:00",
+      "end_time": "00:15",
+      "text": "What does this guy look like again? So, I'll do it myself, okay? [ambient: background chatter] Yeah. Input? Course. Okay, cool.",
+      "emotional_indicator": "conversational"
+    },
+    {
+      "start_time": "00:15",
+      "end_time": "00:30",
+      "text": "Yeah? Yeah, while nobody else has stolen him. Cuz he just messaged, I don't want others to grab him. [ambient: footsteps]",
+      "emotional_indicator": "focused"
+    },
+    {
+      "start_time": "00:30",
+      "end_time": "00:46",
+      "text": "Wait, what does he look like? [laughter] What does he look like? [laughter] I forgot his face. [laughter]",
+      "emotional_indicator": "amused"
+    },
+    {
+      "start_time": "00:46",
+      "end_time": "01:05",
+      "text": "Okay, it's the guy with the basketball fan. [ambient: background chatter]",
+      "emotional_indicator": "observant"
+    },
+    {
+      "start_time": "01:05",
+      "end_time": "01:28",
+      "text": "Oh shoot, [laughter] almost sent the questions to him. [sigh] What was he saying? Um... \"Clearly describing your problem is as important as your solution.\" Perfect. I'm heading out now.",
+      "emotional_indicator": "relieved"
+    },
+    {
+      "start_time": "01:28",
+      "end_time": "01:37",
+      "text": "[ambient: footsteps and crowd chatter]",
+      "emotional_indicator": "neutral"
+    },
+    {
+      "start_time": "01:37",
+      "end_time": "01:57",
+      "text": "Sorry, Ryo? Yeah. Oh, cool. I'd love to talk to you. Hi, it's Karl. Did- I had- I was the guy who asked about their airline things. But we're But we're change We're switching ideas. I mean, we're gonna do another discovery call cuz we- Oh, wait. I'll grab you a chair.",
+      "emotional_indicator": "friendly"
+    },
+    {
+      "start_time": "01:57",
+      "end_time": "02:20",
+      "text": "All right. We're gonna keep this short. [laughter] We ended up [ambient: background laughter] No, cuz like we ended up like interviewing the VP of HR yet at like 12:00 a.m. last night for like an hour, 12:00 to 1:00, so-",
+      "emotional_indicator": "lighthearted"
+    },
+    {
+      "start_time": "02:20",
+      "end_time": "02:37",
+      "text": "Wait, who'd you-? Ebinuma-san? Oh, really? Oh, yeah. [laughter] Yeah, so Is he still here? Yeah, he was here for like- He was here till like Till 6:00 a.m., right? Yeah. [laughter] Ah. Oh yeah. Oh, introductions. I forgot. I just jumped straight in. Nice to meet you. I'm Karl.",
+      "emotional_indicator": "cheerful"
+    },
+    {
+      "start_time": "02:37",
+      "end_time": "02:59",
+      "text": "Nice to meet you. Ryo. I'm Ryo. Steven. Okay. Um, we'll just We're just gonna be quick with this one because the problem we've identified so far is helping with evaluations in the context of forming the perfect team within Recruit or just having another metric apart from just like verbal one-to-ones with managers that could influence your will-can-must um inputs.",
+      "emotional_indicator": "informative"
+    },
+    {
+      "start_time": "02:59",
+      "end_time": "03:17",
+      "text": "Oh, how do you know Will Can Must? [laughter] We'd I told We've been interviewing a lot. [laughter] Yeah. Um, so I guess just to start, uh I just wanted to know what your role is and who evaluates you. Is it like-? Oh, so this is uh more of an interview, Uh, yeah. or just a prob- I thought it was a product discussion, but it's an interview?",
+      "emotional_indicator": "inquisitive"
+    },
+    {
+      "start_time": "03:17",
+      "end_time": "03:38",
+      "text": "Oh, yeah. I wanted to know, cuz you work at Recruit, right? I saw the Recruit logo, and so I just wanted to see how it is from your perspective, because it was the boss and now it's you. Oh, so what's the question? Um, just like recall your last evaluation. Who did you um have it with? Oh. And like was it a boss or your boss's boss, or was it someone else?",
+      "emotional_indicator": "clarifying"
+    },
+    {
+      "start_time": "03:38",
+      "end_time": "03:59",
+      "text": "Oh, it's my boss, who's the VP of product. And your role was? I'm the product A product manager, and I have a few teams, so I'm a manager Right. product manager manager, sort of. Product managers manager. [laughter] Okay. How many people do you um have under you? Um, product managers are 5 to 6, and 5 to 6. including engineers, designers,",
+      "emotional_indicator": "direct"
+    },
+    {
+      "start_time": "03:59",
+      "end_time": "04:21",
+      "text": "and business structure, I have 30 to 40 people. 30. Got it. And interesting. I was really interested What are you like work- what are you working on right now? This is outside of the interview scope, just genuinely interested. [laughter] Oh, yeah, yeah. So um, I'm currently a product owner of this AI recruiter product. AI recruiting. So, because um, although like your your guys um topic for this um internship is like work, in general, right? But",
+      "emotional_indicator": "engaged"
+    },
+    {
+      "start_time": "04:21",
+      "end_time": "04:42",
+      "text": "our company's main revenue stream is hiring right now, not like talent management or anything, but hiring, and our corporate is Indeed. And there's so many problems with hiring, Oh. especially for the employer side, because it's like an human-to-human matching, right? So, it's very difficult to like create matching, and there's so many like",
+      "emotional_indicator": "passionate"
+    },
+    {
+      "start_time": "04:42",
+      "end_time": "05:04",
+      "text": "many tasks that HR people have to do. And especially for small to medium-sized business, which is our main revenue stream, um they have almost like no like, you know, um specific recruiter just for their, you know, hiring. And so, we're building this AI recruiter who can actually do that task for you and, you know, hires a lot right talent for you using LLMs. Interesting. Is this um solution you have like out in the public, or is this like an internal tool for you guys?",
+      "emotional_indicator": "enthusiastic"
+    },
+    {
+      "start_time": "05:04",
+      "end_time": "05:28",
+      "text": "Oh, no, no, no. We actually launched it like last August. Oh, congrats. And [laughter] actually um, we're starting from the Japan market, but it was on a lot of media. Mhm. And yeah, we're just growing right now. Interesting. Cuz like one of the pain points we discovered was at least for evaluations, and I can imagine this transferring to hiring, was that a lot of decisions were like based on intuition. Yeah. Yeah. On your gut inst- gut feeling. So, I was like wondering, did you manage to",
+      "emotional_indicator": "curious"
+    },
+    {
+      "start_time": "05:28",
+      "end_time": "05:51",
+      "text": "factor that in in like your AI solution? Um, oh, in terms of my solution, um we're only working on hiring space right now. So, what Do you mean in terms of evaluation as in like through your interview process, evaluation could be included? Yeah. Like, yeah, how like I know we're talking about like internal, like probably progression, but like I imagine that a lot of the same skills could be used for hiring someone new.",
+      "emotional_indicator": "explaining"
+    },
+    {
+      "start_time": "05:51",
+      "end_time": "06:12",
+      "text": "Yes, yes. That's true, that's true. So, I was wondering what informs your decision or your gut instinct. It's a very hard ques- very vague, so answer it however you like. [laughter] Oh, so is this question about if my product is actually providing that functionality, or are you asking about my experience, how I've been evaluated, or-? I was- Yeah, no. Thanks for push- uh pushing back, because for extra context, I think I've briefly mentioned that everything so far has been qualitative, Uh-huh.",
+      "emotional_indicator": "thoughtful"
+    },
+    {
+      "start_time": "06:12",
+      "end_time": "06:33",
+      "text": "and we're also trying to look for other metrics someone could be evaluated against Uh-huh. so that it's just not bias or someone favoring someone that gets them above the career ladder. Right, right, sure, yeah. So, I was wondering like especially since it's a new space, but it's kind of the same, I was wondering how you built your AI agent, what it what's it what's the criteria that you've thought. Oh, as to how I built my agent. Yeah. Yeah. Sorry if it wasn't clear.",
+      "emotional_indicator": "reflective"
+    },
+    {
+      "start_time": "06:33",
+      "end_time": "06:55",
+      "text": "It's okay. Um, it's actually true that um even in the hiring process, um the interviewees cannot um, how to say, precisely validate that candidate's skills, right? Mhm. And could potentially, you know, you know, uh screen out that candidates, and that could be a missed opportunity, right? And that is clearly one of the problems that we want to solve. But",
+      "emotional_indicator": "analytical"
+    },
+    {
+      "start_time": "06:55",
+      "end_time": "07:18",
+      "text": "um as of my product right now, uh we're focusing on the Japan market and the Asian market right now, so Right. like I mean, you guys might know, but like the thing with the Asian market is like the US people like apply to so many jobs, so Right. um the employers are not having problems with getting applications, but they're rather having a problem on how to like, you know, precisely screen out the uh, you know,",
+      "emotional_indicator": "informative"
+    },
+    {
+      "start_time": "07:18",
+      "end_time": "07:41",
+      "text": "um not good candidates. But in Japan and especially in the Asian markets, like what we're focusing on is rather how to actually even get the right candidates from the pool, so Interesting. Interesting. like the product that we're currently providing is like the sourcing tools, AI sourcing tools, like um updating your job description, optimizing your salaries, that kind of tools to get more applications. But",
+      "emotional_indicator": "engaged"
+    },
+    {
+      "start_time": "07:41",
+      "end_time": "08:04",
+      "text": "we're thinking to actually work on these post-apply process in the future as well. So, um maybe for example, one big issue, for example, especially in in Indeed is they see the resume, right? And the resume tends to have very low information. Mhm. Right. And also like um, the employers might not understand how competitive this job seeker is. So, they might feel like, \"Aw man, like",
+      "emotional_indicator": "serious"
+    },
+    {
+      "start_time": "08:04",
+      "end_time": "08:24",
+      "text": "I want like a better candidate, so like I'm just gonna screen out this person.\" But um in in reality, the thing is that is the kind of candidate that they can only get, so Uh-huh. we have to clearly kind of convey them that this is a right talent for you right now, so you shouldn't screen out and you should probably hire this person is some was a problem that we have to solve in the future. But",
+      "emotional_indicator": "expressive"
+    },
+    {
+      "start_time": "08:24",
+      "end_time": "08:47",
+      "text": "That's very interesting. You said this was um online again? Cuz I I wanted to get into the original meat of the meeting, but what was the name of this tool if it's in Japanese? Oh, it's called Indeed Plus AI Assistant. Indeed Indeed Plus AI Assistant. So, it's in Japanese um website, but- That's fine. AI can translate everything. [laughter] Okay. Um, now I want to switch gears and head back to like how you were evaluated last time, and so I guess I just need your help in imagining back to the time when you were evaluated. What did you put",
+      "emotional_indicator": "conversational"
+    },
+    {
+      "start_time": "08:47",
+      "end_time": "09:12",
+      "text": "in your will-can-must um system, and then how did that meeting go? I see. Mhm. For PMs, what we do is we're mostly evaluated based on results. Partially process, but when it comes to like my role as like the product owner, like we're only judged by results, not the process.",
+      "emotional_indicator": "matter-of-fact"
+    },
+    {
+      "start_time": "09:12",
+      "end_time": "09:34",
+      "text": "And what does a result look like? It's like, for example, like for my my product, it will be like how many companies actually adopted or bought your product? Mhm. And how how much outcome per company did you actually um deliver to your uh to your client, which is our main KGI for our product, so Course. we're mostly evaluated on that. And we set target on that in the early phase, and",
+      "emotional_indicator": "professional"
+    },
+    {
+      "start_time": "09:34",
+      "end_time": "10:00",
+      "text": "when I was a junior [ambient: background chatter]",
+      "emotional_indicator": "normal"
+    }
+  ]
+}
+```
