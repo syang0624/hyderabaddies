@@ -2,6 +2,12 @@
 
 Carl's Codex thread hit its usage limit around 23:14 on Fri. This file is where it stopped and what's in the repo now.
 
+## UPDATE ~16:30 Sat: PRD v3.1, deck, live layer
+- `PRD.md` v3.1 folds in Hiro (§2.2 P6, §2.5, §2.7, §9.0, §10.1 N13) and the live-layer measurements (§11.A.4). Patches 1–7, 9 of §11.A are done on `main`.
+- Interviews complete: Koki, Shion (Fri), the VP (Sat 00:14), Ryo (11:42), Hiro (13:40). Index: `interviews/README.md`. No more discovery calls.
+- Deck: two Slides artifacts, links in `deck/README.md`; per-slide judge argument in `deck/JUDGE-MAP.md`.
+- Live layer: `make live`; scripted regression `make live-sim` (runs 9–12: 5/5, 5/5, 4/5, 5/5, 0 drops).
+
 ## UPDATE ~14:15 Sat: PRD v3
 - `PRD.md` v3 re-aligns the plan with the prototype + live layer and the Ryo interview: Sunday's plan is **§11.A** (a ten-item patch list for `prototype/`) and **§12** (build order from 14:15); the demo opens on the live meeting (§9.2); the FastAPI/React design in §11.0–§11.13 is the post-event target. `sync.md` D28–D30 say why.
 

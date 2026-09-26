@@ -1,6 +1,6 @@
 # Interview Notes
 
-## Koki — Software Engineer, Recruit
+## 1. Koki — Software Engineer, Recruit (Fri 19:40–20:10)
 
 ### 1 — Who are you
 * Role: Software Engineer at Recruit, based in Japan.
@@ -39,7 +39,7 @@
 
 ---
 
-## Shion Kuroda — Recruiter, New Grad Hiring Team (Global Talent Acquisition)
+## 2. Shion Kuroda — Recruiter, New Grad Hiring Team (Global Talent Acquisition) (Fri 20:30–21:10)
 
 ### 1 — Who are you
 * Role: "Recruiter, actually... in the new grad uh hiring team, especially uh global talent acquisition."
@@ -90,7 +90,9 @@ Strong signal on recruiting data silos and automated candidate dossier generatio
 
 ---
 
-## Cross-interview patterns
+## Cross-interview patterns (Koki + Shion only; for all four seats see PRD §2.7)
+
+> The VP of HR meeting (Sat 00:14) is in `5_VP_MEETING_SUMMARY.md`, not here. Ryo is §7 and Hiro is §9 below.
 * Note: Only one customer interview was conducted in this recording window (Koki).
 * **0-to-1 product creation inside large enterprise:** Recruit employees pitch ideas to product heads and recruit their own internal teams to build new vertical job boards.
 * **Rapid prototyping with AI:** Small teams utilize AI to handle grunt work and MVP prototyping without worrying about early production quality ("most of the work we can just use AI").
