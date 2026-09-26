@@ -105,6 +105,8 @@ async def main():
         tools=TOOLS,
         input_audio_transcription={},
         output_audio_transcription={},
+        # keep one session across a long call instead of dying at the session limit
+        context_window_compression=types.ContextWindowCompressionConfig(sliding_window=types.SlidingWindow()),
     )
     loop = asyncio.get_running_loop()
     q: asyncio.Queue = asyncio.Queue(maxsize=50)
@@ -119,10 +121,31 @@ async def main():
 
     dev = pick_mic()
     name = sd.query_devices(dev if dev is not None else sd.default.device[0])["name"]
-    async with client.aio.live.connect(model=MODEL, config=config) as session:
-        emit("status", text=f"listening on {name} via {MODEL}")
-        stream = sd.RawInputStream(samplerate=RATE, blocksize=CHUNK, dtype="int16", channels=1, device=dev, callback=on_audio)
-        stream.start()
+    stream = sd.RawInputStream(samplerate=RATE, blocksize=CHUNK, dtype="int16", channels=1, device=dev, callback=on_audio)
+    stream.start()
+    attempt = 0
+    while True:
+        try:
+            async with client.aio.live.connect(model=MODEL, config=config) as session:
+                attempt = 0
+                emit("status", text=f"listening on {name} via {MODEL}")
+                await run_session(session, q)
+            emit("status", text="session ended, reconnecting")
+        except (KeyboardInterrupt, asyncio.CancelledError):
+            break
+        except Exception as e:  # noqa: BLE001
+            attempt += 1
+            emit("status", text=f"live error ({type(e).__name__}: {str(e)[:80]}), retry {attempt}")
+            if attempt > 20:
+                break
+            await asyncio.sleep(min(2 * attempt, 15))
+    stream.stop()
+    stream.close()
+    emit("status", text="stopped")
+
+
+async def run_session(session, q):
+    if True:
 
         async def pump():
             while True:
@@ -156,12 +179,12 @@ async def main():
                         responses.append(types.FunctionResponse(id=fc.id, name=fc.name, response=result))
                     await session.send_tool_response(function_responses=responses)
 
+        lt = asyncio.create_task(listen())
+        pt = asyncio.create_task(pump())
         try:
-            await asyncio.gather(pump(), listen())
+            await lt  # ends when the server closes the session
         finally:
-            stream.stop()
-            stream.close()
-            emit("status", text="stopped")
+            pt.cancel()
 
 
 if __name__ == "__main__":
