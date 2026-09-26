@@ -178,6 +178,16 @@ async def run_session(session, q):
                 chunk = await q.get()
                 await session.send_realtime_input(audio=types.Blob(data=chunk, mime_type=f"audio/pcm;rate={RATE}"))
 
+        heard_box = {"text": "", "t": 0.0}
+
+        async def flush_on_pause():
+            while True:
+                await asyncio.sleep(0.5)
+                if heard_box["text"].strip() and time.time() - heard_box["t"] > 1.5:
+                    txt = heard_box["text"].strip(); heard_box["text"] = ""
+                    emit("heard", text=txt)
+                    asyncio.create_task(maybe_trigger(txt))
+
         async def listen():
             heard = ""
             while True:  # receive() returns after every turn_complete; keep reading until the socket closes
@@ -186,11 +196,12 @@ async def run_session(session, q):
                       RESUME["handle"] = msg.session_resumption_update.new_handle
                   sc = msg.server_content
                   if sc and sc.input_transcription and sc.input_transcription.text:
-                      heard += sc.input_transcription.text
-                      if heard.endswith((".", "?", "!", "。")) or len(heard) > 160:
-                          emit("heard", text=heard.strip())
-                          asyncio.create_task(maybe_trigger(heard))
-                          heard = ""
+                      heard_box["text"] += sc.input_transcription.text
+                      heard_box["t"] = time.time()
+                      if heard_box["text"].endswith((".", "?", "!", "。")) or len(heard_box["text"]) > 160:
+                          txt = heard_box["text"].strip(); heard_box["text"] = ""
+                          emit("heard", text=txt)
+                          asyncio.create_task(maybe_trigger(txt))
                   if sc and sc.output_transcription and sc.output_transcription.text:
                       emit("said", text=sc.output_transcription.text)
                   if msg.tool_call:
@@ -212,10 +223,12 @@ async def run_session(session, q):
 
         lt = asyncio.create_task(listen())
         pt = asyncio.create_task(pump())
+        ft = asyncio.create_task(flush_on_pause())
         try:
             await lt  # ends when the server closes the session
         finally:
             pt.cancel()
+            ft.cancel()
 
 
 if __name__ == "__main__":
