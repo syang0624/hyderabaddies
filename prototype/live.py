@@ -169,7 +169,7 @@ async def run_session(session, q):
                         args = dict(fc.args or {})
                         result = {"ok": True}
                         if fc.name == "show_candidates":
-                            r = engine.rank(args.get("criterion", ""))
+                            r = await asyncio.to_thread(engine.rank, args.get("criterion", ""))
                             result = {"shown": [{"id": x["candidate"], "name": x["name"], "evidence_items": len(x["receipts"])} for x in r["ranking"]]}
                             emit("show_candidates", criterion=args.get("criterion", ""), ranking=[x["candidate"] for x in r["ranking"]])
                         elif fc.name == "conclude":

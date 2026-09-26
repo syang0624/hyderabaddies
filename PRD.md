@@ -1,6 +1,6 @@
 # PRD: Receipts, the evidence layer for people decisions
 
-Working title **Receipts**. Team hyderabaddies: Carl Kho, Steven Yang. Recruit Innovation Cup 2026, San Francisco (DG717). **v3**, Sat Sep 26 2026, ~14:15 PDT, by Claude (Fable 5.1) in Steven's session. v1 (~04:00) was reviewed by fifteen verifiers on PR #3; v2 (~07:45) folded in every finding; **v3 re-aligns the plan with the codebase as Carl built it between 12:50 and 13:40** (the `prototype/` page plus a live meeting layer) **and with the Ryo interview** (11:42–12:30, evaluated side). The FastAPI/React design in §11.0–§11.13 is now the target architecture for after the event; Sunday's plan is §11.A and §12. Companion file: [sync.md](sync.md) holds the reasoning behind every decision here, with evidence pointers, so nobody has to re-derive it.
+Working title **Receipts**. Team hyderabaddies: Carl Kho, Steven Yang. Recruit Innovation Cup 2026, San Francisco (DG717). **v3**, Sat Sep 26 2026, ~14:15 PDT, by Claude (Fable 5.1) in Steven's session. v1 (~04:00) was reviewed by fifteen verifiers on PR #3; v2 (~07:45) folded in every finding; **v3 re-aligns the plan with the codebase as Carl built it between 12:50 and 13:40** (the `prototype/` page plus a live meeting layer) **and with the Ryo interview** (11:42–12:30, evaluated side). The FastAPI/React design in §11.0–§11.13 is now the target architecture for after the event; Sunday's plan is §11.A and §12. Companion file: [sync.md](sync.md) holds the reasoning behind every decision here, with evidence pointers, so nobody has to re-derive it. **v3.1**, ~14:30 PDT, by Claude (Fable 5.1) in Carl's session: the Hiro interview (§2.2 P6, §2.5, §2.7, §9.0, §10.1 N13), patch status and the simulated call (§11.A.2, §11.A.4). No other section changed.
 
 ---
 
@@ -48,7 +48,7 @@ One sentence for the deck: **evidence, with receipts, that both the evaluator an
 
 **Why this decision and not another.** It is the one people decision the VP quantified, it is made rarely enough that a purpose-locked page is credible (not a standing profile), and it is where the paraphrase problem bites hardest: the boss who writes the note is the boss who loses the person.
 
-### 2.2 The four pains, each with its evidence
+### 2.2 The pains, each with its evidence (four from the VP, one from Ryo, one from Hiro)
 
 | # | Pain | Evidence (who said it, where) | Product mechanic |
 |---|---|---|---|
@@ -57,6 +57,7 @@ One sentence for the deck: **evidence, with receipts, that both the evaluator an
 | P3 | **Evidence exists but cannot be used.** Slack and documents could show whether the boss's rating is right; the blocker is not law but accountability and "creepiness" toward employees. | VP: 「ポテンシャリティとしてはすごくあると思ってる」 `[R 0:42:26]`; 「理屈上は使えます…説明責任、透明性」 `[R 0:44:24]`; 「すげえ気持ち悪ぃ」 `[R 0:55:14]` | Purpose lock, allowlisted sources, DMs excluded by config, the audit strip, and the two-sided mirror |
 | P4 | **A wrong AI output can push a wrong promotion or transfer.** | VP: the thing he most wants to avoid `[R 0:48:34]` | No score as verdict; claims dropped when unsupported; the subject can contest before the decision |
 | P5 | **The evaluated person cannot show what their boss did not see.** A product manager's manager builds his own deck every cycle of "all the things that even my boss didn't see"; the 360's free text stays empty; peer perception has no workaround at all. | Ryo (Recruit product org, 5–6 PMs, 30–40 people), Sat 11:42–12:30, `interviews/INTERVIEW_NOTES.md` §7 (11-50 00:26–00:44, 03:38–04:00, 04:52); consent given verbally after the interview | The subject view is the employee's own evidence deck, for free; team formation is the framing he understood at once ("very specific, easy to understand"); peer perception is out of scope and we say so |
+| P6 | **The evaluation meeting runs on pitches from memory, and the evidence behind each pitch is written by the person being judged.** Managers pitch each member to a room so that scales line up; rubrics cannot hold exceptions. | Hiro (Recruit mentor; ex-Meta manager of 30–40, ex-Indeed engineering leader of up to 150), Sat 13:40–14:05, `interviews/INTERVIEW_NOTES.md` §9: 150 people every three months, 5–10 managers plus directors pitch each member, "easily 4 or 5 days per quarter" (13-40 03:49–04:36); about 50 checkboxes to senior, evidence kept by the engineer and checked by the manager (13-40 08:18–09:22); "let people write everything for you" (13-50 01:29); the algorithm engineer who checks no communication box and needs a hand-made exception (13-50 02:44–03:27). Consent is not on tape; Carl to confirm | Receipts is the packet each manager brings to that room: the company's own rubric (checkboxes, WCM, behaviours) as the schema, a receipt on every line, an exception visible as evidence instead of a missing tick. The person writes nothing; they review and contest. |
 
 ### 2.3 Five load-bearing passages, three readings each
 
@@ -82,6 +83,17 @@ Led by us and confirmed with a word or two: matching from memory `[R 0:31:05–0
 - **Recruiting throughput.** Indeed already sells AI sourcing and screening (Recruit Holdings results post, Sep 4 2026, verified). A candidate-summary product is a substitution question waiting to happen.
 - **Covert monitoring.** Legal at the company, and it still would not ship, because employees would find it creepy and managers might misuse it `[R 0:44:24, 0:49:34, 0:55:14]`. Both of our covert framings were answered with accountability. The careless version of this product is the default everyone builds.
 - **Scoring people.** Indeed's Smart Screening ships a "Smart Fit Score" and says hiring stays a human process. Workday scores. The VP's fear is a wrong score driving a wrong decision. We cite instead.
+- **Replacing the company's evaluation model.** Hiro, unprompted: "You guys might think that people assignment and evaluation is just evaluate their performance, impact, potential. It's not. It's not the problem they are solving, or they want the solution for. They want to maintain their culture, they want to stick with their own rules of evaluation," because evaluation, assignment and promotion are the leader's tools, "carrot and stick" (13-50 06:30–07:12). Ask Recruit HR and you get a Will Can Must solution "because that's the culture" (07:40–07:49); ask leaders elsewhere and you get something different. A product that brings its own rubric or its own score is rejected by the buyer before the employee ever sees it. Receipts borrows the rubric (§3, "borrow the customer's taxonomy") and never scores.
+
+### 2.7 The three seats (after Hiro, Sat 14:05)
+
+| Seat | Who | The one thing they said | Drift chain raised unprompted? |
+|---|---|---|---|
+| Buyer | The VP (HR COE) | Team formation and careers as AI dissolves roles is "what we're most troubled by"; evidence as grounds for a decision has "a lot" of value; a wrong AI output driving a wrong decision is the fear | No (led; agreed) |
+| Evaluated | Ryo (product org, manages 30–40) | Builds his own deck every cycle of what his boss did not see; the 360 is useless; team formation "very specific, easy to understand" | No ("not clear on the scenarios") |
+| Evaluator | Hiro (ex-Meta, ex-Indeed, 150 people) | Managers pitch people from memory for 4–5 days a quarter; the engineer writes the evidence; the company keeps its own rules, or it does not buy | No |
+
+Three seats, one product: the page the evaluated person would write, that the evaluator would bring, that the buyer can defend. Nobody asked for the drift chain.
 
 ### 2.6 The bet, in one line
 
@@ -393,7 +405,18 @@ Claim text ≤ 25 words (prompt and `max_length=220`); one claim per card; sourc
 
 ## 9. Demo design
 
-### 9.1 The problem the demo has to solve
+### 9.0 One use case, one sentence (v3.1, after Hiro)
+
+**A manager walks into the evaluation meeting with one page per person: what the person wrote, what they did, what their boss wrote, every line with its receipt, in the company's own rubric. The person has already seen the same page.** The demo shows that page being made in the meeting where the decision is discussed, and ending in a written conclusion with the receipts attached.
+
+Team rule from the debrief after Hiro (14-00 02:40–03:04): "the solution was too simple: just automate the boring parts so that they can focus on working, and make it more fair"; "the live thing could work, we just need to be very clear instead of very flashy." So:
+
+- The live layer is delivery, not the innovation. Two people talk; the page re-sorts; the receipts appear. No animation, no voice from the model, nothing that looks like a trick. The innovation sentence is said out loud, once: **same page for both sides, a receipt on every line, no score, your rubric.**
+- The typed criterion is rehearsed as much as the live version. Video: live. Prelim: live only if the room is quiet; otherwise typed, with the same page.
+- Present mode (`?present=1`) on the projector: no backend pill, no toggles, no audit card, larger type. The audit is one line the presenter says, not a panel the judge reads.
+- If one thing is cut tonight it is the drift chain, then the 2050 epilogue, before anything in the live path.
+
+
 
 Other teams will show robotic arms and glasses that translate Japanese live. A before/after of "Salesforce + Slack + Excel + Gmail merged into one" will not beat that (Steven, 02:30). What can: a moment the audience has never seen, about people, that visibly responds to something a judge typed, and that ends with a page they would want to be shown if it were about them. The demo proves one claim: **a people decision can be made of receipts instead of paraphrases, and the person can see it.**
 
@@ -558,6 +581,7 @@ Steven's instruction: the thing to get done is "quantifying and helping the othe
 | N9 | Labour supply shortfall of about 11 million by 2040; ~3.41 million by 2030 | RESEARCH | Recruit Works Institute, "未来予測2040", March 2023; Recruit's own think tank | Roadmap slide only |
 | N10 | Government target: AI robots that learn, adapt and act alongside people by 2050; 2030 milestone of robots more than 90% of people feel comfortable with | RESEARCH | Cabinet Office Moonshot Goal 3 | Roadmap slide only |
 | N11 | Evaluator time per candidate: today vs Receipts | ILLUSTRATIVE until timed | `t_today` = minutes assembling sheet + notes + asking around (ask Aya's real counterpart); `t_receipts` = review minutes of the generated page including contest handling; hours freed = cycles × candidates × (t_today − t_receipts) ÷ 60 | Show the formula with blanks; no number until measured |
+| N13 | Evaluation meetings in a ~150-person engineering org: every three months, 5–10 managers plus directors per room pitching each member, "easily 4 or 5 days per quarter" of leadership time; the evidence per person is written by the person; industry cadence now about six months | VERIFIED (interview) | Hiro, 13-40 03:49–04:36 and 08:18–09:22; his own past orgs (Indeed, Meta), pre-LLM; not a Recruit figure, so no clearance needed; say "a former leader of a 150-person engineering org" on stage | Impact slide: the cost the buyer already pays today; N11's `t_today` gets a real anchor |
 | N12 | "A large Japanese enterprise" of roughly fifty thousand people | RESEARCH | Recruit Holdings employee count ≈ 47–49.5K (PitchBook, via STEVEN-RESEARCH.md) | Say "large Japanese enterprise" unless naming the customer is cleared |
 
 **Slide 05 recommendation.** Primary number: N2, because it is ours, measured, and answers the 30% technical criterion ("PoC shows the key technical idea works"). Second number: N3 only if cleared, otherwise none. Third: the N11 formula with blanks, labelled ILLUSTRATIVE, to show we know what to measure in a pilot. Show the "inputs × method × source × assumptions" line under each, as the template requires. If the demo runs in keyword mode, N2 is not shown; say so.
@@ -629,6 +653,8 @@ Two parts. **§11.A is Sunday's plan**: the codebase as Carl built it by 13:40 S
 | 8 | The live layer is unverified on the demo laptop and depends on the room | On the demo laptop: `make setup`, ADC login, `make live` with a **headset microphone** (`MIC=`); confirm `gemini-3.8-live` on `us-central1` answers and that `show_candidates` fires on one spoken criterion and not on every sentence; a typed-criterion fallback in the UI badge ("typed"); the notice for judges in §9.5 | A, 45 min, before 18:00 |
 | 9 | Makefile: `ADC` defaults to a path on Carl's machine; `reset` deletes `live.jsonl` too (fine) but `smoke` pollutes state | `ADC ?=` falls back to `gcloud`'s default ADC file when the custom path is missing; `smoke` uses a scratch `STATE`; add `make video-mode` = `reset` then open `http://localhost:8787/?present=1` | A, 15 min |
 | 10 | The server binds `0.0.0.0` with no auth (needed for the phone beat) | Accept for the demo LAN; add `DEMO_KEY` (random, printed at start) required on `POST /api/annotate` and `/api/reset`; the phone URL carries `?key=` | A, 15 min, optional |
+
+**Status 14:30 Sat (Carl's session):** done on `main`: 1 (quote check, `dropped_unfaithful` counted and shown), 4, 5 (`3ed49f1`), 6 (503 + "Use keyword mode" button), 9 (`STATE` env, ADC fallback, `make video-mode`, smoke cleans up) (`05720bd`), 7 (`?present=1`, `aa0cc16`). Open: 2 (server-side subject scoping), 3 (manifest + real view counts), 8 (headset mic, two-person rehearsal at 15:30), 10 (optional). Real Gemini extraction measured at 14:04: yui 9 claims (0 unfaithful), rin 8 (1 dropped as unfaithful), kei 7 (1 dropped), ~20 s per person.
 
 Not on Sunday's list (they are in the target design and the roadmap): Slack bot, email intake, SQLite, SSE, the drift chain engine, the 2050 fixture pipeline, decision close/delete. If the drift chain is wanted for the final, it is a 90-minute add to `engine.py` (three sequential Gemini calls with the personas in §11.4) and is the first thing to cut.
 

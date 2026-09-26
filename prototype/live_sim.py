@@ -72,7 +72,7 @@ async def main():
                         fired.append((time.time(), fc.name, args))
                         result = {"ok": True}
                         if fc.name == "show_candidates":
-                            r = live.engine.rank(args.get("criterion", ""))
+                            r = await asyncio.to_thread(live.engine.rank, args.get("criterion", ""))
                             result = {"shown": [{"id": x["candidate"], "name": x["name"]} for x in r["ranking"]]}
                             live.emit("show_candidates", criterion=args.get("criterion", ""), ranking=[x["candidate"] for x in r["ranking"]])
                         elif fc.name == "conclude":
