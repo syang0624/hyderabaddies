@@ -2,6 +2,10 @@
 
 Carl's Codex thread hit its usage limit around 23:14 on Fri. This file is where it stopped and what's in the repo now.
 
+## UPDATE ~04:45 Sat: PRD and sync
+- **`PRD.md`** (repo root) is the build spec: problem with alternative readings of the VP evidence, principles, personas, pipeline, surfaces (Slack real / email stub / web), UI spec, the four demo beats with re-timed scripts, every number labelled, full architecture and codebase with build order and cut lines, truth table, roadmap to 2050, risks, clearances.
+- **`sync.md`** is the reasoning log for both of you and your agents: every decision with its evidence pointers and reversal fact, the corrections to earlier files (§D, including two misattributed VP quotes), what has already been researched with URLs (§F), the rules, and the **public-repo handling item (§H)**. Read `sync.md` §A–§D before doing anything else.
+
 ## UPDATE ~02:30 Sat: for the Fable session
 - **Best VP source now:** `interviews/5_VP_MEETING_TRANSCRIPT_RECONCILED.md`. It merges phone and glasses audio (aligned at 00:09:40), labels speakers, translates all 243 Japanese lines, and lists 24 unresolved spots per chunk. Prefer it over `5_VP_MEETING_TRANSCRIPT.md` (single source, no translation). Per-chunk raw output and the script are in `interviews/raw/vp-reconcile-chunks/`.
 - Detailed summary: `interviews/5_VP_MEETING_SUMMARY.md` (written from the single-source transcript; check quotes against the reconciled one).
