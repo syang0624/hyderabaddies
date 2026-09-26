@@ -20,6 +20,7 @@ STATE = Path(os.environ.get("STATE") or (HERE / "state"))
 STATE.mkdir(exist_ok=True)
 
 MODE = os.environ.get("MODE", "auto")  # auto | gemini | heuristic
+RANK_MODE = os.environ.get("RANK_MODE", "heuristic")  # heuristic (instant) | gemini (~45 s per call, too slow for a live demo)
 GCP_PROJECT = os.environ.get("GCP_PROJECT", "recruit-hackathon-2026-e")
 GCP_LOCATION = os.environ.get("GCP_LOCATION", "us")
 GCP_BASE_URL = os.environ.get("GCP_BASE_URL", "https://aiplatform.us.rep.googleapis.com")
@@ -260,7 +261,7 @@ Rules: rationale is 1-2 sentences and must only use the claims below. No receipt
             claim_index[k] = c
             prompt += f"  [{k}] ({c['kind']}) {c['text']}\n"
 
-    out = llm_json(prompt)
+    out = llm_json(prompt) if RANK_MODE == "gemini" else None
     backend = "gemini"
     if not out or "ranking" not in out:
         backend = "heuristic"

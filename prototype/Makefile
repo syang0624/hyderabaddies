@@ -7,13 +7,16 @@ PORT ?= 8787
 ADC ?= $(firstword $(wildcard $(HOME)/.config/carl-life-os/gcloud-tmuc/application_default_credentials.json $(HOME)/.config/gcloud/application_default_credentials.json))
 export GOOGLE_APPLICATION_CREDENTIALS ?= $(ADC)
 
-.PHONY: setup run run-heuristic run-gemini test reset open smoke live live-sim video-mode
+.PHONY: setup run run-heuristic run-gemini test reset open smoke live live-sim video-mode warm
 
 setup:            ## one-time: venv + google-genai + sounddevice (Gemini mode and the live layer)
 	$(PY) -m venv $(VENV) && $(PIP) -q install --upgrade pip google-genai sounddevice
 
 live:             ## meeting listener: mic -> Gemini 3.8 Live -> tool calls -> the UI (MIC="MacBook" to pick a device)
-	$(PYV) live.py
+	MODE=heuristic $(PYV) live.py
+
+warm:             ## before a demo: extract all three people with Gemini once, so pages load instantly
+	for c in rin yui kei; do curl -sf "localhost:$(PORT)/api/evidence/$$c?force=1&mode=gemini" | $(PY) -c 'import sys,json;d=json.load(sys.stdin)["evidence"];print(d["candidate"],d["backend"],len(d["claims"]),"claims,",d.get("dropped_unfaithful",0),"unfaithful")'; done
 
 run:              ## start the demo (auto: Gemini if credentials work, else heuristic)
 	PORT=$(PORT) MODE=auto $(PYV) server.py
