@@ -113,6 +113,8 @@ class H(BaseHTTPRequestHandler):
                 return self._json(engine.rank(b.get("criterion", "")))
             if p == "/api/annotate":
                 return self._json(engine.annotate(b["candidate"], b["source_id"], b.get("author", "subject"), b["text"]))
+            if p == "/api/view":
+                return self._json({"views": engine.views(b["candidate"]), "ok": bool(engine.record_view(b["candidate"], b.get("who", "evaluator")))})
             if p == "/api/reset":
                 engine.reset()
                 return self._json({"ok": True})

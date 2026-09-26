@@ -51,8 +51,51 @@ def item_store():
     return items
 
 
+def build_manifest():
+    """Count and hash every fixture file once (make manifest). The audit reads excluded sources' counts
+    from here, so dm.json is never opened by the evidence path."""
+    import hashlib
+    man = {}
+    for f in sorted(DATA.glob("*.json")):
+        if f.name == "manifest.json":
+            continue
+        raw = f.read_bytes()
+        try:
+            rows = json.loads(raw)
+            count = len(rows) if isinstance(rows, list) else None
+        except Exception:  # noqa: BLE001
+            count = None
+        man[f.name] = {"count": count, "sha256": hashlib.sha256(raw).hexdigest()[:16], "bytes": len(raw)}
+    (DATA / "manifest.json").write_text(json.dumps(man, indent=1))
+    return man
+
+
+def manifest():
+    f = DATA / "manifest.json"
+    return json.loads(f.read_text()) if f.exists() else {}
+
+
+VIEWS = None
+
+
+def record_view(cid, who):
+    f = STATE / "views.json"
+    rows = json.loads(f.read_text()) if f.exists() else []
+    rows.append({"candidate": cid, "who": who, "t": time.time()})
+    f.write_text(json.dumps(rows, indent=1))
+    return rows
+
+
+def views(cid):
+    f = STATE / "views.json"
+    rows = json.loads(f.read_text()) if f.exists() else []
+    rows = [r for r in rows if r["candidate"] == cid]
+    return {"evaluator": len([r for r in rows if r["who"] == "evaluator"]), "subject": len([r for r in rows if r["who"] == cid])}
+
+
 def audit():
     pol = policy()
+    man = manifest()
     used = {}
     for src, cfg in pol["allowed_sources"].items():
         rows = load(cfg["file"])
@@ -60,9 +103,9 @@ def audit():
         used[src] = {"count": n, "note": cfg["note"]}
     never = {}
     for src, cfg in pol["excluded_sources"].items():
-        n = len(load(cfg["file"])) if cfg.get("file") and (DATA / cfg["file"]).exists() else 0
-        never[src] = {"count": n, "note": cfg["note"]}
-    return {"purpose": pol["purpose"], "used": used, "never_read": never, "rules": pol["rules"]}
+        m = man.get(cfg.get("file", ""), {}) if cfg.get("file") else {}
+        never[src] = {"count": m.get("count", 0) or 0, "note": cfg["note"], "sha256": m.get("sha256"), "counted_from": "manifest" if m else "none"}
+    return {"purpose": pol["purpose"], "used": used, "never_read": never, "rules": pol["rules"], "manifest": bool(man)}
 
 
 def items_for(cid):
@@ -345,7 +388,8 @@ def memo(cid, criterion=None):
     lines.append("## Audit")
     lines.append("Used: " + "; ".join(f"{k} ({v['count']}, {v['note']})" for k, v in a["used"].items()))
     lines.append("Never read: " + "; ".join(f"{k} ({v['count']}, {v['note']})" for k, v in a["never_read"].items()))
-    lines.append(f"Both the evaluator and {name} viewed this page. Claims dropped for lacking a source: {e['dropped_unsourced']}. Backend: {e['backend']}.")
+    v = views(cid)
+    lines.append(f"Page views recorded: evaluator {v['evaluator']}, {name} {v['subject']}. Claims dropped for lacking a source: {e['dropped_unsourced']}; dropped as unfaithful to their source: {e.get('dropped_unfaithful', 0)}. Backend: {e['backend']}.")
     return "\n".join(lines)
 
 

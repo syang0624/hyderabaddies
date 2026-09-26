@@ -1,0 +1,37 @@
+{
+ "company.json": {
+  "count": null,
+  "sha256": "7346b2e07c5bd3e2",
+  "bytes": 2597
+ },
+ "dm.json": {
+  "count": 2,
+  "sha256": "6dcc61a3571e4910",
+  "bytes": 270
+ },
+ "docs.json": {
+  "count": 5,
+  "sha256": "7c8ef82e3d8dd7c0",
+  "bytes": 1597
+ },
+ "manager_notes.json": {
+  "count": 3,
+  "sha256": "2bc63456f37cfa1f",
+  "bytes": 640
+ },
+ "sessions.json": {
+  "count": 5,
+  "sha256": "5604e4cf7ceb7a2e",
+  "bytes": 2085
+ },
+ "slack.json": {
+  "count": 34,
+  "sha256": "4674745c05834ff3",
+  "bytes": 7042
+ },
+ "wcm.json": {
+  "count": 3,
+  "sha256": "88606fe5061f067d",
+  "bytes": 1234
+ }
+}

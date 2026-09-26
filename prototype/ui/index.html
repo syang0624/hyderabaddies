@@ -312,7 +312,7 @@ function toggleSrc(id,btn){const el=document.getElementById('src-'+id); if(el){e
 async function addAnn(sid,inputId){const t=document.getElementById(inputId).value.trim(); if(!t) return;
   await fetch('/api/annotate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({candidate:cur,source_id:sid,author:cur,text:t})});
   await loadEvidence(cur,false);}
-function setView(v){view=v; $('#vEval').classList.toggle('on',v==='eval'); $('#vSub').classList.toggle('on',v==='subject');
+function setView(v){view=v; if(cur) fetch('/api/view',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({candidate:cur,who:v==='subject'?cur:'evaluator'})}).catch(()=>{}); $('#vEval').classList.toggle('on',v==='eval'); $('#vSub').classList.toggle('on',v==='subject');
   const c=company.candidates.find(x=>x.id===cur);
   $('#banner').classList.toggle('hidden',v!=='subject');
   $('#banner').innerHTML=v==='subject'?`<b>You are ${esc(c.name)}.</b> This is exactly the page the evaluator sees about you. Open any receipt and add a note; it appears on their page before the decision is made.`:'';
