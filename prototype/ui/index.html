@@ -248,11 +248,11 @@ function renderCands(order){
   const ids=order||company.candidates.map(c=>c.id);
   $('#cands').innerHTML=ids.map((id,i)=>{const c=company.candidates.find(x=>x.id===id); const k=company.candidates.indexOf(c);
     const r=lastRank&&lastRank.ranking.find(x=>x.candidate===id); const why=r&&r.receipts[0]?splitClaim(r.receipts[0].text).txt:'';
-    return `<button class="cand ${c.id===cur?'on':''}" onclick="selectCand('${c.id}')">
+    return `<div class="cand ${c.id===cur?'on':''}" role="button" tabindex="0" onclick="selectCand('${c.id}')" onkeydown="if(event.key==='Enter')selectCand('${c.id}')">
       ${lastRank?`<span class="ord">#${i+1} for this</span>`:''}
       ${SHAPES[k%3](SHAPE_COLORS[k%3])}
       <div><div class="nm">${esc(c.name)}</div><div class="meta">${esc(c.role)}, ${esc(c.team)}. ${c.tenure_years} yrs</div>${why?`<div class="why">${esc(why)}</div>`:''}</div>
-    </button>`}).join('');
+    </div>`}).join('');
 }
 async function selectCand(id){if(AS&&id!==AS) return; cur=id; renderCands(lastRank?lastRank.ranking.map(x=>x.candidate):null); await loadEvidence(id,false); setView(view);}
 async function loadEvidence(id,force,mode){
