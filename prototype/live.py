@@ -14,6 +14,7 @@ from __future__ import annotations
 import asyncio
 import json
 import os
+import re
 import sys
 import time
 from pathlib import Path
@@ -74,10 +75,23 @@ Candidates under consideration (use these ids in tool calls):
 Rules:
 - You never speak unless a speaker addresses you by name ("Receipts"). If you must respond, use at most one short sentence.
 - You never score, rank or recommend a person. Humans decide. You only call tools that put evidence on the shared screen.
-- Call show_candidates the moment the speakers describe who they need, and again whenever the description changes.
+- Call show_candidates the moment a speaker says what kind of person they need ("I need someone who...", "we're looking for...", "the person has to..."). Do it immediately, on that sentence, even if the description is incomplete. Call it again whenever the description changes or is refined, in any language.
 - Call note for constraints, dates and budgets the speakers state.
 - Call conclude when they agree on a next step or wrap up. Summarise only what they said.
 - The speakers may talk in English or Japanese. Write tool arguments in English."""
+
+
+NEED = re.compile(r"\b(need|needs|looking for|want|wants|ideal(?:ly)?|has to be|must be|should be)\b.{0,40}\b(someone|somebody|a person|people|engineer|manager|candidate)\b|\bsomeone who\b|\bthe person\b.{0,20}\b(has|must|needs|should)\b|欲しい|ほしい|必要|探して|人がいい|人が良い|人がほしい", re.I)
+LAST_TOOL = {"t": 0.0}
+
+
+async def maybe_trigger(text):
+    """If a heard sentence states a need and the model has not called show_candidates in the last 8 s, rank on it anyway."""
+    if not NEED.search(text) or time.time() - LAST_TOOL["t"] < 8:
+        return
+    r = await asyncio.to_thread(engine.rank, text.strip())
+    LAST_TOOL["t"] = time.time()
+    emit("show_candidates", criterion=text.strip(), ranking=[x["candidate"] for x in r["ranking"]], via="transcript")
 
 
 def emit(kind, **payload):
@@ -100,6 +114,11 @@ def pick_mic():
 async def main():
     EVENTS.write_text("")
     client = genai.Client(vertexai=True, project=PROJECT, location=LOCATION)
+    # The SDK forwards this dict to websockets.connect; a 20 s pong timeout was dropping the socket on venue Wi-Fi.
+    try:
+        client._api_client._websocket_ssl_ctx.update({"ping_interval": 20, "ping_timeout": 90})
+    except Exception:  # noqa: BLE001
+        pass
     config = types.LiveConnectConfig(
         response_modalities=["AUDIO"],
         system_instruction=system_prompt(),
@@ -165,6 +184,7 @@ async def run_session(session, q):
                     heard += sc.input_transcription.text
                     if heard.endswith((".", "?", "!", "。")) or len(heard) > 160:
                         emit("heard", text=heard.strip())
+                        await maybe_trigger(heard)
                         heard = ""
                 if sc and sc.output_transcription and sc.output_transcription.text:
                     emit("said", text=sc.output_transcription.text)
@@ -174,6 +194,7 @@ async def run_session(session, q):
                         args = dict(fc.args or {})
                         result = {"ok": True}
                         if fc.name == "show_candidates":
+                            LAST_TOOL["t"] = time.time()
                             r = await asyncio.to_thread(engine.rank, args.get("criterion", ""))
                             result = {"shown": [{"id": x["candidate"], "name": x["name"], "evidence_items": len(x["receipts"])} for x in r["ranking"]]}
                             emit("show_candidates", criterion=args.get("criterion", ""), ranking=[x["candidate"] for x in r["ranking"]])

@@ -44,6 +44,11 @@ def tts(voice, text):
 async def main():
     live.EVENTS.write_text("")
     client = live.genai.Client(vertexai=True, project=live.PROJECT, location=live.LOCATION)
+    # The SDK forwards this dict to websockets.connect; a 20 s pong timeout was dropping the socket on venue Wi-Fi.
+    try:
+        client._api_client._websocket_ssl_ctx.update({"ping_interval": 20, "ping_timeout": 90})
+    except Exception:  # noqa: BLE001
+        pass
     config = types.LiveConnectConfig(
         response_modalities=["AUDIO"], system_instruction=live.system_prompt(), tools=live.TOOLS,
         input_audio_transcription={}, output_audio_transcription={},
@@ -52,10 +57,15 @@ async def main():
     )
     fired: list[tuple[float, str, dict]] = []
     said: list[str] = []
+    heard_buf = [""]
     drops = 0
     audio = [(voice, text, expect, tts(voice, text)) for voice, text, expect in SCRIPT]  # render before connecting
     report = []
-    silence = b"\x00\x00" * (RATE // 10)
+    # room tone, not digital zero: a real microphone always has a noise floor, and the server's voice
+    # activity detection answered pure zeros with "<no speech detected>" and then dropped later lines
+    import random, struct
+    rnd = random.Random(7)
+    silence = b"".join(struct.pack("<h", rnd.randint(-24, 24)) for _ in range(RATE // 10))
     idx = 0
 
     while idx < len(audio):
@@ -68,6 +78,17 @@ async def main():
                 if msg.session_resumption_update and msg.session_resumption_update.resumable and msg.session_resumption_update.new_handle:
                     RESUME["handle"] = msg.session_resumption_update.new_handle
                 sc = msg.server_content
+                if sc and sc.input_transcription and sc.input_transcription.text:
+                    heard_buf[0] += sc.input_transcription.text
+                    if heard_buf[0].endswith((".", "?", "!", "。")) or len(heard_buf[0]) > 160:
+                        txt = heard_buf[0].strip(); heard_buf[0] = ""
+                        live.emit("heard", text=txt)
+                        before = len(fired)
+                        if live.NEED.search(txt) and time.time() - live.LAST_TOOL["t"] >= 8:
+                            r = await asyncio.to_thread(live.engine.rank, txt)
+                            live.LAST_TOOL["t"] = time.time()
+                            fired.append((time.time(), "show_candidates", {"criterion": txt, "via": "transcript"}))
+                            live.emit("show_candidates", criterion=txt, ranking=[x["candidate"] for x in r["ranking"]], via="transcript")
                 if sc and sc.output_transcription and sc.output_transcription.text:
                     said.append(sc.output_transcription.text)
                 if msg.tool_call:
@@ -77,6 +98,7 @@ async def main():
                         fired.append((time.time(), fc.name, args))
                         result = {"ok": True}
                         if fc.name == "show_candidates":
+                            live.LAST_TOOL["t"] = time.time()
                             r = await asyncio.to_thread(live.engine.rank, args.get("criterion", ""))
                             result = {"shown": [{"id": x["candidate"], "name": x["name"]} for x in r["ranking"]]}
                             live.emit("show_candidates", criterion=args.get("criterion", ""), ranking=[x["candidate"] for x in r["ranking"]])

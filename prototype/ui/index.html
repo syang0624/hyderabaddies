@@ -347,7 +347,7 @@ async function pollLive(){
       if(e.kind==='note'){liveNotes.push(e.text);$('#liveheard').textContent='On the record: '+e.text;}
       if(e.kind==='show_candidates'&&!AS){
         $('#crit').value=e.criterion; document.body.classList.remove('noL'); $('#tL').classList.remove('off');
-        $('#livest').textContent='Heard the criterion'; $('#liveheard').textContent=e.criterion;
+        $('#livest').textContent=e.via==='transcript'?'Heard the criterion (transcript)':'Heard the criterion'; $('#liveheard').textContent=e.criterion;
         await doRank(); if(e.ranking&&e.ranking[0]) await selectCand(e.ranking[0]);
       }
       if(e.kind==='conclude'&&!AS){
