@@ -29,6 +29,7 @@ PROJECT = os.environ.get("GCP_PROJECT", "recruit-hackathon-2026-e")
 LOCATION = os.environ.get("LIVE_LOCATION", "us-central1")
 MODEL = os.environ.get("LIVE_MODEL", "gemini-3.8-live")
 RATE = 16000
+RESUME = {"handle": None}  # latest session-resumption handle, reused on reconnect so context survives a drop
 CHUNK = 1600  # 100 ms
 EVENTS = engine.STATE / "live.jsonl"
 
@@ -107,6 +108,7 @@ async def main():
         output_audio_transcription={},
         # keep one session across a long call instead of dying at the session limit
         context_window_compression=types.ContextWindowCompressionConfig(sliding_window=types.SlidingWindow()),
+        session_resumption=types.SessionResumptionConfig(handle=None),
     )
     loop = asyncio.get_running_loop()
     q: asyncio.Queue = asyncio.Queue(maxsize=50)
@@ -126,6 +128,7 @@ async def main():
     attempt = 0
     while True:
         try:
+            config.session_resumption = types.SessionResumptionConfig(handle=RESUME["handle"])
             async with client.aio.live.connect(model=MODEL, config=config) as session:
                 attempt = 0
                 emit("status", text=f"listening on {name} via {MODEL}")
@@ -155,6 +158,8 @@ async def run_session(session, q):
         async def listen():
             heard = ""
             async for msg in session.receive():
+                if msg.session_resumption_update and msg.session_resumption_update.resumable and msg.session_resumption_update.new_handle:
+                    RESUME["handle"] = msg.session_resumption_update.new_handle
                 sc = msg.server_content
                 if sc and sc.input_transcription and sc.input_transcription.text:
                     heard += sc.input_transcription.text

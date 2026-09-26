@@ -30,6 +30,7 @@ SCRIPT = [
     ("Daniel", "Okay. Looking at this, Yui's own words say she wants exactly that, and she has been running the Northwind sync in English. Let's set up calls with Yui and Kei this week, and ask Yui whether her manager's note about being flexible on location is actually true. That's it for today, thanks.", {"conclude"}),
 ]
 RATE = 16000
+RESUME = {"handle": None}  # latest session-resumption handle, reused on reconnect so context survives a drop
 
 
 def tts(voice, text):
@@ -47,6 +48,7 @@ async def main():
         response_modalities=["AUDIO"], system_instruction=live.system_prompt(), tools=live.TOOLS,
         input_audio_transcription={}, output_audio_transcription={},
         context_window_compression=types.ContextWindowCompressionConfig(sliding_window=types.SlidingWindow()),
+        session_resumption=types.SessionResumptionConfig(handle=None),
     )
     fired: list[tuple[float, str, dict]] = []
     said: list[str] = []
@@ -57,11 +59,14 @@ async def main():
     idx = 0
 
     while idx < len(audio):
+      config.session_resumption = types.SessionResumptionConfig(handle=RESUME["handle"])
       async with client.aio.live.connect(model=live.MODEL, config=config) as session:
         live.emit("status", text=f"simulated call via {live.MODEL}" + (f" (reconnect {drops})" if drops else ""))
 
         async def listen():
             async for msg in session.receive():
+                if msg.session_resumption_update and msg.session_resumption_update.resumable and msg.session_resumption_update.new_handle:
+                    RESUME["handle"] = msg.session_resumption_update.new_handle
                 sc = msg.server_content
                 if sc and sc.output_transcription and sc.output_transcription.text:
                     said.append(sc.output_transcription.text)

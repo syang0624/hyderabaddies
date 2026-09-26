@@ -133,6 +133,9 @@
   .banner b{color:var(--warn);font-weight:500}
   .memo{white-space:pre-wrap;font:400 13px/20px var(--mono);letter-spacing:0;color:var(--body);background:var(--inset);border:1px solid var(--hair);border-radius:6px;padding:16px;margin-top:12px}
   .hidden{display:none}
+  body.subjectonly .left,body.subjectonly .right,body.subjectonly .seg,body.subjectonly #tL,body.subjectonly #tR,body.subjectonly .hdr button{display:none}
+  body.subjectonly main{grid-template-columns:minmax(0,1fr);max-width:920px}
+  body.subjectonly .live{display:none}
   body.present #backend,body.present #tL,body.present #tR,body.present .hdr button,body.present .card details#auditD{display:none}
   body.present{font-size:16px;line-height:24px}
   body.present .quote .q{font-size:22px;line-height:30px}
@@ -249,15 +252,20 @@ const ICON={
 const ico=it=>it&&ICON[it.source]?ICON[it.source]:'';
 const KINDS=[['revealed_will','What they chose to do'],['strength','What others said'],['gap','Gaps']];
 
+const AS=new URLSearchParams(location.search).get('as');
 async function init(){
-  company=await (await fetch('/api/company')).json();
+  company=await (await fetch(AS?`/api/company?view=subject&cid=${encodeURIComponent(AS)}`:'/api/company')).json();
+  if(company.error){document.body.innerHTML=`<p style="padding:24px;color:var(--warn)">${esc(company.error)}</p>`;return;}
+  if(AS){document.body.classList.add('subjectonly');company.tag_scores=company.tag_scores||{};}
   $('#title').textContent=nd(company.decision.title);
   $('#sub').textContent=nd(`${company.name}. ${company.decision.purpose}`);
   setBackend(company.backend);
   renderCands(); await selectCand(company.candidates[0].id); loadAudit();
+  if(AS) setView('subject');
 }
 function setBackend(b){const el=$('#backend'); el.textContent=b; el.className='pill '+(b==='heuristic'?'warn':'ok');}
 function renderCands(order){
+  if(!company.tag_scores) company.tag_scores={};
   const list=order?order.map(id=>company.candidates.find(c=>c.id===id)):company.candidates;
   $('#cands').innerHTML=list.map((c,i)=>{const ts=Object.entries(company.tag_scores[c.id]||{}).sort((a,b)=>b[1]-a[1]).slice(0,4);
     return `<button class="cand ${c.id===cur?'on':''}" onclick="selectCand('${c.id}')">
@@ -267,7 +275,7 @@ function renderCands(order){
     </button>`}).join('');
 }
 function syncSums(){if(!company) return;const c=company.candidates.find(x=>x.id===cur);$('#candsum').textContent=$('#candsD').open?'Candidates, one slot':`Candidate: ${c?c.name:''}`;const q=$('#crit').value.trim();$('#critsum').textContent=$('#critD').open?'Criterion, in your own words':`Criterion: ${q.length>48?q.slice(0,48)+'...':q}`;}
-async function selectCand(id){cur=id;renderCands();syncSums();await loadEvidence(id,false);setView(view);}
+async function selectCand(id){if(AS&&id!==AS) return; cur=id;renderCands();syncSums();await loadEvidence(id,false);setView(view);}
 async function loadEvidence(id,force,mode){
   $('#claims').innerHTML='<div class="spin">extracting evidence</div>';
   const resp=await fetch(`/api/evidence/${id}?force=${force?1:0}${mode?'&mode='+mode:''}`);
@@ -310,7 +318,7 @@ function setView(v){view=v; $('#vEval').classList.toggle('on',v==='eval'); $('#v
   $('#banner').innerHTML=v==='subject'?`<b>You are ${esc(c.name)}.</b> This is exactly the page the evaluator sees about you. Open any receipt and add a note; it appears on their page before the decision is made.`:'';
   document.querySelector('.right').classList.toggle('hidden',v==='subject');
   if(evcache[cur]) renderEvidence(evcache[cur]);}
-async function doRank(){const crit=$('#crit').value.trim(); $('#rank').innerHTML='<li class="spin" style="border:0">re-ranking on evidence</li>';
+async function doRank(){if(AS) return; const crit=$('#crit').value.trim(); $('#rank').innerHTML='<li class="spin" style="border:0">re-ranking on evidence</li>';
   const r=await (await fetch('/api/rank',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({criterion:crit})})).json();
   const max=Math.max(1,...r.ranking.map(x=>x.fit));
   $('#rank').innerHTML=r.ranking.map(x=>`<li><div class="top"><span class="fit">${x.fit}</span><span class="nm">${esc(x.name)}</span></div><div class="bar"><i style="width:${Math.round(100*x.fit/max)}%"></i></div><div class="why">${esc(x.rationale)}</div>${x.receipts.map(rc=>{const {txt}=splitClaim(rc.text);return `<div class="rc">${esc(txt)} ${rc.source_ids.map(s=>`<span class="fn" onclick="selectCand('${x.candidate}')">${s}</span>`).join(' ')}</div>`}).join('')}</li>`).join('')
@@ -337,12 +345,12 @@ async function pollLive(){
       if(e.kind==='status'){$('#live').classList.toggle('on',!/stopped/.test(e.text));$('#livest').textContent=/stopped/.test(e.text)?'Live ended':'Live';$('#liveheard').textContent=e.text;}
       if(e.kind==='heard'){$('#live').classList.add('on');$('#liveheard').textContent=e.text;}
       if(e.kind==='note'){liveNotes.push(e.text);$('#liveheard').textContent='On the record: '+e.text;}
-      if(e.kind==='show_candidates'){
+      if(e.kind==='show_candidates'&&!AS){
         $('#crit').value=e.criterion; document.body.classList.remove('noL'); $('#tL').classList.remove('off');
         $('#livest').textContent='Heard the criterion'; $('#liveheard').textContent=e.criterion;
         await doRank(); if(e.ranking&&e.ranking[0]) await selectCand(e.ranking[0]);
       }
-      if(e.kind==='conclude'){
+      if(e.kind==='conclude'&&!AS){
         $('#ctitle').textContent=nd(company.decision.title);
         $('#csum').textContent=nd(e.summary||'');
         const ids=e.candidate_ids||[]; $('#cwho').classList.toggle('hidden',!ids.length);

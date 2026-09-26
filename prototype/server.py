@@ -68,6 +68,14 @@ class H(BaseHTTPRequestHandler):
             if p == "/api/company":
                 c = engine.load("company.json")
                 c["backend"] = engine.backend_name()
+                if q.get("view", [""])[0] == "subject":
+                    # the subject sees only themselves: no other candidates, no tag scores, no ranking
+                    cid = q.get("cid", [""])[0]
+                    c["candidates"] = [x for x in c["candidates"] if x["id"] == cid]
+                    if not c["candidates"]:
+                        return self._json({"error": "unknown subject"}, 404)
+                    c.pop("tag_scores", None)
+                    c["view"] = "subject"
                 return self._json(c)
             if p == "/api/audit":
                 return self._json(engine.audit())
@@ -100,6 +108,8 @@ class H(BaseHTTPRequestHandler):
         try:
             b = self._body()
             if p == "/api/rank":
+                if b.get("view") == "subject" or urlparse(self.path).query.find("view=subject") >= 0:
+                    return self._json({"error": "the subject never sees a ranking"}, 403)
                 return self._json(engine.rank(b.get("criterion", "")))
             if p == "/api/annotate":
                 return self._json(engine.annotate(b["candidate"], b["source_id"], b.get("author", "subject"), b["text"]))
