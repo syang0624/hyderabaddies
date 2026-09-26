@@ -1,0 +1,643 @@
+{
+  "chunk": 0,
+  "segments": [
+    {
+      "start": "00:00",
+      "end": "00:02",
+      "speaker": "Shion",
+      "text": "...ration class, and we met by the..."
+    },
+    {
+      "start": "00:01",
+      "end": "00:04",
+      "speaker": "Carl",
+      "text": "Ah, right, right, with Nippon Foundation."
+    },
+    {
+      "start": "00:03",
+      "end": "00:04",
+      "speaker": "VP",
+      "text": "Yes, in Tokyo."
+    },
+    {
+      "start": "00:04",
+      "end": "00:07",
+      "speaker": "Carl",
+      "text": "Was this in Tokyo? Right. In the Minato District?"
+    },
+    {
+      "start": "00:06",
+      "end": "00:07",
+      "speaker": "VP",
+      "text": "Yeah. [laughter]"
+    },
+    {
+      "start": "00:07",
+      "end": "00:26",
+      "speaker": "Carl",
+      "text": "Yeah. [laughter] But yeah, um, thank you so much again for making the time. Uh, one thing we wanted to ask you, for the hackathon, and improving the future of work, is like asking you, um, what recurring problem, like in the teams you oversee, um, that's mo- that most recently needed your attention? Yeah."
+    },
+    {
+      "start": "00:26",
+      "end": "00:36",
+      "speaker": "Carl",
+      "text": "Yeah. Like, um, I guess we can start with, um, just like the role, how many people are in his team, and who do- the who does, um, eh, uh, he talk to frequently?"
+    },
+    {
+      "start": "00:36",
+      "end": "00:40",
+      "speaker": "Shion",
+      "text": "もう、ジェネラリーに、ど- どんなチームを持ってて、",
+      "ja": "もう、ジェネラリーに、ど- どんなチームを持ってて、",
+      "en": "Like, generally, what- what kind of team you have,"
+    },
+    {
+      "start": "00:40",
+      "end": "00:41",
+      "speaker": "VP",
+      "text": "オルガだね、うん。",
+      "ja": "オルガだね、うん。",
+      "en": "The org, right, yeah."
+    },
+    {
+      "start": "00:41",
+      "end": "00:42",
+      "speaker": "Shion",
+      "text": "はい。",
+      "ja": "はい。",
+      "en": "Yes."
+    },
+    {
+      "start": "00:42",
+      "end": "00:44",
+      "speaker": "VP",
+      "text": "難しいねぇ。",
+      "ja": "難しいねぇ。",
+      "en": "That's difficult."
+    },
+    {
+      "start": "00:44",
+      "end": "00:47",
+      "speaker": "VP",
+      "text": "ああ...",
+      "ja": "ああ...",
+      "en": "Ah..."
+    },
+    {
+      "start": "00:47",
+      "end": "00:54",
+      "speaker": "VP",
+      "text": "Especially, uh, I have the twen- uh, 200 members."
+    },
+    {
+      "start": "00:54",
+      "end": "00:55",
+      "speaker": "Carl",
+      "text": "200 members."
+    },
+    {
+      "start": "00:55",
+      "end": "01:03",
+      "speaker": "VP",
+      "text": "Yeah, for my, uh, organization, and, uh, I'm responsibility for the, uh, Center of Excellence, Center of Excellence HR."
+    },
+    {
+      "start": "01:03",
+      "end": "01:04",
+      "speaker": "Shion",
+      "text": "That is COE."
+    },
+    {
+      "start": "01:04",
+      "end": "01:06",
+      "speaker": "Carl",
+      "text": "The COE, okay. Okay."
+    },
+    {
+      "start": "01:06",
+      "end": "01:14",
+      "speaker": "VP",
+      "text": "COE HR. I'm the, uh, Vice President, he- Head of COE. And, uh... [laughter] uh, なんていうかな, I'm in charge of the, uh, HR strategy,",
+      "ja": "なんていうかな",
+      "en": "how should I put it"
+    },
+    {
+      "start": "01:14",
+      "end": "01:16",
+      "speaker": "Carl",
+      "text": "HR strategy."
+    },
+    {
+      "start": "01:16",
+      "end": "01:18",
+      "speaker": "VP",
+      "text": "...strategy, and the HR system,"
+    },
+    {
+      "start": "01:18",
+      "end": "01:19",
+      "speaker": "Carl",
+      "text": "Uh-huh."
+    },
+    {
+      "start": "01:19",
+      "end": "01:21",
+      "speaker": "VP",
+      "text": "...and the payroll,"
+    },
+    {
+      "start": "01:21",
+      "end": "01:23",
+      "speaker": "Carl",
+      "text": "Oh, many, lots of tasks."
+    },
+    {
+      "start": "01:23",
+      "end": "01:26",
+      "speaker": "VP",
+      "text": "...and, uh, and, uh, recruiting,"
+    },
+    {
+      "start": "01:26",
+      "end": "01:27",
+      "speaker": "Carl",
+      "text": "Mm-hmm."
+    },
+    {
+      "start": "01:27",
+      "end": "01:31",
+      "speaker": "VP",
+      "text": "...and, uh, uh, yeah, is, uh, everything. [laughter]"
+    },
+    {
+      "start": "01:31",
+      "end": "01:33",
+      "speaker": "Carl",
+      "text": "I see."
+    },
+    {
+      "start": "01:33",
+      "end": "01:39",
+      "speaker": "VP",
+      "text": "Uh, but the opposite side is, uh, HRBP. HR..."
+    },
+    {
+      "start": "01:39",
+      "end": "01:40",
+      "speaker": "Carl",
+      "text": "HRBP, mm-hmm."
+    },
+    {
+      "start": "01:40",
+      "end": "01:54",
+      "speaker": "VP",
+      "text": "...business partner. HR business partner, uh, is responsibi- responsibility for the, uh, growth, the strategy of the, uh, business unit."
+    },
+    {
+      "start": "01:54",
+      "end": "02:06",
+      "speaker": "VP",
+      "text": "And, uh, my, uh, uh, なんだ, my or- organization is respo- responsibility for the, uh, strategy, HR strategy, and the system.",
+      "ja": "なんだ",
+      "en": "what is it"
+    },
+    {
+      "start": "02:06",
+      "end": "02:07",
+      "speaker": "Carl",
+      "text": "Right."
+    },
+    {
+      "start": "02:07",
+      "end": "02:08",
+      "speaker": "VP",
+      "text": "Yeah."
+    },
+    {
+      "start": "02:08",
+      "end": "02:19",
+      "speaker": "Carl",
+      "text": "Thank you so much. I just wanted to clarify, um, maybe before you came here, what were you working on? If it's not like NDA, [laughter] how do I say? Yeah."
+    },
+    {
+      "start": "02:19",
+      "end": "02:20",
+      "speaker": "Shion",
+      "text": "えっと...",
+      "ja": "えっと...",
+      "en": "Um..."
+    },
+    {
+      "start": "02:20",
+      "end": "02:21",
+      "speaker": "Carl",
+      "text": "Like, um..."
+    },
+    {
+      "start": "02:21",
+      "end": "02:24",
+      "speaker": "Shion",
+      "text": "Like whatever like daily, you know, daily task, or like..."
+    },
+    {
+      "start": "02:24",
+      "end": "02:25",
+      "speaker": "Steven",
+      "text": "Like background?"
+    },
+    {
+      "start": "02:25",
+      "end": "02:30",
+      "speaker": "Carl",
+      "text": "I guess, um, the before he came here, what was the last thing he worked on? Because I'm trying to see..."
+    },
+    {
+      "start": "02:30",
+      "end": "02:32",
+      "speaker": "Shion",
+      "text": "Yeah."
+    },
+    {
+      "start": "02:31",
+      "end": "02:33",
+      "speaker": "VP",
+      "text": "でも...",
+      "ja": "でも...",
+      "en": "But..."
+    },
+    {
+      "start": "02:32",
+      "end": "02:36",
+      "speaker": "Carl",
+      "text": "So like, um, if it's not NDA..."
+    },
+    {
+      "start": "02:36",
+      "end": "02:45",
+      "speaker": "Shion",
+      "text": "I don't think like it's, [laughter] you know, problem, but then, I think he has so many, you know, impact under his position..."
+    },
+    {
+      "start": "02:45",
+      "end": "02:49",
+      "speaker": "Shion",
+      "text": "So, like, this this hackathon is also like the what he, how to say, um..."
+    },
+    {
+      "start": "02:49",
+      "end": "02:50",
+      "speaker": "Carl",
+      "text": "He also organizes?"
+    },
+    {
+      "start": "02:50",
+      "end": "02:55",
+      "speaker": "Shion",
+      "text": "Not organizes, but then, like, the in charge of, something like that, so they're, like, joining this project, like, uh..."
+    },
+    {
+      "start": "02:55",
+      "end": "02:57",
+      "speaker": "Carl",
+      "text": "Ah, okay."
+    },
+    {
+      "start": "02:56",
+      "end": "02:57",
+      "speaker": "VP",
+      "text": "Oh, yeah."
+    },
+    {
+      "start": "02:57",
+      "end": "03:07",
+      "speaker": "Carl",
+      "text": "Okay. That's actually very good because my I guess my next question is, what was the last, um, decision that you had to take that took longer than usual?"
+    },
+    {
+      "start": "03:07",
+      "end": "03:10",
+      "speaker": "Shion",
+      "text": "一番時間がかかった意思決定 [laughter]",
+      "ja": "一番時間がかかった意思決定 [laughter]",
+      "en": "The decision that took the most time [laughter]"
+    },
+    {
+      "start": "03:10",
+      "end": "03:11",
+      "speaker": "VP",
+      "text": "過去?",
+      "ja": "過去?",
+      "en": "In the past?"
+    },
+    {
+      "start": "03:11",
+      "end": "03:14",
+      "speaker": "Carl",
+      "text": "Yeah, whether it's for this hackathon or something, yeah."
+    },
+    {
+      "start": "03:14",
+      "end": "03:15",
+      "speaker": "Shion",
+      "text": "最近。",
+      "ja": "最近。",
+      "en": "Recently."
+    },
+    {
+      "start": "03:15",
+      "end": "03:17",
+      "speaker": "VP",
+      "text": "I speak in Japanese, and then she translate. [laughter]"
+    },
+    {
+      "start": "03:17",
+      "end": "03:22",
+      "speaker": "Carl",
+      "text": "That's, yes! [laughter] That's great! [laughter]"
+    },
+    {
+      "start": "03:22",
+      "end": "03:25",
+      "speaker": "VP",
+      "text": "ああ、一番時間がかかった意思決定...",
+      "ja": "ああ、一番時間がかかった意思決定...",
+      "en": "Ah, the decision that took the most time..."
+    },
+    {
+      "start": "03:25",
+      "end": "03:27",
+      "speaker": "Carl",
+      "text": "And then maybe clarify that it could be..."
+    },
+    {
+      "start": "03:26",
+      "end": "03:28",
+      "speaker": "VP",
+      "text": "It's very difficult."
+    },
+    {
+      "start": "03:28",
+      "end": "03:30",
+      "speaker": "Carl",
+      "text": "Yeah, for this hackathon or something, yeah."
+    },
+    {
+      "start": "03:30",
+      "end": "03:32",
+      "speaker": "Shion",
+      "text": "It doesn't have to be a hackathon."
+    },
+    {
+      "start": "03:32",
+      "end": "03:35",
+      "speaker": "Carl",
+      "text": "Yeah, anything, like, just something on his mind. Yeah."
+    },
+    {
+      "start": "03:35",
+      "end": "03:36",
+      "speaker": "Shion",
+      "text": "うん、うん。",
+      "ja": "うん、うん。",
+      "en": "Yeah, yeah."
+    },
+    {
+      "start": "03:36",
+      "end": "03:37",
+      "speaker": "Carl",
+      "text": "Yeah."
+    },
+    {
+      "start": "03:41",
+      "end": "03:44",
+      "speaker": "VP",
+      "text": "難しいね。[laughter]",
+      "ja": "難しいね。[laughter]",
+      "en": "That's difficult. [laughter]"
+    },
+    {
+      "start": "03:48",
+      "end": "04:06",
+      "speaker": "VP",
+      "text": "ああ、特に AI が出てきた後に、えっと、AI を使ってどう、うん、組織をトランスフォーメーションさせるかっていうのが、うん、すごい難しい。",
+      "ja": "ああ、特に AI が出てきた後に、えっと、AI を使ってどう、うん、組織をトランスフォーメーションさせるかっていうのが、うん、すごい難しい。",
+      "en": "Ah, especially after AI emerged, um, using AI, how to, yeah, transform the organization, yeah, is very difficult."
+    },
+    {
+      "start": "04:06",
+      "end": "04:15",
+      "speaker": "Shion",
+      "text": "After AI in- like, emerged, uh, it's difficult to think how like, uh, to, you know, transform organization with AI."
+    },
+    {
+      "start": "04:15",
+      "end": "04:16",
+      "speaker": "Carl",
+      "text": "Mmm."
+    },
+    {
+      "start": "04:16",
+      "end": "04:26",
+      "speaker": "VP",
+      "text": "なぜかと言うと、えっと、ま、AI が来ることによって自分の例えば仕事がなくなってしまうっていう風に思ったりする。",
+      "ja": "なぜかと言うと、えっと、ま、AI が来ることによって自分の例えば仕事がなくなってしまうっていう風に思ったりする。",
+      "en": "The reason is, um, well, because of AI coming, people think, for example, that their jobs might disappear."
+    },
+    {
+      "start": "04:26",
+      "end": "04:32",
+      "speaker": "Shion",
+      "text": "Because of AI, like, peo- some people feel that like their job will lost because of AI."
+    },
+    {
+      "start": "04:32",
+      "end": "04:33",
+      "speaker": "VP",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "04:33",
+      "end": "04:34",
+      "speaker": "Carl",
+      "text": "Mmm."
+    },
+    {
+      "start": "04:34",
+      "end": "04:54",
+      "speaker": "VP",
+      "text": "なんで、その、どの速度で、どのよう-、どの場所、どの領域で AI を使って、ビジネスを最高速度でアクセラレーションするか、っていうところを、こう見極めることが、すごく、経営としてもすごく、インディ-、Indeed も含めて、結構難しい。",
+      "ja": "なんで、その、どの速度で、どのよう-、どの場所、どの領域で AI を使って、ビジネスを最高速度でアクセラレーションするか、っていうところを、こう見極めることが、すごく、経営としてもすごく、インディ-、Indeed も含めて、結構難しい。",
+      "en": "So, at what speed, what kin-, what place, what domain to use AI, to accelerate the business at maximum speed, to assess that, even as management, very much including Indee-, Indeed, is quite difficult."
+    },
+    {
+      "start": "04:54",
+      "end": "05:07",
+      "speaker": "Shion",
+      "text": "What kind of, like, area or what kind of speed we should, um, you know, use AI,"
+    },
+    {
+      "start": "05:07",
+      "end": "05:09",
+      "speaker": "Carl",
+      "text": "Mm-hmm, mm-hmm."
+    },
+    {
+      "start": "05:09",
+      "end": "05:12",
+      "speaker": "Shion",
+      "text": "...is, yeah, what is, you know, hard to find."
+    },
+    {
+      "start": "05:12",
+      "end": "05:14",
+      "speaker": "Carl",
+      "text": "Mm-hmm."
+    },
+    {
+      "start": "05:14",
+      "end": "05:51",
+      "speaker": "Carl",
+      "text": "And, um, yeah, it does make sense, and I guess what I am looking for is something like, um, I guess the AI thing's a bit too vague. But given the context of like it's hard, like things are speeding up with AI and people are scared of their jobs, um, getting replaced by AI, have you done anything to help either the people who are scared, or something that helps the organization adapt with AI? Like, what have you done about it if you're facing this problem?"
+    },
+    {
+      "start": "05:51",
+      "end": "05:53",
+      "speaker": "Shion",
+      "text": "I guess so, just like..."
+    },
+    {
+      "start": "05:53",
+      "end": "05:55",
+      "speaker": "VP",
+      "text": "一応要約していい?",
+      "ja": "一応要約していい?",
+      "en": "Can I just summarize?"
+    },
+    {
+      "start": "05:55",
+      "end": "06:03",
+      "speaker": "Shion",
+      "text": "えっと、do you mean that, like, the after, you know, AI, like, come, the organization, how organization...",
+      "ja": "えっと、",
+      "en": "Um,"
+    },
+    {
+      "start": "06:03",
+      "end": "06:14",
+      "speaker": "Carl",
+      "text": "Mm, if it's a problem for, um, for him, then like what has he done about it, uh, for it, like, so far?"
+    },
+    {
+      "start": "06:14",
+      "end": "06:36",
+      "speaker": "Steven",
+      "text": "I can rephrase it. Yeah. So basically what he's trying to ask is, um, so you've mentioned that the whenever the AI's like kind of coming in, the people are feeling scared of losing their jobs or also like you know, for the organization side, it's moving too fast. So we're like you guys are like, we do not know like how to effectively adapt this. So given that problem, um, Carl and I are basically wondering what have you done to respond to those problems?"
+    },
+    {
+      "start": "06:36",
+      "end": "06:37",
+      "speaker": "Carl",
+      "text": "Ah, thanks. [laughter]"
+    },
+    {
+      "start": "06:37",
+      "end": "06:47",
+      "speaker": "Shion",
+      "text": "その、早すぎる、とか、こう、AI が進み、進みすぎると問題があるかもしれないっていうのに対して、具体的にどう、何をしましたか、っていう。",
+      "ja": "その、早すぎる、とか、こう、AI が進み、進みすぎると問題があるかもしれないっていうのに対して、具体的にどう、何をしましたか、っていう。",
+      "en": "Like, regarding it being too fast, or there might be problems if AI advances too much, specifically what, what have you done, they are asking."
+    },
+    {
+      "start": "06:47",
+      "end": "06:50",
+      "speaker": "VP",
+      "text": "ちょうど議論中なんだけどね。[laughter]",
+      "ja": "ちょうど議論中なんだけどね。[laughter]",
+      "en": "We're right in the middle of discussing that, though. [laughter]"
+    },
+    {
+      "start": "06:50",
+      "end": "06:52",
+      "speaker": "Shion",
+      "text": "どうしてるんですか? [laughter]",
+      "ja": "どうしてるんですか? [laughter]",
+      "en": "What are you doing (about it)? [laughter]"
+    },
+    {
+      "start": "06:52",
+      "end": "07:18",
+      "speaker": "VP",
+      "text": "いや、えっと、例えば、えっと、従業員の Slack とか、コミュニケーションログを全部取って、えっと、なんだろうな、スキルタクソノミーみたいなものを、作りたい、スキ- みたいな、タクソノミーっつうの、なんだ、スキルのなんだろうな、ポートフォリオみたいなものを作りたいみたいなニーズが例えばビジネスサイドであると。",
+      "ja": "いや、えっと、例えば、えっと、従業員の Slack とか、コミュニケーションログを全部取って、えっと、なんだろうな、スキルタクソノミーみたいなものを、作りたい、スキ- みたいな、タクソノミーっつうの、なんだ、スキルのなんだろうな、ポートフォリオみたいなものを作りたいみたいなニーズが例えばビジネスサイドであると。",
+      "en": "Well, um, for example, um, taking all employees' Slack or communication logs, um, what is it, like a skill taxonomy, wanting to create, ski- like, what do you call it, taxonomy, what is it, like a skill what is it, portfolio, wanting to create something like that, for example, there is a need on the business side."
+    },
+    {
+      "start": "07:18",
+      "end": "07:37",
+      "speaker": "Shion",
+      "text": "Like there's a need like that, um, in the business side, like, uh, they want to, um, how to say, uh, like, uh, detect all the, you know, Slack information that are, like, given from employees, and, um, you know, uh, how to say, interpret."
+    },
+    {
+      "start": "07:37",
+      "end": "07:38",
+      "speaker": "Carl",
+      "text": "Got it."
+    },
+    {
+      "start": "07:38",
+      "end": "07:44",
+      "speaker": "VP",
+      "text": "だけど、だけど、従業員から見ると、やり取りを見-、見てほしくない、とか、",
+      "ja": "だけど、だけど、従業員から見ると、やり取りを見-、見てほしくない、とか、",
+      "en": "Yeah, but, but from the employees' perspective, they don't want their exchanges to be seen, or..."
+    },
+    {
+      "start": "07:44",
+      "end": "07:55",
+      "speaker": "VP",
+      "text": "自分のスキルをどういう風に評価されるかがすごく怖い、みたいな声が例えば挙がってます。",
+      "ja": "自分のスキルをどういう風に評価されるかがすごく怖い、みたいな声が例えば挙がってます。",
+      "en": "...voices like they are very scared of how their skills will be evaluated, for example, have come up."
+    },
+    {
+      "start": "07:55",
+      "end": "08:04",
+      "speaker": "Shion",
+      "text": "うん、うん。But like some employee employees feel that it's, you know, uh...",
+      "ja": "うん、うん。",
+      "en": "Yeah, yeah."
+    }
+  ],
+  "uncertain": [
+    {
+      "at": "00:00",
+      "reading_a": "...ration class, and we met by the",
+      "reading_b": "...ration class, and we met by the",
+      "chosen": "...ration class, and we met by the..."
+    },
+    {
+      "at": "02:41",
+      "reading_a": "so many, you know, impact under his position",
+      "reading_b": "so many, you know, hats under his position",
+      "chosen": "impact under his position"
+    },
+    {
+      "at": "02:53",
+      "reading_a": "in charge of, something like that, so they're like joining this project",
+      "reading_b": "in- HR job, HR, so they're like joining this project",
+      "chosen": "in charge of, something like that, so they're like joining this project"
+    }
+  ],
+  "corrections_vs_prior": [
+    "Corrected speaker labels across the transcript: identified Carl Kho, Steven Yang, Recruit VP, and Shion Kuroda (prior had generic/incorrect labels like Karl, Male Colleague, etc.).",
+    "00:04: Corrected 'Versus in Tokyo? Right.' to 'Was this in Tokyo? Right.'",
+    "02:24 & 06:14: Correctly attributed lines to Steven Yang, who explicitly refers to 'Carl and I'.",
+    "02:53: Reconstructed Shion's line ('in charge of, something like that, so they're like joining this project...') which was marked '[inaudible]' in the prior transcript.",
+    "06:17: Corrected 'whenever the AI's like gonna coming in' to 'whenever the AI's like kind of coming in'.",
+    "06:50: Corrected Shion's Japanese line from 'どうしてたのですか、最近?' to 'どうしてるんですか?'.",
+    "07:06: Transcribed VP's Japanese phrasing accurately on skill taxonomy and portfolio ('作りたい、スキ- みたいな、タクソノミーっつうの、なんだ、スキルのなんだろうな、ポートフォリオ...').",
+    "Added verbatim Japanese transcriptions ('ja') and faithful English translations ('en') for all Japanese segments."
+  ]
+}

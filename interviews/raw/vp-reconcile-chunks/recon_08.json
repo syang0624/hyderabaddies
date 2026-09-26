@@ -1,0 +1,1029 @@
+{
+  "chunk": 8,
+  "segments": [
+    {
+      "start": "00:00",
+      "end": "00:03",
+      "speaker": "Carl",
+      "text": "anytime, and I'll also help you if you need to, I don't know, [laughter]"
+    },
+    {
+      "start": "00:03",
+      "end": "00:05",
+      "speaker": "Steven",
+      "text": "Yeah, if you want to like travel around in Cebu, you know, talk to this guy."
+    },
+    {
+      "start": "00:05",
+      "end": "00:07",
+      "speaker": "Carl",
+      "text": "Yeah, like the Philippines, yeah."
+    },
+    {
+      "start": "00:07",
+      "end": "00:10",
+      "speaker": "Steven",
+      "text": "He's from Cebu. I'm from I'm from Jeju. You know you know Jeju?"
+    },
+    {
+      "start": "00:10",
+      "end": "00:13",
+      "speaker": "Shion",
+      "text": "Che- Jeju Island. Jeju Island, right?",
+      "ja": "チェ、チェジュアイランド。チェジュ島ですよね？",
+      "en": "Che- Jeju Island. Jeju Island, right?"
+    },
+    {
+      "start": "00:13",
+      "end": "00:16",
+      "speaker": "VP",
+      "text": "Ah, Jeju. Wow, really? That's amazing.",
+      "ja": "あ、チェジュ。Wow, really? すごいですね。",
+      "en": "Ah, Jeju. Wow, really? That's amazing."
+    },
+    {
+      "start": "00:16",
+      "end": "00:17",
+      "speaker": "Steven",
+      "text": "I know, yeah."
+    },
+    {
+      "start": "00:17",
+      "end": "00:19",
+      "speaker": "Shion",
+      "text": "Both of you... So you're both from the island.",
+      "ja": "2人とも...",
+      "en": "Both of you..."
+    },
+    {
+      "start": "00:19",
+      "end": "00:20",
+      "speaker": "Carl",
+      "text": "Yes."
+    },
+    {
+      "start": "00:20",
+      "end": "00:22",
+      "speaker": "Steven",
+      "text": "Yeah, both islanders! [laughter]"
+    },
+    {
+      "start": "00:22",
+      "end": "00:24",
+      "speaker": "Steven",
+      "text": "You're also from the island! [laughter]"
+    },
+    {
+      "start": "00:24",
+      "end": "00:27",
+      "speaker": "VP",
+      "text": "Big island. Very big island. Big island. [laughter]"
+    },
+    {
+      "start": "00:27",
+      "end": "00:30",
+      "speaker": "VP",
+      "text": "Please feel free feel free to reach out."
+    },
+    {
+      "start": "00:30",
+      "end": "00:32",
+      "speaker": "Steven",
+      "text": "Oh, yes. Are you in the Slack?"
+    },
+    {
+      "start": "00:32",
+      "end": "00:33",
+      "speaker": "VP",
+      "text": "Yeah."
+    },
+    {
+      "start": "00:33",
+      "end": "00:34",
+      "speaker": "Steven",
+      "text": "Do you have LinkedIn?"
+    },
+    {
+      "start": "00:34",
+      "end": "00:35",
+      "speaker": "Carl",
+      "text": "Yeah, actually."
+    },
+    {
+      "start": "00:35",
+      "end": "00:38",
+      "speaker": "Steven",
+      "text": "I think Shion and I were connected before, right?"
+    },
+    {
+      "start": "00:38",
+      "end": "00:39",
+      "speaker": "Shion",
+      "text": "Yeah."
+    },
+    {
+      "start": "00:39",
+      "end": "00:41",
+      "speaker": "Carl",
+      "text": "Can I actually... [sigh]"
+    },
+    {
+      "start": "00:41",
+      "end": "00:43",
+      "speaker": "Shion",
+      "text": "I don't have your URL."
+    },
+    {
+      "start": "00:43",
+      "end": "00:46",
+      "speaker": "Carl",
+      "text": "Yeah, cuz I want to follow up, um..."
+    },
+    {
+      "start": "00:46",
+      "end": "00:55",
+      "speaker": "Steven",
+      "text": "You can just connect me on this."
+    },
+    {
+      "start": "00:55",
+      "end": "00:57",
+      "speaker": "VP",
+      "text": "Oh."
+    },
+    {
+      "start": "00:57",
+      "end": "01:09",
+      "speaker": "Shion",
+      "text": "Because Recruit is hosting this hackathon, they went all the way to Fukuoka and Nagoya to learn about the Japanese market and what Japanese companies are thinking.",
+      "ja": "このハッカソンがリクルートが主催してるから、日本のなんかこう、マーケットとか、日本の企業、彼らが何を考えてるか知るために、わざわざ福岡とか名古屋に行ってたんですって。",
+      "en": "Because Recruit is hosting this hackathon, they went all the way to Fukuoka and Nagoya to learn about the Japanese market and what Japanese companies are thinking."
+    },
+    {
+      "start": "01:09",
+      "end": "01:11",
+      "speaker": "VP",
+      "text": "Wow!",
+      "ja": "へえー！",
+      "en": "Wow!"
+    },
+    {
+      "start": "01:11",
+      "end": "01:13",
+      "speaker": "Shion",
+      "text": "Isn't that crazy?",
+      "ja": "やばくない？",
+      "en": "Isn't that crazy?"
+    },
+    {
+      "start": "01:13",
+      "end": "01:15",
+      "speaker": "VP",
+      "text": "Really? [laughter]"
+    },
+    {
+      "start": "01:15",
+      "end": "01:21",
+      "speaker": "Steven",
+      "text": "So, I was like meeting some connections of people from SoftBank, Station Ai..."
+    },
+    {
+      "start": "01:21",
+      "end": "01:23",
+      "speaker": "VP",
+      "text": "Wow."
+    },
+    {
+      "start": "01:23",
+      "end": "01:28",
+      "speaker": "Steven",
+      "text": "Just wanted to understand like how the Japanese culture of working in general."
+    },
+    {
+      "start": "01:28",
+      "end": "01:29",
+      "speaker": "Carl",
+      "text": "Yeah."
+    },
+    {
+      "start": "01:29",
+      "end": "01:38",
+      "speaker": "Carl",
+      "text": "Oh, my LinkedIn's not here, and I have to verify with my Philippines phone number. [laughter] So, is it okay if I type my profile in your phone instead? [laughter] Sorry. [laughter]"
+    },
+    {
+      "start": "01:38",
+      "end": "01:40",
+      "speaker": "VP",
+      "text": "Yeah, yeah, alright. It's okay."
+    },
+    {
+      "start": "01:40",
+      "end": "01:41",
+      "speaker": "Carl",
+      "text": "Okay."
+    },
+    {
+      "start": "01:41",
+      "end": "01:42",
+      "speaker": "Steven",
+      "text": "I sent it."
+    },
+    {
+      "start": "01:42",
+      "end": "01:43",
+      "speaker": "VP",
+      "text": "Yeah, thank you."
+    },
+    {
+      "start": "01:43",
+      "end": "01:45",
+      "speaker": "Steven",
+      "text": "Can Can you type his LinkedIn on your... His phone His phone's..."
+    },
+    {
+      "start": "01:45",
+      "end": "01:48",
+      "speaker": "Carl",
+      "text": "My phone actually, yeah, no LinkedIn here. [laughter]"
+    },
+    {
+      "start": "01:48",
+      "end": "01:49",
+      "speaker": "Steven",
+      "text": "What?"
+    },
+    {
+      "start": "01:49",
+      "end": "01:51",
+      "speaker": "Carl",
+      "text": "I'll just type my uh LinkedIn."
+    },
+    {
+      "start": "01:51",
+      "end": "01:53",
+      "speaker": "Steven",
+      "text": "Oh, yeah. I'll just type mine."
+    },
+    {
+      "start": "01:53",
+      "end": "01:55",
+      "speaker": "VP",
+      "text": "Thank you so much."
+    },
+    {
+      "start": "01:55",
+      "end": "01:58",
+      "speaker": "Steven",
+      "text": "Like it hasn't... I didn't get it."
+    },
+    {
+      "start": "01:58",
+      "end": "02:00",
+      "speaker": "Carl",
+      "text": "Ah. Here."
+    },
+    {
+      "start": "02:00",
+      "end": "02:02",
+      "speaker": "Steven",
+      "text": "Ah, yes. This one. Thank you."
+    },
+    {
+      "start": "02:02",
+      "end": "02:05",
+      "speaker": "Steven",
+      "text": "I don't think it has arrived to me though."
+    },
+    {
+      "start": "02:05",
+      "end": "02:07",
+      "speaker": "Steven",
+      "text": "Oh, there we go."
+    },
+    {
+      "start": "02:07",
+      "end": "02:09",
+      "speaker": "Carl",
+      "text": "Sorry about that. [laughter]"
+    },
+    {
+      "start": "02:09",
+      "end": "02:13",
+      "speaker": "Steven",
+      "text": "Thank you so much. I'll show you. Yep, please."
+    },
+    {
+      "start": "02:13",
+      "end": "02:17",
+      "speaker": "Steven",
+      "text": "Thank you so much."
+    },
+    {
+      "start": "02:17",
+      "end": "02:22",
+      "speaker": "Steven",
+      "text": "When I was at... 2020, which is 4 years ago."
+    },
+    {
+      "start": "02:22",
+      "end": "02:24",
+      "speaker": "VP",
+      "text": "Thank you."
+    },
+    {
+      "start": "02:24",
+      "end": "02:27",
+      "speaker": "Carl",
+      "text": "No, it's two 2 years ago! [laughter]"
+    },
+    {
+      "start": "02:27",
+      "end": "02:30",
+      "speaker": "Steven",
+      "text": "It was still '24 to me, you know? [laughter]"
+    },
+    {
+      "start": "02:30",
+      "end": "02:36",
+      "speaker": "VP",
+      "text": "I went to there... Cebu island. Cebu? Cebu?"
+    },
+    {
+      "start": "02:36",
+      "end": "02:37",
+      "speaker": "Carl",
+      "text": "Cebu?"
+    },
+    {
+      "start": "02:37",
+      "end": "02:38",
+      "speaker": "VP",
+      "text": "Cebu."
+    },
+    {
+      "start": "02:38",
+      "end": "02:39",
+      "speaker": "Carl",
+      "text": "Ah, yes, yes."
+    },
+    {
+      "start": "02:39",
+      "end": "02:42",
+      "speaker": "VP",
+      "text": "Yeah, island, yeah. Island Cebu island."
+    },
+    {
+      "start": "02:42",
+      "end": "02:44",
+      "speaker": "Carl",
+      "text": "How long?"
+    },
+    {
+      "start": "02:44",
+      "end": "02:46",
+      "speaker": "VP",
+      "text": "Uh, for 2 weeks."
+    },
+    {
+      "start": "02:46",
+      "end": "02:48",
+      "speaker": "Carl",
+      "text": "Two weeks, okay. Okay."
+    },
+    {
+      "start": "02:48",
+      "end": "02:51",
+      "speaker": "VP",
+      "text": "Yeah, it was great. I went there.",
+      "ja": "行ってきたんです。",
+      "en": "I went there."
+    },
+    {
+      "start": "02:51",
+      "end": "02:54",
+      "speaker": "VP",
+      "text": "I love Jollibee. Jollibee."
+    },
+    {
+      "start": "02:54",
+      "end": "02:58",
+      "speaker": "Carl",
+      "text": "Jollibee, ah! [laughter] Do you know there's a Jollibee there? Yeah, it just opened."
+    },
+    {
+      "start": "02:58",
+      "end": "03:00",
+      "speaker": "VP",
+      "text": "Opened, yeah. Jollibee."
+    },
+    {
+      "start": "03:00",
+      "end": "03:03",
+      "speaker": "Steven",
+      "text": "So uh so much expensive. [laughter]"
+    },
+    {
+      "start": "03:03",
+      "end": "03:06",
+      "speaker": "Carl",
+      "text": "Yeah, like five times four? Ten, ten times?"
+    },
+    {
+      "start": "03:06",
+      "end": "03:07",
+      "speaker": "Steven",
+      "text": "Really?"
+    },
+    {
+      "start": "03:07",
+      "end": "03:11",
+      "speaker": "Carl",
+      "text": "In the Philippines, like in the Philippines, $1 is like a whole burger steak and rice, like hamburg and rice, but then there it's like 15."
+    },
+    {
+      "start": "03:11",
+      "end": "03:12",
+      "speaker": "Steven",
+      "text": "15?"
+    },
+    {
+      "start": "03:12",
+      "end": "03:14",
+      "speaker": "Carl",
+      "text": "Yeah. [laughter] It's really sad. [laughter]"
+    },
+    {
+      "start": "03:14",
+      "end": "03:17",
+      "speaker": "Steven",
+      "text": "Have you been to Jeju?"
+    },
+    {
+      "start": "03:17",
+      "end": "03:18",
+      "speaker": "VP",
+      "text": "No, but..."
+    },
+    {
+      "start": "03:18",
+      "end": "03:20",
+      "speaker": "Steven",
+      "text": "You should, you should. [laughter]"
+    },
+    {
+      "start": "03:20",
+      "end": "03:21",
+      "speaker": "VP",
+      "text": "I should."
+    },
+    {
+      "start": "03:21",
+      "end": "03:25",
+      "speaker": "Carl",
+      "text": "Yeah, I've been to Jeju, it's amazing. Yeah, very, very nice, especially the oranges."
+    },
+    {
+      "start": "03:25",
+      "end": "03:26",
+      "speaker": "Shion",
+      "text": "Yeah, the oranges."
+    },
+    {
+      "start": "03:26",
+      "end": "03:29",
+      "speaker": "Carl",
+      "text": "Yeah, the oranges tastes really good, and the matcha farm, [laughter]"
+    },
+    {
+      "start": "03:29",
+      "end": "03:30",
+      "speaker": "Steven",
+      "text": "Oh yeah."
+    },
+    {
+      "start": "03:30",
+      "end": "03:31",
+      "speaker": "Carl",
+      "text": "which is cool."
+    },
+    {
+      "start": "03:31",
+      "end": "03:32",
+      "speaker": "Shion",
+      "text": "There's like the Miffy..."
+    },
+    {
+      "start": "03:32",
+      "end": "03:34",
+      "speaker": "Carl",
+      "text": "Yeah, Miffy Park! Yeah, yeah. [laughter]"
+    },
+    {
+      "start": "03:34",
+      "end": "03:35",
+      "speaker": "Steven",
+      "text": "Miffy Park?"
+    },
+    {
+      "start": "03:35",
+      "end": "03:37",
+      "speaker": "VP",
+      "text": "Miffy... Ah, I'd like to go there. Yeah.",
+      "ja": "ああ、行ってみたいですね。うん。",
+      "en": "Ah, I'd like to go there. Yeah."
+    },
+    {
+      "start": "03:37",
+      "end": "03:38",
+      "speaker": "Carl",
+      "text": "Yeah."
+    },
+    {
+      "start": "03:38",
+      "end": "03:39",
+      "speaker": "VP",
+      "text": "I should. I should."
+    },
+    {
+      "start": "03:39",
+      "end": "03:40",
+      "speaker": "Steven",
+      "text": "Yeah, you should, you should."
+    },
+    {
+      "start": "03:40",
+      "end": "03:43",
+      "speaker": "Steven",
+      "text": "I've been to Tokyo. I've been to Tokyo, too. Yeah, it was it was great."
+    },
+    {
+      "start": "03:43",
+      "end": "03:45",
+      "speaker": "Carl",
+      "text": "Yeah, I live in Azabudai Hills."
+    },
+    {
+      "start": "03:45",
+      "end": "03:46",
+      "speaker": "VP",
+      "text": "Azabudai Hills?"
+    },
+    {
+      "start": "03:46",
+      "end": "03:52",
+      "speaker": "Carl",
+      "text": "I'm kidding. [laughter] That's so expensive! [laughter] I wish! [laughter] I wish. [laughter]"
+    },
+    {
+      "start": "03:52",
+      "end": "03:54",
+      "speaker": "VP",
+      "text": "Yeah. [laughter]"
+    },
+    {
+      "start": "03:54",
+      "end": "04:13",
+      "speaker": "Carl",
+      "text": "Yeah, my parents and I went to Tokyo last summer. I took them there, we went to Minato district and everywhere for um the teamLab, the lights thing. It was in like Azabudai and then we saw the Azabudai Hills house, and they were like, 'Ooh, I want to live here.' And then we checked the price, 'Ah, never mind.' [laughter]"
+    },
+    {
+      "start": "04:13",
+      "end": "04:18",
+      "speaker": "Steven",
+      "text": "I was in I was in Ueno last year. And like there's supposed to be like sakura, you know? I went to like..."
+    },
+    {
+      "start": "04:18",
+      "end": "04:19",
+      "speaker": "VP",
+      "text": "Ueno Park?"
+    },
+    {
+      "start": "04:19",
+      "end": "04:32",
+      "speaker": "Steven",
+      "text": "Hm? Ueno Park? Ueno Park and what There are like so many different parks and different types of sakura in Tokyo. So I was like, I was there for 48 hours, but like, sakura, sakura, sakura, sakura. [laughter]"
+    },
+    {
+      "start": "04:32",
+      "end": "04:34",
+      "speaker": "Carl",
+      "text": "Wasn't there like sakura you can eat or drink, was it?"
+    },
+    {
+      "start": "04:34",
+      "end": "04:35",
+      "speaker": "Steven",
+      "text": "Oh, yeah."
+    },
+    {
+      "start": "04:35",
+      "end": "04:36",
+      "speaker": "Shion",
+      "text": "Ah, there was like..."
+    },
+    {
+      "start": "04:36",
+      "end": "04:38",
+      "speaker": "Steven",
+      "text": "There was a sakura scented crepe or something, yeah, yeah."
+    },
+    {
+      "start": "04:38",
+      "end": "04:39",
+      "speaker": "Carl",
+      "text": "I haven't tried."
+    },
+    {
+      "start": "04:39",
+      "end": "04:42",
+      "speaker": "Steven",
+      "text": "Which was very expensive. Small pancake was like 500 yen."
+    },
+    {
+      "start": "04:42",
+      "end": "04:43",
+      "speaker": "Carl",
+      "text": "Yeah."
+    },
+    {
+      "start": "04:43",
+      "end": "04:44",
+      "speaker": "Steven",
+      "text": "Yeah."
+    },
+    {
+      "start": "04:44",
+      "end": "04:45",
+      "speaker": "Carl",
+      "text": "How much is that?"
+    },
+    {
+      "start": "04:45",
+      "end": "04:46",
+      "speaker": "Steven",
+      "text": "Like four bucks."
+    },
+    {
+      "start": "04:46",
+      "end": "04:47",
+      "speaker": "Carl",
+      "text": "Four [laughter] I'll just make my own pancake and get the sakura leaves, you know? [laughter]"
+    },
+    {
+      "start": "04:47",
+      "end": "05:01",
+      "speaker": "Carl",
+      "text": "But yeah, no. It's actually very interesting cuz um legally, there is no problem, that's why uh to it collecting our data, that's why Google and Facebook are selling our data."
+    },
+    {
+      "start": "05:01",
+      "end": "05:02",
+      "speaker": "Steven",
+      "text": "Yeah."
+    },
+    {
+      "start": "05:02",
+      "end": "05:22",
+      "speaker": "Carl",
+      "text": "But, I talk a lot about collecting other people's data, but actually I'm super sensitive about the privacy, like even with ChatGPT or G- Google, I don't really use their AI. I instead have like my own AI like mini center in my room, and that's where all of my AI stuff happens as well. [laughter]"
+    },
+    {
+      "start": "05:22",
+      "end": "05:25",
+      "speaker": "Steven",
+      "text": "I mean, I mean, the same. [laughter]"
+    },
+    {
+      "start": "05:25",
+      "end": "05:32",
+      "speaker": "Carl",
+      "text": "Because, and I can run this, it's really expensive to run, but then my university is paying for electricity."
+    },
+    {
+      "start": "05:32",
+      "end": "05:33",
+      "speaker": "VP",
+      "text": "Oh, really?"
+    },
+    {
+      "start": "05:33",
+      "end": "05:38",
+      "speaker": "Carl",
+      "text": "So I can run the um data centers in my room [laughter] and increase the rent for him! [laughter]"
+    },
+    {
+      "start": "05:38",
+      "end": "05:43",
+      "speaker": "Steven",
+      "text": "Um, I also do the same thing in my company, too. [laughter] And WeWork WeWork is paying that. [laughter]"
+    },
+    {
+      "start": "05:43",
+      "end": "05:46",
+      "speaker": "Carl",
+      "text": "Yeah, right. [laughter] Yeah."
+    },
+    {
+      "start": "05:46",
+      "end": "05:49",
+      "speaker": "Shion",
+      "text": "Were you guys originally planned to like make team together?"
+    },
+    {
+      "start": "05:49",
+      "end": "05:50",
+      "speaker": "Carl",
+      "text": "No."
+    },
+    {
+      "start": "05:50",
+      "end": "05:54",
+      "speaker": "Steven",
+      "text": "No, we found each other and said we were all like, 'Wait, why are you here?'"
+    },
+    {
+      "start": "05:54",
+      "end": "05:56",
+      "speaker": "Carl",
+      "text": "Yeah, exactly. [laughter]"
+    },
+    {
+      "start": "05:56",
+      "end": "05:59",
+      "speaker": "Steven",
+      "text": "We were like, 'I know this guy,' and then he was like, 'I know this guy, too.' [laughter]"
+    },
+    {
+      "start": "05:59",
+      "end": "06:03",
+      "speaker": "Carl",
+      "text": "Yeah, I was really busy, like the conference in San Jose and everything."
+    },
+    {
+      "start": "06:03",
+      "end": "06:05",
+      "speaker": "Steven",
+      "text": "Yeah, all of us were super busy."
+    },
+    {
+      "start": "06:05",
+      "end": "06:07",
+      "speaker": "Shion",
+      "text": "Are you the same uh grade? School?"
+    },
+    {
+      "start": "06:07",
+      "end": "06:11",
+      "speaker": "Steven",
+      "text": "Technically, so technically I was supposed to graduate in 2024."
+    },
+    {
+      "start": "06:11",
+      "end": "06:12",
+      "speaker": "VP",
+      "text": "2024."
+    },
+    {
+      "start": "06:12",
+      "end": "06:15",
+      "speaker": "VP",
+      "text": "Have a good night. Nice meeting you."
+    },
+    {
+      "start": "06:15",
+      "end": "06:30",
+      "speaker": "Steven",
+      "text": "And and then and then after like I had to like, you know, serve in the military in Korea. That's why I took like, you know, gap years. And I also like, you know, founded a startup, you know, once together with my friend. Like, was like busy with my work, so I like took three years of gap years, so I'm graduating next year."
+    },
+    {
+      "start": "06:30",
+      "end": "06:31",
+      "speaker": "VP",
+      "text": "Oh."
+    },
+    {
+      "start": "06:31",
+      "end": "06:33",
+      "speaker": "Steven",
+      "text": "And in in military, I was a software engineer, too."
+    },
+    {
+      "start": "06:33",
+      "end": "06:34",
+      "speaker": "VP",
+      "text": "Mhm."
+    },
+    {
+      "start": "06:34",
+      "end": "06:38",
+      "speaker": "Carl",
+      "text": "Yeah, to answer your question, I just graduated last May. Ah, last yeah, May."
+    },
+    {
+      "start": "06:38",
+      "end": "06:39",
+      "speaker": "Shion",
+      "text": "Ah. This May?"
+    },
+    {
+      "start": "06:39",
+      "end": "07:05",
+      "speaker": "Carl",
+      "text": "This Yeah, or this May, actually. Ooh, it's been a long time. [laughter] Yeah, so I just graduated. It's really fun. In the US, it's so easy like, I also I also have two startups, and so a lot of them were just like, the second startup was given like to me for free because uh YC held a conference, and then they gave everyone who attended like free incorporation. So, [laughter] that was very funny. Yeah."
+    },
+    {
+      "start": "07:05",
+      "end": "07:09",
+      "speaker": "Carl",
+      "text": "I heard you're going to be staying here the whole night. [laughter]"
+    },
+    {
+      "start": "07:09",
+      "end": "07:11",
+      "speaker": "VP",
+      "text": "Yeah. [laughter]"
+    },
+    {
+      "start": "07:11",
+      "end": "07:12",
+      "speaker": "Shion",
+      "text": "It should be, but..."
+    },
+    {
+      "start": "07:12",
+      "end": "07:16",
+      "speaker": "Steven",
+      "text": "Well, I guess I guess the VP is getting the biggest hotel room, you know? [laughter]"
+    },
+    {
+      "start": "07:16",
+      "end": "07:17",
+      "speaker": "Shion",
+      "text": "Here?"
+    },
+    {
+      "start": "07:17",
+      "end": "07:18",
+      "speaker": "Carl",
+      "text": "Yeah."
+    },
+    {
+      "start": "07:18",
+      "end": "07:19",
+      "speaker": "Shion",
+      "text": "At the venue?"
+    },
+    {
+      "start": "07:19",
+      "end": "07:22",
+      "speaker": "Steven",
+      "text": "It's like a presidential suite, you know? [laughter]"
+    },
+    {
+      "start": "07:22",
+      "end": "07:24",
+      "speaker": "Carl",
+      "text": "Vice presidential suite."
+    },
+    {
+      "start": "07:24",
+      "end": "07:26",
+      "speaker": "Steven",
+      "text": "Vice presidential suite. [laughter]"
+    },
+    {
+      "start": "07:26",
+      "end": "07:28",
+      "speaker": "VP",
+      "text": "Okay."
+    },
+    {
+      "start": "07:28",
+      "end": "07:29",
+      "speaker": "Steven",
+      "text": "Yeah."
+    },
+    {
+      "start": "07:29",
+      "end": "07:31",
+      "speaker": "Carl",
+      "text": "Yeah, but thank you so much."
+    },
+    {
+      "start": "07:31",
+      "end": "07:32",
+      "speaker": "VP",
+      "text": "Yeah, you're welcome."
+    },
+    {
+      "start": "07:32",
+      "end": "07:35",
+      "speaker": "Steven",
+      "text": "Yeah, we're going to like wrap up the meeting real quick back there, and Shion's going to go to sleep, you know? [laughter]"
+    },
+    {
+      "start": "07:35",
+      "end": "07:36",
+      "speaker": "Carl",
+      "text": "Yeah."
+    },
+    {
+      "start": "07:36",
+      "end": "07:37",
+      "speaker": "Carl",
+      "text": "[sigh] Thank you so much, guys."
+    },
+    {
+      "start": "07:37",
+      "end": "07:38",
+      "speaker": "Steven",
+      "text": "Thank you so much, again."
+    },
+    {
+      "start": "07:38",
+      "end": "07:39",
+      "speaker": "Shion",
+      "text": "Thank you so much."
+    },
+    {
+      "start": "07:39",
+      "end": "07:41",
+      "speaker": "VP",
+      "text": "Thank you very much.",
+      "ja": "ありがとうございます。",
+      "en": "Thank you very much."
+    },
+    {
+      "start": "07:41",
+      "end": "07:42",
+      "speaker": "Steven",
+      "text": "Thank you so much."
+    },
+    {
+      "start": "07:42",
+      "end": "07:44",
+      "speaker": "Carl",
+      "text": "Shion, thank you so much! Thank you so much!"
+    },
+    {
+      "start": "07:44",
+      "end": "07:46",
+      "speaker": "Shion",
+      "text": "Thank you again. Take care."
+    },
+    {
+      "start": "07:46",
+      "end": "07:51",
+      "speaker": "Steven",
+      "text": "I think we know what we're doing, somehow, so we should kind of like get our information duplicated before can we speak."
+    },
+    {
+      "start": "07:51",
+      "end": "07:52",
+      "speaker": "Carl",
+      "text": "Yeah."
+    },
+    {
+      "start": "07:52",
+      "end": "07:55",
+      "speaker": "Steven",
+      "text": "But I think we're we you and you and I are on the same page, right?"
+    },
+    {
+      "start": "07:55",
+      "end": "07:58",
+      "speaker": "Carl",
+      "text": "No, I really want to thank you for like saving me in the first few. I think [sigh]"
+    },
+    {
+      "start": "07:58",
+      "end": "08:04",
+      "speaker": "Steven",
+      "text": "No, no, no. I mean, come on, like, you know, we all did as a team. But what I'm saying is like, I think we can..."
+    }
+  ],
+  "uncertain": [
+    {
+      "at": "02:18",
+      "reading_a": "When I was at... 2020, which is 4 years ago",
+      "reading_b": "Wait, I was at... that's 2020, which is 4 years ago",
+      "chosen": "When I was at... 2020, which is 4 years ago"
+    },
+    {
+      "at": "04:37",
+      "reading_a": "sakura scented pancake or something",
+      "reading_b": "sakura scented crepe or something",
+      "chosen": "sakura scented crepe or something"
+    }
+  ],
+  "corrections_vs_prior": [
+    "Identified all speaker turns for Carl, Steven, VP, and Shion.",
+    "Transcribed and translated all Japanese conversations (Shion explaining their trip to Fukuoka/Nagoya to VP, VP's responses, etc.).",
+    "Corrected 'course of working' to 'culture of working' (01:28).",
+    "Corrected 'Xiang, thank you so much' to 'Shion, thank you so much' (07:42).",
+    "Corrected 'Venny' to 'venue' (07:19).",
+    "Added missing dialogue 'I don't have your URL' (00:41) and Carl's 'I haven't tried' (04:38)."
+  ]
+}

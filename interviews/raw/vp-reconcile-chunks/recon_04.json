@@ -1,0 +1,437 @@
+{
+  "chunk": 4,
+  "segments": [
+    {
+      "start": "00:00",
+      "end": "00:04",
+      "speaker": "Shion",
+      "text": "...development meeting that is held by the the the boss, or HR."
+    },
+    {
+      "start": "00:04",
+      "end": "00:05",
+      "speaker": "Carl",
+      "text": "I see."
+    },
+    {
+      "start": "00:05",
+      "end": "00:10",
+      "speaker": "VP",
+      "text": "でそれを、AIに食わせて、えっと、タグ、スキルタグ。",
+      "ja": "でそれを、AIに食わせて、えっと、タグ、スキルタグ。",
+      "en": "And we feed that to AI, and, um, tags, skill tags."
+    },
+    {
+      "start": "00:10",
+      "end": "00:14",
+      "speaker": "Shion",
+      "text": "We we create a skill, skill tag..."
+    },
+    {
+      "start": "00:14",
+      "end": "00:16",
+      "speaker": "VP",
+      "text": "of all the employees."
+    },
+    {
+      "start": "00:16",
+      "end": "00:18",
+      "speaker": "Carl",
+      "text": "I see."
+    },
+    {
+      "start": "00:19",
+      "end": "00:26",
+      "speaker": "VP",
+      "text": "うん、あ、で、それと、あとは、会社の中にあるジョブをタグをつけて、",
+      "ja": "うん、あ、で、それと、あとは、会社の中にあるジョブをタグをつけて、",
+      "en": "Yeah. Ah, and along with that, we also tag the jobs within the company,"
+    },
+    {
+      "start": "00:26",
+      "end": "00:36",
+      "speaker": "VP",
+      "text": "例えばシオンさんのタグは 800 個あって、800 個ある中で、1 から 5 点満点で、800 個全てに何点かっていうスコーリングをつけてますと。",
+      "ja": "例えばシオンさんのタグは 800 個あって、800 個ある中で、1 から 5 点満点で、800 個全てに何点かっていうスコーリングをつけてますと。",
+      "en": "For example, Shion has 800 tags, and among those 800, on a scale of 1 to 5, we assign a score to all 800 of them."
+    },
+    {
+      "start": "00:36",
+      "end": "01:03",
+      "speaker": "Shion",
+      "text": "In addition to that, like we uh also uh tagged the job as well, and also like the the employees' tag. Uh they uh score like five uh out of five scores to each like tag. For example, like I have a like specific like tag for like three score."
+    },
+    {
+      "start": "01:03",
+      "end": "01:05",
+      "speaker": "Carl",
+      "text": "Mm, I see."
+    },
+    {
+      "start": "01:05",
+      "end": "01:23",
+      "speaker": "VP",
+      "text": "Recently we had maybe uh 800 skill tags, and each employee scored the uh five-scale, and uh, all, all 800 elements. And uh, we, we match uh it's a uh job and uh employees."
+    },
+    {
+      "start": "01:24",
+      "end": "01:34",
+      "speaker": "VP",
+      "text": "そう、何て言ってくれてるとおり、人の勘でマッチングしてたところを、人が見えなかったところまで AI で今補助しようっていう取り組みをしようとしてますと。",
+      "ja": "そう、何て言ってくれてるとおり、人の勘でマッチングしてたところを、人が見えなかったところまで AI で今補助しようっていう取り組みをしようとしてますと。",
+      "en": "Right, exactly as she explained, where we used to match based on human intuition, we're now trying an initiative to use AI to support where humans couldn't see."
+    },
+    {
+      "start": "01:34",
+      "end": "01:41",
+      "speaker": "Shion",
+      "text": "So before that, like uh the HR tend to uh you know decide a matching with you know intention... intuition?"
+    },
+    {
+      "start": "01:41",
+      "end": "01:43",
+      "speaker": "Carl",
+      "text": "Intuition."
+    },
+    {
+      "start": "01:43",
+      "end": "01:44",
+      "speaker": "Shion",
+      "text": "Intuition."
+    },
+    {
+      "start": "01:44",
+      "end": "01:46",
+      "speaker": "Steven",
+      "text": "Mhm, mhm, like gut feeling, yeah."
+    },
+    {
+      "start": "01:46",
+      "end": "01:48",
+      "speaker": "VP",
+      "text": "直感、直感。",
+      "ja": "直感、直感。",
+      "en": "Intuition, intuition."
+    },
+    {
+      "start": "01:48",
+      "end": "01:58",
+      "speaker": "Carl",
+      "text": "Haha. But still, but still, but still now, like you're like kind of like having some raw data from the people, yeah, but still there's like guesswork to do it, I'm assuming."
+    },
+    {
+      "start": "01:58",
+      "end": "02:00",
+      "speaker": "VP",
+      "text": "Yeah."
+    },
+    {
+      "start": "02:00",
+      "end": "02:26",
+      "speaker": "Carl",
+      "text": "So there are like two things that I'm seeing right here. First is um it's still the guesswork, so there's no numerical value, so you do not know whether your put, your guess, is confident. Only the gut feelings can tell. It is my first problem that I see. Second one is since the data reporting pipeline is through your managers, managers, and managers, the words can change between this pipeline, right? So you're not, you cannot even confident from the raw data too, right? How do you think about these two?"
+    },
+    {
+      "start": "02:26",
+      "end": "02:48",
+      "speaker": "Shion",
+      "text": "ごめん、その 2 つ問題があると思ったと。で、1 つについては、ま、それでもまだそのマッチングをするということについては、直感っていうのが残ってるんじゃないかっていう話と、2 つ目は、えっと、ま、その本人が何を考えてるのかっていうのを、その上の人、その上の人、その上の人みたいな感じでこうつないでいくってなったときに、ニュアンスが変わりうるみたいなことがある。そう言う、なんかローデータから変わった情報が伝わるんじゃないかみたいな。",
+      "ja": "ごめん、その 2 つ問題があると思ったと。で、1 つについては、ま、それでもまだそのマッチングをするということについては、直感っていうのが残ってるんじゃないかっていう話と、2 つ目は、えっと、ま、その本人が何を考えてるのかっていうのを、その上の人、その上の人、その上の人みたいな感じでこうつないでいくってなったときに、ニュアンスが変わりうるみたいなことがある。そう言う、なんかローデータから変わった情報が伝わるんじゃないかみたいな。",
+      "en": "Sorry, he thinks there are two issues. First, regarding the matching, intuition still remains as a factor. And second, when conveying what the person is thinking through their manager, their manager's manager, and the manager above them, the nuances can change. So altered information rather than raw data might get passed along."
+    },
+    {
+      "start": "02:48",
+      "end": "02:51",
+      "speaker": "VP",
+      "text": "どっちもそうです。",
+      "ja": "どっちもそうです。",
+      "en": "Both are true."
+    },
+    {
+      "start": "02:51",
+      "end": "02:54",
+      "speaker": "Shion",
+      "text": "Yeah, exactly."
+    },
+    {
+      "start": "02:54",
+      "end": "03:16",
+      "speaker": "Carl",
+      "text": "Yeah, like, well, with an example, let's say let's say Shion likes to like, you know, travel to the U.S. Her manager says, \"Oh, Shion loves to travel.\" And her manager says, \"Oh, Shion loves like, you know, flying.\" Then she's just like some-, somehow like placed into let's say Saudi Arabia. She would not be happy with it, right? So I think through this structure, this kid- this kind of scenario could possibly happen, I think."
+    },
+    {
+      "start": "03:16",
+      "end": "03:25",
+      "speaker": "VP",
+      "text": "そういうときに、あの、リクルートホールディングスにおいては、人事がすごく大事な役割を担っていて、",
+      "ja": "そういうときに、あの、リクルートホールディングスにおいては、人事がすごく大事な役割を担っていて、",
+      "en": "In situations like that, at Recruit Holdings, HR plays a very important role,"
+    },
+    {
+      "start": "03:25",
+      "end": "03:36",
+      "speaker": "Shion",
+      "text": "In that kind of situation, like in our company, like Recruit, uh like HR has uh value of that,"
+    },
+    {
+      "start": "03:36",
+      "end": "03:44",
+      "speaker": "VP",
+      "text": "で、その、上司が例えば、僕が、シオンさんが抜けると困ると思う場合、強く抵抗するでしょうと。",
+      "ja": "で、その、上司が例えば、僕が、シオンさんが抜けると困ると思う場合、強く抵抗するでしょうと。",
+      "en": "And for example, if the manager, like me, thinks it would be trouble if Shion leaves, they will strongly resist."
+    },
+    {
+      "start": "03:44",
+      "end": "03:51",
+      "speaker": "Shion",
+      "text": "Like if he thinks that he don't want me to leave his organization..."
+    },
+    {
+      "start": "03:51",
+      "end": "03:57",
+      "speaker": "Carl",
+      "text": "It'd be... yeah, haha, very difficult. Haha. Okay, okay."
+    },
+    {
+      "start": "03:57",
+      "end": "04:14",
+      "speaker": "VP",
+      "text": "でもそのときに人事が、でも黒田さんと例えば面談したりとか、本人の思ってる情報を直接聞いて、今彼女を動かした方が絶対にいいよと、いう交渉をすることによって、2 つ目の問題を防いでます。",
+      "ja": "でもそのときに人事が、でも黒田さんと例えば面談したりとか、本人の思ってる情報を直接聞いて、今彼女を動かした方が絶対にいいよと、いう交渉をすることによって、2 つ目の問題を防いでます。",
+      "en": "But at that time, HR prevents the second problem by, for example, interviewing Ms. Kuroda, directly asking for the information she herself is thinking, and negotiating that \"it's definitely better to transfer her now.\""
+    },
+    {
+      "start": "04:14",
+      "end": "04:36",
+      "speaker": "Shion",
+      "text": "So, but not only that, uh HR like should have talk with that employee and understand what I want to do, like what my whole, like, what's my career path, uh it's best for like, you know, long-term careers. And then, like, decide like how to assign."
+    },
+    {
+      "start": "04:36",
+      "end": "04:56",
+      "speaker": "Carl",
+      "text": "Okay, so um if there's an AI software that basically like understands every employee of your company, their skills, their talents, their anything, and that helps you to form the best team for every department, not just for Tokyo, for every city, every location that you have, how much would you be willing to pay per month?"
+    },
+    {
+      "start": "04:56",
+      "end": "05:00",
+      "speaker": "VP",
+      "text": "うーん。 How much?",
+      "ja": "うーん。 How much?",
+      "en": "Hmm. How much?"
+    },
+    {
+      "start": "05:00",
+      "end": "05:14",
+      "speaker": "Shion",
+      "text": "その、全、東京だけではなく、全従業員がどんなスキルを持ってて、なんか、どんな人でっていうのを把握できるようなツール、ま、そう、just it's kind of like portfolio, right?",
+      "ja": "その、全、東京だけではなく、全従業員がどんなスキルを持ってて、なんか、どんな人でっていうのを把握できるようなツール、",
+      "en": "A tool that allows you to grasp not just Tokyo, but all employees, what kind of skills they have, and what kind of people they are,"
+    },
+    {
+      "start": "05:14",
+      "end": "05:25",
+      "speaker": "Carl",
+      "text": "No, it's more like, since he's the VP, I'm assuming he can also like make some contracts or something. If there's a service that does um um perfect team formation for every branch, every..."
+    },
+    {
+      "start": "05:25",
+      "end": "05:27",
+      "speaker": "Shion",
+      "text": "Ah, team, team formation."
+    },
+    {
+      "start": "05:27",
+      "end": "05:32",
+      "speaker": "Shion",
+      "text": "チームの、あの、構成も考えてくれるのがあったとしたら、いくら払いますか？",
+      "ja": "チームの、あの、構成も考えてくれるのがあったとしたら、いくら払いますか？",
+      "en": "If there were something that also considers team composition, how much would you pay?"
+    },
+    {
+      "start": "05:33",
+      "end": "05:47",
+      "speaker": "VP",
+      "text": "いい質問だね。聞いたことある話ですね。いくらだろうなぁ。うーん、",
+      "ja": "いい質問だね。聞いたことある話ですね。いくらだろうなぁ。うーん、",
+      "en": "That's a good question. Sounds like something I've heard before. I wonder how much. Hmm..."
+    },
+    {
+      "start": "05:47",
+      "end": "05:51",
+      "speaker": "Carl",
+      "text": "If it's too big, he can just only reduce the problem size to Tokyo."
+    },
+    {
+      "start": "05:51",
+      "end": "05:54",
+      "speaker": "Shion",
+      "text": "東京の従業員だけでも大丈夫。",
+      "ja": "東京の従業員だけでも大丈夫。",
+      "en": "Even just for Tokyo employees is fine."
+    },
+    {
+      "start": "05:54",
+      "end": "05:58",
+      "speaker": "Shion",
+      "text": "But I don't think that like we have that kind of like, how to say, a local system."
+    },
+    {
+      "start": "05:58",
+      "end": "06:04",
+      "speaker": "Carl",
+      "text": "Yeah, yeah, yeah. So I'm just like trying to guess like, you know, cuz..."
+    },
+    {
+      "start": "06:04",
+      "end": "06:05",
+      "speaker": "Shion",
+      "text": "It's hard to..."
+    },
+    {
+      "start": "06:05",
+      "end": "06:23",
+      "speaker": "Carl",
+      "text": "No, it's like a different question is like how much money are you currently spending to to solve this problem? So if an AI comes in, it should definitely save the money, right? So that's the question that I was trying to ask. Just for the Tokyo is fine, cuz I think global's too big. Just think about the Tokyo headquarters now."
+    },
+    {
+      "start": "06:23",
+      "end": "06:26",
+      "speaker": "VP",
+      "text": "2 億だったら払うな。",
+      "ja": "2 億だったら払うな。",
+      "en": "I'd pay 200 million."
+    },
+    {
+      "start": "06:26",
+      "end": "06:28",
+      "speaker": "Shion",
+      "text": "2 億。 So it's gonna be..."
+    },
+    {
+      "start": "06:28",
+      "end": "06:30",
+      "speaker": "VP",
+      "text": "2 億円。"
+    },
+    {
+      "start": "06:30",
+      "end": "06:31",
+      "speaker": "Carl",
+      "text": "2 億？"
+    },
+    {
+      "start": "06:31",
+      "end": "06:33",
+      "speaker": "VP",
+      "text": "2 億、うん。"
+    },
+    {
+      "start": "06:33",
+      "end": "06:36",
+      "speaker": "Carl",
+      "text": "So 0.2 billion, like Japanese yen, right?"
+    },
+    {
+      "start": "06:36",
+      "end": "06:37",
+      "speaker": "Shion",
+      "text": "Yeah. Okay. Yes."
+    },
+    {
+      "start": "06:37",
+      "end": "06:40",
+      "speaker": "Carl",
+      "text": "0.2 billion."
+    },
+    {
+      "start": "06:40",
+      "end": "06:48",
+      "speaker": "VP",
+      "text": "ただ、多分、そこは、いろんなプレイヤーが取りに来ようとしてる領域なんだよね。",
+      "ja": "ただ、多分、そこは、いろんなプレイヤーが取りに来ようとしてる領域なんだよね。",
+      "en": "However, that is probably an area that various players are trying to capture."
+    },
+    {
+      "start": "06:48",
+      "end": "06:55",
+      "speaker": "Shion",
+      "text": "Mm. But then, that market is very competitive. Like many, you know, in- industry, like company try..."
+    },
+    {
+      "start": "06:55",
+      "end": "06:58",
+      "speaker": "Carl",
+      "text": "The AI team formation? Yeah."
+    },
+    {
+      "start": "06:58",
+      "end": "07:12",
+      "speaker": "VP",
+      "text": "例えば、ワークデイ。ワークデイも、その、なんだろ、リクルーティングシステムを買って、で、いろんな企業の、エバリュエーションデータを持ってるから、そういうマッチングとか、のところに、食ってこようとしてると。",
+      "ja": "例えば、ワークデイ。ワークデイも、その、なんだろ、リクルーティングシステムを買って、で、いろんな企業の、エバリュエーションデータを持ってるから、そういうマッチングとか、のところに、食ってこようとしてると。",
+      "en": "For example, Workday. Workday also, what is it, bought a recruiting system, and since they have evaluation data from various companies, they are trying to break into that kind of matching."
+    },
+    {
+      "start": "07:12",
+      "end": "07:23",
+      "speaker": "Shion",
+      "text": "So Workday uh like buy the the recruiting system, and have a lot of uh like evaluation data..."
+    },
+    {
+      "start": "07:23",
+      "end": "07:31",
+      "speaker": "Carl",
+      "text": "Oh, I mean, not just when you're recruiting, what I meant is um current employees, when you have the..."
+    },
+    {
+      "start": "07:31",
+      "end": "07:33",
+      "speaker": "Shion",
+      "text": "Ah, yeah, but Workday is for like..."
+    },
+    {
+      "start": "07:33",
+      "end": "07:34",
+      "speaker": "Carl",
+      "text": "Internal transfer you mean? Ah."
+    },
+    {
+      "start": "07:34",
+      "end": "08:03",
+      "speaker": "VP",
+      "text": "何、何を考えるかっていうと、今、例えば日本国内で使ってる人事システムのうち、あの、例えば、研修の、システムとか、そういう僕らが使ってるマッチングにかかってるようなコストを全部リプレースをしようとすると、少なく見積もって多分 2 億円ぐらい。なのでこれを全部リプレースできるんだったら、ベットしていいなっていう。",
+      "ja": "何、何を考えるかっていうと、今、例えば日本国内で使ってる人事システムのうち、あの、例えば、研修の、システムとか、そういう僕らが使ってるマッチングにかかってるようなコストを全部リプレースをしようとすると、少なく見積もって多分 2 億円ぐらい。なのでこれを全部リプレースできるんだったら、ベットしていいなっていう。",
+      "en": "What I'm thinking is, among the HR systems currently used in Japan, if we were to replace all the costs of systems like training systems or the matching we use, conservatively estimating, it would probably be around 200 million yen. So if this could replace all of that, I feel it's worth betting that much."
+    },
+    {
+      "start": "08:03",
+      "end": "08:08",
+      "speaker": "Shion",
+      "text": "So we have a lot of systems within the HR, like systems, but then..."
+    }
+  ],
+  "uncertain": [
+    {
+      "at": "02:07",
+      "reading_a": "whether your put, your guess, is confident",
+      "reading_b": "whether your in-, your guess, is confident",
+      "chosen": "whether your put, your guess, is confident"
+    },
+    {
+      "at": "03:52",
+      "reading_a": "Yeah, yeah, very difficult",
+      "reading_b": "It'd be... yeah, very difficult",
+      "chosen": "It'd be... yeah, very difficult"
+    }
+  ],
+  "corrections_vs_prior": [
+    "Identified and labeled all speakers correctly: Carl (wearing glasses mic Audio B), Steven, Shion (interpreter/recruiter), and VP (Head of HR CoE).",
+    "01:41-01:46: Separated Carl offering 'Intuition', Steven adding 'like gut feeling, yeah', and VP saying '直感、直感'.",
+    "03:07: Corrected 'some- somewhat like placed' to 'some-, somehow like placed into let's say Saudi Arabia'.",
+    "06:30: Added Carl's echo of '2 億？' prior to his English currency calculation.",
+    "06:55: Recovered Carl's interjection 'The AI team formation? Yeah' which was missing in the prior transcript.",
+    "Added accurate Japanese transcripts and English translations for all VP and Shion Japanese segments."
+  ]
+}

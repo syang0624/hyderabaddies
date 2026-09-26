@@ -1,0 +1,907 @@
+{
+  "chunk": 2,
+  "segments": [
+    {
+      "start": "00:00",
+      "end": "00:06",
+      "speaker": "Shion",
+      "text": "...part of our program, like, conversations, and so that is our, you know, learning model."
+    },
+    {
+      "start": "00:06",
+      "end": "00:07",
+      "speaker": "VP",
+      "text": "Mmm."
+    },
+    {
+      "start": "00:07",
+      "end": "00:11",
+      "speaker": "Shion",
+      "text": "And yeah, we are trying to, like, we get information from, like, those chatbots."
+    },
+    {
+      "start": "00:11",
+      "end": "00:13",
+      "speaker": "Carl",
+      "text": "I see."
+    },
+    {
+      "start": "00:13",
+      "end": "00:26",
+      "speaker": "Carl",
+      "text": "So two questions. It's like, are there any specific episodes within Recruit Holdings regarding the those kind of, you know, cultural, you know, exchanges?"
+    },
+    {
+      "start": "00:26",
+      "end": "00:33",
+      "speaker": "Carl",
+      "text": "And plus, um, I don't think like this kind of cultural misunderstanding would only happen just because the AI, but employees from grow- like, around the globe."
+    },
+    {
+      "start": "00:33",
+      "end": "00:34",
+      "speaker": "Shion",
+      "text": "Mm-hmm."
+    },
+    {
+      "start": "00:34",
+      "end": "00:43",
+      "speaker": "Carl",
+      "text": "I'm just like wondering how's Recruit Holdings is handling that kind of, you know, cultural differences within the group so everyone can- [cough] sorry, everyone's like aligned to follow the same mission for the company."
+    },
+    {
+      "start": "00:43",
+      "end": "00:44",
+      "speaker": "Shion",
+      "text": "Mm-hmm."
+    },
+    {
+      "start": "00:44",
+      "end": "00:47",
+      "speaker": "Shion",
+      "text": "どんな具体的な交流をしてるかと、",
+      "ja": "どんな具体的な交流をしてるかと、",
+      "en": "What kind of specific exchanges are taking place, and..."
+    },
+    {
+      "start": "00:47",
+      "end": "00:54",
+      "speaker": "Shion",
+      "text": "ええ... [snort] Sorry, what was the second question?"
+    },
+    {
+      "start": "00:54",
+      "end": "01:00",
+      "speaker": "Carl",
+      "text": "Um, I was wondering, like, what is Recruit Holdings doing to respond to that, like, different- like, different cultural backgrounds of all the employees to be aligned together."
+    },
+    {
+      "start": "01:00",
+      "end": "01:03",
+      "speaker": "Shion",
+      "text": "ああ、カルチャーが違う、どんな違いがあるかに対して、",
+      "ja": "ああ、カルチャーが違う、どんな違いがあるかに対して、",
+      "en": "Ah, with different cultures, regarding whatever differences there are,"
+    },
+    {
+      "start": "01:03",
+      "end": "01:04",
+      "speaker": "VP",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "01:04",
+      "end": "01:05",
+      "speaker": "Shion",
+      "text": "リクルートとして対応しているか？",
+      "ja": "リクルートとして対応しているか？",
+      "en": "...how Recruit is addressing them?"
+    },
+    {
+      "start": "01:05",
+      "end": "01:08",
+      "speaker": "VP",
+      "text": "まあ、そうね。結論は、 [laughter]",
+      "ja": "まあ、そうね。結論は、",
+      "en": "Well, yeah. The bottom line is..."
+    },
+    {
+      "start": "01:08",
+      "end": "01:10",
+      "speaker": "VP",
+      "text": "人を交流させて、",
+      "ja": "人を交流させて、",
+      "en": "Having people interact,"
+    },
+    {
+      "start": "01:10",
+      "end": "01:11",
+      "speaker": "Shion",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "01:11",
+      "end": "01:16",
+      "speaker": "VP",
+      "text": "その違うカルチャーを持った人たちと一緒に働くっていうオポチュニティを増やして、お互いそっからラーニングさせるっていうこと",
+      "ja": "その違うカルチャーを持った人たちと一緒に働くっていうオポチュニティを増やして、お互いそっからラーニングさせるっていうこと",
+      "en": "increasing opportunities to work with people who have different cultures, and having them learn from each other from that—"
+    },
+    {
+      "start": "01:16",
+      "end": "01:17",
+      "speaker": "VP",
+      "text": "だけをやってる。",
+      "ja": "だけをやってる。",
+      "en": "that is the only thing we are doing."
+    },
+    {
+      "start": "01:17",
+      "end": "01:18",
+      "speaker": "Shion",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "01:18",
+      "end": "01:23",
+      "speaker": "Shion",
+      "text": "Like, uh, enhance and accelerate the, like, exchange of the people. Mm-hmm. We like to..."
+    },
+    {
+      "start": "01:23",
+      "end": "01:25",
+      "speaker": "Shion",
+      "text": "なんて言うんですっけ？交流を活性化させて...",
+      "ja": "なんて言うんですっけ？交流を活性化させて...",
+      "en": "How do you say it? Revitalize the exchanges..."
+    },
+    {
+      "start": "01:25",
+      "end": "01:27",
+      "speaker": "VP",
+      "text": "活性化させて、で、そこから学び合う。",
+      "ja": "活性化させて、で、そこから学び合う。",
+      "en": "Revitalize them, and then learn from each other from there."
+    },
+    {
+      "start": "01:27",
+      "end": "01:36",
+      "speaker": "Shion",
+      "text": "Ah, from there, like, the, both side, like, learn, [laughter] like, other, the opposite, like, culture, like. That's it."
+    },
+    {
+      "start": "01:36",
+      "end": "01:39",
+      "speaker": "VP",
+      "text": "We do only one thing. [laughter]"
+    },
+    {
+      "start": "01:39",
+      "end": "01:43",
+      "speaker": "Carl",
+      "text": "I see. Okay."
+    },
+    {
+      "start": "01:43",
+      "end": "02:00",
+      "speaker": "Carl",
+      "text": "Um, if- what are the values that you see from understanding each other from- Cuz like, these two companies can complete the work separately, but what's the main reason? What would be the best value that can potentially added to Recruit Holdings whenever they do the exchanges?"
+    },
+    {
+      "start": "02:00",
+      "end": "02:02",
+      "speaker": "VP",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "02:02",
+      "end": "02:04",
+      "speaker": "Shion",
+      "text": "何が良かったか？",
+      "ja": "何が良かったか？",
+      "en": "What was good about it?"
+    },
+    {
+      "start": "02:04",
+      "end": "02:14",
+      "speaker": "VP",
+      "text": "えっと、Indeed はとにかく合理的にジョブ型？なんつうんだろう、ジョブ型で、えっと意思決定のスピードと実行速度が速い。",
+      "ja": "えっと、Indeed はとにかく合理的にジョブ型？なんつうんだろう、ジョブ型で、えっと意思決定のスピードと実行速度が速い。",
+      "en": "Well, Indeed is thoroughly rational, job-based? How to put it, job-based, and their decision-making speed and execution speed are fast."
+    },
+    {
+      "start": "02:14",
+      "end": "02:15",
+      "speaker": "Shion",
+      "text": "うん、うん、うん、うん。",
+      "ja": "うん、うん、うん、うん。",
+      "en": "Yeah, yeah, yeah, yeah."
+    },
+    {
+      "start": "02:15",
+      "end": "02:18",
+      "speaker": "VP",
+      "text": "リクルートは CEO シップ",
+      "ja": "リクルートは CEO シップ",
+      "en": "Recruit has 'CEO-ship',"
+    },
+    {
+      "start": "02:18",
+      "end": "02:19",
+      "speaker": "Shion",
+      "text": "うん、うん。",
+      "ja": "うん、うん。",
+      "en": "Yeah, yeah."
+    },
+    {
+      "start": "02:19",
+      "end": "02:22",
+      "speaker": "VP",
+      "text": "を持って、みんなが経営者だっていう認識で仕事をする。",
+      "ja": "を持って、みんなが経営者だっていう認識で仕事をする。",
+      "en": "...and everyone works with the mindset of being a business owner."
+    },
+    {
+      "start": "02:22",
+      "end": "02:23",
+      "speaker": "Shion",
+      "text": "うん、うん、うん、うん。",
+      "ja": "うん、うん、うん、うん。",
+      "en": "Yeah, yeah, yeah, yeah."
+    },
+    {
+      "start": "02:23",
+      "end": "02:26",
+      "speaker": "VP",
+      "text": "で、これは実は逆の事をやる行為。",
+      "ja": "で、これは実は逆の事をやる行為。",
+      "en": "And these are actually acts of doing opposite things."
+    },
+    {
+      "start": "02:26",
+      "end": "02:35",
+      "speaker": "Shion",
+      "text": "Indeed is very reasonable and, uh, [laughter] What was that? [laughter]"
+    },
+    {
+      "start": "02:35",
+      "end": "02:38",
+      "speaker": "VP",
+      "text": "ジョブ型？いわゆる。",
+      "ja": "ジョブ型？いわゆる。",
+      "en": "Job-based? So-called."
+    },
+    {
+      "start": "02:38",
+      "end": "02:42",
+      "speaker": "Shion",
+      "text": "Uh, like, job-based, uh, assignment."
+    },
+    {
+      "start": "02:42",
+      "end": "02:44",
+      "speaker": "Carl",
+      "text": "Mhm."
+    },
+    {
+      "start": "02:44",
+      "end": "02:59",
+      "speaker": "Shion",
+      "text": "When it comes to Recruit, it's very uh the I would say, as like CEO-ship style, like have a lot of autonomy, and also, um, the, you know, the, uh, the job border, the boundary is not like, uh, very clear."
+    },
+    {
+      "start": "02:59",
+      "end": "03:00",
+      "speaker": "VP",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "03:00",
+      "end": "03:03",
+      "speaker": "Shion",
+      "text": "Like, a boundary. That's true."
+    },
+    {
+      "start": "03:03",
+      "end": "03:04",
+      "speaker": "Carl",
+      "text": "I see."
+    },
+    {
+      "start": "03:04",
+      "end": "03:08",
+      "speaker": "VP",
+      "text": "ジョブ型はだから自分のジョブの中で意思決定する。",
+      "ja": "ジョブ型はだから自分のジョブの中で意思決定する。",
+      "en": "Job-based means making decisions within one's own job."
+    },
+    {
+      "start": "03:08",
+      "end": "03:09",
+      "speaker": "Shion",
+      "text": "うん、うん。",
+      "ja": "うん、うん。",
+      "en": "Yeah, yeah."
+    },
+    {
+      "start": "03:09",
+      "end": "03:10",
+      "speaker": "VP",
+      "text": "で、CEO シップは",
+      "ja": "で、CEO シップは",
+      "en": "And CEO-ship is,"
+    },
+    {
+      "start": "03:10",
+      "end": "03:11",
+      "speaker": "Shion",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "03:11",
+      "end": "03:14",
+      "speaker": "VP",
+      "text": "全てのファンクション統合してどうあるべきかを考える。",
+      "ja": "全てのファンクション統合してどうあるべきかを考える。",
+      "en": "...integrating all functions and thinking about what ought to be."
+    },
+    {
+      "start": "03:14",
+      "end": "03:15",
+      "speaker": "Shion",
+      "text": "うん、うん、うん。",
+      "ja": "うん、うん、うん。",
+      "en": "Yeah, yeah, yeah."
+    },
+    {
+      "start": "03:15",
+      "end": "03:16",
+      "speaker": "VP",
+      "text": "で、これは...",
+      "ja": "で、これは...",
+      "en": "And this..."
+    },
+    {
+      "start": "03:16",
+      "end": "03:33",
+      "speaker": "Shion",
+      "text": "In each job, like job-based um culture, like people like think within their position, right? But then, like when it comes to the CEO-ship style in Recruit, uh we will like think like how should we do, like, as an entire, like, organization, not only just the one function, so yeah."
+    },
+    {
+      "start": "03:33",
+      "end": "03:34",
+      "speaker": "Carl",
+      "text": "I see."
+    },
+    {
+      "start": "03:34",
+      "end": "03:57",
+      "speaker": "Carl",
+      "text": "So, is it reasonable for me to understand that even if the one person is working for a job, but through the exchange programs, they do understand the CEO-ship, which means they do get to know the understandings of the others, other backgrounds, or learn like more domain knowledge, so that they can be more professional into what they're doing, and they can fully own what they do."
+    },
+    {
+      "start": "03:57",
+      "end": "03:59",
+      "speaker": "Shion",
+      "text": "Mm-hmm, mm-hmm."
+    },
+    {
+      "start": "03:59",
+      "end": "04:00",
+      "speaker": "VP",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "04:00",
+      "end": "04:08",
+      "speaker": "Shion",
+      "text": "そのジョブ型の人が、こういった逆のものを学ぶことで、もっとこう、広く考えられることができるんじゃないかと思ったり。",
+      "ja": "そのジョブ型の人が、こういった逆のものを学ぶことで、もっとこう、広く考えられることができるんじゃないかと思ったり。",
+      "en": "By learning this opposite approach, that job-based person could think more broadly, he was thinking."
+    },
+    {
+      "start": "04:08",
+      "end": "04:10",
+      "speaker": "VP",
+      "text": "うん、そう、その通り。",
+      "ja": "うん、そう、その通り。",
+      "en": "Yeah, exactly, that's right."
+    },
+    {
+      "start": "04:10",
+      "end": "04:13",
+      "speaker": "VP",
+      "text": "That's, that's right."
+    },
+    {
+      "start": "04:13",
+      "end": "04:14",
+      "speaker": "Carl",
+      "text": "Okay."
+    },
+    {
+      "start": "04:14",
+      "end": "04:20",
+      "speaker": "Shion",
+      "text": "So, but actually, like the, you know, that is like mostly Indeed to Recruit, but then it's not that..."
+    },
+    {
+      "start": "04:20",
+      "end": "04:21",
+      "speaker": "Carl",
+      "text": "The vice versa?"
+    },
+    {
+      "start": "04:21",
+      "end": "04:32",
+      "speaker": "Shion",
+      "text": "Vice versa. But and like from my understanding it's like from Recruit to Indeed, there are like many cases, but then, like from Indeed to Recruit culture is kinda difficult."
+    },
+    {
+      "start": "04:32",
+      "end": "04:35",
+      "speaker": "VP",
+      "text": "Yeah, I think so. [laughter]"
+    },
+    {
+      "start": "04:35",
+      "end": "04:40",
+      "speaker": "Carl",
+      "text": "Mhm. I see. Good, good, good."
+    },
+    {
+      "start": "04:40",
+      "end": "04:51",
+      "speaker": "Carl",
+      "text": "Um, do you- mind if I ask, like, how much would it cost to, you know, have one employee to relocate either back to the US or back to Japan, and how long do you train that employee for?"
+    },
+    {
+      "start": "04:51",
+      "end": "04:52",
+      "speaker": "VP",
+      "text": "Two years."
+    },
+    {
+      "start": "04:52",
+      "end": "04:53",
+      "speaker": "Carl",
+      "text": "Two years?"
+    },
+    {
+      "start": "04:53",
+      "end": "04:54",
+      "speaker": "VP",
+      "text": "Yeah."
+    },
+    {
+      "start": "04:54",
+      "end": "04:57",
+      "speaker": "Carl",
+      "text": "And how much how much does it, like, cost for the company?"
+    },
+    {
+      "start": "04:57",
+      "end": "05:01",
+      "speaker": "VP",
+      "text": "It costs like, uh... 大体、一人当たりあれだよね。",
+      "ja": "大体、一人当たりあれだよね。",
+      "en": "Roughly, per person, it's that, right."
+    },
+    {
+      "start": "05:01",
+      "end": "05:03",
+      "speaker": "Shion",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "05:03",
+      "end": "05:05",
+      "speaker": "VP",
+      "text": "1億。",
+      "ja": "1億。",
+      "en": "100 million [yen]."
+    },
+    {
+      "start": "05:05",
+      "end": "05:06",
+      "speaker": "Carl",
+      "text": "1億? [laughter]",
+      "ja": "1億?",
+      "en": "100 million?"
+    },
+    {
+      "start": "05:06",
+      "end": "05:07",
+      "speaker": "Shion",
+      "text": "1億は...",
+      "ja": "1億は...",
+      "en": "100 million is..."
+    },
+    {
+      "start": "05:07",
+      "end": "05:10",
+      "speaker": "Steven",
+      "text": "That's, that's point one billion, right? Yeah, yeah."
+    },
+    {
+      "start": "05:10",
+      "end": "05:11",
+      "speaker": "Shion",
+      "text": "Billion yen."
+    },
+    {
+      "start": "05:11",
+      "end": "05:16",
+      "speaker": "Carl",
+      "text": "Right, I only know the numbers in Japanese cuz like, I've been spending like so much money and they're like, takai kara! [laughter]"
+    },
+    {
+      "start": "05:16",
+      "end": "05:18",
+      "speaker": "VP",
+      "text": "Takai kara! [laughter] Too ex- expensive!",
+      "ja": "高いから！ [laughter] Too ex- expensive!",
+      "en": "Because it's expensive! Too expensive!"
+    },
+    {
+      "start": "05:18",
+      "end": "05:20",
+      "speaker": "Steven",
+      "text": "Yeah, 100 million..."
+    },
+    {
+      "start": "05:20",
+      "end": "05:21",
+      "speaker": "Carl",
+      "text": "Yeah, Japanese yen."
+    },
+    {
+      "start": "05:21",
+      "end": "05:23",
+      "speaker": "Shion",
+      "text": "Million dollars."
+    },
+    {
+      "start": "05:23",
+      "end": "05:24",
+      "speaker": "Carl",
+      "text": "Not- not yen?"
+    },
+    {
+      "start": "05:24",
+      "end": "05:26",
+      "speaker": "Shion",
+      "text": "Uh, so, he said he said yen."
+    },
+    {
+      "start": "05:26",
+      "end": "05:27",
+      "speaker": "VP",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "05:27",
+      "end": "05:28",
+      "speaker": "Shion",
+      "text": "So point one billion yen."
+    },
+    {
+      "start": "05:28",
+      "end": "05:30",
+      "speaker": "Carl",
+      "text": "Oh, oh, so 100 million, like, yen, right?"
+    },
+    {
+      "start": "05:30",
+      "end": "05:31",
+      "speaker": "Steven",
+      "text": "Point one billion yen."
+    },
+    {
+      "start": "05:31",
+      "end": "05:32",
+      "speaker": "Shion",
+      "text": "Yes, yes, yes."
+    },
+    {
+      "start": "05:32",
+      "end": "05:33",
+      "speaker": "Carl",
+      "text": "100 million yen. Okay."
+    },
+    {
+      "start": "05:33",
+      "end": "05:35",
+      "speaker": "Steven",
+      "text": "That's a lot of money, a lot."
+    },
+    {
+      "start": "05:35",
+      "end": "05:36",
+      "speaker": "VP",
+      "text": "Yeah."
+    },
+    {
+      "start": "05:36",
+      "end": "05:48",
+      "speaker": "Carl",
+      "text": "[sigh] I see. Hmm. If an AI like can solve the although like the complexity of the cultural understanding all the exchange issues,"
+    },
+    {
+      "start": "05:48",
+      "end": "05:58",
+      "speaker": "Carl",
+      "text": "um, what would what would he think the one- there's like, he can choose only one feature that he want to see. What would that be?"
+    },
+    {
+      "start": "05:58",
+      "end": "06:08",
+      "speaker": "Shion",
+      "text": "AI がその文化、カルチャーの [throat-clearing] 違いを解決できるとしたら、何を求めるか。",
+      "ja": "AI がその文化、カルチャーの 違いを解決できるとしたら、何を求めるか。",
+      "en": "If AI could resolve those cultural differences, what would you ask of it?"
+    },
+    {
+      "start": "06:08",
+      "end": "06:14",
+      "speaker": "VP",
+      "text": "うーん。難しいね。",
+      "ja": "うーん。難しいね。",
+      "en": "Hmm. That's difficult."
+    },
+    {
+      "start": "06:14",
+      "end": "06:22",
+      "speaker": "Carl",
+      "text": "In terms of the, you know, although like relocations or like exchanging culturally misunderstanding, everything can be annoying to the VP."
+    },
+    {
+      "start": "06:22",
+      "end": "06:23",
+      "speaker": "Shion",
+      "text": "Mm-hmm, mm-hmm."
+    },
+    {
+      "start": "06:23",
+      "end": "06:26",
+      "speaker": "Carl",
+      "text": "Just like, what is the biggest issue that he needs more most time to solve?"
+    },
+    {
+      "start": "06:26",
+      "end": "06:27",
+      "speaker": "Shion",
+      "text": "Mhm."
+    },
+    {
+      "start": "06:27",
+      "end": "06:29",
+      "speaker": "Carl",
+      "text": "It could be the organizational structure,"
+    },
+    {
+      "start": "06:29",
+      "end": "06:33",
+      "speaker": "Shion",
+      "text": "Related to the, you know, the cultural, like, environmental difference, right?"
+    },
+    {
+      "start": "06:33",
+      "end": "06:34",
+      "speaker": "Carl",
+      "text": "Mm-hmm."
+    },
+    {
+      "start": "06:34",
+      "end": "06:39",
+      "speaker": "Shion",
+      "text": "その環境とかカルチャーの違いにまつわる意思決定とか、",
+      "ja": "その環境とかカルチャーの違いにまつわる意思決定とか、",
+      "en": "Decision-making surrounding those environmental or cultural differences,"
+    },
+    {
+      "start": "06:39",
+      "end": "06:42",
+      "speaker": "Carl",
+      "text": "Like, you spend the most time, yeah, to to solve that."
+    },
+    {
+      "start": "06:42",
+      "end": "06:44",
+      "speaker": "Shion",
+      "text": "何か、時間がかかってることを解決できるとしたら、",
+      "ja": "何か、時間がかかってることを解決できるとしたら、",
+      "en": "...if it could solve something that takes up a lot of time..."
+    },
+    {
+      "start": "06:44",
+      "end": "06:46",
+      "speaker": "VP",
+      "text": "え、どう、どういうこと？",
+      "ja": "え、どう、どういうこと？",
+      "en": "Eh, what, what do you mean?"
+    },
+    {
+      "start": "06:46",
+      "end": "06:53",
+      "speaker": "Shion",
+      "text": "えっ、その、文化的な違いがあるとか、ま、違いがあることを、人をえっと、行き来させることとか、",
+      "ja": "えっ、その、文化的な違いがあるとか、ま、違いがあることを、人をえっと、行き来させることとか、",
+      "en": "Well, having cultural differences, or given that there are differences, having people travel back and forth,"
+    },
+    {
+      "start": "06:53",
+      "end": "06:54",
+      "speaker": "VP",
+      "text": "うん、うん。",
+      "ja": "うん、うん。",
+      "en": "Yeah, yeah."
+    },
+    {
+      "start": "06:54",
+      "end": "07:01",
+      "speaker": "Shion",
+      "text": "そういう営みの中で、ま、一番何に困ってて、AI がどこに助ける余地があるかっていう。",
+      "ja": "そういう営みの中で、ま、一番何に困ってて、AI がどこに助ける余地があるかっていう。",
+      "en": "...in those endeavors, what troubles you the most, and where is there room for AI to help?"
+    },
+    {
+      "start": "07:01",
+      "end": "07:06",
+      "speaker": "VP",
+      "text": "うーん。",
+      "ja": "うーん。",
+      "en": "Hmm."
+    },
+    {
+      "start": "07:06",
+      "end": "07:12",
+      "speaker": "Carl",
+      "text": "I'm I'm sorry that I'm like throwing so many curveballs, but [laughter] no."
+    },
+    {
+      "start": "07:12",
+      "end": "07:15",
+      "speaker": "VP",
+      "text": "質問に答えてないんだけど、",
+      "ja": "質問に答えてないんだけど、",
+      "en": "I'm not answering your question directly, but..."
+    },
+    {
+      "start": "07:15",
+      "end": "07:16",
+      "speaker": "Shion",
+      "text": "うん、うん。",
+      "ja": "うん、うん。",
+      "en": "Yeah, yeah."
+    },
+    {
+      "start": "07:16",
+      "end": "07:22",
+      "speaker": "VP",
+      "text": "多分 AI は職種とか今まであった領域を多分全て壊すと思ってます。",
+      "ja": "多分 AI は職種とか今まであった領域を多分全て壊すと思ってます。",
+      "en": "I think AI will probably dismantle all job categories and existing domains."
+    },
+    {
+      "start": "07:22",
+      "end": "07:35",
+      "speaker": "Shion",
+      "text": "This is not directly like answer your- answering your question, but then, like, he thinks that like AI just, how do you say, destroy the the original definition of each role or like position."
+    },
+    {
+      "start": "07:35",
+      "end": "07:37",
+      "speaker": "Carl",
+      "text": "Mhm, mhm, mhm."
+    },
+    {
+      "start": "07:37",
+      "end": "07:41",
+      "speaker": "VP",
+      "text": "例えば、えっ、マーケティングみたいな職種は、",
+      "ja": "例えば、えっ、マーケティングみたいな職種は、",
+      "en": "For example, a job role like marketing,"
+    },
+    {
+      "start": "07:41",
+      "end": "07:43",
+      "speaker": "Shion",
+      "text": "For example, marketing."
+    },
+    {
+      "start": "07:43",
+      "end": "07:44",
+      "speaker": "VP",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "07:44",
+      "end": "07:46",
+      "speaker": "VP",
+      "text": "おそらく AI が入ると、",
+      "ja": "おそらく AI が入ると、",
+      "en": "...probably once AI is introduced,"
+    },
+    {
+      "start": "07:46",
+      "end": "07:47",
+      "speaker": "Shion",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "07:47",
+      "end": "07:51",
+      "speaker": "VP",
+      "text": "多分、マーケティングという職としての専門性は、おそらく失われると思う。",
+      "ja": "多分、マーケティングという職としての専門性は、おそらく失われると思う。",
+      "en": "...I think the expertise of marketing as a standalone job will probably be lost."
+    },
+    {
+      "start": "07:51",
+      "end": "07:58",
+      "speaker": "Shion",
+      "text": "Like, expertise of like the marketing will be disappeared. Not disappeared, but, yeah, will change."
+    },
+    {
+      "start": "07:58",
+      "end": "08:02",
+      "speaker": "VP",
+      "text": "そうなると、えっと、多分、",
+      "ja": "そうなると、えっと、多分、",
+      "en": "When that happens, uh, probably..."
+    }
+  ],
+  "uncertain": [
+    {
+      "at": "00:09",
+      "reading_a": "those chatbots",
+      "reading_b": "those chat logs",
+      "chosen": "those chatbots"
+    },
+    {
+      "at": "05:14",
+      "reading_a": "spending like so much money and they're like takai kara",
+      "reading_b": "spending like so much money in the... takai kara",
+      "chosen": "spending like so much money and they're like, takai kara!"
+    },
+    {
+      "at": "05:32",
+      "reading_a": "100 million yen. Okay.",
+      "reading_b": "1 million yen. Okay.",
+      "chosen": "100 million yen. Okay."
+    }
+  ],
+  "corrections_vs_prior": [
+    "Identified all speakers: Carl (hackathon interviewer wearing smart glasses), Steven (hackathon teammate), VP (Recruit VP/Head of HR CoE), and Shion (Recruiter/Interpreter).",
+    "00:09: Corrected '[inaudible] got information from, like, those [inaudible]' to 'we get information from, like, those chatbots'.",
+    "01:23-01:27: Added Shion and VP's Japanese exchange ('なんて言うんですっけ？交流を活性化させて...' / '活性化させて、で、そこから学び合う。').",
+    "05:05: Transcribed Carl reacting in Japanese ('1億?').",
+    "05:07-05:11: Separated Steven's calculation ('That's, that's point one billion, right? Yeah, yeah.') from Carl's follow-up.",
+    "05:14-05:18: Fixed major mishearing ('the Tama, too, too exp- expensive') to Carl saying 'takai kara!' (because it's expensive) and the VP laughing and echoing 'Takai kara! Too expensive!'.",
+    "05:18-05:35: Corrected the multi-speaker confusion resolving 1億 yen = 100 million yen = 0.1 billion yen (~$1M USD) across Steven, Carl, Shion, and VP.",
+    "06:05: Fixed 'AI がその人、カルチャーの' to 'AI がその文化、カルチャーの'."
+  ]
+}

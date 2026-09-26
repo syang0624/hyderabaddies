@@ -2,6 +2,13 @@
 
 Carl's Codex thread hit its usage limit around 23:14 on Fri. This file is where it stopped and what's in the repo now.
 
+## UPDATE ~02:30 Sat: for the Fable session
+- **Best VP source now:** `interviews/5_VP_MEETING_TRANSCRIPT_RECONCILED.md`. It merges phone and glasses audio (aligned at 00:09:40), labels speakers, translates all 243 Japanese lines, and lists 24 unresolved spots per chunk. Prefer it over `5_VP_MEETING_TRANSCRIPT.md` (single source, no translation). Per-chunk raw output and the script are in `interviews/raw/vp-reconcile-chunks/`.
+- Detailed summary: `interviews/5_VP_MEETING_SUMMARY.md` (written from the single-source transcript; check quotes against the reconciled one).
+- Steven's "define innovation" riff (glasses, 01:30): `interviews/6_STEVEN_INNOVATION_FRAME.md`.
+- Prototype: `prototype/` (`make run-heuristic`, then open http://localhost:8787; `make smoke` checks every endpoint). The pitch scripts are in `DEMO-PLAN.md` section 9.
+- Open before Sunday: run `make run-gemini` once; get the VP or Shion to clear which figures and quotes can go in the public deck.
+
 ## UPDATE 01:30 Sat: VP meeting happened (72 min, ~00:14-01:26)
 - Summary: `interviews/5_VP_MEETING_SUMMARY.md` (timestamped, read this first)
 - Full transcript: `interviews/5_VP_MEETING_TRANSCRIPT.md`, raw JSON `interviews/raw/5_vp-meeting_full.json`

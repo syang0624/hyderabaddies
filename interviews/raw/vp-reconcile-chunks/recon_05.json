@@ -1,0 +1,370 @@
+{
+  "chunk": 5,
+  "segments": [
+    {
+      "start": "00:00",
+      "end": "00:03",
+      "speaker": "Shion",
+      "text": "あー、何とかって言いましたっけ？",
+      "ja": "あー、何とかって言いましたっけ？",
+      "en": "Ah, what was it called again?"
+    },
+    {
+      "start": "00:03",
+      "end": "00:06",
+      "speaker": "VP",
+      "text": "LMS。ラーニングし-、あの、研修のシステムとか。",
+      "ja": "LMS。ラーニングし-、あの、研修のシステムとか。",
+      "en": "LMS. Learning s-, um, training systems, etc."
+    },
+    {
+      "start": "00:06",
+      "end": "00:10",
+      "speaker": "Shion",
+      "text": "あー、LMS for like the the education, like the..."
+    },
+    {
+      "start": "00:10",
+      "end": "00:13",
+      "speaker": "VP",
+      "text": "とか、そのマッチングにかかってるようなAIにかかってるコスト。",
+      "ja": "とか、そのマッチングにかかってるようなAIにかかってるコスト。",
+      "en": "Or like the cost spent on AI, like for matching."
+    },
+    {
+      "start": "00:13",
+      "end": "00:16",
+      "speaker": "Shion",
+      "text": "for matching, yeah, solution."
+    },
+    {
+      "start": "00:16",
+      "end": "00:18",
+      "speaker": "VP",
+      "text": "が、大体安く見積もっても2億円くらい。",
+      "ja": "が、大体安く見積もっても2億円くらい。",
+      "en": "...at a conservative estimate, that's about 200 million yen."
+    },
+    {
+      "start": "00:18",
+      "end": "00:26",
+      "speaker": "Shion",
+      "text": "Like, if like, uh, we can replace those one as well, they pay 0.2 billion yen."
+    },
+    {
+      "start": "00:26",
+      "end": "00:28",
+      "speaker": "Steven",
+      "text": "I see."
+    },
+    {
+      "start": "00:28",
+      "end": "00:46",
+      "speaker": "Carl",
+      "text": "I am interested with you mentioned there are systems that you have, and I was wondering if the HR meetings are the only way you evaluate, um, someone's progress inside the company so far, or do you use other systems as well?"
+    },
+    {
+      "start": "00:46",
+      "end": "00:51",
+      "speaker": "Shion",
+      "text": "その従業員の評価を決めるのは、人事の会議だけか。",
+      "ja": "その従業員の評価を決めるのは、人事の会議だけか。",
+      "en": "Is deciding employee evaluations done only through HR meetings?"
+    },
+    {
+      "start": "00:51",
+      "end": "00:53",
+      "speaker": "VP",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "00:53",
+      "end": "00:55",
+      "speaker": "VP",
+      "text": "現場の...",
+      "ja": "現場の...",
+      "en": "On-site..."
+    },
+    {
+      "start": "00:55",
+      "end": "00:58",
+      "speaker": "Shion",
+      "text": "What do you mean by- What do you..."
+    },
+    {
+      "start": "00:58",
+      "end": "01:38",
+      "speaker": "Carl",
+      "text": "Yeah, so the bigger picture I have here is that the way you can evaluate like your progress, Shion, is if you have a conversation with your higher-up, right? I'm understanding like that's one way to understand where you want to be in the future, and how you're performing so far. But apart from that conversation, are there other means of like determining if you're a good fit for this? Like, for example, a very extreme case: I know a company who like, in the Philippines, who tracks what the employee's doing from everything like the screen and everything that they've been doing. And I was wondering if you have systems like that?"
+    },
+    {
+      "start": "01:38",
+      "end": "01:49",
+      "speaker": "Shion",
+      "text": "私の評価を判断するのは、その、ほ-、本人の上司以外の方法で、その、その人のパフォーマンスを測ってるものってあります？",
+      "ja": "私の評価を判断するのは、その、ほ-、本人の上司以外の方法で、その、その人のパフォーマンスを測ってるものってあります？",
+      "en": "To judge my evaluation, are there ways other than, um, one's supervisor to measure that person's performance?"
+    },
+    {
+      "start": "01:49",
+      "end": "01:51",
+      "speaker": "VP",
+      "text": "今はない。",
+      "ja": "今はない。",
+      "en": "Right now, there isn't."
+    },
+    {
+      "start": "01:51",
+      "end": "01:54",
+      "speaker": "Shion",
+      "text": "Nope, not that."
+    },
+    {
+      "start": "01:54",
+      "end": "02:26",
+      "speaker": "Carl",
+      "text": "Because I also understand like, if you're reporting to an American manager, the cultural difference will also introduce some biases, or even differences in how someone would perceive Shion. Maybe for a Japanese manager, she travels too much, but for an American manager, she's like doing an amazing job of being proactive. And so I was wondering if there's other evidences you can look into that's more numerical, or maybe not even numerical, but just other evidences you look into. Yeah, like like the skill tag system."
+    },
+    {
+      "start": "02:26",
+      "end": "02:47",
+      "speaker": "VP",
+      "text": "そう。なので、例えばSlackの情報とか、1人1人がアウトプットしてるドキュメントの情報とか、そういう細かい情報を蓄積して彼女の本当の評価が上司が評価しているよりもいいのか悪いのかみたいなところを補助するっていうのは、ポテンシャリティとしてはすごくあると思ってるよって。",
+      "ja": "そう。なので、例えばSlackの情報とか、1人1人がアウトプットしてるドキュメントの情報とか、そういう細かい情報を蓄積して彼女の本当の評価が上司が評価しているよりもいいのか悪いのかみたいなところを補助するっていうのは、ポテンシャリティとしてはすごくあると思ってるよって。",
+      "en": "Right. So, for example, accumulating detailed information like Slack data or documents that each person outputs, and using that to assist in seeing whether her true evaluation is better or worse than what her boss evaluates—I think there's huge potential in that."
+    },
+    {
+      "start": "02:47",
+      "end": "03:03",
+      "speaker": "Shion",
+      "text": "So collecting data like Slack, um, you know, communication record, or like the outputs, um, material, or, you know, this is a potential area for that, for evaluation. But then, we are not right now, we don't have that."
+    },
+    {
+      "start": "03:03",
+      "end": "03:06",
+      "speaker": "VP",
+      "text": "うん、そこまでできてない。うん。",
+      "ja": "うん、そこまでできてない。うん。",
+      "en": "Yeah, we haven't gotten that far. Yeah."
+    },
+    {
+      "start": "03:06",
+      "end": "03:07",
+      "speaker": "Shion",
+      "text": "Yeah."
+    },
+    {
+      "start": "03:07",
+      "end": "03:10",
+      "speaker": "Carl",
+      "text": "Oh, so that's something that's in plan, or...?"
+    },
+    {
+      "start": "03:10",
+      "end": "03:19",
+      "speaker": "Shion",
+      "text": "In plan, or like that we feel the possibility on that, but then, uh, we don't have that kind of system right now. Yeah."
+    },
+    {
+      "start": "03:19",
+      "end": "03:22",
+      "speaker": "Steven",
+      "text": "Why, why are you not doing that?"
+    },
+    {
+      "start": "03:22",
+      "end": "03:23",
+      "speaker": "VP",
+      "text": "うん。ん？",
+      "ja": "うん。ん？",
+      "en": "Yeah. Hm?"
+    },
+    {
+      "start": "03:23",
+      "end": "03:25",
+      "speaker": "Shion",
+      "text": "なぜやらないんですか？",
+      "ja": "なぜやらないんですか？",
+      "en": "Why aren't you doing that?"
+    },
+    {
+      "start": "03:25",
+      "end": "03:36",
+      "speaker": "VP",
+      "text": "最初の問題かな。どこまでの情報を従業員から取り出すかっていうところの線引き、何て言うの？",
+      "ja": "最初の問題かな。どこまでの情報を従業員から取り出すかっていうところの線引き、何て言うの？",
+      "en": "Back to the initial problem, I guess. Where to draw the line on how much information to extract from employees—how should I put it?"
+    },
+    {
+      "start": "03:36",
+      "end": "03:40",
+      "speaker": "Shion",
+      "text": "Then we go back to the the the first, uh, problem, like how much should we use to AI, like evaluation or like..."
+    },
+    {
+      "start": "03:40",
+      "end": "04:02",
+      "speaker": "Steven",
+      "text": "What if there's an AI that runs on the backside, people don't know, but completely integrated into your own tools right now, but you don't have to like go back to Salesforce, Excel, Slack channels and everything, but just one dashboard that just tells you everything. Would you use it?"
+    },
+    {
+      "start": "04:02",
+      "end": "04:03",
+      "speaker": "VP",
+      "text": "うーん。",
+      "ja": "うーん。",
+      "en": "Hmm."
+    },
+    {
+      "start": "04:03",
+      "end": "04:05",
+      "speaker": "Shion",
+      "text": "いろんなものに...",
+      "ja": "いろんなものに...",
+      "en": "Across various..."
+    },
+    {
+      "start": "04:05",
+      "end": "04:12",
+      "speaker": "Steven",
+      "text": "Like the AI's like like the AI is always running in the backside. People do not know if it's an AI."
+    },
+    {
+      "start": "04:12",
+      "end": "04:24",
+      "speaker": "Shion",
+      "text": "あー、だから、使ってるとも知らず、そのAIがそのパフォーマンスとかをトラッキングしてる感じで、で、1つのその見-見え方としても1つのダッシュボードにまとまってるみたいなのがあれば。",
+      "ja": "あー、だから、使ってるとも知らず、そのAIがそのパフォーマンスとかをトラッキングしてる感じで、で、1つのその見-見え方としても1つのダッシュボードにまとまってるみたいなのがあれば。",
+      "en": "Ah, so without even knowing they're using it, the AI is tracking their performance, and from a viewing perspective, it's all consolidated into one dashboard—if there were something like that?"
+    },
+    {
+      "start": "04:24",
+      "end": "04:47",
+      "speaker": "VP",
+      "text": "えっと、使えるけど、理屈上は使えますと。ただ企業としてどこまで従業員への説明責任、透明性ね、を、まあ維持してやるかっていうところはすごく慎重に僕らはやってるから。あの、やろうと思えばリーガル上の問題ないけど...",
+      "ja": "えっと、使えるけど、理屈上は使えますと。ただ企業としてどこまで従業員への説明責任、透明性ね、を、まあ維持してやるかっていうところはすごく慎重に僕らはやってるから。あの、やろうと思えばリーガル上の問題ないけど...",
+      "en": "Well, we could use it, theoretically it's usable. But as a company, we are very cautious about how far we maintain accountability and transparency to employees. If we wanted to do it, there are no legal issues, but..."
+    },
+    {
+      "start": "04:47",
+      "end": "04:59",
+      "speaker": "Shion",
+      "text": "It can be useful, and legally like no problem, but like when comes to the the moral, [laughter] um, yeah, somehow, like we should, how do I say, uh, pay attention to..."
+    },
+    {
+      "start": "04:59",
+      "end": "05:01",
+      "speaker": "VP",
+      "text": "accountability."
+    },
+    {
+      "start": "05:01",
+      "end": "05:03",
+      "speaker": "Shion",
+      "text": "accountability."
+    },
+    {
+      "start": "05:03",
+      "end": "05:07",
+      "speaker": "Steven",
+      "text": "I see. I understand."
+    },
+    {
+      "start": "05:07",
+      "end": "05:32",
+      "speaker": "Steven",
+      "text": "This is like a one of the cultural difference that I also found here. Usually, I think, in South Korea and in Japan, when people think about the solution, they tend to think about are there any legal restrictions to it? But I think people here in San Francisco, they they just don't really think about the legal restrictions. They're like, 'Oh, there's a solution, let's make it.' And if it happens, they're like, 'How can we go through that restriction? How can we lobby people or sort of things like that?'"
+    },
+    {
+      "start": "05:32",
+      "end": "05:36",
+      "speaker": "Steven",
+      "text": "So, not just like lobbying, they can also like, you know, probably think how can we like..."
+    },
+    {
+      "start": "05:36",
+      "end": "05:38",
+      "speaker": "Carl",
+      "text": "Donate to a congressman or something."
+    },
+    {
+      "start": "05:38",
+      "end": "05:43",
+      "speaker": "Steven",
+      "text": "No, not just that, like, no, [laughter] I didn't say that! What I was trying to say is, um, dodge, you know, like..."
+    },
+    {
+      "start": "05:43",
+      "end": "05:45",
+      "speaker": "Carl",
+      "text": "Ah, go around it, like find a legal, loophole, gray area."
+    },
+    {
+      "start": "05:45",
+      "end": "05:46",
+      "speaker": "Steven",
+      "text": "Yeah, how do we go around the legal problem?"
+    },
+    {
+      "start": "05:46",
+      "end": "05:50",
+      "speaker": "Shion",
+      "text": "どう、かいくぐっていくかみたいな考え方で対処するよね。",
+      "ja": "どう、かいくぐっていくかみたいな考え方で対処するよね。",
+      "en": "People tend to deal with it with the mindset of how to slip past it, right?"
+    },
+    {
+      "start": "05:50",
+      "end": "05:54",
+      "speaker": "VP",
+      "text": "うん、うん、うん。そう思う。[laughter]",
+      "ja": "うん、うん、うん。そう思う。",
+      "en": "Yeah, yeah, yeah. I think so."
+    },
+    {
+      "start": "05:54",
+      "end": "06:27",
+      "speaker": "Steven",
+      "text": "I see. So, yeah, for for us like we're trying to like break down the, you know, the problems of your company. Like I don't want to say your company, it's more like generally like lots of in HRs. And we're just like trying to understand like every piece of it. It seems like a very- it's a very complicated and complex problem that all the problems are like, you know, gathering around. But yeah, I guess that's it for me, but really appreciate for all the like smaller piece of information that we can go in like grind to think how can we bring innovation to solve the all the entire complications, yeah. Thank you."
+    },
+    {
+      "start": "06:27",
+      "end": "06:29",
+      "speaker": "VP",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "06:29",
+      "end": "06:33",
+      "speaker": "Shion",
+      "text": "Anything else to say?"
+    },
+    {
+      "start": "06:33",
+      "end": "08:04",
+      "speaker": "Carl",
+      "text": "Um, I guess about the moral- morality. Earlier, I used the Philippines example of having everything that they do tracked, and they were they were told about this, and they were fine because there was an incentive, so that they could actually see how you perform. It's like having the manager look at you while you work, you know? And at least for them, they It's very In my opinion, it's very It's a very big compromise because they know that, 'Oh, if I, um, make 50 outputs, then I will get 50 billion yen,' for example. But, of course, that introduces the problem of people faking or gaming the system. And so that's why I thought that, um, if we like if like if we could be more, um, quiet with the data collection, because I'm not sure if the systems you have right now, um, if they act- if they actually, um, see all the Slack outputs. Do the employees know that their Slack outputs are visible to you? And how much data have you already gathered, given that you guys are thinking of implementing this, if I'm understanding that right? Because there are so many avenues, like even the Gmail sent mails for the output could be one avenue. But our- I guess the question if I could rephrase it is: Do you, given the morality, collect data on employees as they work, if..."
+    }
+  ],
+  "uncertain": [
+    {
+      "at": "05:46",
+      "reading_a": "どう、かいくぐっていくかみたいな考え方で対処するよね。",
+      "reading_b": "どう、かいくぐっていくかみたいな考え方をしがちですよね。",
+      "chosen": "どう、かいくぐっていくかみたいな考え方で対処するよね。"
+    }
+  ],
+  "corrections_vs_prior": [
+    "Separated speakers accurately across all turns: Carl Kho (interviewer, Filipino background, wearing glasses mic), Steven Yang (interviewer, pitched dashboard idea and cultural contrast), Shion Kuroda (interpreter/recruiter), and VP (Recruit Head of HR CoE).",
+    "00:23: Corrected Shion's translation from 'it'll pay 0.2 billion yen' to 'they pay 0.2 billion yen' (referring to the ~200M yen cost spent on LMS/matching AI).",
+    "00:53: Separated VP's unfinished thought '現場の...' from Shion's English question.",
+    "01:40: Corrected Shion's Japanese from 'そのここ、現場の上司' to 'その、ほ-、本人の上司'.",
+    "04:59: Attributed the whispered prompt 'accountability' to the VP prompting Shion, rather than Shion whispering to herself.",
+    "05:09: Corrected Steven's phrase from 'Usually like thing in South Korea' to 'Usually, I think, in South Korea'.",
+    "05:33 - 05:46: Separated the rapid dialogue exchange between Carl ('Donate to a congressman...', 'Ah, go around it...') and Steven ('No, not just that...', 'dodge...')."
+  ]
+}

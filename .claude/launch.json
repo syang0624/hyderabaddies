@@ -1,0 +1,1 @@
+{"version":"0.0.1","configurations":[{"name":"evidence-demo","runtimeExecutable":"make","runtimeArgs":["-C","/private/tmp/hyderabaddies/prototype","run-heuristic"],"port":8787}]}

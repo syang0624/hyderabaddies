@@ -1,0 +1,653 @@
+{
+  "chunk": 7,
+  "segments": [
+    {
+      "start": "00:00",
+      "end": "00:18",
+      "speaker": "Carl",
+      "text": "...makes that easily viewable, like, and then the AI just summarizes and see where the strengths and weaknesses are to actually help the evaluators make better decisions. Do you think that sounds like a product that you guys have, um, would be willing to try, for example?"
+    },
+    {
+      "start": "00:18",
+      "end": "00:20",
+      "speaker": "Shion",
+      "text": "決定の根拠にするとか",
+      "ja": "決定の根拠にするとか",
+      "en": "Like using it as the basis for decisions..."
+    },
+    {
+      "start": "00:20",
+      "end": "00:22",
+      "speaker": "VP",
+      "text": "めちゃくちゃあると思う。うん。",
+      "ja": "めちゃくちゃあると思う。うん。",
+      "en": "I think there's a lot of potential for that. Yeah."
+    },
+    {
+      "start": "00:22",
+      "end": "00:24",
+      "speaker": "VP",
+      "text": "It's very good value, I think so."
+    },
+    {
+      "start": "00:24",
+      "end": "00:27",
+      "speaker": "Carl",
+      "text": "And does something like this exist yet?"
+    },
+    {
+      "start": "00:27",
+      "end": "00:33",
+      "speaker": "VP",
+      "text": "うん、あの、今、中のプロトタイプとかではそういうのはやろうとしてる。",
+      "ja": "うん、あの、今、中のプロトタイプとかではそういうのはやろうとしてる。",
+      "en": "Yeah, um, right now with internal prototypes and such, we are trying to do that kind of thing."
+    },
+    {
+      "start": "00:33",
+      "end": "00:35",
+      "speaker": "Shion",
+      "text": "There's a prototype."
+    },
+    {
+      "start": "00:35",
+      "end": "00:39",
+      "speaker": "Carl",
+      "text": "And is the prototype internal, or can we see it so that, I don't know, I was thinking of..."
+    },
+    {
+      "start": "00:39",
+      "end": "00:41",
+      "speaker": "VP",
+      "text": "志恩さんはこういう人です。",
+      "ja": "志恩さんはこういう人です。",
+      "en": "Shion-san is this kind of person."
+    },
+    {
+      "start": "00:41",
+      "end": "00:43",
+      "speaker": "Carl",
+      "text": "Ah... [sigh] Shion again!"
+    },
+    {
+      "start": "00:43",
+      "end": "00:51",
+      "speaker": "VP",
+      "text": "実は、GmailとかSlackでこういうやり取りをしてるからです、みたいなこととかは、今、中で作ろう、みたいなアイデアはあったりします。",
+      "ja": "実は、GmailとかSlackでこういうやり取りをしてるからです、みたいなこととかは、今、中で作ろう、みたいなアイデアはあったりします。",
+      "en": "Like, 'Actually, it's because she interacts like this on Gmail or Slack,' things like that—ideas like making that internally exist right now."
+    },
+    {
+      "start": "00:51",
+      "end": "00:55",
+      "speaker": "Shion",
+      "text": "That prototype is like the, like, for example, like, my, my impression is like..."
+    },
+    {
+      "start": "00:55",
+      "end": "00:56",
+      "speaker": "Carl",
+      "text": "Of course, no."
+    },
+    {
+      "start": "00:56",
+      "end": "00:57",
+      "speaker": "Steven",
+      "text": "She's good shit."
+    },
+    {
+      "start": "00:57",
+      "end": "00:58",
+      "speaker": "Shion",
+      "text": "Okay, okay, okay."
+    },
+    {
+      "start": "00:58",
+      "end": "01:00",
+      "speaker": "VP",
+      "text": "ああ、トイレ [laughter]",
+      "ja": "ああ、トイレ",
+      "en": "Ah, toilet."
+    },
+    {
+      "start": "01:00",
+      "end": "01:03",
+      "speaker": "Carl",
+      "text": "Ah, toilet! [laughter] Probably the only thing I [laughter]..."
+    },
+    {
+      "start": "01:03",
+      "end": "01:14",
+      "speaker": "Shion",
+      "text": "Like, from my profile, like, they can see, like, I am saying this kind of thing on Slack, like the Gmail, and like the, my output is like this, something like that."
+    },
+    {
+      "start": "01:14",
+      "end": "01:16",
+      "speaker": "Steven",
+      "text": "Very interesting."
+    },
+    {
+      "start": "01:16",
+      "end": "01:21",
+      "speaker": "Carl",
+      "text": "I think I promised him that would be the last question, [laughter] so I am going to keep my word."
+    },
+    {
+      "start": "01:21",
+      "end": "01:24",
+      "speaker": "Shion",
+      "text": "They're They're going to be here until 6:00 a.m. actually."
+    },
+    {
+      "start": "01:24",
+      "end": "01:25",
+      "speaker": "Carl",
+      "text": "6:00 a.m.?"
+    },
+    {
+      "start": "01:25",
+      "end": "01:27",
+      "speaker": "Shion",
+      "text": "So someone should be here."
+    },
+    {
+      "start": "01:27",
+      "end": "01:28",
+      "speaker": "Carl",
+      "text": "That's insane."
+    },
+    {
+      "start": "01:28",
+      "end": "01:29",
+      "speaker": "Shion",
+      "text": "Yeah."
+    },
+    {
+      "start": "01:29",
+      "end": "01:34",
+      "speaker": "Steven",
+      "text": "Who's that Who's that going to be tonight? [laughter]"
+    },
+    {
+      "start": "01:34",
+      "end": "01:36",
+      "speaker": "Carl",
+      "text": "[sigh] Wow."
+    },
+    {
+      "start": "01:36",
+      "end": "01:39",
+      "speaker": "Shion",
+      "text": "Very high salary security. [laughter]"
+    },
+    {
+      "start": "01:39",
+      "end": "01:42",
+      "speaker": "Steven",
+      "text": "It's being recorded. [laughter]"
+    },
+    {
+      "start": "01:42",
+      "end": "01:46",
+      "speaker": "Carl",
+      "text": "Don't worry, don't worry. I will, uh, I will not save this. [laughter]"
+    },
+    {
+      "start": "01:46",
+      "end": "01:58",
+      "speaker": "Carl",
+      "text": "Because, um, now, I'll I'll tell him later, but it's very interesting because I know somebody who was a founder here who basically made an Omi neck-, uh sorry, a wearable necklace with a microphone."
+    },
+    {
+      "start": "01:58",
+      "end": "01:59",
+      "speaker": "Shion",
+      "text": "Wow."
+    },
+    {
+      "start": "01:59",
+      "end": "02:03",
+      "speaker": "Carl",
+      "text": "And SoftBank actually bought so much from him."
+    },
+    {
+      "start": "02:03",
+      "end": "02:22",
+      "speaker": "Carl",
+      "text": "Wow. I'm not, yeah. So that's why I was interested in, like, asking this kind of questions, because in California, there's always, like, a two-party consent system. You have to say yes before I start recording you, and I have to be okay with recording you. But just, um, hearing that a company has actually bought his, um, microphone,"
+    },
+    {
+      "start": "02:22",
+      "end": "02:40",
+      "speaker": "Carl",
+      "text": "although the data is stored only on the company servers, no one else can access access it, but still there's basically a recording of everything you've said. So that's why it was like, I thought that Japan's comfortable with this already. [laughter] Uh, I'm going to repeat the whole thing. [laughter]"
+    },
+    {
+      "start": "02:40",
+      "end": "02:47",
+      "speaker": "Carl",
+      "text": "But no, um, I asked I promised it was the last few questions, [laughter] but I'm just, like, very interested cuz, um, last year I was working with someone who makes an AI necklace that has a microphone."
+    },
+    {
+      "start": "02:47",
+      "end": "02:48",
+      "speaker": "VP",
+      "text": "Oh."
+    },
+    {
+      "start": "02:48",
+      "end": "02:50",
+      "speaker": "Shion",
+      "text": "Is it a very tiny one?"
+    },
+    {
+      "start": "02:50",
+      "end": "02:54",
+      "speaker": "Carl",
+      "text": "It's like a like this size. Like a yeah, like this size."
+    },
+    {
+      "start": "02:54",
+      "end": "02:55",
+      "speaker": "Shion",
+      "text": "I see."
+    },
+    {
+      "start": "02:55",
+      "end": "03:15",
+      "speaker": "Carl",
+      "text": "And it has a microphone and so it, like, records everything you say. And what's very interesting is that SoftBank, as an enterprise, actually purchased so many of these for his, um, for the company, probably for meeting use, and so that's why I assumed Japanese people were already comfortable with, like, someone monitoring them. [laughter]"
+    },
+    {
+      "start": "03:15",
+      "end": "03:26",
+      "speaker": "Carl",
+      "text": "So that's why I thought like, um, 'Oh, if we could even go one step further and see how an employee could, like, um, be, uh...'"
+    },
+    {
+      "start": "03:26",
+      "end": "03:45",
+      "speaker": "Carl",
+      "text": "There's so many, um, neuroscience thing that goes behind this. For context, I was, uh, I have a friend who is working in UMichigan, I believe, whose PhD paper is determining if someone is depressed based on their keystrokes, like how hard they click the keyboard."
+    },
+    {
+      "start": "03:45",
+      "end": "04:00",
+      "speaker": "Carl",
+      "text": "And so I was wondering if like, if they are okay with that type of data collection, how deep can we go? [laughter] And like and that would be very valuable because now, Shion's manager in America could say, 'Oh yeah, she's so amazing.' But maybe Shion is actually not working based on the records."
+    },
+    {
+      "start": "04:00",
+      "end": "04:16",
+      "speaker": "Carl",
+      "text": "It's very Orwell, it's very dystopian, but like I was I just thought that that would that was, uh, something that Recruit also does, because since SoftBank is doing it, then I thought Recruit was doing it. But anyway, I'm not going to ask more questions. Thank you so much for your time. [laughter]"
+    },
+    {
+      "start": "04:16",
+      "end": "04:24",
+      "speaker": "VP",
+      "text": "そうね。一番コンテキストデータを取得するっていう意味においては、めちゃくちゃいいアイデアだとは思うけど。",
+      "ja": "そうね。一番コンテキストデータを取得するっていう意味においては、めちゃくちゃいいアイデアだとは思うけど。",
+      "en": "Right. In terms of acquiring context data the most, I think it's a really great idea, but..."
+    },
+    {
+      "start": "04:24",
+      "end": "04:26",
+      "speaker": "Shion",
+      "text": "Like a badge?"
+    },
+    {
+      "start": "04:26",
+      "end": "04:36",
+      "speaker": "VP",
+      "text": "うん。ただ、えー、プライベートと、その、パブリックの、その、会社の、会社の話とプライベートの情報が混在しちゃう情報になっちゃったときの、情報の取り扱いの難しさと、"
+    },
+    {
+      "start": "04:36",
+      "end": "04:40",
+      "speaker": "Shion",
+      "text": "So it it it's going to be very complicated if the the conversation recorded..."
+    },
+    {
+      "start": "04:40",
+      "end": "04:42",
+      "speaker": "Carl",
+      "text": "Yeah, I I don't like it as well. [laughter]"
+    },
+    {
+      "start": "04:42",
+      "end": "04:47",
+      "speaker": "Shion",
+      "text": "...person, private, and like official conversation."
+    },
+    {
+      "start": "04:47",
+      "end": "04:52",
+      "speaker": "VP",
+      "text": "あと、近いプロダクトはもう出てる、出てるっていうか。世の中に。",
+      "ja": "あと、近いプロダクトはもう出てる、出てるっていうか。世の中に。",
+      "en": "Also, similar products are already out, or should I say out... in the world."
+    },
+    {
+      "start": "04:52",
+      "end": "04:55",
+      "speaker": "VP",
+      "text": "SwitchBot, SwitchBotっていう会社が...",
+      "ja": "SwitchBot, SwitchBotっていう会社が...",
+      "en": "A company called SwitchBot, SwitchBot..."
+    },
+    {
+      "start": "04:55",
+      "end": "04:57",
+      "speaker": "VP",
+      "text": "You know SwitchBot?"
+    },
+    {
+      "start": "04:57",
+      "end": "04:59",
+      "speaker": "Shion",
+      "text": "There are, like, some similar products."
+    },
+    {
+      "start": "04:59",
+      "end": "05:03",
+      "speaker": "Steven",
+      "text": "Maybe they are based on the, uh, Korea?"
+    },
+    {
+      "start": "05:03",
+      "end": "05:07",
+      "speaker": "Carl",
+      "text": "Let me check if, on Google."
+    },
+    {
+      "start": "05:07",
+      "end": "05:14",
+      "speaker": "VP",
+      "text": "Yeah, SwitchBot release, uh, uh... this one?"
+    },
+    {
+      "start": "05:14",
+      "end": "05:16",
+      "speaker": "Steven",
+      "text": "Microphone clip?"
+    },
+    {
+      "start": "05:16",
+      "end": "05:17",
+      "speaker": "Carl",
+      "text": "Clip, okay."
+    },
+    {
+      "start": "05:17",
+      "end": "05:25",
+      "speaker": "VP",
+      "text": "Yeah. So, that's the same idea. [laughter]"
+    },
+    {
+      "start": "05:25",
+      "end": "05:29",
+      "speaker": "Carl",
+      "text": "I see. Uh, sorry, can I see? Uh..."
+    },
+    {
+      "start": "05:29",
+      "end": "05:32",
+      "speaker": "VP",
+      "text": "Okay."
+    },
+    {
+      "start": "05:32",
+      "end": "05:33",
+      "speaker": "Carl",
+      "text": "SwitchBot..."
+    },
+    {
+      "start": "05:33",
+      "end": "05:34",
+      "speaker": "VP",
+      "text": "SwitchBot."
+    },
+    {
+      "start": "05:34",
+      "end": "05:38",
+      "speaker": "Carl",
+      "text": "'Capture what...' Ah, I see. Is this popular in Japan?"
+    },
+    {
+      "start": "05:38",
+      "end": "05:39",
+      "speaker": "VP",
+      "text": "No. Uh..."
+    },
+    {
+      "start": "05:39",
+      "end": "05:40",
+      "speaker": "Carl",
+      "text": "You just saw this."
+    },
+    {
+      "start": "05:40",
+      "end": "05:45",
+      "speaker": "VP",
+      "text": "Yeah, maybe this product, uh, release..."
+    },
+    {
+      "start": "05:45",
+      "end": "05:47",
+      "speaker": "Unknown",
+      "text": "I'm gonna return this. Thank you."
+    },
+    {
+      "start": "05:47",
+      "end": "05:50",
+      "speaker": "VP",
+      "text": "...from Korea?"
+    },
+    {
+      "start": "05:50",
+      "end": "05:51",
+      "speaker": "Carl",
+      "text": "Ah."
+    },
+    {
+      "start": "05:51",
+      "end": "05:54",
+      "speaker": "VP",
+      "text": "I don't know, I don't know. But, uh, it's very new products."
+    },
+    {
+      "start": "05:54",
+      "end": "05:55",
+      "speaker": "Carl",
+      "text": "Mm."
+    },
+    {
+      "start": "05:55",
+      "end": "06:01",
+      "speaker": "VP",
+      "text": "Maybe, uh, this month release this, uh, this product. So, that's why. Uh, it's very new. And..."
+    },
+    {
+      "start": "06:01",
+      "end": "06:05",
+      "speaker": "Steven",
+      "text": "Honestly, it's Chinese, because their UI looks so Chinese. [laughter]"
+    },
+    {
+      "start": "06:05",
+      "end": "06:08",
+      "speaker": "Carl",
+      "text": "Right! [laughter] Yeah, sorry. [laughter]"
+    },
+    {
+      "start": "06:08",
+      "end": "06:09",
+      "speaker": "Steven",
+      "text": "I think it's Chinese."
+    },
+    {
+      "start": "06:09",
+      "end": "06:12",
+      "speaker": "Carl",
+      "text": "But how do you feel about products like this?"
+    },
+    {
+      "start": "06:12",
+      "end": "06:14",
+      "speaker": "VP",
+      "text": "Yeah. Uh, I I want to use. [laughter]"
+    },
+    {
+      "start": "06:14",
+      "end": "06:16",
+      "speaker": "Carl",
+      "text": "For yourself or for the team?"
+    },
+    {
+      "start": "06:16",
+      "end": "06:17",
+      "speaker": "VP",
+      "text": "Yeah, uh..."
+    },
+    {
+      "start": "06:17",
+      "end": "06:19",
+      "speaker": "Carl",
+      "text": "Like, it's just an opinion. [laughter]"
+    },
+    {
+      "start": "06:19",
+      "end": "06:48",
+      "speaker": "VP",
+      "text": "If if possible, uh, we use all the team. [laughter] I want to use all the team, but, uh, uh, as Shion says, uh, it's very complicated to handle the, uh, what? Data? D- this data. Cuz, uh, it's mixed, uh, private conversation and then the public conversation, and it's mixed. And we should separate the, uh, this data, and that's why it's very, uh..."
+    },
+    {
+      "start": "06:48",
+      "end": "06:53",
+      "speaker": "Carl",
+      "text": "Technically, it is possible, but then it's so hard to say this by like, 'Oh, trust me. Trust me, I will separate it.' [laughter]"
+    },
+    {
+      "start": "06:53",
+      "end": "06:55",
+      "speaker": "VP",
+      "text": "Yeah, yeah, trust me. [laughter]"
+    },
+    {
+      "start": "06:55",
+      "end": "07:11",
+      "speaker": "Steven",
+      "text": "I mean, also like, sometimes like private conversations are like more legit than the official conversations. Let's say like..."
+    },
+    {
+      "start": "07:11",
+      "end": "07:12",
+      "speaker": "Shion",
+      "text": "More legit?"
+    },
+    {
+      "start": "07:12",
+      "end": "07:20",
+      "speaker": "Steven",
+      "text": "Yeah, more legit. Because of whatever you say in the meeting, but like talking with your work like your work friends, you might have, you know, like some kind of you know, your personal intentions that you could not say in the meeting, but you can share still share with your you know work friend, right? Which the HR is probably could not capture."
+    },
+    {
+      "start": "07:20",
+      "end": "07:22",
+      "speaker": "VP",
+      "text": "Mhm. Mhm. Because, yeah."
+    },
+    {
+      "start": "07:22",
+      "end": "07:33",
+      "speaker": "Carl",
+      "text": "I will send you the official SoftBank thing cuz I can't find it right now, but apparently, um, it's now used, the necklace, is used by SoftBank, Salesforce, and Tony Robbins. I'm not sure what Tony Robbins is."
+    },
+    {
+      "start": "07:33",
+      "end": "07:34",
+      "speaker": "Steven",
+      "text": "Tony Robbins?"
+    },
+    {
+      "start": "07:34",
+      "end": "07:42",
+      "speaker": "Carl",
+      "text": "Yeah, I'm not familiar with that is, but apparently they're the, um, um, they're one of the enterprise customers."
+    },
+    {
+      "start": "07:42",
+      "end": "07:43",
+      "speaker": "VP",
+      "text": "Oh, really?"
+    },
+    {
+      "start": "07:43",
+      "end": "07:44",
+      "speaker": "Carl",
+      "text": "Yeah."
+    },
+    {
+      "start": "07:44",
+      "end": "07:45",
+      "speaker": "VP",
+      "text": "Interesting."
+    },
+    {
+      "start": "07:45",
+      "end": "07:47",
+      "speaker": "Carl",
+      "text": "Yeah, but thank you so much for your time. Yeah."
+    },
+    {
+      "start": "07:47",
+      "end": "07:49",
+      "speaker": "Steven",
+      "text": "Yeah, really appreciate that, yeah."
+    },
+    {
+      "start": "07:49",
+      "end": "07:51",
+      "speaker": "Shion",
+      "text": "Good for you."
+    },
+    {
+      "start": "07:51",
+      "end": "08:02",
+      "speaker": "Carl",
+      "text": "Yeah, thank you so much for helping us. Like, oh, we really, [laughter] like, anytime. You can bother me [laughter]..."
+    }
+  ],
+  "uncertain": [
+    {
+      "at": "00:41",
+      "reading_a": "unclear sigh/mumble",
+      "reading_b": "Shion again!",
+      "chosen": "Shion again!"
+    },
+    {
+      "at": "00:56",
+      "reading_a": "He's good shit.",
+      "reading_b": "She's good shit.",
+      "chosen": "She's good shit."
+    },
+    {
+      "at": "04:24",
+      "reading_a": "Mic of that?",
+      "reading_b": "Like a badge?",
+      "chosen": "Like a badge?"
+    }
+  ],
+  "corrections_vs_prior": [
+    "Identified and attributed all speakers (Carl, Steven, VP, Shion, Unknown).",
+    "00:18: Resolved prior '[unclear: It is very good value?]' to VP saying 'It's very good value, I think so.' preceded by Shion and VP in Japanese.",
+    "00:41: Identified Carl's reaction ('Shion again!') in Audio B when VP jokingly uses Shion as the example profile subject.",
+    "00:56: Fixed 'He's good shit' to Steven remarking 'She's good shit.' about Shion.",
+    "00:58: Added VP's comment 'ああ、トイレ' which prompted Carl's laughter and 'Ah, toilet!'.",
+    "04:24: Corrected 'Mic of that?' to 'Like a badge?'.",
+    "05:46: Added bystander audio 'I'm gonna return this. Thank you.'",
+    "06:01: Assigned 'Honestly, it's Chinese...' to Steven."
+  ]
+}

@@ -1,0 +1,742 @@
+{
+  "chunk": 9,
+  "segments": [
+    {
+      "start": "00:00",
+      "end": "00:01",
+      "speaker": "Steven",
+      "text": "kind of got the, like, the-"
+    },
+    {
+      "start": "00:01",
+      "end": "00:02",
+      "speaker": "Carl",
+      "text": "It's just that..."
+    },
+    {
+      "start": "00:02",
+      "end": "00:02",
+      "speaker": "Steven",
+      "text": "...somehow..."
+    },
+    {
+      "start": "00:02",
+      "end": "00:03",
+      "speaker": "Carl",
+      "text": "We pinpointed..."
+    },
+    {
+      "start": "00:03",
+      "end": "00:05",
+      "speaker": "Steven",
+      "text": "...the idea, and like the specific idea, at least."
+    },
+    {
+      "start": "00:05",
+      "end": "00:08",
+      "speaker": "Carl",
+      "text": "So we can just, like, kind of annotate it, like have a plan, and go to bed."
+    },
+    {
+      "start": "00:08",
+      "end": "00:13",
+      "speaker": "Steven",
+      "text": "Bro, I'm going to- I'm going to pass out. And I don't want to miss out the Hyatt breakfast tomorrow."
+    },
+    {
+      "start": "00:13",
+      "end": "00:16",
+      "speaker": "Carl",
+      "text": "Oh, yeah. Is there a time we have to be here tomorrow?"
+    },
+    {
+      "start": "00:16",
+      "end": "00:20",
+      "speaker": "Steven",
+      "text": "Probably. Well, I'm going to ask, let me check at the front desk when I'm back."
+    },
+    {
+      "start": "00:20",
+      "end": "00:27",
+      "speaker": "Carl",
+      "text": "Let me put this, um... I made a phone recording just to be sure that high-quality recording's in there."
+    },
+    {
+      "start": "00:27",
+      "end": "00:29",
+      "speaker": "Steven",
+      "text": "We've been talking to him for an hour."
+    },
+    {
+      "start": "00:29",
+      "end": "00:32",
+      "speaker": "Carl",
+      "text": "For an hour and 14. I'll put this in the Recruit hackathon group."
+    },
+    {
+      "start": "00:32",
+      "end": "00:34",
+      "speaker": "Steven",
+      "text": "ありがとうございます。",
+      "ja": "ありがとうございます。",
+      "en": "Thank you very much."
+    },
+    {
+      "start": "00:34",
+      "end": "00:37",
+      "speaker": "Carl",
+      "text": "How do you say \"You're welcome\"?"
+    },
+    {
+      "start": "00:37",
+      "end": "00:39",
+      "speaker": "Steven",
+      "text": "Umm, 大丈夫です。",
+      "ja": "大丈夫です。",
+      "en": "It's all right."
+    },
+    {
+      "start": "00:39",
+      "end": "00:44",
+      "speaker": "Carl",
+      "text": "大丈夫です。 It's like 'gwaenchanh-'. It's a literal translation to 'gwaenchanha'. Whew, that was a piece of work.",
+      "ja": "大丈夫です。",
+      "en": "It's all right."
+    },
+    {
+      "start": "00:46",
+      "end": "00:48",
+      "speaker": "Carl",
+      "text": "I'm going to get myself snacks."
+    },
+    {
+      "start": "00:48",
+      "end": "00:50",
+      "speaker": "Steven",
+      "text": "You should."
+    },
+    {
+      "start": "01:03",
+      "end": "01:05",
+      "speaker": "Steven",
+      "text": "Oof, I love these."
+    },
+    {
+      "start": "01:05",
+      "end": "01:07",
+      "speaker": "Carl",
+      "text": "No, I like the barbecue ones."
+    },
+    {
+      "start": "01:07",
+      "end": "01:12",
+      "speaker": "Steven",
+      "text": "It's closed. Oh, wow. Doesn't mean to like take the whole box, I guess."
+    },
+    {
+      "start": "01:12",
+      "end": "01:15",
+      "speaker": "Carl",
+      "text": "No, why is this closed?"
+    },
+    {
+      "start": "01:15",
+      "end": "01:18",
+      "speaker": "Unknown",
+      "text": "あ、それ、僕、あの、チェックインに使いたいんだよね。",
+      "ja": "あ、それ、僕、あの、チェックインに使いたいんだよね。",
+      "en": "Ah, I want to use that for check-in, you know."
+    },
+    {
+      "start": "01:18",
+      "end": "01:21",
+      "speaker": "Carl",
+      "text": "It's like they magically just refill, you know?"
+    },
+    {
+      "start": "01:21",
+      "end": "01:24",
+      "speaker": "Steven",
+      "text": "Dude, this thing is so good, man."
+    },
+    {
+      "start": "01:24",
+      "end": "01:28",
+      "speaker": "Carl",
+      "text": "Yeah, I know. Langue... What is this? Langue- What does it say?"
+    },
+    {
+      "start": "01:28",
+      "end": "01:34",
+      "speaker": "Steven",
+      "text": "Chocolat... Langue de chat. Langue de chat. It's it's French. Chocolat blanc... Langue de chat."
+    },
+    {
+      "start": "01:34",
+      "end": "01:36",
+      "speaker": "Carl",
+      "text": "Langue..."
+    },
+    {
+      "start": "01:36",
+      "end": "01:39",
+      "speaker": "Unknown",
+      "text": "ジャパニーズ... 札幌。札幌、北海道。",
+      "ja": "ジャパニーズ... 札幌。札幌、北海道。",
+      "en": "Japanese... Sapporo. Sapporo, Hokkaido."
+    },
+    {
+      "start": "01:39",
+      "end": "01:42",
+      "speaker": "Steven",
+      "text": "I know, I know. Shiroi Koibito, yeah."
+    },
+    {
+      "start": "01:42",
+      "end": "01:43",
+      "speaker": "Carl",
+      "text": "Hokkaido? Hm."
+    },
+    {
+      "start": "01:43",
+      "end": "01:44",
+      "speaker": "Steven",
+      "text": "Yeah, I..."
+    },
+    {
+      "start": "01:44",
+      "end": "01:45",
+      "speaker": "Unknown",
+      "text": "You've been to Sapporo?"
+    },
+    {
+      "start": "01:45",
+      "end": "01:46",
+      "speaker": "Steven",
+      "text": "I'm from Sapporo."
+    },
+    {
+      "start": "01:46",
+      "end": "01:47",
+      "speaker": "Unknown",
+      "text": "Oh, you're from Sapporo?!"
+    },
+    {
+      "start": "01:47",
+      "end": "01:48",
+      "speaker": "Steven",
+      "text": "Yeah."
+    },
+    {
+      "start": "01:48",
+      "end": "01:52",
+      "speaker": "Carl",
+      "text": "Yo, we should go out and have some Sapporo together! Yo, we should get the Sapporo beer!"
+    },
+    {
+      "start": "01:52",
+      "end": "01:54",
+      "speaker": "Steven",
+      "text": "Oh god."
+    },
+    {
+      "start": "01:54",
+      "end": "01:58",
+      "speaker": "Carl",
+      "text": "Until 6:00 AM, right? Okay, we're going to bring the beer!"
+    },
+    {
+      "start": "01:58",
+      "end": "02:07",
+      "speaker": "Steven",
+      "text": "Actually like, you know, I was in Japan like a couple of weeks ago, and like I found this in the duty free, and I was like, \"Oh! I want to get this, but it's kind of expensive.\" Being a student, like..."
+    },
+    {
+      "start": "02:07",
+      "end": "02:10",
+      "speaker": "Carl",
+      "text": "You got this for me, thank you. You guys ate it, fuck."
+    },
+    {
+      "start": "02:10",
+      "end": "02:13",
+      "speaker": "Unknown",
+      "text": "まあ、まあ、いいんじゃない。",
+      "ja": "まあ、まあ、いいんじゃない。",
+      "en": "Well, well, isn't that fine?"
+    },
+    {
+      "start": "02:22",
+      "end": "02:26",
+      "speaker": "Carl",
+      "text": "Whew. Well deserved."
+    },
+    {
+      "start": "02:30",
+      "end": "02:34",
+      "speaker": "Carl",
+      "text": "Honestly, it's not even a moral issue."
+    },
+    {
+      "start": "02:34",
+      "end": "02:39",
+      "speaker": "Steven",
+      "text": "Wait, it's a it's a good call. We are trying to make it the safest food, okay? So don't worry about it."
+    },
+    {
+      "start": "02:39",
+      "end": "02:41",
+      "speaker": "Carl",
+      "text": "Too Good To Go."
+    },
+    {
+      "start": "02:41",
+      "end": "02:48",
+      "speaker": "Steven",
+      "text": "All right, that was the most philosophic Too Good To Go. My bad, my bad."
+    },
+    {
+      "start": "02:48",
+      "end": "02:51",
+      "speaker": "Carl",
+      "text": "It's our first Too Good To Go run, bro."
+    },
+    {
+      "start": "02:51",
+      "end": "02:57",
+      "speaker": "Steven",
+      "text": "Dude, they got so much bull- like so many Monsters and like Red Bulls over here. Did you check the fridge?"
+    },
+    {
+      "start": "02:57",
+      "end": "03:00",
+      "speaker": "Carl",
+      "text": "I'm not getting that. I learned my lesson."
+    },
+    {
+      "start": "03:00",
+      "end": "03:02",
+      "speaker": "Steven",
+      "text": "Who's your roommate, by the way?"
+    },
+    {
+      "start": "03:02",
+      "end": "03:05",
+      "speaker": "Carl",
+      "text": "I'm not telling you."
+    },
+    {
+      "start": "03:05",
+      "end": "03:09",
+      "speaker": "Steven",
+      "text": "Why? Why not? Not- not disclosing to anybody?"
+    },
+    {
+      "start": "03:09",
+      "end": "03:14",
+      "speaker": "Carl",
+      "text": "No, I told you we celebrated- we celebrated 9/11, right?"
+    },
+    {
+      "start": "03:14",
+      "end": "03:16",
+      "speaker": "Steven",
+      "text": "Wait, what? I'm confused."
+    },
+    {
+      "start": "03:16",
+      "end": "03:23",
+      "speaker": "Carl",
+      "text": "I told you we celebrated 9/11 by going to an Afghanistan restaurant. In no way I'm putting them in your hit list."
+    },
+    {
+      "start": "03:23",
+      "end": "03:29",
+      "speaker": "Steven",
+      "text": "I was- I was not linking that. Okay, I was not thinking that's what you meant. But..."
+    },
+    {
+      "start": "03:29",
+      "end": "03:31",
+      "speaker": "Steven",
+      "text": "Now, tell me who that person is."
+    },
+    {
+      "start": "03:32",
+      "end": "03:34",
+      "speaker": "Steven",
+      "text": "Oh, it must be- is it still Albion?"
+    },
+    {
+      "start": "03:34",
+      "end": "03:35",
+      "speaker": "Carl",
+      "text": "If we win, sure."
+    },
+    {
+      "start": "03:35",
+      "end": "03:39",
+      "speaker": "Steven",
+      "text": "If it wins? If it... Ah, it's still Albion, okay."
+    },
+    {
+      "start": "03:39",
+      "end": "03:41",
+      "speaker": "Carl",
+      "text": "If we win, I'll tell you."
+    },
+    {
+      "start": "03:41",
+      "end": "03:43",
+      "speaker": "Steven",
+      "text": "No, no, no. It's- it's still Albion, right?"
+    },
+    {
+      "start": "03:43",
+      "end": "03:45",
+      "speaker": "Carl",
+      "text": "No, Albion's too white for that."
+    },
+    {
+      "start": "03:45",
+      "end": "03:47",
+      "speaker": "Steven",
+      "text": "No, it's still Albion."
+    },
+    {
+      "start": "03:47",
+      "end": "03:49",
+      "speaker": "Carl",
+      "text": "Way too white for that."
+    },
+    {
+      "start": "03:49",
+      "end": "03:56",
+      "speaker": "Steven",
+      "text": "Okay, but you know what? I will celebrate it too, but like who's that person? Tell me who that person is. Drop the name! Drop the name. I will celebrate 9/11 next year together with you guys."
+    },
+    {
+      "start": "03:56",
+      "end": "03:57",
+      "speaker": "Carl",
+      "text": "If we win."
+    },
+    {
+      "start": "03:57",
+      "end": "03:59",
+      "speaker": "Steven",
+      "text": "Oh, come on."
+    },
+    {
+      "start": "03:59",
+      "end": "04:05",
+      "speaker": "Steven",
+      "text": "Dude, the data structure is crazy, man. Like, are we still able to do that, right?"
+    },
+    {
+      "start": "04:05",
+      "end": "04:06",
+      "speaker": "Carl",
+      "text": "Yeah."
+    },
+    {
+      "start": "04:06",
+      "end": "04:14",
+      "speaker": "Steven",
+      "text": "You know what? I- I should have just like got into my Bitcoins, you know, in 2020. All..."
+    },
+    {
+      "start": "04:20",
+      "end": "04:30",
+      "speaker": "Carl",
+      "text": "This is beautiful. We just had like an hour discussion and we're getting clear. So use the audio skill again..."
+    },
+    {
+      "start": "04:33",
+      "end": "04:41",
+      "speaker": "Carl",
+      "text": "...first, a page to just summarize in detail, not using the magic wand thing."
+    },
+    {
+      "start": "04:46",
+      "end": "04:54",
+      "speaker": "Carl",
+      "text": "Again, use Friend, Gemini Flash 2.0, it's fast. Then update Steven on Slack..."
+    },
+    {
+      "start": "04:58",
+      "end": "05:01",
+      "speaker": "Carl",
+      "text": "...for record purposes."
+    },
+    {
+      "start": "05:04",
+      "end": "05:08",
+      "speaker": "Carl",
+      "text": "Oh, I'm going to bring that back to my room."
+    },
+    {
+      "start": "05:25",
+      "end": "05:27",
+      "speaker": "Carl",
+      "text": "It's somehow going, somehow going."
+    },
+    {
+      "start": "05:28",
+      "end": "05:32",
+      "speaker": "Carl",
+      "text": "I'm going to upload it to GitHub. Yes, sir!"
+    },
+    {
+      "start": "05:33",
+      "end": "05:34",
+      "speaker": "Steven",
+      "text": "Mm."
+    },
+    {
+      "start": "05:36",
+      "end": "05:43",
+      "speaker": "Carl",
+      "text": "His whole- his whole statement about \"I don't know which data we should be using\" is classic reinforcement learning."
+    },
+    {
+      "start": "05:43",
+      "end": "05:44",
+      "speaker": "Steven",
+      "text": "Mm."
+    },
+    {
+      "start": "05:45",
+      "end": "05:52",
+      "speaker": "Carl",
+      "text": "I'm studying that right now, that's why I'm like, oh... Sounds precisely like POMDPs."
+    },
+    {
+      "start": "05:54",
+      "end": "05:56",
+      "speaker": "Steven",
+      "text": "Which floor are you in, by the way?"
+    },
+    {
+      "start": "05:56",
+      "end": "05:58",
+      "speaker": "Carl",
+      "text": "For Hyatt, or the rest-?"
+    },
+    {
+      "start": "05:58",
+      "end": "05:59",
+      "speaker": "Steven",
+      "text": "For Hyatt."
+    },
+    {
+      "start": "05:59",
+      "end": "06:00",
+      "speaker": "Carl",
+      "text": "18."
+    },
+    {
+      "start": "06:00",
+      "end": "06:05",
+      "speaker": "Steven",
+      "text": "18? Yeah? They only give me the 11th, man. I want the top floor. I wanted the penthouse. The city view is pretty cool, though. Mm."
+    },
+    {
+      "start": "06:05",
+      "end": "06:05",
+      "speaker": "Carl",
+      "text": "Mm."
+    },
+    {
+      "start": "06:05",
+      "end": "06:10",
+      "speaker": "Steven",
+      "text": "Fuck, I got- I got three nights. Heh heh. What the fuck, bro? Stephen had- Stephen had none."
+    },
+    {
+      "start": "06:10",
+      "end": "06:12",
+      "speaker": "Carl",
+      "text": "Hm? Stephen had none?"
+    },
+    {
+      "start": "06:12",
+      "end": "06:16",
+      "speaker": "Steven",
+      "text": "He's local! I think bro even took a Muni to get here!"
+    },
+    {
+      "start": "06:16",
+      "end": "06:19",
+      "speaker": "Carl",
+      "text": "I'm like, Uber? No, I'm like..."
+    },
+    {
+      "start": "06:19",
+      "end": "06:23",
+      "speaker": "Steven",
+      "text": "You know what? This time, I didn't even open Lyft."
+    },
+    {
+      "start": "06:23",
+      "end": "06:24",
+      "speaker": "Carl",
+      "text": "What?"
+    },
+    {
+      "start": "06:24",
+      "end": "06:27",
+      "speaker": "Steven",
+      "text": "I didn't even- I didn't even check the price on Lyft."
+    },
+    {
+      "start": "06:27",
+      "end": "06:28",
+      "speaker": "Carl",
+      "text": "Ah."
+    },
+    {
+      "start": "06:28",
+      "end": "06:31",
+      "speaker": "Steven",
+      "text": "What are you- you know me, I always double check the price."
+    },
+    {
+      "start": "06:31",
+      "end": "06:33",
+      "speaker": "Carl",
+      "text": "They should have put the Waymo, though."
+    },
+    {
+      "start": "06:33",
+      "end": "06:35",
+      "speaker": "Steven",
+      "text": "Mm. At least."
+    },
+    {
+      "start": "06:36",
+      "end": "06:46",
+      "speaker": "Steven",
+      "text": "Man, but that VP is a leader, man. Like, they're like sending all the employees... and he's like, \"I'll take care of this, man.\""
+    },
+    {
+      "start": "06:46",
+      "end": "06:49",
+      "speaker": "Carl",
+      "text": "He actually is. Mm."
+    },
+    {
+      "start": "06:51",
+      "end": "06:53",
+      "speaker": "Steven",
+      "text": "He's eating last, I guess."
+    },
+    {
+      "start": "06:53",
+      "end": "06:54",
+      "speaker": "Carl",
+      "text": "Mm."
+    },
+    {
+      "start": "07:03",
+      "end": "07:07",
+      "speaker": "Carl",
+      "text": "Did we actually plan a Sunday Sapporo night with them?"
+    },
+    {
+      "start": "07:07",
+      "end": "07:10",
+      "speaker": "Steven",
+      "text": "That'll be good. That'll be amazing."
+    },
+    {
+      "start": "07:11",
+      "end": "07:13",
+      "speaker": "Carl",
+      "text": "Sunday night, after the hackathon?"
+    },
+    {
+      "start": "07:13",
+      "end": "07:16",
+      "speaker": "Steven",
+      "text": "Yeah. We'll take them to the Japantown."
+    },
+    {
+      "start": "07:16",
+      "end": "07:20",
+      "speaker": "Carl",
+      "text": "Yeah. Drinks on you!"
+    },
+    {
+      "start": "07:22",
+      "end": "07:26",
+      "speaker": "Steven",
+      "text": "あ、コーポレートカードで...",
+      "ja": "あ、コーポレートカードで...",
+      "en": "Ah, with a corporate card..."
+    },
+    {
+      "start": "07:26",
+      "end": "07:28",
+      "speaker": "Carl",
+      "text": "I do not know what you mean."
+    },
+    {
+      "start": "07:28",
+      "end": "07:30",
+      "speaker": "Steven",
+      "text": "Like corporate card."
+    },
+    {
+      "start": "07:30",
+      "end": "07:33",
+      "speaker": "Carl",
+      "text": "Ah, corporate- コーポレートカード。",
+      "ja": "コーポレートカード。",
+      "en": "Corporate card."
+    },
+    {
+      "start": "07:33",
+      "end": "07:36",
+      "speaker": "Steven",
+      "text": "Can we also get this reimbursed?"
+    },
+    {
+      "start": "07:36",
+      "end": "07:40",
+      "speaker": "Carl",
+      "text": "Bro, when everybody gets like omakase, that's insane."
+    },
+    {
+      "start": "07:40",
+      "end": "07:41",
+      "speaker": "Steven",
+      "text": "Mm."
+    }
+  ],
+  "uncertain": [
+    {
+      "at": "02:44",
+      "reading_a": "[Audio A cut off]",
+      "reading_b": "All right, that was the most philosophic Too Good To Go.",
+      "chosen": "All right, that was the most philosophic Too Good To Go."
+    },
+    {
+      "at": "04:47",
+      "reading_a": "[Audio A cut off]",
+      "reading_b": "Again, use Friend, Gemini Flash 2.0, it's fast.",
+      "chosen": "Again, use Friend, Gemini Flash 2.0, it's fast."
+    },
+    {
+      "at": "06:08",
+      "reading_a": "[Audio A cut off]",
+      "reading_b": "Stephen had- Stephen had none.",
+      "chosen": "Stephen had- Stephen had none."
+    }
+  ],
+  "corrections_vs_prior": [
+    "Prior transcript only covered the first 5 seconds from Audio A; Audio B continues for the entire 8-minute chunk as Carl and Steven finish up, get snacks, and discuss the hackathon.",
+    "Split overlapping speech at 00:00-00:05 accurately between Carl and Steven.",
+    "Added full verbatim transcript for 00:05 through 08:00, including Japanese speech and English translations."
+  ]
+}

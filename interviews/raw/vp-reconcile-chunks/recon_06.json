@@ -1,0 +1,778 @@
+{
+  "chunk": 6,
+  "segments": [
+    {
+      "start": "00:00",
+      "end": "00:05",
+      "speaker": "Carl",
+      "text": "Yes. Which ones do you collect, or if no, why? Is it still a moral issue?"
+    },
+    {
+      "start": "00:05",
+      "end": "00:06",
+      "speaker": "Shion",
+      "text": "なんか、実験的にやってるとか。",
+      "ja": "なんか、実験的にやってるとか。",
+      "en": "Like, doing it experimentally or something?"
+    },
+    {
+      "start": "00:06",
+      "end": "00:08",
+      "speaker": "VP",
+      "text": "ある。うん。",
+      "ja": "ある。うん。",
+      "en": "There is. Yeah."
+    },
+    {
+      "start": "00:08",
+      "end": "00:30",
+      "speaker": "Shion",
+      "text": "So we, like, started to collect data, like, how to say, exper- in experiment, in other organization. But that, I think that is, like, from, like, the exact the business organization that, like, said they want to do that."
+    },
+    {
+      "start": "00:30",
+      "end": "00:32",
+      "speaker": "Carl",
+      "text": "Oh, interesting."
+    },
+    {
+      "start": "00:32",
+      "end": "00:34",
+      "speaker": "Shion",
+      "text": "Yeah, and..."
+    },
+    {
+      "start": "00:34",
+      "end": "00:52",
+      "speaker": "VP",
+      "text": "シチュエーション、あー、んと、一番、えっと、避けたい問題は、その、正しくない情報、AIが出した正しくない情報を信じて、プロモーションだったり、仕事を変えるっていう、人にとって大事な選択を誤らせてしまうっていうことを僕らは避けたいですと。",
+      "ja": "シチュエーション、あー、んと、一番、えっと、避けたい問題は、その、正しくない情報、AIが出した正しくない情報を信じて、プロモーションだったり、仕事を変えるっていう、人にとって大事な選択を誤らせてしまうっていうことを僕らは避けたいですと。",
+      "en": "Situation... ah, well, the problem we most want to avoid is people believing incorrect information—incorrect information produced by AI—and causing people to make mistaken choices regarding important personal decisions like promotions or job changes; we want to avoid that."
+    },
+    {
+      "start": "00:52",
+      "end": "00:54",
+      "speaker": "Shion",
+      "text": "うん、うん、うん。",
+      "ja": "うん、うん、うん。",
+      "en": "Yeah, yeah, yeah."
+    },
+    {
+      "start": "00:54",
+      "end": "01:08",
+      "speaker": "Shion",
+      "text": "What we really want to escape is that, like, from the output of AI, like, and, like, like making the wrong decision making."
+    },
+    {
+      "start": "01:08",
+      "end": "01:09",
+      "speaker": "VP",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "01:09",
+      "end": "01:10",
+      "speaker": "Steven",
+      "text": "I see."
+    },
+    {
+      "start": "01:10",
+      "end": "01:13",
+      "speaker": "Shion",
+      "text": "allocation, or evaluation, like that."
+    },
+    {
+      "start": "01:13",
+      "end": "01:25",
+      "speaker": "VP",
+      "text": "なので、えー、経営層だけ、さっき言ってくれたようなダッシュボードを作ったり、その問題がハンドルできる状態の中で、POCは、僕らの中だけでやってます。",
+      "ja": "なので、えー、経営層だけ、さっき言ってくれたようなダッシュボードを作ったり、その問題がハンドルできる状態の中で、POCは、僕らの中だけでやってます。",
+      "en": "So, we created a dashboard like the one you mentioned earlier only for executive management, and within a state where that problem can be handled, we are running the POC only among ourselves."
+    },
+    {
+      "start": "01:25",
+      "end": "01:32",
+      "speaker": "Shion",
+      "text": "So, like, only the board member, or some, like, you know, people who can handle, like, the, how to say, application, organization can see the dashboard right now."
+    },
+    {
+      "start": "01:32",
+      "end": "01:33",
+      "speaker": "VP",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "01:33",
+      "end": "01:34",
+      "speaker": "Carl",
+      "text": "Yeah."
+    },
+    {
+      "start": "01:34",
+      "end": "01:57",
+      "speaker": "VP",
+      "text": "で、それが、リクルートホールディングスグループでいくと、多分3,000人ぐらいのファーストラインマネージャーまで展開しようとすると、いろんなマネージャーがいるから、誤った使われ方をするので、これをどういう風に全部で拡大しようとするかってなると、足踏みしてるよ、みたいな、そんな感じです。",
+      "ja": "で、それが、リクルートホールディングスグループでいくと、多分3,000人ぐらいのファーストラインマネージャーまで展開しようとすると、いろんなマネージャーがいるから、誤った使われ方をするので、これをどういう風に全部で拡大しようとするかってなると、足踏みしてるよ、みたいな、そんな感じです。",
+      "en": "And with that, if we were to roll it out across the Recruit Holdings Group to maybe around 3,000 first-line managers, because there are all kinds of managers, it could be used incorrectly. So when it comes to how to expand this across the board, we are hesitating—it's that kind of situation."
+    },
+    {
+      "start": "01:57",
+      "end": "02:04",
+      "speaker": "Shion",
+      "text": "And if we, like, try to expand to all managers, like, so 3,000 managers or so..."
+    },
+    {
+      "start": "02:04",
+      "end": "02:05",
+      "speaker": "Carl",
+      "text": "Oh, wow."
+    },
+    {
+      "start": "02:05",
+      "end": "02:22",
+      "speaker": "Shion",
+      "text": "...so if, it is, ah, risk, like, to, you know, someone might, like, consider the information not properly. So, like, that's, how to say, why they are discussing how fast..."
+    },
+    {
+      "start": "02:22",
+      "end": "02:24",
+      "speaker": "VP",
+      "text": "で、この速度の見極めが結構大事だと思ってるよね。",
+      "ja": "で、この速度の見極めが結構大事だと思ってるよね。",
+      "en": "And we feel that discerning this pace is quite important, right."
+    },
+    {
+      "start": "02:24",
+      "end": "02:26",
+      "speaker": "Shion",
+      "text": "The key is that, like, the, like, 見極め。うん。",
+      "ja": "見極め。うん。",
+      "en": "The key is that, like, the, like, assessing/discerning. Yeah."
+    },
+    {
+      "start": "02:26",
+      "end": "02:47",
+      "speaker": "Carl",
+      "text": "But I guess what's interesting... Uh, thank you so much for your time, by the way. I'm gonna I'm gonna make sure this is gonna be the last question, and then we can wrap up. Um, for the experiment that you're con- um for the experiment group that you're collecting, this is just Slack data, right?"
+    },
+    {
+      "start": "02:47",
+      "end": "02:50",
+      "speaker": "Shion",
+      "text": "え、なんか何のデータを集めてるか知りたいそうです。",
+      "ja": "え、なんか何のデータを集めてるか知りたいそうです。",
+      "en": "Uh, he says he wants to know what kind of data is being collected."
+    },
+    {
+      "start": "02:50",
+      "end": "02:52",
+      "speaker": "Shion",
+      "text": "Slack, I, I think Slack..."
+    },
+    {
+      "start": "02:52",
+      "end": "02:53",
+      "speaker": "Carl",
+      "text": "Like the mess- the message, uh-huh."
+    },
+    {
+      "start": "02:53",
+      "end": "02:54",
+      "speaker": "Shion",
+      "text": "...information as well."
+    },
+    {
+      "start": "02:54",
+      "end": "02:58",
+      "speaker": "VP",
+      "text": "Slackと、まあ、あと、その、なんだろうな、ディベロップメン、人材開発委員会とかの議事録すべてと...",
+      "ja": "Slackと、まあ、あと、その、なんだろうな、ディベロップメン、人材開発委員会とかの議事録すべてと...",
+      "en": "Slack, and well, also, um, what would it be, developmen-... like all the meeting minutes of things like the human resources development committee, and..."
+    },
+    {
+      "start": "02:58",
+      "end": "03:04",
+      "speaker": "Shion",
+      "text": "Ah, like, the, the, conversation detail, like, the meeting record of development, uh, human resources development meeting."
+    },
+    {
+      "start": "03:04",
+      "end": "03:07",
+      "speaker": "Steven",
+      "text": "I see."
+    },
+    {
+      "start": "03:07",
+      "end": "03:08",
+      "speaker": "VP",
+      "text": "うん。あとMBOのデータとか。",
+      "ja": "うん。あとMBOのデータとか。",
+      "en": "Yeah. And data like MBO."
+    },
+    {
+      "start": "03:08",
+      "end": "03:09",
+      "speaker": "Shion",
+      "text": "MBOのデータ。",
+      "ja": "MBOのデータ。",
+      "en": "MBO data."
+    },
+    {
+      "start": "03:09",
+      "end": "03:13",
+      "speaker": "VP",
+      "text": "マネジメント・バイ... あるのかな、Will Can Must。",
+      "ja": "マネジメント・バイ... あるのかな、Will Can Must。",
+      "en": "Management by... I wonder if there is... Will Can Must."
+    },
+    {
+      "start": "03:13",
+      "end": "03:14",
+      "speaker": "Shion",
+      "text": "ああ、Will Can Mustとか。",
+      "ja": "ああ、Will Can Mustとか。",
+      "en": "Ah, things like Will Can Must."
+    },
+    {
+      "start": "03:14",
+      "end": "03:22",
+      "speaker": "Shion",
+      "text": "That is, uh, how to say, uh, we have a, uh, 1-on-1 meeting, uh, uh, once, uh, twice a year, uh, with my, with our direct boss."
+    },
+    {
+      "start": "03:22",
+      "end": "03:23",
+      "speaker": "Carl",
+      "text": "Mhm."
+    },
+    {
+      "start": "03:23",
+      "end": "03:28",
+      "speaker": "VP",
+      "text": "あと、エバリュエーションのデータとか、まあ、ほぼ全ての情報。5年分かな。",
+      "ja": "あと、エバリュエーションのデータとか、まあ、ほぼ全ての情報。5年分かな。",
+      "en": "Also evaluation data, and well, pretty much all information. For five years, I think."
+    },
+    {
+      "start": "03:28",
+      "end": "03:33",
+      "speaker": "Shion",
+      "text": "All 5, 5 years record."
+    },
+    {
+      "start": "03:33",
+      "end": "03:36",
+      "speaker": "VP",
+      "text": "うん。うん。",
+      "ja": "うん。うん。",
+      "en": "Yeah. Yeah."
+    },
+    {
+      "start": "03:36",
+      "end": "04:02",
+      "speaker": "Carl",
+      "text": "So who is a part of this? Like, how did um, are the people who are in this experiment group, are they managers, or are they like software engineers? Like who is Like you said you ran an experiment group, right? I was wondering who are in the experiment group and do they know that their data is being collected?"
+    },
+    {
+      "start": "04:02",
+      "end": "04:04",
+      "speaker": "Shion",
+      "text": "え、対象のところでやってるの？",
+      "ja": "え、対象のところでやってるの？",
+      "en": "Wait, are you doing it with the target [group]?"
+    },
+    {
+      "start": "04:04",
+      "end": "04:07",
+      "speaker": "VP",
+      "text": "うん、人事でやってる。僕のメンバーでやってる。僕の範囲で。",
+      "ja": "うん、人事でやってる。僕のメンバーでやってる。僕の範囲で。",
+      "en": "Yeah, we're doing it in HR. We're doing it with my members. Within my scope."
+    },
+    {
+      "start": "04:07",
+      "end": "04:10",
+      "speaker": "Shion",
+      "text": "え、そのSlackのデータ集めてるのはどこが集めてるんですか？",
+      "ja": "え、そのSlackのデータ集めてるのはどこが集めてるんですか？",
+      "en": "Uh, who is collecting that Slack data?"
+    },
+    {
+      "start": "04:10",
+      "end": "04:11",
+      "speaker": "VP",
+      "text": "ICTかな。",
+      "ja": "ICTかな。",
+      "en": "ICT, I think."
+    },
+    {
+      "start": "04:11",
+      "end": "04:11",
+      "speaker": "Shion",
+      "text": "ああ。",
+      "ja": "ああ。",
+      "en": "Oh."
+    },
+    {
+      "start": "04:11",
+      "end": "04:14",
+      "speaker": "VP",
+      "text": "ICTからデータをもらって、解析して。",
+      "ja": "ICTからデータをもらって、解析して。",
+      "en": "We get the data from ICT and analyze it."
+    },
+    {
+      "start": "04:14",
+      "end": "04:16",
+      "speaker": "Shion",
+      "text": "ICTチームの、じゃ、人たちのデータってことですか？",
+      "ja": "ICTチームの、じゃ、人たちのデータってことですか？",
+      "en": "So it's data on the people from the ICT team?"
+    },
+    {
+      "start": "04:16",
+      "end": "04:23",
+      "speaker": "VP",
+      "text": "いや、違う。あ、ある、僕が指定した組織の組織のSlack情報をICT部門からもらってます。",
+      "ja": "いや、違う。あ、ある、僕が指定した組織の組織のSlack情報をICT部門からもらってます。",
+      "en": "No, that's not it. Ah, a certain... from an organization I designated, we receive the organization's Slack information from the ICT department."
+    },
+    {
+      "start": "04:24",
+      "end": "04:26",
+      "speaker": "Shion",
+      "text": "あ、なるほど。うん。",
+      "ja": "あ、なるほど。うん。",
+      "en": "Ah, I see. Yeah."
+    },
+    {
+      "start": "04:26",
+      "end": "04:30",
+      "speaker": "Shion",
+      "text": "Eh, ICT, like, team in HR, uh, group..."
+    },
+    {
+      "start": "04:30",
+      "end": "04:32",
+      "speaker": "VP",
+      "text": "人事の外ね、ICTは。",
+      "ja": "人事の外ね、ICTは。",
+      "en": "Outside of HR, ICT is."
+    },
+    {
+      "start": "04:32",
+      "end": "04:34",
+      "speaker": "Shion",
+      "text": "あ、ICT, like, the, uh..."
+    },
+    {
+      "start": "04:34",
+      "end": "04:35",
+      "speaker": "Steven",
+      "text": "Like IT team?"
+    },
+    {
+      "start": "04:35",
+      "end": "04:43",
+      "speaker": "Shion",
+      "text": "Like, yeah, IT team, like, uh, get the information from that experiment, experimental team. The experimental team is, uh, on business-side team."
+    },
+    {
+      "start": "04:43",
+      "end": "04:45",
+      "speaker": "Carl",
+      "text": "I see."
+    },
+    {
+      "start": "04:45",
+      "end": "04:47",
+      "speaker": "Shion",
+      "text": "Yeah, so they are, like, actual, you know, product product..."
+    },
+    {
+      "start": "04:47",
+      "end": "04:48",
+      "speaker": "Steven",
+      "text": "So like..."
+    },
+    {
+      "start": "04:48",
+      "end": "04:49",
+      "speaker": "Carl",
+      "text": "Pilot?"
+    },
+    {
+      "start": "04:49",
+      "end": "04:50",
+      "speaker": "Shion",
+      "text": "Yeah."
+    },
+    {
+      "start": "04:50",
+      "end": "04:55",
+      "speaker": "Carl",
+      "text": "Yeah, I see. But do they know they're being recorded? If so, how do they feel? Like how did they..."
+    },
+    {
+      "start": "04:55",
+      "end": "04:57",
+      "speaker": "Shion",
+      "text": "知らされてますよね？従業員には。",
+      "ja": "知らされてますよね？従業員には。",
+      "en": "They've been notified, right? The employees."
+    },
+    {
+      "start": "04:57",
+      "end": "05:01",
+      "speaker": "VP",
+      "text": "えっと、ボードメンバーだけやってる時は言ってない。",
+      "ja": "えっと、ボードメンバーだけやってる時は言ってない。",
+      "en": "Um, while we're only doing it among board members, we haven't told them."
+    },
+    {
+      "start": "05:01",
+      "end": "05:02",
+      "speaker": "Shion",
+      "text": "ああ。",
+      "ja": "ああ。",
+      "en": "Ah."
+    },
+    {
+      "start": "05:04",
+      "end": "05:07",
+      "speaker": "Carl",
+      "text": "I see. Mhm."
+    },
+    {
+      "start": "05:08",
+      "end": "05:35",
+      "speaker": "Carl",
+      "text": "But do they at least know how they feel about it? Because how because before we were saying like, 'Oh, it's a big moral problem.' But for some reason, for some reason, a few group of people are willingly getting experimented on. And so I was wondering what was different, or like, was there something in exchange for being a part of the experiment program? Like how did you how did these people end up there?"
+    },
+    {
+      "start": "05:36",
+      "end": "05:43",
+      "speaker": "Shion",
+      "text": "あの、そういう、その、実験的にSlackのデータとか取得されてる人たちは、どう、どうなったんですか？彼らはなんか、何かを感じたとかあるんですか？",
+      "ja": "あの、そういう、その、実験的にSlackのデータとか取得されてる人たちは、どう、どうなったんですか？彼らはなんか、何かを感じたとかあるんですか？",
+      "en": "Um, those people whose Slack data is being experimentally acquired, how—what happened with them? Did they, like, feel anything about it?"
+    },
+    {
+      "start": "05:43",
+      "end": "05:44",
+      "speaker": "VP",
+      "text": "言ってないからわかんない。",
+      "ja": "言ってないからわかんない。",
+      "en": "We haven't told them, so we don't know."
+    },
+    {
+      "start": "05:44",
+      "end": "05:45",
+      "speaker": "Shion",
+      "text": "So they they don't know."
+    },
+    {
+      "start": "05:45",
+      "end": "05:47",
+      "speaker": "Steven",
+      "text": "So it is a moral problem, but you're just going..."
+    },
+    {
+      "start": "05:47",
+      "end": "05:49",
+      "speaker": "Carl",
+      "text": "I see."
+    },
+    {
+      "start": "05:49",
+      "end": "05:51",
+      "speaker": "VP",
+      "text": "Slackのパブリックの、なんだ、チャンネル...",
+      "ja": "Slackのパブリックの、なんだ、チャンネル...",
+      "en": "Only public, what is it, channels on Slack..."
+    },
+    {
+      "start": "05:51",
+      "end": "05:52",
+      "speaker": "Carl",
+      "text": "Ah."
+    },
+    {
+      "start": "05:52",
+      "end": "05:52",
+      "speaker": "Steven",
+      "text": "Mhm."
+    },
+    {
+      "start": "05:52",
+      "end": "05:59",
+      "speaker": "VP",
+      "text": "...のみだけにしてるから。プライベートな情報が入ってないところだけでやってるので。で、まあリーガルとかプライバシーポリシー的な問題はないから...",
+      "ja": "...のみだけにしてるから。プライベートな情報が入ってないところだけでやってるので。で、まあリーガルとかプライバシーポリシー的な問題はないから...",
+      "en": "...we are restricting it only to those. Because we are only doing it where no private information is included. And well, there are no legal or privacy policy issues, so..."
+    },
+    {
+      "start": "05:59",
+      "end": "06:00",
+      "speaker": "Shion",
+      "text": "うん、うん、うん。",
+      "ja": "うん、うん、うん。",
+      "en": "Yeah, yeah, yeah."
+    },
+    {
+      "start": "06:00",
+      "end": "06:01",
+      "speaker": "VP",
+      "text": "大丈夫。",
+      "ja": "大丈夫。",
+      "en": "It's fine."
+    },
+    {
+      "start": "06:01",
+      "end": "06:04",
+      "speaker": "Shion",
+      "text": "There's no like legal or like policy problem because that is only the public channel."
+    },
+    {
+      "start": "06:04",
+      "end": "06:05",
+      "speaker": "Carl",
+      "text": "Yeah."
+    },
+    {
+      "start": "06:05",
+      "end": "06:09",
+      "speaker": "VP",
+      "text": "で、特に従業員に何か、それで施策を打つ、なん、なんか、それによってプロモーションしたり、ジョブチェンジしたりのっていうのはまだやってないから。",
+      "ja": "で、特に従業員に何か、それで施策を打つ、なん、なんか、それによってプロモーションしたり、ジョブチェンジしたりのっていうのはまだやってないから。",
+      "en": "And we aren't taking any actual personnel measures on employees based on it yet—like promoting someone or changing their job based on that."
+    },
+    {
+      "start": "06:09",
+      "end": "06:10",
+      "speaker": "Shion",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "06:10",
+      "end": "06:17",
+      "speaker": "Shion",
+      "text": "So we haven't done that, like, the decision making regarding the assignment or the evaluation, so, uh, yeah, just monitoring among the board members."
+    },
+    {
+      "start": "06:18",
+      "end": "06:21",
+      "speaker": "VP",
+      "text": "どんなことができるかだけを経営陣だけでやってるって感じ。",
+      "ja": "どんなことができるかだけを経営陣だけでやってるって感じ。",
+      "en": "It's just that the management team is looking into what kinds of things might be possible."
+    },
+    {
+      "start": "06:21",
+      "end": "06:25",
+      "speaker": "Shion",
+      "text": "We are discussing what we can do from there."
+    },
+    {
+      "start": "06:25",
+      "end": "06:27",
+      "speaker": "Steven",
+      "text": "I see."
+    },
+    {
+      "start": "06:27",
+      "end": "06:36",
+      "speaker": "Steven",
+      "text": "Because you mentioned a moral problem, but it's more like a legal problem out I I think. Here in the United States, at least here in California, even the DMs between Slack, that's a company property..."
+    },
+    {
+      "start": "06:36",
+      "end": "06:37",
+      "speaker": "VP",
+      "text": "Mhm."
+    },
+    {
+      "start": "06:37",
+      "end": "06:38",
+      "speaker": "Steven",
+      "text": "...because it's on Slack channel."
+    },
+    {
+      "start": "06:37",
+      "end": "06:38",
+      "speaker": "Carl",
+      "text": "Mhm. Right."
+    },
+    {
+      "start": "06:38",
+      "end": "06:39",
+      "speaker": "Shion",
+      "text": "Really?"
+    },
+    {
+      "start": "06:39",
+      "end": "06:40",
+      "speaker": "Carl",
+      "text": "Yeah."
+    },
+    {
+      "start": "06:40",
+      "end": "06:43",
+      "speaker": "Steven",
+      "text": "So, I guess that's completely okay thing to do here."
+    },
+    {
+      "start": "06:43",
+      "end": "06:44",
+      "speaker": "Shion",
+      "text": "Wow."
+    },
+    {
+      "start": "06:44",
+      "end": "06:44",
+      "speaker": "VP",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "06:44",
+      "end": "06:52",
+      "speaker": "Steven",
+      "text": "It's So yeah, like if I just like message Carl privately on my Slack, company has a right to know that."
+    },
+    {
+      "start": "06:52",
+      "end": "06:53",
+      "speaker": "Shion",
+      "text": "うーん。",
+      "ja": "うーん。",
+      "en": "Hmm."
+    },
+    {
+      "start": "06:53",
+      "end": "06:54",
+      "speaker": "VP",
+      "text": "なんだって？",
+      "ja": "なんだって？",
+      "en": "What did he say?"
+    },
+    {
+      "start": "06:54",
+      "end": "06:57",
+      "speaker": "Shion",
+      "text": "え、アメリカでは、そのDMの会話とかも全て会社の所有物として...",
+      "ja": "え、アメリカでは、そのDMの会話とかも全て会社の所有物として...",
+      "en": "Uh, in America, even conversations in DMs are all [considered] company property..."
+    },
+    {
+      "start": "06:57",
+      "end": "07:04",
+      "speaker": "VP",
+      "text": "あ、そうだね。基本的に外資系は全て使える形になってるし、リクルートも使える。それで言うと。会社のポリシー上。",
+      "ja": "あ、そうだね。基本的に外資系は全て使える形になってるし、リクルートも使える。それで言うと。会社のポリシー上。",
+      "en": "Ah, that's right. Basically foreign-affiliated firms are set up so everything can be used, and Recruit can use it too, strictly speaking, under company policy."
+    },
+    {
+      "start": "07:04",
+      "end": "07:05",
+      "speaker": "Shion",
+      "text": "あー。",
+      "ja": "あー。",
+      "en": "Ah."
+    },
+    {
+      "start": "07:05",
+      "end": "07:11",
+      "speaker": "Shion",
+      "text": "So, like, depend on No, based on the the company's policy, we can use it, but..."
+    },
+    {
+      "start": "07:11",
+      "end": "07:12",
+      "speaker": "VP",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "07:12",
+      "end": "07:13",
+      "speaker": "Shion",
+      "text": "モラルの面で...",
+      "ja": "モラルの面で...",
+      "en": "...in terms of morals..."
+    },
+    {
+      "start": "07:13",
+      "end": "07:14",
+      "speaker": "VP",
+      "text": "うん。",
+      "ja": "うん。",
+      "en": "Yeah."
+    },
+    {
+      "start": "07:14",
+      "end": "07:18",
+      "speaker": "VP",
+      "text": "従業員がすげえ気持ち悪ぃって思う可能性が高いので、ああ。えっと、躊躇してるっていう感じかな。うん。",
+      "ja": "従業員がすげえ気持ち悪ぃって思う可能性が高いので、ああ。えっと、躊躇してるっていう感じかな。うん。",
+      "en": "There's a high probability employees would find it really creepy, so, yeah, we're hesitating, that kind of feeling. Yeah."
+    },
+    {
+      "start": "07:18",
+      "end": "07:22",
+      "speaker": "Shion",
+      "text": "ああ。うん、うん、うん。",
+      "ja": "ああ。うん、うん、うん。",
+      "en": "Ah. Yeah, yeah, yeah."
+    },
+    {
+      "start": "07:22",
+      "end": "07:27",
+      "speaker": "Shion",
+      "text": "We are, like, not doing that because employees, like, feel uncomfortable to do that."
+    },
+    {
+      "start": "07:27",
+      "end": "07:29",
+      "speaker": "Steven",
+      "text": "Mhm."
+    },
+    {
+      "start": "07:30",
+      "end": "08:04",
+      "speaker": "Carl",
+      "text": "Because one thing I'm even um, I want I want to explore is because even I wouldn't use a dash- like I wouldn't use an I wouldn't depend on an AI to give me a score to see if this guy could be promoted. If Shion could be promoted. Sorry, [laughter] I'm using you as an example. But um one thing that I want to build off Steven's idea is like what if the dashboard collects all of the evidence from the Slack messages to the work outputs to the Gmail, and..."
+    }
+  ],
+  "uncertain": [
+    {
+      "at": "01:30",
+      "reading_a": "application, organization",
+      "reading_b": "association, organization",
+      "chosen": "application, organization"
+    },
+    {
+      "at": "04:02",
+      "reading_a": "え、対象のところでやってるの？",
+      "reading_b": "え、対象のところでやってるの？",
+      "chosen": "え、対象のところでやってるの？"
+    }
+  ],
+  "corrections_vs_prior": [
+    "02:47: Prior had 'え、なんか何のデータを集めているか知ってます？そこは。' which inverted the question; Shion actually tells the VP 'え、なんか何のデータを集めてるか知りたいそうです。' ('He says he wants to know what kind of data is being collected').",
+    "04:02: Prior misheard Shion as saying 'え、最初のところでやってるの？'; she clearly says 'え、対象のところでやってるの？' ('Are you doing it with the target [group]?').",
+    "04:08: Prior had 'どこで集めてる？'; Shion asks 'どこが集めてるんですか？' ('Who/where is collecting it?'), prompting VP's reply 'ICTかな'.",
+    "04:48: Attributed 'Pilot?' to Carl (audible close to glasses mic in Audio B) rather than being omitted/overlapped.",
+    "05:08: Corrected Carl's phrasing from 'But do at least know' to 'But do they at least know'.",
+    "06:00: Prior transcribed VP as '耐久' (nonsense in context); audio clearly shows VP saying '大丈夫' ('It's fine / no problem').",
+    "Disentangled speakers: separated Carl Kho and Steven Yang, separated VP and Shion, and provided faithful English translations for all Japanese utterances."
+  ]
+}

@@ -1,0 +1,403 @@
+{
+  "chunk": 1,
+  "segments": [
+    {
+      "start": "00:00",
+      "end": "00:05",
+      "speaker": "Shion",
+      "text": "...not right? Fear or like, you don't want you, uh, want AI to evaluate, like, body, for example."
+    },
+    {
+      "start": "00:05",
+      "end": "00:06",
+      "speaker": "Carl",
+      "text": "Ah, I see. I see."
+    },
+    {
+      "start": "00:06",
+      "end": "00:42",
+      "speaker": "VP",
+      "text": "で、えっと何をしようとしてるかで言うと、例えば何の情報を使うとか、何の情報は使わないとか、こういう目的に、でしか使わないよっていう風に従業員に伝えたり、目的とか使うものとか使わないものとかポリシーみたいなものをどういう風に決めて、えっとアナウンスメントするかみたいなことを今、例えばじゅ- 中心的に議論してたりするよみたいな感じ。",
+      "ja": "で、えっと何をしようとしてるかで言うと、例えば何の情報を使うとか、何の情報は使わないとか、こういう目的に、でしか使わないよっていう風に従業員に伝えたり、目的とか使うものとか使わないものとかポリシーみたいなものをどういう風に決めて、えっとアナウンスメントするかみたいなことを今、例えばじゅ- 中心的に議論してたりするよみたいな感じ。",
+      "en": "So, in terms of what we're trying to do, for example, we're currently focusing our discussions on things like: what information to use, what information not to use, informing employees that it will only be used for such-and-such purpose, and how to define policies regarding purposes, what to use and what not to use, and how to announce that."
+    },
+    {
+      "start": "00:43",
+      "end": "00:57",
+      "speaker": "Shion",
+      "text": "So, what he is, uh, like focusing on discussing is like, like for what kind of purpose and like which, yeah, which information to use and which information is not to use, like, you know, like, uh, are trying to define clearly."
+    },
+    {
+      "start": "00:57",
+      "end": "00:59",
+      "speaker": "Unknown",
+      "text": "Here you are."
+    },
+    {
+      "start": "00:59",
+      "end": "01:01",
+      "speaker": "Carl",
+      "text": "Mhm. Thank you."
+    },
+    {
+      "start": "01:01",
+      "end": "01:02",
+      "speaker": "VP",
+      "text": "ありがとうございます。",
+      "ja": "ありがとうございます。",
+      "en": "Thank you very much."
+    },
+    {
+      "start": "01:02",
+      "end": "01:12",
+      "speaker": "Carl",
+      "text": "What- yeah, thank you so much. Um, what's interesting to me though is you said, \"we're discussing this.\" Who did you discuss it with? I'm interested who the decision-makers are, apart from you."
+    },
+    {
+      "start": "01:12",
+      "end": "01:13",
+      "speaker": "VP",
+      "text": "け- 経営ですね。",
+      "ja": "け- 経営ですね。",
+      "en": "M- Management / executive leadership."
+    },
+    {
+      "start": "01:13",
+      "end": "01:14",
+      "speaker": "Shion",
+      "text": "Like the the board members."
+    },
+    {
+      "start": "01:14",
+      "end": "01:15",
+      "speaker": "VP",
+      "text": "ボード、ボードメンバーですね。",
+      "ja": "ボード、ボードメンバーですね。",
+      "en": "The board, board members."
+    },
+    {
+      "start": "01:15",
+      "end": "01:16",
+      "speaker": "Shion",
+      "text": "The board and the business, business unit heads."
+    },
+    {
+      "start": "01:16",
+      "end": "01:17",
+      "speaker": "VP",
+      "text": "各ビジネス、ビジネスの...",
+      "ja": "各ビジネス、ビジネスの...",
+      "en": "Each business, business..."
+    },
+    {
+      "start": "01:17",
+      "end": "02:00",
+      "speaker": "Steven",
+      "text": "So after talking about the weird thingy, one of the things that I feel is, um, so basically like here in San Francisco, a lot of things having like, you know, pretty much like done by AI, like communication is done by AI, so people here do not really feel that much of weird or awkwardness, I would say. But, so one of the like curiosity that like pops in my mind is, Indeed and Glassdoor, they're based here in the United States, so I'm assuming like for them it will be more friendly. But is that is that the weirdness, like, you know, awkwardness of the problem, does it specifically happening to Recruit Holdings in Japan or any or any of the subsidiaries as well?"
+    },
+    {
+      "start": "01:57",
+      "end": "01:58",
+      "speaker": "Carl",
+      "text": "Yeah."
+    },
+    {
+      "start": "02:00",
+      "end": "02:14",
+      "speaker": "Shion",
+      "text": "なるほど。サンフランシスコがめちゃくちゃテックが進んでて、あんまそういうなんかこう恐れみたいなのが、あんまりない気がすると。で、Indeed とか Glassdoor は、えっとこっちにあって、US にあるけど、なんかそういうその、なんか抵抗感みたいなのって、ジャパン、リクルート特有の気質のものなのかみたいな。",
+      "ja": "なるほど。サンフランシスコがめちゃくちゃテックが進んでて、あんまそういうなんかこう恐れみたいなのが、あんまりない気がすると。で、Indeed とか Glassdoor は、えっとこっちにあって、US にあるけど、なんかそういうその、なんか抵抗感みたいなのって、ジャパン、リクルート特有の気質のものなのかみたいな。",
+      "en": "I see. He feels that San Francisco is extremely advanced in tech, so there isn't really that much of that kind of fear. And while Indeed and Glassdoor are over here in the US, is that kind of resistance something unique to the disposition of Recruit in Japan?"
+    },
+    {
+      "start": "02:14",
+      "end": "02:20",
+      "speaker": "VP",
+      "text": "オッケー。えっとまず、言ってくれてる通り、えっとアメリカとかと比べると日本は特にその傾向は強いよと。",
+      "ja": "オッケー。えっとまず、言ってくれてる通り、えっとアメリカとかと比べると日本は特にその傾向は強いよと。",
+      "en": "Okay. Well first, just as you said, compared to places like the US, Japan especially has a strong tendency toward that."
+    },
+    {
+      "start": "02:20",
+      "end": "02:25",
+      "speaker": "Shion",
+      "text": "Mhm. Compared to the US, I think the, like Japan is like tend to be like that, fear to using AI."
+    },
+    {
+      "start": "02:25",
+      "end": "02:27",
+      "speaker": "Carl",
+      "text": "Mhm mhm. Mhm mhm."
+    },
+    {
+      "start": "02:27",
+      "end": "02:44",
+      "speaker": "VP",
+      "text": "一方で、Indeed とかでも、結局 AI が出したリザルト、結果が、えっと本当に問題ないかっていうところをどういう風に倫理的に、えっとモニターするかってのはすごくセンシティビティが高くて、議論してるよと。",
+      "ja": "一方で、Indeed とかでも、結局 AI が出したリザルト、結果が、えっと本当に問題ないかっていうところをどういう風に倫理的に、えっとモニターするかってのはすごくセンシティビティが高くて、議論してるよと。",
+      "en": "On the other hand, even at Indeed, in the end, how to ethically monitor whether the results that the AI produced are truly free of problems has very high sensitivity, and they are discussing it."
+    },
+    {
+      "start": "02:44",
+      "end": "02:55",
+      "speaker": "Shion",
+      "text": "Mhm mhm. But at the same time, like Indeed, like they also discussing like um whether or not the the output from the AI is, uh..."
+    },
+    {
+      "start": "02:55",
+      "end": "02:57",
+      "speaker": "Shion",
+      "text": "倫理って英語で何だっけ？",
+      "ja": "倫理って英語で何だっけ？",
+      "en": "What was 'rinri' (ethics) in English again?"
+    },
+    {
+      "start": "02:57",
+      "end": "03:02",
+      "speaker": "VP",
+      "text": "Ethics... えー、ethics... ethics って何だっけな。",
+      "ja": "Ethics... えー、ethics... ethics って何だっけな。",
+      "en": "Ethics... um, ethics... what was 'ethics' again?"
+    },
+    {
+      "start": "03:02",
+      "end": "03:04",
+      "speaker": "Steven",
+      "text": "Take your time, take your time."
+    },
+    {
+      "start": "03:04",
+      "end": "03:10",
+      "speaker": "Carl",
+      "text": "Yeah, because, um, worst case, our AI, because we're recording as well, can like transcribe it, kind like translate it, you know?"
+    },
+    {
+      "start": "03:10",
+      "end": "03:11",
+      "speaker": "Steven",
+      "text": "[laughter]"
+    },
+    {
+      "start": "03:11",
+      "end": "03:13",
+      "speaker": "Shion",
+      "text": "Like fairness, or like a moral."
+    },
+    {
+      "start": "03:13",
+      "end": "03:14",
+      "speaker": "Carl",
+      "text": "A moral, yeah."
+    },
+    {
+      "start": "03:14",
+      "end": "03:15",
+      "speaker": "Shion",
+      "text": "Moral, yeah. Morally, you know, no... like..."
+    },
+    {
+      "start": "03:15",
+      "end": "03:16",
+      "speaker": "Carl",
+      "text": "Fair."
+    },
+    {
+      "start": "03:16",
+      "end": "03:33",
+      "speaker": "VP",
+      "text": "例えば、ある職種においては、すごく女性が有利に、その、なんか選考に有利になったり、ある職種ではならなかったりみたいなことが起こってて、",
+      "ja": "例えば、ある職種においては、すごく女性が有利に、その、なんか選考に有利になったり、ある職種ではならなかったりみたいなことが起こってて、",
+      "en": "For example, in certain job types, things happen like women having a great advantage, like having an advantage in the screening, while in other job types they don't, and..."
+    },
+    {
+      "start": "03:33",
+      "end": "03:40",
+      "speaker": "Shion",
+      "text": "Like for example, like in some uh in particular position, like the female tend to be like, you know, easy to get the job."
+    },
+    {
+      "start": "03:40",
+      "end": "03:41",
+      "speaker": "Steven",
+      "text": "Yeah. Mhm."
+    },
+    {
+      "start": "03:41",
+      "end": "03:43",
+      "speaker": "Shion",
+      "text": "But the other, you know, position is not like that, and..."
+    },
+    {
+      "start": "03:43",
+      "end": "03:45",
+      "speaker": "Carl",
+      "text": "Mhm. Mhm."
+    },
+    {
+      "start": "03:45",
+      "end": "04:14",
+      "speaker": "VP",
+      "text": "で、これはその、何が問題なのかとか、直すべき問題なのかとか、そういうものを、えっと出した結果、AI が出した結果から、モニ- ま、モニターして、自分たちは何を解消すべきかみたいなところはすごく、放っておくと、ま、そのモラルが崩れたり、平等性が崩れたりするところを、僕らはどういう風に、ま、倫理観を持ちながら、ビジネスとして対峙するかってのは、すごくセンシティビティが高くて議論してるよ。",
+      "ja": "で、これはその、何が問題なのかとか、直すべき問題なのかとか、そういうものを、えっと出した結果、AI が出した結果から、モニ- ま、モニターして、自分たちは何を解消すべきかみたいなところはすごく、放っておくと、ま、そのモラルが崩れたり、平等性が崩れたりするところを、僕らはどういう風に、ま、倫理観を持ちながら、ビジネスとして対峙するかってのは、すごくセンシティビティが高くて議論してるよ。",
+      "en": "And as for whether this is a problem, or whether it's a problem that should be fixed, we moni- well, monitor that from the results produced, the results the AI produced, and regarding what we should resolve—if left alone, well, morals break down or equality breaks down, so how we, while maintaining an ethical perspective, confront that as a business is something with very high sensitivity that we are discussing."
+    },
+    {
+      "start": "04:14",
+      "end": "04:32",
+      "speaker": "Shion",
+      "text": "Yeah, do think about like whether that is a issue or not, or like the like the given the output from the AI, uh what like yeah what to how to like, um, handle that, right? Is what like Indeed also discussing, um, as well, so..."
+    },
+    {
+      "start": "04:32",
+      "end": "04:34",
+      "speaker": "Carl",
+      "text": "Right."
+    },
+    {
+      "start": "04:35",
+      "end": "05:22",
+      "speaker": "Steven",
+      "text": "So, here's my follow-up question is, um, so for Recruit Holdings, since it's the parents company of Indeed and Glassdoor, I'm assuming that there must be some frequent conversations happening between, Glassdoor and [throat clear] and Recruit Holdings. There are also like lots of internal transfers happening within within the organization. That being said, I think that kind of, you know, cultural mixture, or like that kind of AI understanding mixture could be causing some kind of, you know, conflicts or communication errors between the employees from the US and Japan, whenever especially they're relocating. Even if for the Japanese employees who are here, when they go to Japan, back to Japan, or vice versa, I'm assuming they might have experienced some hard times to understand, to follow the norms of AI into those, like into these two companies."
+    },
+    {
+      "start": "05:22",
+      "end": "05:23",
+      "speaker": "Shion",
+      "text": "Norms of AI."
+    },
+    {
+      "start": "05:23",
+      "end": "05:27",
+      "speaker": "Steven",
+      "text": "[clears throat] And I was wondering if there are like specific episodes regarding that that kind of problem happening within Recruit Holdings?"
+    },
+    {
+      "start": "05:27",
+      "end": "05:43",
+      "speaker": "Shion",
+      "text": "なるほど。組織間の会話とか人の行き来みたいなのある中で、AI に対する当たり前の違いとかが、えっと起こるんじゃないか。っていうので、それにどう対応しているかみたいな。",
+      "ja": "なるほど。組織間の会話とか人の行き来みたいなのある中で、AI に対する当たり前の違いとかが、えっと起こるんじゃないか。っていうので、それにどう対応しているかみたいな。",
+      "en": "I see. With conversations between organizations and people moving back and forth, might differences in what's taken for granted regarding AI occur? And so, how are you dealing with that?"
+    },
+    {
+      "start": "05:43",
+      "end": "05:47",
+      "speaker": "VP",
+      "text": "あ、めちゃくちゃまずいい質問で、 That's a very good question.",
+      "ja": "あ、めちゃくちゃまずいい質問で、 That's a very good question.",
+      "en": "Ah, first off, that's an extremely good question. That's a very good question."
+    },
+    {
+      "start": "05:47",
+      "end": "05:48",
+      "speaker": "Shion",
+      "text": "And, uh..."
+    },
+    {
+      "start": "05:48",
+      "end": "06:14",
+      "speaker": "VP",
+      "text": "で、ま、AI に限らず、そのアメリカ的なビジネスの進め方と、ま、特にリクルートは日本の中でもユニークなカルチャーを持ってる会社で、このカルチャーをどういう風に融合させるかっていうのは、すごく経営的なテーマで、なので、人の行き来を結構今、3年前ぐらいからさ-、あの、加速的にさせてるよっていうとこまでは知っててほしい。",
+      "ja": "で、ま、AI に限らず、そのアメリカ的なビジネスの進め方と、ま、特にリクルートは日本の中でもユニークなカルチャーを持ってる会社で、このカルチャーをどういう風に融合させるかっていうのは、すごく経営的なテーマで、なので、人の行き来を結構今、3年前ぐらいからさ-、あの、加速的にさせてるよっていうとこまでは知っててほしい。",
+      "en": "And, well, not limited to AI, how to merge the American way of doing business with Recruit's culture—which is particularly unique even within Japan—is a very major management theme. So, first I'd like you to know that we've been accelerating people moving back and forth since about three years ago."
+    },
+    {
+      "start": "06:14",
+      "end": "06:44",
+      "speaker": "Shion",
+      "text": "Not only the AI issue, but also like how to operate the business, or like the uh the, you know, the cultural uh like environment or like that kind of things are different between the US and Japan. And we are like trying to, um, how to say, transfer like people between the US and Japan more and more recent- recently."
+    },
+    {
+      "start": "06:44",
+      "end": "06:45",
+      "speaker": "Steven",
+      "text": "Mhm."
+    },
+    {
+      "start": "06:45",
+      "end": "07:05",
+      "speaker": "VP",
+      "text": "えっと、で、AI に関しては、えっと、カル-、その何だろうな、特に GDPR、あの、個人情報の規制とか、AI に関する規制の国ごとにおけるそのルールがまず結構、かなり違うので、その影響が結構強い。うん。",
+      "ja": "えっと、で、AI に関しては、えっと、カル-、その何だろうな、特に GDPR、あの、個人情報の規制とか、AI に関する規制の国ごとにおけるそのルールがまず結構、かなり違うので、その影響が結構強い。うん。",
+      "en": "And regarding AI, um, what should I say, especially GDPR, you know, regulations on personal information, and regulations concerning AI, the rules differ quite significantly by country, so that impact is quite strong."
+    },
+    {
+      "start": "07:05",
+      "end": "07:07",
+      "speaker": "Shion",
+      "text": "When it comes to the AI, like the GDPR, like how to uh use the the privacy information is very different from like each country. So..."
+    },
+    {
+      "start": "07:07",
+      "end": "07:09",
+      "speaker": "Carl",
+      "text": "The EU one, for sure."
+    },
+    {
+      "start": "07:09",
+      "end": "07:10",
+      "speaker": "Steven",
+      "text": "Yeah."
+    },
+    {
+      "start": "07:10",
+      "end": "07:13",
+      "speaker": "Carl",
+      "text": "Yeah. Mhm."
+    },
+    {
+      "start": "07:18",
+      "end": "07:44",
+      "speaker": "VP",
+      "text": "そう。で、日本から見ると、言ってくれてる通り、アメリカとかの方が先進事例なので、えっと、何をすると、例えば Amazon とかで、AI 面接やりすぎて炎上したりとか、そういうやつを見ながら、どこまで社会的なコンセンサスをやっちゃうと駄目なのかみたいなことをアメリカをラーニングして、どれぐらい進めるかって議論を結構日本の中ではしてるよっていう感じ。うん。",
+      "ja": "そう。で、日本から見ると、言ってくれてる通り、アメリカとかの方が先進事例なので、えっと、何をすると、例えば Amazon とかで、AI 面接やりすぎて炎上したりとか、そういうやつを見ながら、どこまで社会的なコンセンサスをやっちゃうと駄目なのかみたいなことをアメリカをラーニングして、どれぐらい進めるかって議論を結構日本の中ではしてるよっていう感じ。うん。",
+      "en": "Right. And from Japan's perspective, just as you said, places like the US are advanced cases, so by looking at what happens—like when Amazon overdid AI interviews and faced public backlash—we learn from the US about at what point crossing social consensus becomes unacceptable, and we have quite a lot of discussion within Japan about how far we can push forward."
+    },
+    {
+      "start": "07:44",
+      "end": "08:00",
+      "speaker": "Shion",
+      "text": "From Japan view, like uh the US is kind of like advanced, you know, example. So for example, the the the episode that like Amazon did uh online AI interview, but like that was too much and like it's kind of like..."
+    },
+    {
+      "start": "07:54",
+      "end": "07:56",
+      "speaker": "Carl",
+      "text": "Mhm."
+    },
+    {
+      "start": "07:56",
+      "end": "07:57",
+      "speaker": "Steven",
+      "text": "Mhm."
+    },
+    {
+      "start": "07:57",
+      "end": "07:58",
+      "speaker": "Carl",
+      "text": "Right."
+    }
+  ],
+  "uncertain": [
+    {
+      "at": "00:03",
+      "reading_a": "evaluate, like, body, for example",
+      "reading_b": "evaluate them, for example",
+      "chosen": "evaluate, like, body, for example"
+    },
+    {
+      "at": "06:12",
+      "reading_a": "知っててほしい",
+      "reading_b": "合っててほしい",
+      "chosen": "知っててほしい"
+    }
+  ],
+  "corrections_vs_prior": [
+    "Separated speakers accurately across all turns: Carl (wearing smart glasses mic B), Steven (hackathon teammate), VP (Recruit VP), Shion (interpreter/recruiter), and server.",
+    "01:00-01:17: Deconstructed the prior massive single segment into individual turns for server delivery, Carl's question, VP's answer ('経営ですね'), and Shion's translation.",
+    "02:55-03:06: Clarified the comedic exchange where Shion pauses to ask for the English word for 倫理 ('rinri'), VP tries 'ethics', Steven tells her 'Take your time', and Carl jokes that their recording AI can translate it anyway. Removed hallucinated 'No, thank you so...'.",
+    "06:12: Corrected '合ってほしい' to '知っててほしい' ('I'd like you to know that [as context]').",
+    "07:07: Corrected 'The economic measure?' to Carl saying 'The EU one, for sure.' referring to GDPR.",
+    "00:41: Included VP saying 'みたいな感じ' at the end of the sentence instead of truncating at 'みたいな'."
+  ]
+}
