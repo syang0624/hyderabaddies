@@ -72,7 +72,7 @@ def items_for(cid):
             if it.get("candidate") == cid:
                 out.append(it)
         elif it["source"] == "slack":
-            if it["author"] == cid or f"@{cid}" in it["text"].lower() or cid in it["text"].lower():
+            if it["author"] == cid or f"@{cid}" in it["text"].lower() or re.search(rf"\b{re.escape(cid)}\b", it["text"], re.I):
                 out.append(it)
     return out
 
@@ -167,7 +167,7 @@ def heuristic_claims(cid, items, tags):
 
 
 def extract_claims(cid, force=False):
-    cache = STATE / f"evidence-{cid}.json"
+    cache = STATE / f"evidence-{cid}-{backend_name()}.json"
     if cache.exists() and not force:
         return json.loads(cache.read_text())
     company = load("company.json")
