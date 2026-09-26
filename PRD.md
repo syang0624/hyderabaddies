@@ -1,6 +1,6 @@
 # PRD: Receipts, the evidence layer for people decisions
 
-Working title **Receipts**. Team hyderabaddies: Carl Kho, Steven Yang. Recruit Innovation Cup 2026, San Francisco (DG717). **v3**, Sat Sep 26 2026, ~14:15 PDT, by Claude (Fable 5.1) in Steven's session. v1 (~04:00) was reviewed by fifteen verifiers on PR #3; v2 (~07:45) folded in every finding; **v3 re-aligns the plan with the codebase as Carl built it between 12:50 and 13:40** (the `prototype/` page plus a live meeting layer) **and with the Ryo interview** (11:42–12:30, evaluated side). The FastAPI/React design in §11.0–§11.13 is now the target architecture for after the event; Sunday's plan is §11.A and §12. Companion file: [sync.md](sync.md) holds the reasoning behind every decision here, with evidence pointers, so nobody has to re-derive it. **v3.1**, ~14:30 PDT, by Claude (Fable 5.1) in Carl's session: the Hiro interview (§2.2 P6, §2.5, §2.7, §9.0, §10.1 N13), patch status and the simulated call (§11.A.2, §11.A.4). No other section changed.
+Working title **Receipts**. Team hyderabaddies: Carl Kho, Steven Yang. Recruit Innovation Cup 2026, San Francisco (DG717). **v3**, Sat Sep 26 2026, ~14:15 PDT, by Claude (Fable 5.1) in Steven's session. v1 (~04:00) was reviewed by fifteen verifiers on PR #3; v2 (~07:45) folded in every finding; **v3 re-aligns the plan with the codebase as Carl built it between 12:50 and 13:40** (the `prototype/` page plus a live meeting layer) **and with the Ryo interview** (11:42–12:30, evaluated side). The FastAPI/React design in §11.0–§11.13 is now the target architecture for after the event; Sunday's plan is §11.A and §12. Companion file: [sync.md](sync.md) holds the reasoning behind every decision here, with evidence pointers, so nobody has to re-derive it. **v3.1**, ~14:30 PDT, by Claude (Fable 5.1) in Carl's session: the Hiro interview (§2.2 P6, §2.5, §2.7, §9.0, §10.1 N13), patch status and the simulated call (§11.A.2, §11.A.4). No other section changed. **v3.2**, ~16:50 PDT: §9.3a (how the 90-second video stays clear; the UI stays) and §11.A.5 (four video-clarity tweaks).
 
 ---
 
@@ -462,6 +462,28 @@ Record at 1920×1080, browser 1440 px wide at 110% zoom, after `make reset` and 
 
 Per-beat counts: 16, 36, 36, 43, 31, 18. Rehearse with a timer; if a beat runs long, cut words, not the visual.
 
+### 9.3a Making the 90 seconds clear (v3.2, Sat 16:50; the UI stays, four tweaks landed)
+
+**Decision: keep the current UI.** It runs, it is verified, and it is the thing the stills in the deck show. What made a draft video unclear was motion and numbers, not layout. Four tweaks are on `main` (§11.A.5): no fit numbers in present mode, the candidate list settles into its new order with a short animation, the receipts that matched the spoken criterion light up for four seconds, and the live bar is larger. Nothing else changes before the video.
+
+**The video is the call, not a narration over screenshots.** Two voices (Steven as the manager, Carl as the planner), one screen, the page in present mode. The viewer watches the page react to what they hear. Narration only in the gaps, never over a spoken line.
+
+**Setup, in order.** `make reset && make manifest && make warm` (Gemini pages cached), browser window 1440×900 at `localhost:8787/?present=1` with both sidebars shown, `MIC="<headset>" make live`, a phone on the LAN at `http://<laptop-ip>:8787/?as=yui` for the mirror beat. Record with Cap (screen + mic). Rehearse once with `make live-sim` running instead of the mic to check the pipeline, then twice for real. Two takes maximum; cut in Cap.
+
+**Shot list (one action per beat; the cursor moves slowly and once).**
+
+| t (s) | What the viewer sees | What is said (exact lines; the sim script that passed 5/5) | Caption burned in |
+|---|---|---|---|
+| 0–3 | Disclosure card from the deck | silence | Recorded Sep 27. Fictional company and people. Live: listener tool calls, extraction, re-ranking, annotations. Templated: memo. |
+| 3–10 | The page, idle, three names | Carl (narration): "Choosing who goes where still runs on memory and a paraphrase." | |
+| 10–30 | The live bar turns blue; the list re-sorts; matched receipts light up | Steven (as the manager): "For the Northwind slot I need someone who will push back on the job-based culture instead of just absorbing it, and they have to hold their own in English in meetings." | Heard the criterion. Re-sorted on their words. No score. |
+| 30–46 | Click Yui. Her words beside her manager's note. Open one receipt | Carl: "Her manager wrote 'loves travel, flexible on location'. She wrote this." (points) | Every line is a receipt. Open one: word for word. |
+| 46–64 | "What the candidate sees" (or the phone): Yui's note appears on the evaluator page | Carl (narration): "Yui sees the same page. She adds context before anyone decides." | The person answers first. |
+| 64–80 | Steven's line; the conclusion pop-up | Steven: "Okay, let's set up calls with Yui and Kei this week, and ask Yui whether that location note is actually true. That's it for today." | What the meeting concluded. Receipts attached. |
+| 80–90 | End card | silence | Same page for both sides. A receipt on every line. No score. Your rubric. |
+
+**Clarity rules.** One sentence per caption, burned in. No music. No zooms. The only scroll is beat 4. If the listener misses a line on the take, say the line again once; a second miss means use the typed criterion and keep the take (badge it "typed"). Never re-record more than twice; a slightly imperfect live take beats a perfect staged one, and the first frame says what is live.
+
 ### 9.4 Preliminary pitch, 180 seconds (template order; ≤ 450 words including the demo narration)
 
 | s | Section | Content |
@@ -655,6 +677,8 @@ Two parts. **§11.A is Sunday's plan**: the codebase as Carl built it by 13:40 S
 | 10 | The server binds `0.0.0.0` with no auth (needed for the phone beat) | Accept for the demo LAN; add `DEMO_KEY` (random, printed at start) required on `POST /api/annotate` and `/api/reset`; the phone URL carries `?key=` | A, 15 min, optional |
 
 **Status 14:30 Sat (Carl's session):** done on `main`: 1 (quote check, `dropped_unfaithful` counted and shown), 4, 5 (`3ed49f1`), 6 (503 + "Use keyword mode" button), 9 (`STATE` env, ADC fallback, `make video-mode`, smoke cleans up) (`05720bd`), 7 (`?present=1`, `aa0cc16`). 14:45: 2 done (`?as=<cid>` loads `/api/company?view=subject&cid=` which returns one person and no scores; `/api/rank` is 403 for the subject; live events never switch the subject's page), 3 done (`make manifest` writes `data/manifest.json` with count + sha per fixture; the audit counts never-read sources from it without opening them; `/api/view` records views and the memo prints real counts). Open: 8 (headset mic, two-person rehearsal at 15:30), 10 (optional). Ranking: `RANK_MODE` defaults to the keyword ranker because the Gemini ranker measured 45 s per call, which also blocked the listener's event loop and dropped its socket; extraction stays Gemini (`make warm` before a demo). Real Gemini extraction measured at 14:04: yui 9 claims (0 unfaithful), rin 8 (1 dropped as unfaithful), kei 7 (1 dropped), ~20 s per person.
+
+**A.5 Video-clarity tweaks (Sat 16:50, on `main`).** Present mode hides the fit number (`.rank .fit`) and shows only the bar; the candidate list animates into its new order after a rank (`.cand.moved`, 0.5 s, off under reduced motion); receipt chips whose source ids fed the ranking take an accent ring for four seconds (`.fn.hit`); the live bar is 18 px in present mode. No API change.
 
 **A.4 The live layer, measured (Carl's session, 14:15–14:50 Sat, `make live-sim`).** `live_sim.py` speaks a five-line PM/HR call through macOS `say` (two English voices, one Japanese) into the same Gemini 3.8 Live session `live.py` uses and records which tool fired after each line. Nine runs. Findings, in the order they were found:
 1. `engine.rank()` in `MODE=auto` calls Gemini synchronously and took 45 s; inside the listener it blocked the event loop past the 20 s websocket keepalive and dropped the socket. Fix: rank runs off the loop, and `RANK_MODE` defaults to the keyword ranker (instant). Extraction stays Gemini.

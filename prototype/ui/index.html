@@ -142,6 +142,17 @@
   body.present .claim .txt{font-size:16px;line-height:24px}
   body.present header h1{font-size:24px;line-height:32px;letter-spacing:-.96px}
   body.present .eyebrow{font-size:13px}
+  body.present .rank .fit{display:none}
+  body.present .rank .bar{margin-left:0}
+  body.present .rank .why,body.present .rank .rc{margin-left:0}
+  body.present .live{padding:16px 24px;font-size:18px}
+  body.present .live b{font-size:18px}
+  /* 2. re-sort motion: cards settle into their new order */
+  .cand.moved{animation:settle .5s ease-out}
+  @keyframes settle{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  /* 3. receipts that matched the spoken criterion light up for a moment */
+  .fn.hit{color:var(--ok);border-color:var(--ok);background:var(--ok-bg);box-shadow:0 0 0 3px #52a8ff33}
+  @media(prefers-reduced-motion:reduce){.cand.moved{animation:none}}
   .live{position:sticky;top:0;z-index:6;display:none;align-items:center;gap:12px;padding:10px 24px;background:var(--ok-bg);border-bottom:1px solid #1d3a5c;color:var(--ink);font-size:13px}
   .live.on{display:flex}
   .live .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px #52a8ff33}
@@ -282,7 +293,7 @@ async function loadEvidence(id,force,mode){
   if(!resp.ok){const e=await resp.json().catch(()=>({error:'server error'}));
     $('#claims').innerHTML=`<div class="claim" style="cursor:default"><div class="txt" style="color:var(--warn)">${esc(e.error||'error')}</div><div class="btnrow"><button class="act ghost" onclick="loadEvidence(cur,true)">Retry Gemini</button><button class="act" onclick="loadEvidence(cur,true,'heuristic')">Use keyword mode</button></div></div>`; return;}
   const r=await resp.json();
-  evcache[id]=r; renderEvidence(r);
+  evcache[id]=r; renderEvidence(r); if(lastHits.size) flashHits();
 }
 function splitClaim(t){const m=/^(.+?): ["“](.*)["”]$/s.exec(t); return m?{ctx:m[1],txt:m[2],quoted:true}:{ctx:'',txt:t,quoted:false};}
 function renderEvidence(r){
@@ -323,7 +334,10 @@ async function doRank(){if(AS) return; const crit=$('#crit').value.trim(); $('#r
   const max=Math.max(1,...r.ranking.map(x=>x.fit));
   $('#rank').innerHTML=r.ranking.map(x=>`<li><div class="top"><span class="fit">${x.fit}</span><span class="nm">${esc(x.name)}</span></div><div class="bar"><i style="width:${Math.round(100*x.fit/max)}%"></i></div><div class="why">${esc(x.rationale)}</div>${x.receipts.map(rc=>{const {txt}=splitClaim(rc.text);return `<div class="rc">${esc(txt)} ${rc.source_ids.map(s=>`<span class="fn" onclick="selectCand('${x.candidate}')">${s}</span>`).join(' ')}</div>`}).join('')}</li>`).join('')
     +`<li class="foot" style="border:0">${esc(r.backend)}. Fit re-orders the evidence for this criterion. It is not a verdict and the candidate never sees it.</li>`;
-  renderCands(r.ranking.map(x=>x.candidate));}
+  renderCands(r.ranking.map(x=>x.candidate)); document.querySelectorAll('.cand').forEach(el=>el.classList.add('moved'));
+  lastHits=new Set(r.ranking.flatMap(x=>x.receipts.flatMap(rc=>rc.source_ids))); flashHits();}
+let lastHits=new Set();
+function flashHits(){document.querySelectorAll('.fn').forEach(el=>{const id=(el.getAttribute('title')||el.textContent||'').trim(); if(lastHits.has(id)) el.classList.add('hit');}); setTimeout(()=>document.querySelectorAll('.fn.hit').forEach(el=>el.classList.remove('hit')),4000);}
 async function doMemo(){const crit=encodeURIComponent($('#crit').value.trim()); const t=await (await fetch(`/api/memo/${cur}?criterion=${crit}`)).text(); $('#memo').textContent=nd(t); $('#memoCard').classList.remove('hidden'); $('#memoCard').scrollIntoView({behavior:'smooth'});}
 async function loadAudit(){const a=await (await fetch('/api/audit')).json();
   const tot=Object.values(a.used).reduce((n,v)=>n+v.count,0),nev=Object.values(a.never_read).reduce((n,v)=>n+v.count,0);
