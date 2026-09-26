@@ -71,6 +71,11 @@ class H(BaseHTTPRequestHandler):
                 return self._json(c)
             if p == "/api/audit":
                 return self._json(engine.audit())
+            if p == "/api/live":
+                f = engine.STATE / "live.jsonl"
+                rows = [json.loads(l) for l in f.read_text().splitlines() if l.strip()] if f.exists() else []
+                since = float(q.get("since", ["0"])[0])
+                return self._json({"events": [r for r in rows if r["t"] > since], "now": max([r["t"] for r in rows], default=0)})
             if p.startswith("/api/evidence/"):
                 cid = p.rsplit("/", 1)[1]
                 force = q.get("force", ["0"])[0] == "1"

@@ -133,6 +133,22 @@
   .banner b{color:var(--warn);font-weight:500}
   .memo{white-space:pre-wrap;font:400 13px/20px var(--mono);letter-spacing:0;color:var(--body);background:var(--inset);border:1px solid var(--hair);border-radius:6px;padding:16px;margin-top:12px}
   .hidden{display:none}
+  .live{position:sticky;top:0;z-index:6;display:none;align-items:center;gap:12px;padding:10px 24px;background:var(--ok-bg);border-bottom:1px solid #1d3a5c;color:var(--ink);font-size:13px}
+  .live.on{display:flex}
+  .live .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px #52a8ff33}
+  @media(prefers-reduced-motion:no-preference){.live .dot{animation:pulse 1.4s infinite}@keyframes pulse{50%{box-shadow:0 0 0 6px #52a8ff22}}}
+  .live .heard{color:var(--body);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .live b{font-weight:500;color:var(--ok)}
+  dialog{background:var(--card);color:var(--ink);border:0;border-radius:12px;box-shadow:var(--shadow),0 24px 32px -8px #00000080;padding:28px;max-width:640px;width:calc(100% - 32px)}
+  dialog::backdrop{background:#000000b3}
+  dialog h3{font-size:24px;line-height:32px;font-weight:600;letter-spacing:-.96px;margin:0 0 4px}
+  dialog .sum{font-size:16px;line-height:24px;color:var(--ink);margin:12px 0 20px}
+  dialog .sec{border-top:1px solid var(--hair);padding:12px 0}
+  dialog .sec ul{margin:6px 0 0;padding-left:18px;color:var(--body)}
+  dialog .sec li{padding:2px 0}
+  dialog .who{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+  dialog .who span{padding:4px 10px;border-radius:9999px;border:1px solid var(--hair2);font-size:13px}
+  dialog .who span.on{border-color:var(--ok);color:var(--ok)}
   .spin{color:var(--mute);font:400 12px/16px var(--mono);letter-spacing:0}
   .hdr{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
   .hdr .eyebrow{margin:0}
@@ -156,6 +172,7 @@
   </div>
 </header>
 
+<div class="live" id="live"><span class="dot"></span><b id="livest">Live</b><span class="heard" id="liveheard"></span></div>
 <main>
   <aside class="left">
     <div class="card">
@@ -202,6 +219,16 @@
   </aside>
 </main>
 
+<dialog id="concl">
+  <p class="eyebrow">What this meeting concluded</p>
+  <h3 id="ctitle"></h3>
+  <div class="sum" id="csum"></div>
+  <div class="sec" id="cwho"><p class="eyebrow">People to talk to</p><div class="who" id="cwhol"></div></div>
+  <div class="sec" id="cnext"><p class="eyebrow">Next steps</p><ul id="cnextl"></ul></div>
+  <div class="sec" id="copen"><p class="eyebrow">Ask them before deciding</p><ul id="copenl"></ul></div>
+  <div class="sec" id="cnotes"><p class="eyebrow">On the record</p><ul id="cnotesl"></ul></div>
+  <div class="btnrow"><button class="act" onclick="document.getElementById('concl').close();doMemo()">Decision memo with receipts</button><button class="act ghost" onclick="document.getElementById('concl').close()">Close</button></div>
+</dialog>
 <script>
 let company=null, cur=null, view='eval', evcache={};
 const $=s=>document.querySelector(s);
@@ -291,7 +318,36 @@ function toggleSide(w){document.body.classList.toggle('no'+w);const off=document
 for(const w of ['L','R']){try{if(localStorage.getItem('side'+w)==='0'){document.body.classList.add('no'+w);$('#t'+w).classList.add('off');}}catch(e){}}
 document.addEventListener('toggle',syncSums,true);
 $('#crit').addEventListener('input',syncSums);
-init();
+let liveSince=0, liveNotes=[];
+async function pollLive(){
+  try{
+    const r=await (await fetch('/api/live?since='+liveSince)).json();
+    for(const e of r.events){
+      liveSince=Math.max(liveSince,e.t);
+      if(e.kind==='status'){$('#live').classList.toggle('on',!/stopped/.test(e.text));$('#livest').textContent=/stopped/.test(e.text)?'Live ended':'Live';$('#liveheard').textContent=e.text;}
+      if(e.kind==='heard'){$('#live').classList.add('on');$('#liveheard').textContent=e.text;}
+      if(e.kind==='note'){liveNotes.push(e.text);$('#liveheard').textContent='On the record: '+e.text;}
+      if(e.kind==='show_candidates'){
+        $('#crit').value=e.criterion; document.body.classList.remove('noL'); $('#tL').classList.remove('off');
+        $('#livest').textContent='Heard the criterion'; $('#liveheard').textContent=e.criterion;
+        await doRank(); if(e.ranking&&e.ranking[0]) await selectCand(e.ranking[0]);
+      }
+      if(e.kind==='conclude'){
+        $('#ctitle').textContent=nd(company.decision.title);
+        $('#csum').textContent=nd(e.summary||'');
+        const ids=e.candidate_ids||[]; $('#cwho').classList.toggle('hidden',!ids.length);
+        $('#cwhol').innerHTML=company.candidates.map(c=>`<span class="${ids.includes(c.id)?'on':''}">${esc(c.name)}</span>`).join('');
+        const fill=(sec,list,items)=>{$(sec).classList.toggle('hidden',!(items&&items.length));$(list).innerHTML=(items||[]).map(x=>`<li>${esc(x)}</li>`).join('');};
+        fill('#cnext','#cnextl',e.next_steps); fill('#copen','#copenl',e.open_questions); fill('#cnotes','#cnotesl',liveNotes);
+        if(ids[0]) await selectCand(ids[0]);
+        document.getElementById('concl').showModal();
+        $('#livest').textContent='Concluded';
+      }
+    }
+  }catch(err){}
+  setTimeout(pollLive,800);
+}
+init().then(pollLive);
 </script>
 </body>
 </html>

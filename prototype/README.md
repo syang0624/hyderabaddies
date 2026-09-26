@@ -25,6 +25,19 @@ make run                                    # auto: Gemini if it answers, else h
 
 `make run-gemini` forces Gemini and fails loudly if credentials or quota are missing. `make reset` clears cached evidence, the last ranking and annotations. `make smoke` hits every endpoint on a running server. The header of the page shows which backend answered.
 
+## The live meeting layer (the wow moment)
+
+Two people on a call, an HR planner and a hiring manager. The manager says who they need. The shared screen re-sorts the candidates on those words and shows the receipts. When they agree on a next step, a pop-up shows what the meeting concluded: who to talk to, next steps, questions to ask before deciding.
+
+```bash
+cd prototype
+make setup                    # once: google-genai + sounddevice
+make run-heuristic            # terminal 1, the page
+make live                     # terminal 2, mic -> gemini-3.8-live (Vertex, us-central1) -> tool calls
+```
+
+`MIC="MacBook" make live` picks an input device by name. The model only calls tools (`show_candidates`, `note`, `conclude`); it never speaks unless addressed as "Receipts", and it never ranks anyone itself. Events land in `state/live.jsonl`; the page polls `/api/live`. Nothing is recorded to disk except those events.
+
 ## The 90-second demo, click by click
 
 1. Page opens on Rin. Read the two boxes at the top: her own Will Can Must line beside her manager's paraphrase.

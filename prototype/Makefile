@@ -5,10 +5,13 @@ PIP = $(VENV)/bin/pip
 PYV = $(VENV)/bin/python
 PORT ?= 8787
 
-.PHONY: setup run run-heuristic run-gemini test reset open smoke
+.PHONY: setup run run-heuristic run-gemini test reset open smoke live
 
-setup:            ## one-time: venv + google-genai (only needed for Gemini mode)
-	$(PY) -m venv $(VENV) && $(PIP) -q install --upgrade pip google-genai
+setup:            ## one-time: venv + google-genai + sounddevice (Gemini mode and the live layer)
+	$(PY) -m venv $(VENV) && $(PIP) -q install --upgrade pip google-genai sounddevice
+
+live:             ## meeting listener: mic -> Gemini 3.8 Live -> tool calls -> the UI (MIC="MacBook" to pick a device)
+	$(PYV) live.py
 
 run:              ## start the demo (auto: Gemini if credentials work, else heuristic)
 	PORT=$(PORT) MODE=auto $(PYV) server.py
