@@ -47,6 +47,12 @@
   .cand .nm{font-weight:600;font-size:15px;display:flex;justify-content:space-between;align-items:center;gap:8px}
   .cand .nm .ord{font:400 12px/16px var(--mono);color:var(--mute)}
   .cand .meta{color:var(--body);font-size:13px;margin-top:2px}
+  .cand:not(.on) .meta,.cand:not(.on) .tags{display:none}
+  .cand:not(.on){padding:10px 0}
+  details>summary{list-style:none;cursor:pointer}
+  details>summary::-webkit-details-marker{display:none}
+  details>summary .eyebrow::after{content:' +';color:var(--mute)}
+  details[open]>summary .eyebrow::after{content:' -'}
   .cand .tags{margin-top:10px;display:grid;grid-template-columns:1fr auto 64px;gap:2px 10px;align-items:center;font:400 12px/18px var(--mono);letter-spacing:0;color:var(--mute)}
   .cand .tags span:nth-child(3n+1){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .cand .tags .bar{height:3px;background:var(--hair);border-radius:2px;overflow:hidden}
@@ -81,7 +87,8 @@
   .claim .ctx{font:400 12px/16px var(--mono);letter-spacing:0;color:var(--mute);margin-bottom:4px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
   .claim .txt{color:var(--ink);font-size:14px;line-height:20px}
   .claim .txt.body{color:var(--body)}
-  .fn{display:inline-block;font:400 11px/16px var(--mono);letter-spacing:0;padding:0 6px;border-radius:4px;border:1px solid var(--hair2);color:var(--ok);background:var(--inset);cursor:pointer;vertical-align:1px}
+  .fn svg{width:12px;height:12px;vertical-align:-2px;margin-right:4px}
+  .fn{display:inline-flex;align-items:center;font:400 11px/16px var(--mono);letter-spacing:0;padding:0 6px;border-radius:4px;border:1px solid var(--hair2);color:var(--ok);background:var(--inset);cursor:pointer;vertical-align:1px}
   .fn:hover,.fn.open{background:var(--ok-bg);border-color:var(--ok-bg)}
   .tagc{font:400 11px/16px var(--mono);letter-spacing:0;color:var(--mute)}
   .src{display:none;margin-top:8px;padding:10px 12px;border-radius:6px;background:var(--inset);border:1px solid var(--hair);font:400 12.5px/18px var(--mono);letter-spacing:0;color:var(--body);white-space:pre-wrap}
@@ -178,8 +185,8 @@
       <ol class="rank" id="rank"></ol>
     </div>
     <div class="card">
-      <p class="eyebrow">Audit, what was read</p>
-      <div class="audit" id="audit"></div>
+      <details><summary><p class="eyebrow" id="auditsum">Audit, what was read</p></summary>
+      <div class="audit" id="audit" style="margin-top:12px"></div></details>
     </div>
   </aside>
 </main>
@@ -189,6 +196,13 @@ let company=null, cur=null, view='eval', evcache={};
 const $=s=>document.querySelector(s);
 const nd=s=>String(s).replace(/[—–]/g,'-');
 const esc=s=>nd(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ICON={
+  slack:'<svg viewBox="0 0 24 24"><path fill="#E01E5A" d="M6 15a2 2 0 1 1-2-2h2zm1 0a2 2 0 1 1 4 0v5a2 2 0 1 1-4 0z"/><path fill="#36C5F0" d="M9 6a2 2 0 1 1 2-2v2zm0 1a2 2 0 1 1 0 4H4a2 2 0 1 1 0-4z"/><path fill="#2EB67D" d="M18 9a2 2 0 1 1 2 2h-2zm-1 0a2 2 0 1 1-4 0V4a2 2 0 1 1 4 0z"/><path fill="#ECB22E" d="M15 18a2 2 0 1 1-2 2v-2zm0-1a2 2 0 1 1 0-4h5a2 2 0 1 1 0 4z"/></svg>',
+  docs:'<svg viewBox="0 0 24 24"><path fill="#4285F4" d="M6 2h8l6 6v14H6z"/><path fill="#A1C2FA" d="M14 2v6h6z"/><path fill="#fff" d="M8 12h8v1.5H8zm0 3h8v1.5H8zm0 3h5v1.5H8z"/></svg>',
+  wcm:'<svg viewBox="0 0 24 24"><path fill="#0F9D58" d="M6 2h8l6 6v14H6z"/><path fill="#87CEAC" d="M14 2v6h6z"/><path fill="#fff" d="M8 11h8v8H8zm1.5 1.5v1.5h2v-1.5zm3.5 0v1.5h2v-1.5zm-3.5 3v1.5h2v-1.5zm3.5 0v1.5h2v-1.5z"/></svg>',
+  manager_notes:'<svg viewBox="0 0 24 24"><path fill="#a1a1a1" d="M3 17.25V21h3.75L17.8 9.94l-3.75-3.75zm17.7-10.2a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75z"/></svg>',
+  sessions:'<svg viewBox="0 0 24 24"><path fill="#f5a623" d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8zM19 14l.9 2.6 2.6.9-2.6.9L19 21l-.9-2.6-2.6-.9 2.6-.9z"/></svg>'};
+const ico=it=>it&&ICON[it.source]?ICON[it.source]:'';
 const KINDS=[['revealed_will','What they chose to do'],['strength','What others said'],['gap','Gaps']];
 
 async function init(){
@@ -221,16 +235,16 @@ function renderEvidence(r){
   $('#evmeta').textContent=`${evidence.claims.length} claims, ${evidence.dropped_unsourced} dropped for no source`;
   const wcm=Object.values(items).find(i=>i.source==='wcm'); const mn=Object.values(items).find(i=>i.source==='manager_notes');
   $('#ownwords').textContent=wcm?nd(wcm.will):'';
-  $('#ownsrc').innerHTML=wcm?`<div style="margin-top:8px"><span class="fn" onclick="toggleSrc('${wcm.id}',this)">${wcm.id}</span><div class="src" id="src-${wcm.id}">${esc(wcm.rendered)}</div></div>`:'';
+  $('#ownsrc').innerHTML=wcm?`<div style="margin-top:8px"><span class="fn" onclick="toggleSrc('${wcm.id}',this)">${ico(wcm)}${wcm.id}</span><div class="src" id="src-${wcm.id}">${esc(wcm.rendered)}</div></div>`:'';
   $('#mgrwords').textContent=mn?nd(mn.text):'';
-  $('#mgrsrc').innerHTML=mn?`<div style="margin-top:8px"><span class="fn" onclick="toggleSrc('${mn.id}',this)">${mn.id}</span><div class="src" id="src-${mn.id}">${esc(mn.rendered)}</div></div>`:'';
+  $('#mgrsrc').innerHTML=mn?`<div style="margin-top:8px"><span class="fn" onclick="toggleSrc('${mn.id}',this)">${ico(mn)}${mn.id}</span><div class="src" id="src-${mn.id}">${esc(mn.rendered)}</div></div>`:'';
   const annBy={}; annotations.forEach(a=>(annBy[a.source_id]=annBy[a.source_id]||[]).push(a));
   let i=0;
   $('#claims').innerHTML=KINDS.map(([kind,label])=>{
     const cs=evidence.claims.filter(cl=>cl.kind===kind); if(!cs.length) return '';
     return `<div class="group"><p class="eyebrow"><span>${label}</span><span>${cs.length}</span></p>`+cs.map(cl=>{i++;const k=i;
       const {ctx,txt}=splitClaim(cl.text);
-      const fns=cl.source_ids.map(s=>`<span class="fn" onclick="this.closest('.claim').classList.add('open');toggleSrc('${s}-${k}',this)">${s}</span>`).join('');
+      const fns=cl.source_ids.map(s=>`<span class="fn" title="${s}" onclick="this.closest('.claim').classList.add('open');toggleSrc('${s}-${k}',this)">${ico(items[s])}${s}</span>`).join('');
       const tags=cl.tags.length?`<span class="tagc">${cl.tags.map(esc).join(', ')}</span>`:'';
       const srcs=cl.source_ids.map(s=>{const it=items[s];const anns=(annBy[s]||[]).map(a=>`<div class="ann"><b>${esc(c.name)}:</b> ${esc(a.text)}</div>`).join('');
         const box=view==='subject'?`<div class="annbox"><input type="text" id="an-${s}-${k}" placeholder="Add context, or contest this line"><button class="act warn" onclick="addAnn('${s}','an-${s}-${k}')">Add note</button></div>`:'';
@@ -256,6 +270,8 @@ async function doRank(){const crit=$('#crit').value.trim(); $('#rank').innerHTML
   renderCands(r.ranking.map(x=>x.candidate));}
 async function doMemo(){const crit=encodeURIComponent($('#crit').value.trim()); const t=await (await fetch(`/api/memo/${cur}?criterion=${crit}`)).text(); $('#memo').textContent=nd(t); $('#memoCard').classList.remove('hidden'); $('#memoCard').scrollIntoView({behavior:'smooth'});}
 async function loadAudit(){const a=await (await fetch('/api/audit')).json();
+  const tot=Object.values(a.used).reduce((n,v)=>n+v.count,0),nev=Object.values(a.never_read).reduce((n,v)=>n+v.count,0);
+  $('#auditsum').textContent=`Audit: read ${tot}, never read ${nev}`;
   $('#audit').innerHTML=`<span class="h">Read</span>`+Object.entries(a.used).map(([k,v])=>`<span class="n">${v.count}</span><span>${esc(k)}, ${esc(v.note)}</span>`).join('')
     +`<span class="h">Never read</span>`+Object.entries(a.never_read).map(([k,v])=>`<span class="n never">${v.count}</span><span class="never">${esc(k)}, ${esc(v.note)}</span>`).join('');
 }
