@@ -32,7 +32,7 @@ SEGMENTS = [
  dict(name="06_receipts",   src=R/"06_receipts.mp4",   dur=4.3, light=True, vo=[("06_receipts", 0.1)],
       caps=[("Two hundred people. Always current.", 2.7, 4.3)]),
  dict(name="07_meet",       src=C/"meet_replay.webm", ss=MEET_SS, dur=18.9, light=False,
-      vo=[("07_manager", TL["vo"]["07_manager"]), ("07_meet", TL["vo"]["07_meet"]), ("07_manager2", TL["vo"]["07_manager2"])],
+      vo=[("07_manager", TL["vo"]["07_manager"] + 0.4), ("07_meet", TL["vo"]["07_meet"]), ("07_manager2", TL["vo"]["07_manager2"])],  # +0.4: a breath after "Always current."
       caps=[("Heard the criterion. Re-sorted on their words. No score.", 8.4, 11.6),
             ("Her own words, and what her manager wrote. Both attached.", 12.0, 15.6),
             ("What the meeting concluded. Receipts attached.", 17.6, 18.9)]),
