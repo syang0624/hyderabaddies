@@ -14,9 +14,9 @@ const {seg,lerp}=PIK;
 function seek(ms){
   const p=seg(ms,0,520); const p2=seg(ms,180,520);
   const l1=document.getElementById('l1'), l2=document.getElementById('l2'), r=document.getElementById('rule');
-  l1.style.opacity=p; l1.style.transform=`translateY(${lerp(10,0,p)}px)`;
+  l1.style.opacity=1; l1.style.transform=`translateY(${lerp(10,0,p)}px)`;
   r.style.transform=`scaleX(${seg(ms,120,500)})`;
-  l2.style.opacity=p2; l2.style.transform=`translateY(${lerp(10,0,p2)}px)`;
+  l2.style.opacity=(0.35+0.65*p2).toFixed(3); l2.style.transform=`translateY(${lerp(10,0,p2)}px)`;
 }
 PIK.init(seek,2500);
 </script></body></html>
