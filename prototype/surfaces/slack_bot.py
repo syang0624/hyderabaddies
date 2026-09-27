@@ -10,6 +10,7 @@ Never speaks otherwise. The named person is fictional; the "mention" is text, no
 import os
 import re
 import sys
+import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -61,7 +62,9 @@ def handle(question, say, thread_ts=None):
     except Exception as e:  # noqa: BLE001  (engine down: say so instead of silence)
         say(text=f"Receipts: the engine at {_env.API} is not answering ({type(e).__name__}). Start it with `make run-heuristic`.", thread_ts=thread_ts)
         return
-    say(blocks=card(question, a), text=f"Receipts: {a['people'][0]['name'] if a['people'] else a.get('follow_up')}", thread_ts=thread_ts)
+    answer = a["people"][0]["name"] if a["people"] else f"asks: {a.get('follow_up')}"
+    print(f"[{time.strftime('%H:%M:%S')}] ask {question!r} -> {answer}", flush=True)
+    say(blocks=card(question, a), text=f"Receipts: {answer}", thread_ts=thread_ts)
 
 
 @app.event("app_mention")
