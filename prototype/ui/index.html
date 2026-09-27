@@ -147,7 +147,7 @@
   #foot .na{color:var(--red)}
 
   /* right column: one tall card */
-  #rcard{position:relative;height:100%;min-height:600px;background:var(--card);border-radius:12px;box-shadow:var(--shadow);padding:28px 28px 92px;display:flex;flex-direction:column;gap:20px;overflow:hidden}
+  #rcard{position:relative;height:100%;min-height:600px;background:var(--card);border-radius:12px;box-shadow:var(--shadow);padding:28px 28px 92px;display:flex;flex-direction:column;gap:16px;overflow:hidden}
   #rcard .ttl{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
   #rcard .ttl .nm{font-size:32px;line-height:40px;font-weight:600;letter-spacing:-1.28px;min-width:0}
   #rcard .ttl .rl{font-size:14px;line-height:20px;color:var(--body);letter-spacing:-.28px;margin-top:4px}
@@ -170,7 +170,7 @@
   #rcard .act-h{display:flex;justify-content:space-between;align-items:baseline}
   #rcard .act-h .t{font-size:16px;line-height:24px;font-weight:500;letter-spacing:-.32px}
   #rcard .big{font-size:40px;line-height:48px;font-weight:600;letter-spacing:-1.6px}
-  #rcard .bars{height:96px;display:flex;align-items:flex-end;gap:6px}
+  #rcard .bars{height:64px;display:flex;align-items:flex-end;gap:6px}
   #rcard .bars .b{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
   #rcard .bars .b i{display:block;width:100%;border-radius:4px 4px 0 0;background:linear-gradient(to top,var(--lime-tint),var(--lime));transition:height .5s ease-out}
   #rcard .bars .b span{font:400 11px/14px var(--mono);color:var(--mute)}
@@ -417,7 +417,7 @@ function addHub(rc,t){ // a receipt: its source sits between the covered keyword
   const words=wordsFor(t,rc.source_id).map(w=>M.kw[w.toLowerCase()]).filter(Boolean);const from=words[0]||M.pik;
   const dx=n.x-from.x,dy=n.y-from.y,L=Math.hypot(dx,dy)||1;const side0=Object.keys(M.hubs).length%2?-1:1;
   const inPill=(x,y)=>Math.abs(x-n.x)<125&&y>n.y+40&&y<n.y+84; // only the lit person carries the count pill
-  let hx=null,hy=null;for(const q of [.5,.36,.64,.25])for(const side of [side0,-side0]){const x=from.x+dx*q-dy/L*24*side,y=from.y+dy*q+dx/L*24*side;if(occupied(x,y,40)||inPill(x,y))continue;hx=x;hy=y;break}
+  let hx=null,hy=null;for(const q of [.5,.36,.64,.25])for(const side of [side0,-side0]){const x=from.x+dx*q-dy/L*24*side,y=from.y+dy*q+dx/L*24*side;if(occupied(x,y,66)||inPill(x,y))continue;hx=x;hy=y;break}
   if(hx==null){hx=from.x+dx*.5-dy/L*24*side0;hy=from.y+dy*.5+dx/L*24*side0}
   const g=M.g.hubs.append('g').attr('class','hub').attr('transform',`translate(${hx},${hy})`).style('opacity',0);g.append('rect').attr('x',-6).attr('y',-6).attr('width',12).attr('height',12).attr('rx',2);
   g.append('text').attr('x',11).attr('y',0).attr('dy','.35em').attr('text-anchor','start').text(label);g.transition().duration(reduced()?0:300).style('opacity',1);
@@ -498,7 +498,7 @@ function bySource(f){const c={slack:0,docs:0,wcm:0,sessions:0,manager_notes:0};O
 function monthsHTML(f){const m={};Object.values(f.items||{}).forEach(it=>{const d=String(it.date||'');if(/^\d{4}-\d{2}/.test(d))m[d.slice(0,7)]=(m[d.slice(0,7)]||0)+1});const ks=Object.keys(m).sort();if(ks.length<2)return '';
   const [y0,m0]=ks[0].split('-').map(Number),[y1,m1]=ks[ks.length-1].split('-').map(Number);const out=[];for(let y=y0,mo=m0;y<y1||(y===y1&&mo<=m1);){out.push(`${y}-${String(mo).padStart(2,'0')}`);mo++;if(mo>12){mo=1;y++}}
   const max=Math.max(...out.map(k=>m[k]||0),1);const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  return `<div class="bars">${out.map(k=>`<div class="b"><i style="height:${Math.max(4,Math.round((m[k]||0)/max*70))}px"></i><span>${MN[Number(k.slice(5))-1]}</span></div>`).join('')}</div>`}
+  return `<div class="bars">${out.map(k=>`<div class="b"><i style="height:${Math.max(4,Math.round((m[k]||0)/max*44))}px"></i><span>${MN[Number(k.slice(5))-1]}</span></div>`).join('')}</div>`}
 function activityHTML(total,c,note,f){return `<div class="act-h"><span class="t">Activity</span><span class="eyebrow">receipts by source</span></div><div class="big">${total}</div>${f?monthsHTML(f):''}<div class="mini">${[['Slack','slack','public channels'],['Docs','docs','shared documents'],['Sheets','wcm','Will Can Must'],['Sessions','sessions','opted-in AI sessions']].map(([k,s,d])=>`<div class="m"><span class="k">${k}</span><span class="n">${c[s]||0}</span><span class="d">${d}</span></div>`).join('')}</div>${note?`<div class="note">${esc(note)}</div>`:''}`}
 async function renderRight(){const box=$('#rcard');if(F.as)return;
   if(S.record){return renderRightRecord()}
@@ -686,7 +686,7 @@ async function applyEvent(e,instant){
 }
 function renderConcl(){const c=S.concl;const el=$('#concl');if(!c){el.className='over lime';return}
   const ids=c.candidate_ids||[];const ns=(c.next_steps||[]).slice(0,3);const oq=(c.open_questions||[]).slice(0,2);const f=S.filed;
-  const filedLine=f?`Filed. ${(f.open_questions||[]).length} question${(f.open_questions||[]).length===1?'':'s'}${(f.open_questions||[]).length?' to '+[...new Set((f.open_questions||[]).map(q=>first(nameOf(q.person))))].join(' and '):''}. ${(f.notified||[]).map(id=>first(nameOf(id))).join(' and ')||'Nobody'} can see this page.`:'Not filed yet';
+  const nq=(f&&f.open_questions||[]).length;const filedLine=f?`Filed.${nq?` ${nq} question${nq===1?'':'s'} to ${[...new Set(f.open_questions.map(q=>first(nameOf(q.person))))].join(' and ')}.`:''} ${(f.notified||[]).map(id=>first(nameOf(id))).join(' and ')||'Nobody'} can see this page.`:'Not filed yet';
   el.innerHTML=`<span class="eyebrow">What this meeting concluded</span><div class="sum">${esc(words25(c.summary||'',40))}</div><div class="who">${ids.map(id=>`<span class="chip lime">${esc(nameOf(id))}</span>`).join('')||`<span class="na">nobody shortlisted</span>`}</div>${ns.length?`<ol>${ns.map(x=>`<li>${esc(words25(x))}</li>`).join('')}</ol>`:''}${oq.length?`<span class="eyebrow">Ask them before deciding</span><ol>${oq.map(x=>`<li>${esc(words25(typeof x==='string'?x:x.text))}</li>`).join('')}</ol>`:''}<div class="filed ${f?'on':''}">${esc(filedLine)}</div>${PRESENT?'':`<div class="btns"><button class="act ghost" id="c-memo">Print the memo with receipts</button></div>`}`;
   el.className='over lime on';const m=$('#c-memo');if(m)m.addEventListener('click',()=>{const id=ids[0];if(!id)return;const q=S.tiles[0]&&S.tiles[0].criterion||'';window.open(`/api/memo/${encodeURIComponent(id)}?criterion=${encodeURIComponent(q)}`,'_blank')});
 }
