@@ -4,7 +4,17 @@ Working title **Receipts**. Team hyderabaddies: Carl Kho, Steven Yang. Recruit I
 
 ---
 
-## 0. How to read this document
+## 0. In plain words (read this first)
+
+**Receipts tracks your achievements for you.** It reads what you already wrote and shipped, in the places your company allows (public Slack channels, shared documents, the sheet you gave HR), turns each into a receipt with the original attached, and shows the same page to you and your manager. You do the work; the proof is automatic.
+
+Your manager walks into the evaluation meeting with receipts instead of a paraphrase. When they say who they need for a slot, the receipts show up in the meeting, sorted on their words. Nobody is scored. You see what they see and can answer before they decide. Your company keeps its own rubric.
+
+Placement and team formation are where receipts get used. The demo decision is one overseas posting with three people.
+
+What runs today: extraction with a verbatim quote checked against the source, the live listener, re-sorting on a spoken criterion, the candidate's notes, the printed conclusion. Not built: Slack bot, email intake, deletion scheduler. Everything below this line is the detail behind those five paragraphs.
+
+## 0.1 How to read this document
 
 - **Purpose.** Anyone can build, demo and pitch this product from this file without asking a question. If something is missing, add it here, not in chat.
 - **Deadline.** Sunday Sep 27, **11:00 AM PDT**, posted in Slack `#announcements-all`: (1) public GitHub repository link, (2) demo link or video **≤ 90 seconds**, (3) deck as PDF. No changes after; late is disqualified. Preliminary pitch Sun 1:30–2:45 PM (**3 min + 1.5 min Q&A**, all teams, order announced Sat 6:30 PM). Final Sun 3:10–3:55 PM (**6 min + 6 min Q&A**, three teams, same slides allowed with more detail, **no setup time after prelim results**). Stage logistics from the deck: prepare your PC in advance, monitor below the stage, wait behind the judges during the previous team, mic and clicker in the final, bring your own PC. Source: Day 1 deck pp17–19 (`codex-packet/work/event.txt`).

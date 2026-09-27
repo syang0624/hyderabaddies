@@ -139,6 +139,17 @@
   .spin{color:var(--mute);font:12px/16px var(--mono)}
   .err{color:var(--coral);font-size:14px}
 
+  /* Today view: what the meeting has now, the manager's paraphrase from memory */
+  #today{display:none;margin:22px 0 0}
+  body.today #today{display:block}
+  body.today .critbar,body.today .cands,body.today main{display:none}
+  #today .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  #today .idx{background:var(--paper2);border:1.5px dashed var(--rule);border-radius:20px;padding:22px;min-height:230px;display:flex;flex-direction:column;gap:10px}
+  #today .idx .nm{font-size:20px;font-weight:700;letter-spacing:-.6px}
+  #today .idx .q{font-size:19px;line-height:26px;color:var(--body)}
+  #today .idx .k{font:12px/16px var(--mono);color:var(--mute);margin-top:auto}
+  #today .lead{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+  #today .lead h2{font-size:28px;line-height:34px;font-weight:700;letter-spacing:-1px}
   body.present .sources,body.present .stack .hdr button{display:none}
   body.present{font-size:16px;line-height:24px}
   body.present .receipt .q{font-size:27px;line-height:34px}
@@ -171,7 +182,7 @@
       <div class="sub"><span id="sub"></span> <button class="sources" id="auditlink" onclick="openAudit()">Sources</button></div>
     </div>
     <div class="right">
-      <div class="seg"><button id="vEval" class="on" onclick="setView('eval')">Evaluator</button><button id="vSub" onclick="setView('subject')">As the candidate</button></div>
+      <div class="seg"><button id="vToday" onclick="setToday(true)">Today</button><button id="vEval" class="on" onclick="setView('eval');setToday(false)">Receipts</button><button id="vSub" onclick="setView('subject');setToday(false)">As the candidate</button></div>
     </div>
   </div>
   <div class="live" id="live"><span class="dots"><i></i><i></i><i></i></span><b id="livest">Listening</b><span class="heard" id="liveheard"></span></div>
@@ -181,6 +192,10 @@
     <button class="act ghost" onclick="doMemo()">Memo</button>
   </div>
   <div class="cands" id="cands"></div>
+  <div id="today">
+    <div class="lead"><h2>Today: three people, three notes, and what HR remembers</h2><button class="act" onclick="setToday(false)">Show the receipts</button></div>
+    <div class="grid" id="todaygrid"></div>
+  </div>
 </header>
 
 <main>
@@ -210,6 +225,10 @@ const $=s=>document.querySelector(s);
 const nd=s=>String(s).replace(/[—–]/g,'-');
 const esc=s=>nd(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const AS=new URLSearchParams(location.search).get('as');
+const QS=new URLSearchParams(location.search);
+function setToday(on){document.body.classList.toggle('today',on); if(on) renderToday();}
+async function renderToday(){const rows=await Promise.all(company.candidates.map(async c=>{const r=evcache[c.id]||await (await fetch(`/api/evidence/${c.id}`)).json(); evcache[c.id]=r; const mn=Object.values(r.items).find(i=>i.source==='manager_notes'); return {c,mn};}));
+  $('#todaygrid').innerHTML=rows.map(({c,mn})=>`<div class="idx"><div class="nm">${esc(c.name)}</div><div class="q">${esc(mn?mn.text:'')}</div><div class="k">${mn?esc(mn.manager)+"'s note, from memory":''}</div></div>`).join('');}
 if(new URLSearchParams(location.search).get('present')==='1') document.body.classList.add('present');
 const ICON={
   slack:'<svg viewBox="0 0 24 24"><path fill="#E01E5A" d="M6 15a2 2 0 1 1-2-2h2zm1 0a2 2 0 1 1 4 0v5a2 2 0 1 1-4 0z"/><path fill="#36C5F0" d="M9 6a2 2 0 1 1 2-2v2zm0 1a2 2 0 1 1 0 4H4a2 2 0 1 1 0-4z"/><path fill="#2EB67D" d="M18 9a2 2 0 1 1 2 2h-2zm-1 0a2 2 0 1 1-4 0V4a2 2 0 1 1 4 0z"/><path fill="#ECB22E" d="M15 18a2 2 0 1 1-2 2v-2zm0-1a2 2 0 1 1 0-4h5a2 2 0 1 1 0 4z"/></svg>',
@@ -243,6 +262,7 @@ async function init(){
   $('#sub').textContent=nd(`${company.name}. ${company.decision.purpose}`);
   renderCands(); await selectCand(company.candidates[0].id); loadAudit();
   if(AS) setView('subject');
+  if(QS.get('before')==='1'&&!AS) setToday(true);
 }
 function renderCands(order){
   const ids=order||company.candidates.map(c=>c.id);
@@ -316,7 +336,7 @@ async function pollLive(){
       if(e.kind==='heard'){$('#live').classList.add('on');$('#liveheard').textContent=e.text;}
       if(e.kind==='note'){liveNotes.push(e.text);$('#livest').textContent='On the record';$('#liveheard').textContent=e.text;}
       if(e.kind==='show_candidates'&&!AS){
-        $('#crit').value=e.criterion; $('#livest').textContent=e.via==='transcript'?'Heard the criterion (transcript)':'Heard the criterion'; $('#liveheard').textContent=e.criterion;
+        setToday(false); $('#crit').value=e.criterion; $('#livest').textContent=e.via==='transcript'?'Heard the criterion (transcript)':'Heard the criterion'; $('#liveheard').textContent=e.criterion;
         await doRank(); if(e.ranking&&e.ranking[0]) await selectCand(e.ranking[0]);
       }
       if(e.kind==='conclude'&&!AS){
