@@ -55,7 +55,7 @@ body.print *{transition:none!important;animation:none!important}
 #insight .photos{position:absolute;left:0;top:188px;width:1600px;display:grid;grid-template-columns:repeat(3,496px);gap:56px}
 #insight .photo{position:relative;height:236px;border-radius:16px;border:2px dashed var(--hair);background:var(--card);display:flex;align-items:center;justify-content:center;overflow:hidden}
 #insight .photo .mono{text-align:center;padding:0 24px}
-#insight .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#insight .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 38%}
 #technical .arch .node text.s{font-size:17px}
 #technical .arch text.glab{font:400 20px var(--mono);letter-spacing:.06em;fill:var(--mute)}
 /* chrome */
@@ -253,3 +253,4 @@ body.print .slide .prog{position:absolute;right:160px;bottom:60px;font:400 20px/
 /* technical: smaller sublines so "Gemini 3.8 Flash" and "quote in source" fit their boxes */
 #technical .arch .node text.s{font-size:16px;letter-spacing:.02em}
 #technical-next .arch .node text.s{font-size:16px;letter-spacing:.02em}
+#insight .photo:has(img){border:0}
