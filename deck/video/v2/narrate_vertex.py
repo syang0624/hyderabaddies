@@ -28,6 +28,8 @@ OUT = pathlib.Path(__file__).parent / "vo"
 STYLE = ("You are a text-to-speech engine. Read the user's text aloud exactly, word for word, as a calm, brisk "
          "documentary narrator: warm, plain, quick, no dramatic pauses. Never add, drop or change a word. "
          "Never comment. Output speech only.")
+PIK = ("You are a text-to-speech engine. Read the user's text aloud exactly, word for word, as a calm assistant asking one short "
+       "question in a meeting: plain, unhurried, no drama. Never add, drop or change a word. Output speech only.")
 MANAGER = ("You are a text-to-speech engine. Read the user's text aloud exactly, word for word, as a hiring "
            "manager on a video call, natural and conversational. Never add, drop or change a word. Output speech only.")
 
@@ -45,6 +47,7 @@ LINES = [
     ("08_slack",     "Charon", STYLE, "Or ask in Slack. One press to loop her in."),
     ("09_ticket",    "Charon", STYLE, "On a ticket, it fills in the owner, and shows why."),
     ("10_verticals", "Charon", STYLE, "The same map answers hospitals, airlines, construction sites. Anywhere the wrong person on the job is expensive."),
+    ("stage_followup", "Charon", PIK, 'Is this for the Tokyo side or the partner side, and by when?'),  # the stage video: Pik's spoken follow-up, text from engine.ask()
     ("11_end",       "Charon", STYLE, "Because the future of your work depends on who you Pik."),
 ]
 
