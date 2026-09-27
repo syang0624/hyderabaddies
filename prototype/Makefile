@@ -15,8 +15,8 @@ setup:            ## one-time: venv + google-genai + sounddevice (Gemini mode an
 live:             ## meeting listener: mic -> Gemini 3.8 Live -> tool calls -> the UI (MIC="MacBook" to pick a device)
 	MODE=heuristic $(PYV) live.py
 
-people:           ## generate the fictional company (200 people) -> data/people.json
-	$(PY) make_people.py && $(MAKE) manifest
+people:           ## once: the fictional company, 200 people -> data/people.json. The committed file is the demo fixture; FORCE=1 regenerates it
+	@if [ -s data/people.json ] && [ -z "$(FORCE)" ]; then echo "data/people.json exists (the demo fixture, shared with the video); make people FORCE=1 to regenerate"; else $(PY) make_people.py && $(MAKE) manifest; fi
 
 ask:              ## who is best for Q? e.g. make ask Q="someone who can run the Northwind sync in English"
 	curl -sf -X POST localhost:$(PORT)/api/ask -H 'Content-Type: application/json' -d "{\"question\": \"$(Q)\"}" | $(PY) -c 'import sys,json;d=json.load(sys.stdin);print("follow_up:",d["follow_up"]);[print(f"{i+1}. {p[chr(110)+chr(97)+chr(109)+chr(101)]} ({p[chr(114)+chr(111)+chr(108)+chr(101)]}, {p[chr(116)+chr(101)+chr(97)+chr(109)]}) load={p[chr(108)+chr(111)+chr(97)+chr(100)]} why={p[chr(119)+chr(104)+chr(121)]}") for i,p in enumerate(d["people"])]'
