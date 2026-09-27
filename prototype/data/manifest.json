@@ -19,6 +19,11 @@
   "sha256": "2bc63456f37cfa1f",
   "bytes": 640
  },
+ "people.json": {
+  "count": 200,
+  "sha256": "27106f74d34d281a",
+  "bytes": 244492
+ },
  "sessions.json": {
   "count": 5,
   "sha256": "5604e4cf7ceb7a2e",

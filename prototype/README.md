@@ -38,6 +38,21 @@ make live                     # terminal 2, mic -> gemini-3.8-live (Vertex, us-c
 
 `MIC="MacBook" make live` picks an input device by name. The model only calls tools (`show_candidates`, `note`, `conclude`); it never speaks unless addressed as "Receipts", and it never ranks anyone itself. Events land in `state/live.jsonl`; the page polls `/api/live`. Nothing is recorded to disk except those events.
 
+## The engine behind every surface (Meet, Slack, Jira)
+
+One engine, three thin surfaces. A surface asks one question and renders the answer; it never ranks on its own.
+
+```bash
+make people                 # once: the fictional company, 200 people -> data/people.json
+make ask Q="who can run the Northwind sync in English"
+curl -s -X POST localhost:8787/api/ask -H 'Content-Type: application/json' -d '{"question":"best person for the pricing write-up","context":"Jira ticket PRC-214","requester":"aya"}'
+```
+
+Response: `{"people":[{"id","name","role","team","location","languages","why":[...],"receipts":[{"text","source","source_id"}],"load":{"open_tickets","hours_booked_this_week"},"availability","support"}], "follow_up": null | "one clarifying question", "criterion", "considered", "note"}`.
+`follow_up` is set when the words are too vague to rank; then `people` is empty and the surface asks the question instead of guessing. Order is evidence overlap with the words minus a load penalty; `support` is never shown to the person named. The "why" behind any name is the receipts page: `/?as=<id>` for the person, `/` for the evaluator.
+
+`GET /api/people?q=engineer` lists people (no receipts) for pickers.
+
 ## The 90-second demo, click by click
 
 1. Page opens on Rin. Read the two boxes at the top: her own Will Can Must line beside her manager's paraphrase.

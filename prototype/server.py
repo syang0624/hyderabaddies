@@ -77,6 +77,10 @@ class H(BaseHTTPRequestHandler):
                     c.pop("tag_scores", None)
                     c["view"] = "subject"
                 return self._json(c)
+            if p == "/api/people":
+                qq = q.get("q", [""])[0].lower()
+                rows = [{k: v for k, v in x.items() if k != "receipts"} for x in engine.people() if not qq or qq in (x["name"] + " " + x["role"] + " " + x["team"]).lower()]
+                return self._json({"count": len(rows), "people": rows[:int(q.get("limit", ["50"])[0])]})
             if p == "/api/audit":
                 return self._json(engine.audit())
             if p == "/api/live":
@@ -124,6 +128,8 @@ class H(BaseHTTPRequestHandler):
                     out.write_bytes(base64.b64decode(data.split(",", 1)[1]))
                     return self._json({"ok": True, "path": str(out), "bytes": out.stat().st_size})
                 return self._json({"error": "no data"}, 400)
+            if p == "/api/ask":
+                return self._json(engine.ask(b.get("question", ""), b.get("context", ""), b.get("requester"), int(b.get("k", 3))))
             if p == "/api/view":
                 return self._json({"views": engine.views(b["candidate"]), "ok": bool(engine.record_view(b["candidate"], b.get("who", "evaluator")))})
             if p == "/api/reset":

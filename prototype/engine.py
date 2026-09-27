@@ -396,3 +396,95 @@ def memo(cid, criterion=None):
 def reset():
     for p in STATE.glob("*.json"):
         p.unlink()
+
+
+# ---------- ask: who is the best person for this? (the shared engine behind Meet, Slack and Jira) ----------
+
+STOP = set("the a an and or for of to in on with who is best person someone somebody we need want looking this that our their can will should be by at from as it".split())
+
+
+def people():
+    f = DATA / "people.json"
+    return json.loads(f.read_text()) if f.exists() else []
+
+
+def _person_receipts(p):
+    """Receipts as (text, source_label, source_id). Fixture people use the validated evidence store."""
+    if not p.get("generated"):
+        e = extract_claims(p["id"])
+        by = {it["id"]: it for it in items_for(p["id"])}
+        out = []
+        for c in e["claims"]:
+            sid = c["source_ids"][0]
+            it = by.get(sid, {})
+            lab = {"slack": f"Slack {it.get('channel','')}, {it.get('date','')}", "docs": f"Doc: {it.get('title','')}", "wcm": "Will Can Must sheet",
+                   "manager_notes": f"{it.get('manager','')}'s note", "sessions": "AI session, opted in"}.get(it.get("source"), sid)
+            out.append((c["text"], lab, sid))
+        return out
+    return [(r["text"], (f"Slack {r['channel']}, {r['date']}" if r["source"] == "slack" else ("Doc, " if r["source"] == "docs" else "AI session, opted in, ") + r["date"]), r["id"]) for r in p["receipts"]]
+
+
+def _will(p):
+    if p.get("will"):
+        return p["will"]
+    if not p.get("generated"):
+        it = next((i for i in items_for(p["id"]) if i["source"] == "wcm"), None)
+        return it["will"] if it else ""
+    return ""
+
+
+def ask(question: str, context: str = "", requester: str | None = None, k: int = 3):
+    """Rank people on evidence overlap with the question (skills, will, receipts), minus a load penalty.
+    Returns people with why + receipts + load, and a follow-up question when the ask is too vague to rank."""
+    q = _tokens(question + " " + (context or "")) - STOP
+    rows = []
+    for p in people():
+        if str(p.get("availability", "")).startswith("on leave"):
+            continue
+        score = 0.0
+        hits = []
+        for t, lvl in (p.get("skills") or {}).items():
+            ov = _tokens(t) & q
+            if ov:
+                score += 2.0 * lvl / 5
+                hits.append(("skill", f"{t} ({lvl}/5)", None))
+        w = _will(p)
+        if w:
+            ov = _tokens(w) & q
+            if len(ov) >= 2:
+                score += 1.5 + 0.2 * len(ov)
+                hits.append(("will", w, None))
+        recs = _person_receipts(p)
+        for text, lab, sid in recs:
+            ov = _tokens(text) & q
+            if len(ov) >= 2:
+                score += 1.0 + 0.3 * len(ov)
+                hits.append(("receipt", text, (lab, sid)))
+        load = p.get("load", {})
+        util = min(1.0, (load.get("hours_booked_this_week", 0) / 40.0 + load.get("open_tickets", 0) / 6.0) / 2)
+        adj = score * (1 - 0.35 * util)
+        rows.append((adj, score, util, p, hits, recs))
+    rows.sort(key=lambda r: (-r[0], r[2]))
+    top = rows[:k]
+    out = []
+    for adj, score, util, p, hits, recs in top:
+        rec_hits = [h for h in hits if h[0] == "receipt"][:2]
+        why = [h[1] for h in hits if h[0] != "receipt"][:2] + [h[1] for h in rec_hits]
+        out.append({
+            "id": p["id"], "name": p["name"], "role": p["role"], "team": p["team"], "location": p.get("location"),
+            "languages": p.get("languages", []), "why": why[:3],
+            "receipts": [{"text": t, "source": lab, "source_id": sid} for t, lab, sid in ([(h[1], h[2][0], h[2][1]) for h in rec_hits] or recs[:2])],
+            "load": p.get("load", {}), "availability": p.get("availability"), "support": round(score, 2),
+        })
+    follow_up = None
+    if not top or top[0][1] <= 0:
+        out = []  # nothing bears on the words: ask, do not guess
+    if not top or top[0][1] < 2.0 or len(q) < 2:
+        if "english" in q or "english" in question.lower():
+            follow_up = "Do they need to lead meetings in English, or is written English enough?"
+        elif not q:
+            follow_up = "What would this person actually do in the first month?"
+        else:
+            follow_up = "Is this for the Tokyo side or the partner side, and by when?"
+    return {"question": question, "criterion": " ".join(sorted(q)), "people": out, "follow_up": follow_up,
+            "considered": len(rows), "backend": "keyword", "note": "Order is evidence overlap with the words, minus a load penalty. Not a verdict."}
