@@ -15,8 +15,8 @@ setup:            ## one-time: venv + google-genai + sounddevice (Gemini mode an
 live:             ## meeting listener: mic -> Gemini 3.8 Live -> tool calls -> the UI (MIC="MacBook" to pick a device)
 	MODE=heuristic $(PYV) live.py
 
-people:           ## generate the fictional company (200 people) -> data/people.json
-	$(PY) make_people.py && $(MAKE) manifest
+people:           ## once: the fictional company, 200 people -> data/people.json. The committed file is the demo fixture; FORCE=1 regenerates it
+	@if [ -s data/people.json ] && [ -z "$(FORCE)" ]; then echo "data/people.json exists (the demo fixture, shared with the video); make people FORCE=1 to regenerate"; else $(PY) make_people.py && $(MAKE) manifest; fi
 
 ask:              ## who is best for Q? e.g. make ask Q="someone who can run the Northwind sync in English"
 	curl -sf -X POST localhost:$(PORT)/api/ask -H 'Content-Type: application/json' -d "{\"question\": \"$(Q)\"}" | $(PY) -c 'import sys,json;d=json.load(sys.stdin);print("follow_up:",d["follow_up"]);[print(f"{i+1}. {p[chr(110)+chr(97)+chr(109)+chr(101)]} ({p[chr(114)+chr(111)+chr(108)+chr(101)]}, {p[chr(116)+chr(101)+chr(97)+chr(109)]}) load={p[chr(108)+chr(111)+chr(97)+chr(100)]} why={p[chr(119)+chr(104)+chr(121)]}") for i,p in enumerate(d["people"])]'
@@ -26,6 +26,12 @@ slack:            ## Slack surface (Socket Mode); tokens in ~/.config/carl-life-
 
 notion:           ## Notion board surface; token + database id in ~/.config/carl-life-os/.env
 	$(PYV) surfaces/notion_board.py
+
+seed-slack:       ## fill the demo Slack workspace with fictional history from the fixtures (needs chat:write.customize, channels:manage, channels:join); DRY=1 previews
+	$(PYV) surfaces/seed_slack.py
+
+seed-notion:      ## fill the Notion board with fictional tickets (Done / In progress / new); DRY=1 previews
+	$(PYV) surfaces/seed_notion.py
 
 manifest:         ## count + hash every fixture file; the audit counts never-read sources from this, without opening them
 	$(PY) -c 'import engine,json;m=engine.build_manifest();print(json.dumps({k:v["count"] for k,v in m.items()}))'

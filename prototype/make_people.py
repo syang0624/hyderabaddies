@@ -84,7 +84,7 @@ def pick_tags(role, n):
     chosen = set()
     while len(chosen) < n:
         chosen.add(rng.choices(TAGS, weights)[0])
-    return {t: rng.choice([3, 3, 4, 4, 5]) for t in chosen}
+    return {t: rng.choice([3, 3, 4, 4, 5]) for t in sorted(chosen)}  # sorted: set order follows hash randomization, which would make each run differ
 
 
 def person(i):

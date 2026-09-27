@@ -1,0 +1,9 @@
+# secrets: never commit these (the repo is public)
+.env
+.env.*
+*.env
+!*.env.example
+
+# local state
+.DS_Store
+__pycache__/
