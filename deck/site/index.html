@@ -241,6 +241,25 @@
   </aside>
 </section>
 
+<!-- 08c MEASURED: the fine-tune, as data (filled from data/ft_metrics.js, written by site/sync_metrics.py) -->
+<section class="slide main" id="measured" data-name="Measured" data-hook="ftchart" data-steps="4" data-task="receipt" data-metric="R@5">
+  <div class="camera"><div class="m">
+    <h1>Our first fine-tune: 25 points above the base model on English, level with it on Japanese.</h1>
+    <div class="chart"></div>
+    <div class="tip" role="status" aria-live="polite"></div>
+  </div>
+  <p class="src">Held-out asks, fictional fixtures, trained on this laptop, <span data-ft="date"></span>; finetune/results/metrics.json</p></div>
+  <aside class="notes">
+    <p data-step="0">A real run this morning, not a mock-up: multilingual-e5-small fine-tuned for 24 seconds on this MacBook Pro, contrastive on ask and receipt pairs built from the fixtures. The chart shows one metric, Recall@5 of receipt retrieval: of the held-out asks, how often a correct receipt is in the top five. A receipt counts as correct when it matches the ask’s generated intent and topic, so this is a benchmark on fictional fixtures; the pilot measures the same thing on real decisions.</p>
+    <p data-step="1"><b>Keypress 1, the keyword engine</b>: the demo’s engine today, word overlap with the ask. English 51%; Japanese 0%, because a Japanese ask shares no words with the receipts.</p>
+    <p data-step="2"><b>Keypress 2, the base model</b>: multilingual-e5-small off the shelf. English 60%; Japanese 82%: the multilingual model, not our training, is what unlocks Japanese.</p>
+    <p data-step="3"><b>Keypress 3, fine-tuned</b> (the camera leans in): English 85%, 25 points above the base model and 34 above the keyword engine (MRR difference over base, 95% paired bootstrap: +0.17 to +0.26); on intents held out of training entirely (n=152) it is 51%, 58%, 84%, so the gain is not memorised phrasing. On asks that share no word with any correct receipt (n=162): keyword 0%, base 19%, fine-tuned 70%, which is what the previous slide means by finding what keywords miss. Japanese 86%, level with the base model’s 82%: n is 28 and the MRR difference spans zero (−0.16 to +0.18), so say “level”, not “better”.</p>
+    <p data-step="4"><b>Keypress 4</b>: the camera pulls back to the whole chart.</p>
+    <p data-step="97" data-ft="table">Full metrics table: filled from data/ft_metrics.js.</p>
+    <p data-step="99"><b>To Ho Joon</b>: a real run, held-out intents, and the receipts remain the output; the model ranks evidence, never people. <b>To Damien</b>: the same training runs in the customer’s Vertex AI project. <b>To Jim</b>: Japanese and English asks on one engine, the skills-first match working across both. <b>To Robert</b>: whatever the model retrieves, the person still sees the same receipt on the same page.</p>
+  </aside>
+</section>
+
 <!-- 09 ROADMAP -->
 <section class="slide main" id="roadmap" data-name="Roadmap" data-hook="map" data-steps="4">
   <div class="camera"><div class="m">
@@ -466,8 +485,8 @@
     <p class="lab eyebrow">A11 The state model</p>
     <h1>A retrieval model over receipts, never a prediction about a person.</h1>
     <div class="two">
-      <div class="grp b" data-b="1"><p class="lab">What it learns</p><span class="rule"></span><p class="body">What each person has done, wants and can take on, as a time-aware vector, from allowed receipts only.</p></div>
-      <div class="grp b" data-b="2"><p class="lab">How it is trained</p><span class="rule"></span><p class="body">Contrastive retrieval: asks paired with the receipts filed decisions used; contests and dropped claims as corrections.</p><p class="body" style="margin-top:14px">Evaluated by recall of decision-used receipts on held-out cycles, contest rate, dropped-claim share.</p></div>
+      <div class="grp b" data-b="1"><p class="lab">What it learns</p><span class="rule"></span><p class="body">What each person has done, wants and can take on: a time-aware vector from allowed receipts.</p></div>
+      <div class="grp b" data-b="2"><p class="lab">How it is trained</p><span class="rule"></span><p class="body">Contrastive retrieval: asks paired with the receipts filed decisions used; contests and dropped claims as corrections.</p><p class="body" style="margin-top:14px" data-ft="a11">Evaluated by recall of decision-used receipts on held-out cycles, contest rate, dropped-claim share.</p></div>
     </div>
   </div>
   <p class="src">Retrieval objective, not a prediction about a person; no protected attributes; the receipt is the unit; a human decides.</p></div>
@@ -482,6 +501,7 @@
 <script src="vendor/d3.min.js"></script>
 <script src="vendor/p5.min.js"></script>
 <script src="vendor/land-110m.geo.js"></script>
+<script src="data/ft_metrics.js"></script>
 <script src="site.js"></script>
 </body>
 </html>

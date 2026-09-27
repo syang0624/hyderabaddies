@@ -54,6 +54,18 @@ No numbers. Model names (Gemini 3.8 Flash, Gemini 3.8 Live) and the stack (the s
 ## 09 Technical design, next, and A11 The state model
 No external numbers. The design (time-aware encoder over receipt timelines, multilingual embeddings, contrastive retrieval on filed decisions, contests and dropped claims as corrections, evaluation on held-out cycles) is the team's own proposal; the invariants restate `prototype/policy.json`. Added 2026-09-27 08:40 on Carl's instruction.
 
+## 10 Measured (the fine-tune) and the A11 line
+Every value is read from `finetune/results/metrics.json` by `site/sync_metrics.py` into `site/data/ft_metrics.js`; nothing is typed by hand. Run 2026-09-27T09:34:35-07:00, MacBook Pro (Apple M5 Max, 128 GB, mps), seed 2026, intfloat/multilingual-e5-small, 24.2 s of training (`finetune/results/train_log.txt`). A receipt is correct when it matches the ask's generated intent and topic (fixtures are fictional), so this is a benchmark on generated data.
+| Number | Where | Text | Source |
+|---|---|---|---|
+| 51%, 60%, 85% | slide (bars), A11 line | receipt Recall@5, English asks (n=364): keyword engine, base e5-small, fine-tuned | metrics.json groups/en/systems/{keyword,base,finetuned}/receipt/R@5 = 0.5082, 0.5962, 0.8489 |
+| 0%, 82%, 86% | slide (bars), A11 line | receipt Recall@5, Japanese asks (n=28, hand-written, none in training) | groups/ja/systems/.../receipt/R@5 = 0.0000, 0.8214, 0.8571 |
+| 25 points | slide title | fine-tuned minus base, English, receipt Recall@5 | 0.8489 − 0.5962 = 0.2527; MRR difference 95% paired bootstrap +0.17 to +0.26 (groups/en/mrr_diff_95ci_paired_bootstrap) |
+| level on Japanese | slide title | fine-tuned vs base, Japanese | 86% vs 82%; MRR difference 95% paired bootstrap −0.16 to +0.18 spans zero; n=28 |
+| n = 364, n = 28 | slide (under each group) | held-out asks per group | groups/en/n_asks, groups/ja/n_asks |
+| 51%, 58%, 84% | notes | English asks on held-out intents (n=152) | groups/en_heldout_intent |
+| 0%, 19%, 70% | notes | English asks sharing no keyword with any correct receipt (n=162) | groups/en_no_shared_keyword |
+
 ## Appendix
 | Number | Where | Slide | Source |
 |---|---|---|---|

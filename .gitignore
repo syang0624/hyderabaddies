@@ -31,3 +31,5 @@ prototype/LIVE_DEMO.md
 # deck render scratch
 deck/site/_render/
 deck/site/_pw/
+finetune/model/
+finetune/.venv/

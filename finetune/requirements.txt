@@ -1,0 +1,6 @@
+# the versions this run used (python 3.14.7, Apple M5 Max, MPS); torch comes with sentence-transformers
+sentence-transformers==6.1.0
+torch==2.14.0
+transformers==5.17.0
+tokenizers==0.23.2
+numpy==2.5.3

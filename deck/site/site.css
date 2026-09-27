@@ -188,6 +188,27 @@ body.print #impact .rings circle{transform:none}
 #technical-next .arch .lab.sub{fill:var(--mute)}
 #technical-next .arch .g.dim{opacity:.35}
 body.print #technical-next .arch .g.dim{opacity:.35}
+
+/* 08c measured: the fine-tune as a grouped column chart (emphasis form: one accent, two de-emphasis grays) */
+#measured{--kw:#7a7a7a;--base:#b3b3b3;--ft:#a6bf0a;--baseline:#c3c3c3}
+#measured h1{position:absolute;left:0;top:0}
+#measured .chart{position:absolute;left:0;top:196px;width:1600px;height:560px}
+#measured .chart svg{display:block;width:1600px;height:560px;overflow:visible}
+#measured .chart .leg text{font:400 20px var(--mono);letter-spacing:.06em;fill:var(--body)}
+#measured .chart .val{font:500 32px var(--sans);fill:var(--ink);text-anchor:middle;letter-spacing:-.3px;transition:opacity .24s ease-out}
+#measured .chart .grp{font:400 20px var(--mono);letter-spacing:.06em;fill:var(--ink);text-anchor:middle;text-transform:uppercase}
+#measured .chart .n{font:400 20px var(--mono);letter-spacing:.06em;fill:var(--mute);text-anchor:middle;font-variant-numeric:tabular-nums}
+#measured .chart .base{stroke:var(--baseline);stroke-width:1}
+#measured .chart .bar{transform-box:fill-box;transform-origin:50% 100%;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+#measured .chart .hit{fill:transparent;cursor:default}
+#measured .chart .hit:focus{outline:none}
+#measured .chart .hit:focus + .bar,#measured .chart .hit:hover + .bar{filter:brightness(1.08)}
+#measured .tip{position:absolute;display:none;pointer-events:none;background:var(--card);border:1px solid var(--hair);border-radius:12px;padding:10px 16px;box-shadow:0 8px 24px -12px rgba(0,0,0,.25)}
+#measured .tip .v{font:500 32px var(--sans);color:var(--ink);letter-spacing:-.3px}
+#measured .tip .k{font:400 20px var(--mono);letter-spacing:.06em;color:var(--body);display:flex;align-items:center;gap:10px}
+#measured .tip .k i{display:inline-block;width:16px;height:2px}
+body.print #measured .tip{display:none!important}
+
 /* 09 roadmap: three terms on the left, the map on the right */
 #roadmap h1{position:absolute;left:0;top:0}
 #roadmap .map{position:absolute;left:0;top:204px;width:1600px;height:520px;border-radius:16px;background:var(--card);border:1px solid var(--hair);overflow:hidden}

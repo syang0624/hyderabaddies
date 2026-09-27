@@ -83,7 +83,7 @@ def main():
                 out.append(f"*{s['title']}*")
             out.append("")
             for st in s["steps"]:
-                cue = "On arrival" if st["n"] == 0 else ("Judges" if st["n"] == 99 else f"Keypress {st['n']}")
+                cue = "On arrival" if st["n"] == 0 else ("Judges" if st["n"] == 99 else ("Full metrics" if st["n"] == 97 else f"Keypress {st['n']}"))
                 out.append(f"- **{cue}.** {st['text']}")
             out.append("")
         (HERE / "NOTES.md").write_text("\n".join(out), encoding="utf-8")
@@ -96,6 +96,7 @@ def main():
         print(f"  {s['label'] or s['name']:>10}  {s['name']:<28} {s['words']:>4} words   src {s['srcLen']:>3} chars{flag}")
     for name, t in tbd:
         print(f"[TBD] still on slide {name}: {t}")
+        errors.append(f"[TBD] on slide {name}: a placeholder must never ship")
     if errors:
         print("PAGE ERRORS (the render is not clean):", file=sys.stderr)
         for e in errors:
