@@ -466,6 +466,9 @@ function say(e,instant){const id=String(e.id||'');const a=AUD.manifest&&AUD.mani
 }
 function renderReady(){const el=$('#ready');if(!el)return;const on=PRESENT&&S.status==='At rest'&&!!AUD.manifest&&!S.takeRunning;el.textContent=on?'ready: press space':'';el.classList.toggle('on',on)}
 async function startTake(name){if(S.takeRunning)return;S.takeRunning=true;renderReady();resetSession();S.source='scripted';renderFoot();const r=await postJ('/api/take',{name});if(!r.ok){S.takeRunning=false;renderReady();headerNA(`n/a: /api/take ${r.status||'unreachable'} ${(r.data&&r.data.error)||''}`)}}
+// any real gesture on the present page arms the audio (so a terminal cue can play Pik's voice later); only Space/Enter start the take
+document.addEventListener('pointerdown',()=>{if(PRESENT)armAudio()},{passive:true});
+document.addEventListener('keydown',e=>{if(PRESENT&&e.key!==' '&&e.key!=='Enter')armAudio()});
 document.addEventListener('keydown',e=>{if(!PRESENT||S.takeRunning)return;if(e.key!==' '&&e.key!=='Enter')return;const inp=$('#ask');if(e.target===inp&&inp.value.trim())return; // typing in the field is not the cue
   e.preventDefault();armAudio();startTake('hackathon')});
 
