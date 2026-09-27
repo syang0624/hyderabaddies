@@ -34,3 +34,8 @@ prototype/.venv
 # V4 build scratch
 deck/video/v4/_seg/
 deck/video/v4/_frames/
+
+# V5 build scratch; the raw Meet take from Cap may exceed the 20 MB rule, so it stays local (force-add if small)
+deck/video/v5/_seg/
+deck/video/v5/_frames/
+deck/video/v5/captures/meet_real.*
