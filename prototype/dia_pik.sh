@@ -13,7 +13,7 @@ Y4M="$HOME/.local/state/pik-meet/pik_camera.y4m"
 FLAGS=(--enable-applescript-javascript)
 MODE=${1:-}
 if [[ "$MODE" != "--plain" ]]; then
-  FLAGS+=(--auto-select-tab-capture-source-by-title=Pik)
+  FLAGS+=(--auto-select-tab-capture-source-by-title=Pik --autoplay-policy=no-user-gesture-required)  # the Pik tab may play Pik's voice on a terminal cue with no click first
 fi
 if [[ "$MODE" == "--face" ]]; then
   [[ -f "$Y4M" ]] || { echo "dia_pik: $Y4M is missing; build it from deck/video/v2/renders/pik_avatar_loop.mp4 (see MEET_REHEARSAL.md)" >&2; exit 1; }
