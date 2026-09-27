@@ -7,7 +7,7 @@ PORT ?= 8787
 ADC ?= $(firstword $(wildcard $(HOME)/.config/carl-life-os/gcloud-tmuc/application_default_credentials.json $(HOME)/.config/gcloud/application_default_credentials.json))
 export GOOGLE_APPLICATION_CREDENTIALS ?= $(ADC)
 
-.PHONY: setup run run-heuristic run-gemini test reset open smoke live live-sim video-mode warm manifest people ask slack notion
+.PHONY: setup run run-heuristic run-gemini test reset open smoke live live-sim video-mode warm manifest people ask slack notion take take-meet take-crud live-script people-reset people-log graph
 
 setup:            ## one-time: venv + google-genai + sounddevice (Gemini mode and the live layer)
 	$(PY) -m venv $(VENV) && $(PIP) -q install --upgrade pip google-genai sounddevice slack_bolt notion-client
@@ -68,3 +68,21 @@ smoke:            ## end-to-end API check against a running server
 	curl -sf "localhost:$(PORT)/api/memo/yui" | head -12
 	curl -sf localhost:$(PORT)/api/audit | $(PY) -c 'import sys,json;d=json.load(sys.stdin);print("never read:",{k:v["count"] for k,v in d["never_read"].items()})'
 	@$(PY) -c 'import json,pathlib;p=pathlib.Path("state/annotations.json");r=[a for a in json.loads(p.read_text()) if a.get("author")!="smoke"] if p.exists() else [];p.write_text(json.dumps(r,indent=1))' && echo "smoke annotation removed"
+
+take:             ## start a scripted take through the running server: make take NAME=meet (truncates state/live.jsonl, spawns live_script.py)
+	curl -sf -X POST localhost:$(PORT)/api/take -H 'Content-Type: application/json' -d '{"name": "$(NAME)"}'; echo
+
+take-meet:        ## Choreography A: the 19 s Meet beat replayed through live.py's compose/place/emit (page: /?present=1&take=meet)
+	$(MAKE) take NAME=meet
+
+live-script:      ## replay a script directly, no server needed: make live-script SCRIPT=scripts/meet.json (FAST=1 skips the waits)
+	SPEAK=0 MODE=heuristic $(PYV) live_script.py $(or $(SCRIPT),scripts/meet.json)
+
+people-reset:     ## put data/people.json back to the committed fixture (data/people.base.json) and clear the record logs; annotations and caches survive (make reset clears those)
+	curl -sf -X POST localhost:$(PORT)/api/reset -H 'Content-Type: application/json' -d '{"people": true}'; echo
+
+people-log:       ## the record log: every confirmed add / edit / remove
+	@test -s state/people-log.jsonl && cat state/people-log.jsonl | $(PY) -c 'import sys,json;[print(r["op"], r["person"]["id"], r["person"]["name"], "by", r["by"], r.get("changed","")) for r in map(json.loads, sys.stdin)]' || echo "no record changes"
+
+graph:            ## shape and size of GET /api/graph
+	curl -sf localhost:$(PORT)/api/graph | $(PY) -c 'import sys,json;g=json.load(sys.stdin);print(len(g["nodes"]),"nodes",len(g["hubs"]),"hubs",len(g["edges"]),"edges")'
