@@ -53,8 +53,8 @@ def timeline():
     ev = [
         (0.3, {"kind": "status", "text": "Listening"}),
         (a, {"kind": "heard", "text": LINE1}),
-        (a + 0.35, {"kind": "show_candidates", "criterion": CRIT, "ranking": ["yui", "kei", "rin"]}),
-        (a + 0.36, {"kind": "compose", "doc": [Q1, P1]}),
+        (a + 0.35, {"kind": "compose", "doc": [Q1, P1]}),
+        (a + 0.45, {"kind": "show_candidates", "criterion": CRIT, "ranking": ["yui", "kei", "rin"]}),
         (a + 2.9, {"kind": "patch", "op": "add", "block": R1, "doc": [Q1, P1, R1]}),
         (a + 3.7, {"kind": "patch", "op": "add", "block": R2, "doc": [Q1, P1, R1, R2]}),
         (b + m2 - 0.4, {"kind": "heard", "text": LINE2}),
@@ -77,10 +77,15 @@ async def main():
                                   record_video_dir=str(OUT), record_video_size={"width": 1920, "height": 1080})
         pg = await ctx.new_page()
         await pg.goto("http://localhost:8787/?present=1&before=1")
+        await pg.evaluate("document.body.style.zoom='1.5'")  # the 'today' page is small at 1080p; the stage resets this
         await pg.wait_for_timeout(1800)
         t0 = time.time()
         for at, e in ev:
-            await asyncio.sleep(max(0, t0 + at - time.time())); emit(e); print(f"{time.time()-t0:5.2f} {e['kind']}")
+            await asyncio.sleep(max(0, t0 + at - time.time()))
+            emit(e); print(f"{time.time()-t0:5.2f} {e['kind']}")
+            if e["kind"] == "compose":  # the stage replaces the page: drop the zoom the instant it mounts (its blocks are still hidden)
+                await pg.wait_for_function("document.body.classList.contains('stage')", timeout=6000)
+                await pg.evaluate("document.body.style.zoom=''")
         await asyncio.sleep(max(0, t0 + end + 2.0 - time.time()))
         path = await pg.video.path()
         await ctx.close(); await b.close()
