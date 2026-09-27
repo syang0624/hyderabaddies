@@ -28,3 +28,6 @@ It tracks your achievements for you (what you wrote and shipped, with the origin
 - Nothing about the VP's figures or internal matters (PRD §15, `sync.md` §J). Interviewees unnamed on screen. No real faces.
 - Every message to another person is a draft for Carl to send.
 - Look at the real render before saying it is done. Cap what you hand Carl at three items.
+
+## Carl's storyboard export (Sat ~20:30): `deck/video/STORYBOARD_v4_figma.pdf`
+Read it first for the flow and tone; a few beats have since changed (the product is now called **Pik**; the Meet screen is composed live from primitives; the receipts page is the "why" layer). Its spine: "Who is the best person for X" (three asks: the hackathon, the US-Japan exchange, a construction job board) → "Meet Pik, the company intelligence AI that works wherever you are" → Pik reads Slack and mail and learns who knows what ("Adachi-san is an expert in xyz") → Pik helps the team decide who does the exchange, then who leads the team → "Because the future of your work depends on who you Pik."

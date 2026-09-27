@@ -27,3 +27,6 @@ Everything above already works as events except the composition layer; keep the 
 - Never play audio in your own tests (`SPEAK=0`); live voice tests are Carl's.
 - Look at the real page in the browser before saying anything is done; hand Carl at most three items at a time.
 - Steven owns Slack and Notion (issue syang0624/hyderabaddies#5); Carl is cutting the video (`deck/VIDEO_PROMPT.md`). Update `PRD.md` §4 and §11.A when the composition tools land.
+
+## Carl's storyboard export (Sat ~20:30): `deck/video/STORYBOARD_v4_figma.pdf`
+Read it first for the flow and tone; a few beats have since changed (the product is now called **Pik**; the Meet screen is composed live from primitives; the receipts page is the "why" layer). Its spine: "Who is the best person for X" (three asks: the hackathon, the US-Japan exchange, a construction job board) → "Meet Pik, the company intelligence AI that works wherever you are" → Pik reads Slack and mail and learns who knows what ("Adachi-san is an expert in xyz") → Pik helps the team decide who does the exchange, then who leads the team → "Because the future of your work depends on who you Pik."
