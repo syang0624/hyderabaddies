@@ -61,18 +61,18 @@
   .reacts span.add{color:#616061;width:32px;justify-content:center;font-size:14px}
   .mention{background:#E8F5FA;color:#1264A3;border-radius:3px;padding:0 2px}
   /* Block Kit card, as Slack renders card() */
-  .card{max-width:920px}
-  .card .sec{margin-top:2px}
-  .card .why{margin:2px 0 0 0;list-style:none}
-  .card .why li::before{content:"•  "}
-  .card .ctx{font-size:12px;line-height:18px;color:#616061;margin-top:8px}
-  .card .q{margin-top:8px;border-left:4px solid #DDDDDD;padding-left:12px}
-  .card .q p{margin-top:6px}
-  .card .q p:first-child{margin-top:0}
-  .card .q i{color:#616061}
-  .card .btns{display:flex;gap:8px;margin-top:10px}
-  .card .btn{height:36px;padding:0 12px;border-radius:4px;border:1px solid #BBBABB;background:#fff;font-weight:700;font-size:13px;line-height:34px;color:#1D1C1D}
-  .card .btn.pri{background:#007A5A;border-color:#007A5A;color:#fff}
+  .pkcard{max-width:920px}
+  .pkcard .sec{margin-top:2px}
+  .pkcard .why{margin:2px 0 0 0;list-style:none}
+  .pkcard .why li::before{content:"•  "}
+  .pkcard .ctx{font-size:12px;line-height:18px;color:#616061;margin-top:8px}
+  .pkcard .q{margin-top:8px;border-left:4px solid #DDDDDD;padding-left:12px}
+  .pkcard .q p{margin-top:6px}
+  .pkcard .q p:first-child{margin-top:0}
+  .pkcard .q i{color:#616061}
+  .pkcard .btns{display:flex;gap:8px;margin-top:10px}
+  .pkcard .btn{height:36px;padding:0 12px;border-radius:4px;border:1px solid #BBBABB;background:#fff;font-weight:700;font-size:13px;line-height:34px;color:#1D1C1D}
+  .pkcard .btn.pri{background:#007A5A;border-color:#007A5A;color:#fff}
   .eph{font-size:12px;color:#616061;margin-top:8px;display:flex;align-items:center;gap:6px}
   .eph i{width:14px;height:9px;border:1.5px solid #616061;border-radius:50%;display:block;position:relative}
   .eph i::after{content:"";position:absolute;left:4px;top:1.5px;width:3px;height:3px;border-radius:50%;background:#616061}
@@ -113,7 +113,7 @@
     <div class="it"><span class="dot off"></span>Okada</div>
     <div class="it"><span class="dot off"></span>Aya Nakamura <span style="opacity:.6">(you)</span></div>
     <div class="sec">Apps</div>
-    <div class="it"><span class="av pik" style="width:18px;height:18px;border-radius:3px;transform:scale(.5);margin:-4px -6px -4px -8px"></span>Pik</div>
+    <div class="it"><span style="width:14px;height:14px;border-radius:3px;background:#111;border:1.5px solid rgba(255,255,255,.55);display:block;margin-right:2px"></span>Pik</div>
   </div>
   <div class="sk-pane">
     <div class="sk-head">
@@ -130,7 +130,7 @@
       <div class="msg enter" id="ask"><div class="av" style="background:#7D5BA6">AN</div><div class="b"><div class="nm"><b>Aya Nakamura</b><span>11:02 AM</span></div><div class="tx">who's best to lead the pricing task force?</div></div></div>
       <div class="msg enter" id="card">
         <div class="av pik"></div>
-        <div class="b card">
+        <div class="b pkcard">
           <div class="nm"><b>Pik</b><span class="app">APP</span><span>11:02 AM</span></div>
           <div class="sec"><b>Yui Sato</b>, Product operations, Pricing</div>
           <ul class="why">
