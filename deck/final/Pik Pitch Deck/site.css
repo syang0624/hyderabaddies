@@ -292,3 +292,13 @@ body.print #measured .tip{display:none!important}
 #ft-example .side .id{white-space:nowrap}
 /* the measured source line is quoted in full; without the tracking it fits the 1600 px */
 #measured .src{letter-spacing:0}
+
+/* source chips beside each number on the impact slide */
+.chip{display:inline-flex;align-items:center;gap:8px;vertical-align:middle;margin-left:10px;padding:4px 12px;border:1px solid var(--hair);border-radius:8px;background:var(--card);font:600 20px/26px var(--sans);letter-spacing:0;color:var(--ink);white-space:nowrap;transform:translateY(-3px)}
+.chip.rec b{color:#1d4a9c;letter-spacing:.12em;font-weight:700}
+.chip.li{color:#0a66c2}
+.chip.li i{font-style:normal;font-weight:700;color:#fff;background:#0a66c2;border-radius:4px;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:17px}
+.chip.int svg{width:20px;height:20px;fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.chip.sm{font:500 16px/20px var(--sans);padding:2px 8px;margin:0 8px 0 0;color:var(--body);transform:none}
+#different .copy em{padding:0 .12em}
+#end .lime{color:var(--lime)}
