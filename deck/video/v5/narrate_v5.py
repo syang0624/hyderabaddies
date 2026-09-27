@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""V5 narration: the lines re-cut to the tightened front (same Vertex Live path as ../v3/narrate_v3.py), Charon at 1.35.
+"""V5 narration: the lines re-cut to the tightened front (same Vertex Live path as ../v3/narrate_v3.py), Charon at 1.15, calm (Carl).
 
 Charon (narrator) at --rate 1.30, Puck (the manager) at --manager-rate 1.20, per Steven's V2 feedback ("too slow and boring").
 Only the ids that no longer fit their shorter beats live here; build_v5.py falls back to ../v3/vo for the rest. Output: deck/video/v5/vo/<id>.wav
@@ -25,12 +25,18 @@ MANAGER = ("You are a text-to-speech engine. Read the user's text aloud exactly,
            "manager on a video call, natural and conversational. Never add, drop or change a word. Output speech only.")
 
 # id, voice, style, text. Ids are the build_v3.py rows. "_alt" ids are shorter variants kept so the cut can pick the one that fits.
-LINES = [
+LINES = [  # V5, Carl's pacing: Charon at 1.15, calm; every line cut to fit its beat (cut words, not tempo)
     ("01_blur",      "Charon", STYLE, "The line between roles is blurring."),
-    ("02_asked",     "Charon", STYLE, "We asked Recruit's HR leaders. Every answer: who does what next, decided from memory."),
-    ("03_asks",      "Charon", STYLE, "Who should mentor the interns? Lead the pricing task force? Take the exchange?"),
+    ("02a_asked",    "Charon", STYLE, "We asked people at Recruit Holdings."),
+    ("02b_team",     "Charon", STYLE, "Team formation."),
+    ("02c_decided",  "Charon", STYLE, "Every answer: who does what next, decided from memory."),
     ("04_meetpik",   "Charon", STYLE, "Meet Pik. It knows who's done what, and answers where you ask."),
-    ("10_verticals", "Charon", STYLE, "Hospitals, airlines, construction sites: anywhere the wrong person is expensive."),
+    ("04b_meetyui",  "Charon", STYLE, "Pik knows how Yui is doing: it lives where she works."),
+    ("05_mining",    "Charon", STYLE, "It reads what she already wrote, where the company allows."),
+    ("06_receipts",  "Charon", STYLE, "Every line keeps its source."),
+    ("08_slack",     "Charon", STYLE, "Or ask in Slack. One press to loop her in."),
+    ("09_ticket",    "Charon", STYLE, "On a ticket, it fills in the owner, and shows why."),
+    ("11_end",       "Charon", STYLE, "Because the future of your work depends on who you Pik."),
 ]
 MANAGER_IDS = {lid for lid, voice, _, _ in LINES if voice == "Puck"}
 
@@ -57,7 +63,7 @@ async def synth(client, voice, style, text) -> bytes:
 async def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--only", default=None, help="only ids starting with this")
-    ap.add_argument("--rate", type=float, default=1.35, help="atempo for Charon lines")
+    ap.add_argument("--rate", type=float, default=1.15, help="atempo for Charon lines")
     ap.add_argument("--manager-rate", type=float, default=1.20, help="atempo for Puck lines")
     ap.add_argument("--takes", type=int, default=1, help="synthesize N times and keep the shortest valid take (the Live model's pace varies per call)")
     ap.add_argument("--keep-shorter", action="store_true", help="only replace an existing wav when the new take is shorter")
