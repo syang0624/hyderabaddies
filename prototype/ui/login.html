@@ -37,6 +37,15 @@
   .act[disabled]{opacity:.4;cursor:default}
   .note{font:400 12px/16px var(--mono);color:var(--mute)}
   footer{padding:0 32px 24px;font:400 12px/16px var(--mono);color:var(--mute);display:flex;gap:24px}
+  [hidden]{display:none!important}
+  .stack{width:440px;max-width:100%;display:flex;flex-direction:column;gap:16px}
+  .ctx{gap:10px;padding:20px 24px}
+  .ctx .top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .ctx .dec{font-size:16px;line-height:24px;font-weight:500;letter-spacing:-.32px;color:var(--ink)}
+  .ctx .det{font:400 13px/20px var(--mono);color:var(--body)}
+  .ctx .row{display:flex;justify-content:flex-end}
+  .got{border:0;border-radius:8px;background:var(--lime);color:var(--ink);padding:6px 14px;font-size:14px;line-height:20px;font-weight:500;letter-spacing:-.28px;cursor:pointer}
+  .got:hover{background:var(--lime-deep)}
 </style>
 </head>
 <body>
@@ -45,6 +54,13 @@
   <span class="brand">Pik</span><span class="sp"></span><span class="pill" id="pill">Sign in</span>
 </header>
 <main>
+  <div class="stack">
+  <section class="card ctx" id="ctx" hidden aria-label="Today's context">
+    <div class="top"><span class="eyebrow">Today's context</span><span class="chip mute" id="ctxws"></span></div>
+    <p class="dec" id="ctxdec"></p>
+    <p class="det" id="ctxdet"></p>
+    <div class="row"><button class="got" id="gotit" type="button">Got it</button></div>
+  </section>
   <form class="card" id="f" autocomplete="off">
     <div><h1>Who is looking?</h1><p class="sub">Pik shows the same receipts to the evaluator and to the person named. Pick who you are for this walk-through.</p></div>
     <label>Workspace<input id="ws" type="text" value="Kaede Works"></label>
@@ -54,12 +70,21 @@
     <span class="na" id="err" hidden></span>
     <span class="note">Signed cookie, one server run. Fictional company, fictional people. No password: this is a demo of the product, not of a login.</span>
   </form>
+  </div>
 </main>
 <footer><span>Every line carries its source</span><span>A to Z, not a rank</span><span id="ext"></span></footer>
 <script>
 const $=s=>document.querySelector(s);const nd=s=>String(s==null?'':s).replace(/[\u2014\u2013]/g,'-');
 const esc=s=>nd(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let PEOPLE=[];
+// Today's context: shown until "Got it" or the first successful sign-in, then never again on this browser. If storage fails it shows.
+const SEEN='pik.contextSeen';
+function seen(){try{return localStorage.getItem(SEEN)==='1'}catch(e){return false}}
+function markSeen(){try{localStorage.setItem(SEEN,'1')}catch(e){}}
+async function context(){if(seen())return;let d=null;try{const r=await fetch('/api/context');if(r.ok)d=await r.json()}catch(e){}
+  if(!d||!d.decision)return;$('#ctxdec').textContent=nd(d.decision);$('#ctxdet').textContent=nd(d.detail||'');
+  $('#ctxws').textContent=nd(d.workspace||'');$('#ctxws').hidden=!d.workspace;$('#ctx').hidden=false;}
+$('#gotit').addEventListener('click',()=>{markSeen();$('#ctx').hidden=true;});
 async function load(){
   let d=null;try{const r=await fetch('/api/session');d=await r.json()}catch(e){}
   if(!d){$('#err').hidden=false;$('#err').textContent='n/a: /api/session unreachable';return}
@@ -75,8 +100,9 @@ $('#who').addEventListener('change',roleOf);
 $('#f').addEventListener('submit',async e=>{e.preventDefault();$('#go').disabled=true;$('#err').hidden=true;
   let d=null,ok=false;try{const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({who:$('#who').value,workspace:$('#ws').value})});ok=r.ok;d=await r.json()}catch(x){}
   if(!ok||!d||!d.ok){$('#err').hidden=false;$('#err').textContent='n/a: '+((d&&d.error)||'login failed');$('#go').disabled=false;return}
+  markSeen();
   const next=new URLSearchParams(location.search).get('next');location.href=(d.session.role==='subject'||!next||!next.startsWith('/'))?d.next:next;});
-load();
+load();context();
 </script>
 </body>
 </html>

@@ -442,13 +442,16 @@ async def main():
     loop = asyncio.get_running_loop()
     q: asyncio.Queue = asyncio.Queue(maxsize=50)
 
+    def put(chunk):  # runs on the loop: while the session reconnects the queue fills; drop the chunk, never a traceback per chunk
+        try:
+            q.put_nowait(chunk)
+        except asyncio.QueueFull:
+            pass
+
     def on_audio(indata, frames, t, status):
         if status:
             print("mic:", status, file=sys.stderr)
-        try:
-            loop.call_soon_threadsafe(q.put_nowait, bytes(indata))
-        except asyncio.QueueFull:
-            pass
+        loop.call_soon_threadsafe(put, bytes(indata))
 
     dev = pick_mic()
     name = sd.query_devices(dev if dev is not None else sd.default.device[0])["name"]
@@ -566,6 +569,10 @@ async def run_session(session, q):
 
 
 if __name__ == "__main__":
+    import signal
+    # started in the background (the page's mic button, a non-interactive shell) SIGINT arrives ignored; restore it so
+    # Ctrl-C and the page's stop end the session cleanly ("stopped") instead of waiting for SIGKILL
+    signal.signal(signal.SIGINT, signal.default_int_handler)
     try:
         asyncio.run(main())
     except KeyboardInterrupt:

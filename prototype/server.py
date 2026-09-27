@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 import os
 import re
+import signal
 import subprocess
 import sys
 import threading
@@ -64,6 +65,172 @@ def _take_state():
     code = proc.poll() if proc is not None else None
     return {"name": TAKE["name"], "running": bool(proc is not None and code is None), "pid": proc.pid if proc else None,
             "exit_code": code, "python": str(VENV_PY if VENV_PY.exists() else sys.executable), "venv": VENV_PY.exists()}
+
+
+# ---- the meeting surfaces: Join Meet / Open Slack / Open task board, and the listener the page starts (one at a time) ----
+LISTEN = {"proc": None}  # the live.py this server started (the page's mic button)
+LISTEN_LOCK = threading.Lock()  # two clicks at once must not start two listeners (three at once caused chaos before)
+LISTENER_RX = re.compile(r"(^|[ /])live\.py(\s|$)")  # live.py, never live_script.py or live_sim.py
+LISTENER_LOG = engine.STATE / "listener.log"
+LISTENER_PID = engine.STATE / "listener.pid"  # so a restarted server still knows the page started it
+_SETTINGS = {}
+_SETTINGS_LOCK = threading.Lock()
+
+
+def _settings():
+    """PIK_* settings as surfaces/_env.py resolves them (process env first, then <repo>/.env, prototype/.env,
+    ~/.config/carl-life-os/.env), read once. The loader writes into os.environ; the keys it added are taken back out,
+    so the tokens in those files never reach this server's children."""
+    with _SETTINGS_LOCK:
+        return _settings_locked()
+
+
+def _settings_locked():
+    if not _SETTINGS:
+        before = set(os.environ)
+        sys.path.insert(0, str(HERE / "surfaces"))
+        try:
+            import _env  # noqa: F401
+        finally:
+            sys.path.remove(str(HERE / "surfaces"))
+        _SETTINGS.update({k: v for k, v in os.environ.items() if k.startswith("PIK_")})
+        _SETTINGS["_loaded"] = "1"
+        for k in set(os.environ) - before:
+            os.environ.pop(k, None)
+    return _SETTINGS
+
+
+def _notion_url(db: str):
+    """PIK_NOTION_DB as a link: a URL or a 32-hex id (dashes allowed) -> https://www.notion.so/<id>; a URL without one is used as is."""
+    db = (db or "").strip()
+    m = re.search(r"[0-9a-fA-F]{8}-?[0-9a-fA-F]{4}-?[0-9a-fA-F]{4}-?[0-9a-fA-F]{4}-?[0-9a-fA-F]{12}", db)
+    if m and (db.startswith(("http://", "https://")) or m.group(0) == db):
+        return "https://www.notion.so/" + m.group(0).replace("-", "")
+    return db if db.startswith(("http://", "https://")) else "https://www.notion.so"
+
+
+def _ps():
+    """(pid, command line) for every process; raises when ps cannot run (then nothing is claimed about what runs)."""
+    r = subprocess.run(["ps", "-axo", "pid=,command="], capture_output=True, text=True, timeout=5)
+    if r.returncode != 0:
+        raise RuntimeError(f"ps failed: {r.stderr.strip()[:120]}")
+    rows = []
+    for line in r.stdout.splitlines():
+        pid, _, cmd = line.strip().partition(" ")
+        if pid.isdigit():
+            rows.append((int(pid), cmd.strip()))
+    return rows
+
+
+def _is_listener(cmd: str):
+    """live.py run by a Python interpreter; a shell, an editor or `grep ... live.py` naming the file is not a listener."""
+    return "python" in cmd.split(" ", 1)[0].rsplit("/", 1)[-1].lower() and bool(LISTENER_RX.search(cmd))
+
+
+def _page_pid():
+    proc = LISTEN["proc"]
+    if proc is not None:
+        if proc.poll() is None:
+            return proc.pid
+        LISTEN["proc"] = None
+    try:
+        return int(LISTENER_PID.read_text().strip())
+    except (OSError, ValueError):
+        return None
+
+
+def _listener_state(ps=None):
+    mine = _page_pid()
+    found = [pid for pid, cmd in (ps if ps is not None else _ps()) if _is_listener(cmd) and pid != os.getpid()]
+    if not found:
+        return {"running": False, "pid": None, "started_by": None}
+    pid = mine if mine in found else found[0]
+    return {"running": True, "pid": pid, "started_by": "page" if pid == mine else "external"}
+
+
+def _log_tail(n=5):
+    try:
+        return engine.redact("\n".join(LISTENER_LOG.read_text(errors="replace").splitlines()[-n:]))
+    except OSError:
+        return ""
+
+
+def _listen_on():
+    with LISTEN_LOCK:
+        st = _listener_state()
+        if st["running"]:  # page or external: never a second one
+            return dict(ok=True, **st)
+        if not VENV_PY.exists():
+            return {"ok": False, "running": False, "pid": None, "started_by": None, "error": "run make setup first"}
+        cfg = _settings()
+        env = dict(os.environ, MODE="heuristic", SPEAK=cfg.get("PIK_LISTEN_SPEAK") or "1", PYTHONUNBUFFERED="1")
+        if cfg.get("PIK_MIC"):
+            env["MIC"] = cfg["PIK_MIC"]
+        if not env.get("GOOGLE_APPLICATION_CREDENTIALS"):  # the Makefile's ADC default, so the button works like `make live`
+            adc = [c for c in (Path.home() / ".config/carl-life-os/gcloud-tmuc/application_default_credentials.json",
+                               Path.home() / ".config/gcloud/application_default_credentials.json") if c.is_file()]
+            if adc:
+                env["GOOGLE_APPLICATION_CREDENTIALS"] = str(adc[0])
+        with LISTENER_LOG.open("w") as log:
+            proc = subprocess.Popen([str(VENV_PY), "live.py"], cwd=str(HERE), env=env, stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT)
+        LISTEN["proc"] = proc
+        LISTENER_PID.write_text(str(proc.pid))
+        end = time.time() + 3
+        while time.time() < end and proc.poll() is None:
+            time.sleep(0.1)
+        if proc.poll() is not None:
+            LISTEN["proc"] = None
+            LISTENER_PID.unlink(missing_ok=True)
+            return {"ok": False, "running": False, "pid": None, "started_by": None,
+                    "error": _log_tail() or f"the listener exited with code {proc.returncode} and wrote nothing to state/listener.log"}
+        return {"ok": True, "running": True, "pid": proc.pid, "started_by": "page"}
+
+
+def _stop_page_listener(pid):
+    """SIGINT (live.py stops its stream and prints 'stopped'), SIGKILL after 3 s."""
+    proc = LISTEN["proc"]
+    if proc is not None and proc.pid == pid:
+        proc.send_signal(signal.SIGINT)
+        try:
+            proc.wait(timeout=3)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+            proc.wait(timeout=3)
+    else:  # started by this page under an earlier server run: not our child, so poll it
+        try:
+            os.kill(pid, signal.SIGINT)
+            end = time.time() + 3
+            while time.time() < end:
+                os.kill(pid, 0)
+                time.sleep(0.1)
+            os.kill(pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+    LISTEN["proc"] = None
+    LISTENER_PID.unlink(missing_ok=True)
+
+
+def _listen_off():
+    """(http code, body). Stops only what the page started; an external listener belongs to its terminal."""
+    with LISTEN_LOCK:
+        st = _listener_state()
+        if not st["running"]:
+            LISTENER_PID.unlink(missing_ok=True)
+            return 200, dict(ok=True, **st)
+        if st["started_by"] == "external":
+            return 409, dict(ok=False, error="the listener was started outside the page; stop it with Ctrl-C in its terminal", **st)
+        _stop_page_listener(st["pid"])
+        st = _listener_state()
+        return 200, dict(ok=st["started_by"] != "page", **st)
+
+
+def _surfaces():
+    cfg = _settings()
+    ps = _ps()
+    return {"meet": {"url": cfg.get("PIK_MEET_URL") or "https://meet.google.com/new"},
+            "slack": {"url": cfg.get("PIK_SLACK_URL") or "https://slack.com/signin", "running": any("surfaces/slack_bot.py" in c for _, c in ps)},
+            "notion": {"url": cfg.get("PIK_NOTION_URL") or _notion_url(cfg.get("PIK_NOTION_DB", "")), "running": any("surfaces/notion_board.py" in c for _, c in ps)},
+            "listener": _listener_state(ps)}
 
 
 class H(BaseHTTPRequestHandler):
@@ -145,6 +312,8 @@ class H(BaseHTTPRequestHandler):
         q = parse_qs(u.query)
         p = u.path
         try:
+            if p == "/api/context":  # public: the sign-in card shows it before anyone has a session
+                return self._json(engine.context())
             if self._gate(p):
                 return
             subj = self._subject()
@@ -173,6 +342,19 @@ class H(BaseHTTPRequestHandler):
                 return self._json(engine.byok_public())
             if p == "/api/stats":
                 return self._json(engine.stats())
+            if p == "/api/surfaces":
+                return self._json(_surfaces())
+            if p.startswith("/api/source/"):
+                if subj:
+                    return self._json({"error": "the subject sees only their own page"}, 403)
+                kind = p[len("/api/source/"):]
+                if kind not in engine.SOURCE_KINDS:
+                    return self._json({"error": f"unknown source {kind!r}; one of {sorted(engine.SOURCE_KINDS)}"}, 404)
+                try:
+                    limit = int(q.get("limit", ["50"])[0] or 50)
+                except ValueError:
+                    raise BadRequest("limit must be a whole number")
+                return self._json(engine.source_items(kind, limit, q.get("q", [""])[0], q.get("person", [""])[0]))
             if subj and (p in ("/api/people", "/api/graph", "/api/cities") or (p.startswith("/api/people/") and p.rsplit("/", 1)[1] != subj)
                          or (p.startswith("/api/evidence/") and p.rsplit("/", 1)[1] != subj) or (p.startswith("/api/memo/") and p.rsplit("/", 1)[1] != subj)):
                 return self._json({"error": "the subject sees only their own page"}, 403)
@@ -286,6 +468,28 @@ class H(BaseHTTPRequestHandler):
                 if subj:
                     return self._json({"error": "settings are for evaluators"}, 403)
                 return self._json(engine.test_key())
+            if p == "/api/listen":
+                if subj:
+                    return self._json({"error": "the subject never starts the listener"}, 403)
+                if not isinstance(b.get("on"), bool):
+                    raise BadRequest('send {"on": true} or {"on": false}')
+                if b["on"]:
+                    return self._json(_listen_on())
+                code, body = _listen_off()
+                return self._json(body, code)
+            if p == "/api/end":
+                if subj:
+                    return self._json({"error": "the subject never sees the ask or the memo of the meeting"}, 403)
+                stopped = False
+                with LISTEN_LOCK:
+                    st = _listener_state()
+                    if st["running"] and st["started_by"] == "page":
+                        _stop_page_listener(st["pid"])
+                        stopped = True
+                kind, src = engine.end_source()
+                if not kind:
+                    return self._json({"ok": False, "error": "nothing to summarise yet: ask Pik something first", "listener_stopped": stopped})
+                return self._json(dict(ok=True, **engine.meeting_memo(kind, src), listener_stopped=stopped))
             if subj and p in ("/api/ask", "/api/rank", "/api/chat", "/api/people", "/api/take", "/api/reset", "/api/snapshot"):
                 return self._json({"error": "the subject never sees the ask, the ranking or the records"}, 403)
             if p == "/api/rank":

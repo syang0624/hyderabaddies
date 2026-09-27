@@ -740,20 +740,7 @@ def ask(question: str, context: str = "", requester: str | None = None, k: int =
     top = rows[:k]
     out = []
     for adj, score, util, p, hits, recs in top:
-        rec_hits = [h for h in hits if h[0] == "receipt"][:2]
-        why = [h[1] for h in hits if h[0] != "receipt"][:2] + [h[1] for h in rec_hits]
-        cov = coverage(qmap, p)
-        if not rec_hits:  # no receipt overlaps two words: show the ones that covered a word before any other
-            lit = {sid for sids in cov["covered"].values() for sid in sids}
-            recs = sorted(recs, key=lambda r: (r[2] not in lit))
-        out.append({
-            "id": p["id"], "name": p["name"], "role": p["role"], "team": p["team"], "location": p.get("location"), "geo": p.get("geo"),
-            "languages": p.get("languages", []), "why": why[:3],
-            "receipts": [{"text": t, "source": lab, "source_id": sid} for t, lab, sid in ([(h[1], h[2][0], h[2][1]) for h in rec_hits] or recs[:2])],
-            "load": p.get("load", {}), "availability": p.get("availability"), "support": round(score, 2),
-            "confidence": cov["confidence"], "asked": cov["asked"], "covered": cov["covered"], "missing": cov["missing"],
-            "badge": "seeded" if is_fixture(p) else ("simulated" if p.get("generated") else added_badge(p)),
-        })
+        out.append(_ask_row(p, score, hits, recs, qmap))
     follow_up = None
     if not top or top[0][1] <= 0:
         out = []  # nothing bears on the words: ask, do not guess
@@ -766,8 +753,73 @@ def ask(question: str, context: str = "", requester: str | None = None, k: int =
         else:
             words = ", ".join(sorted(q)[:4])
             follow_up = f"Nothing on file mentions {words}. What would this person actually do, and for which team?"
+    if os.environ.get("PIK_RETRIEVER_URL"):  # opt-in only; unset, ask() is exactly the keyword engine
+        out = out + _retrieved_rows((question + " " + (context or "")).strip(), qmap, rows, out)
     return {"question": question, "criterion": " ".join(sorted(q)), "asked": list(qmap.values()), "people": out, "follow_up": follow_up,
             "considered": len(rows), "backend": "keyword", "note": ASK_NOTE}
+
+
+def _ask_row(p, score, hits, recs, qmap, retrieved=None):
+    """One person as ask() returns them (the fields the page, the Slack bot and the Notion watcher read).
+    retrieved: [(text, source_label, source_id)] from the opt-in retriever, standing where the keyword receipt hits stand."""
+    rec_hits = [h for h in hits if h[0] == "receipt"][:2]
+    if retrieved is not None:
+        rec_hits = [("receipt", t, (lab, sid)) for t, lab, sid in retrieved][:2]
+    why = [h[1] for h in hits if h[0] != "receipt"][:2] + [h[1] for h in rec_hits]
+    cov = coverage(qmap, p)
+    if not rec_hits:  # no receipt overlaps two words: show the ones that covered a word before any other
+        lit = {sid for sids in cov["covered"].values() for sid in sids}
+        recs = sorted(recs, key=lambda r: (r[2] not in lit))
+    return {
+        "id": p["id"], "name": p["name"], "role": p["role"], "team": p["team"], "location": p.get("location"), "geo": p.get("geo"),
+        "languages": p.get("languages", []), "why": why[:3],
+        "receipts": [{"text": t, "source": lab, "source_id": sid} for t, lab, sid in ([(h[1], h[2][0], h[2][1]) for h in rec_hits] or recs[:2])],
+        "load": p.get("load", {}), "availability": p.get("availability"), "support": round(score, 2),
+        "confidence": cov["confidence"], "asked": cov["asked"], "covered": cov["covered"], "missing": cov["missing"],
+        "badge": "seeded" if is_fixture(p) else ("simulated" if p.get("generated") else added_badge(p)),
+    }
+
+
+def _retrieved_rows(question, qmap, rows, shown):
+    """Opt-in (PIK_RETRIEVER_URL, e.g. http://127.0.0.1:8811/retrieve from `make -C finetune serve`): the people whose receipts
+    the fine-tuned JA-EN retriever returns in its top k and who are not already shown. A retrieved receipt is kept only
+    when its id is one of that person's receipts on file and its text is that receipt, verbatim. Any failure: one loud line on
+    stderr and nothing added, so the caller returns the keyword result unchanged. No model runs in this process.
+    PIK_RETRIEVER_K: how many receipts to ask for (default 5)."""
+    import sys
+    import urllib.request
+
+    url = os.environ.get("PIK_RETRIEVER_URL", "")
+    try:
+        k = int(os.environ.get("PIK_RETRIEVER_K") or 5)
+        req = urllib.request.Request(url, data=json.dumps({"question": question, "k": k}).encode(),
+                                     headers={"Content-Type": "application/json"}, method="POST")
+        with urllib.request.urlopen(req, timeout=1.5) as r:
+            items = json.loads(r.read())["items"]
+        considered = {row[3]["id"]: row for row in rows}  # the people ask() itself considered (pool, not on leave)
+        have = {o["id"] for o in shown}
+        got, rejected = {}, 0
+        for it in items:
+            pid = str(it["person_id"])
+            if pid in have or pid not in considered:
+                continue
+            rec = next((x for x in considered[pid][3].get("receipts") or [] if x.get("id") == it["id"]), None)
+            if not rec or rec.get("text") != it["text"]:
+                rejected += 1
+                continue
+            got.setdefault(pid, []).append((rec["text"], _gen_receipt_label(rec), rec["id"]))
+        if rejected:
+            print(f"[engine] RETRIEVER: dropped {rejected} receipt(s) that are not verbatim on file ({url})", file=sys.stderr, flush=True)
+        added = []
+        for pid, recs in got.items():
+            adj, score, util, p, hits, all_recs = considered[pid]
+            row = _ask_row(p, score, hits, all_recs, qmap, retrieved=recs)
+            row["via"] = "retriever"
+            added.append(row)
+        return added
+    except Exception as e:  # noqa: BLE001
+        print(f"[engine] RETRIEVER FAILED at {url}: {type(e).__name__}: {e}; returning the keyword result unchanged", file=sys.stderr, flush=True)
+        return []
 
 
 # ---------- the composed screen (Meet): the engine supplies every name, quote and constraint match ----------
@@ -1493,3 +1545,236 @@ def stats():
             "never_read": "counts from data/manifest.json for policy.json excluded_sources; the files are never opened by the evidence path",
         },
     }
+
+
+# ---------- the meeting surfaces: today's context, the source lists, the end-of-meeting memo ----------
+
+def context():
+    """Today's context for the sign-in card. policy.json names the decision (its purpose id); company.json holds that
+    decision's words (purpose = the sentence, title = the exchange, the slot, the start). A "decision" or "detail"
+    string added to policy.json wins. Nothing here is typed in."""
+    pol = policy()
+    company = load("company.json")
+    d = company.get("decision") or {}
+    if pol.get("purpose") and d.get("id") and d["id"] != pol["purpose"]:
+        raise ValueError(f"policy.json names the decision {pol['purpose']!r} but company.json holds {d['id']!r}")
+    workspace = re.sub(r"\s*\([^)]*\)\s*$", "", str(company.get("name") or "")).strip()  # "Kaede Works (fictional)" -> "Kaede Works"
+    return {"workspace": workspace, "decision": str(pol.get("decision") or d.get("purpose") or ""), "detail": str(pol.get("detail") or d.get("title") or "")}
+
+
+# the page's Activity cards: kind -> (policy.json allowed source, label). Manager notes and DMs have no kind: never listed.
+SOURCE_KINDS = {"slack": ("slack", "Slack, public channels"), "docs": ("docs", "Docs, shared documents"),
+                "sheets": ("wcm", "Sheets, Will Can Must"), "sessions": ("sessions", "Sessions, opted-in AI session summaries")}
+
+
+def _sent(t):
+    t = str(t or "").strip()
+    return t if not t or t.endswith((".", "?", "!", '"')) else t + "."
+
+
+def _source_text(it):
+    """The whole item in its own words."""
+    s = it.get("source")
+    if s == "wcm":
+        return f"Will: {_sent(it.get('will'))} Can: {_sent(it.get('can'))} Must: {_sent(it.get('must'))}"
+    if s == "sessions":
+        return (f"Problem: {_sent(it.get('problem'))} Approach: {_sent(it.get('approach'))} Outcome: {_sent(it.get('outcome'))} "
+                f"Quoted prompt: \"{it.get('quoted_prompt', '')}\"")
+    if s == "docs":
+        return str(it.get("excerpt") or "")
+    return str(it.get("text") or "")
+
+
+def _where(it):
+    return {"slack": it.get("channel") or "Slack", "docs": it.get("title") or "Doc", "wcm": "Will Can Must sheet",
+            "sessions": "AI session summary"}.get(it.get("source"), it.get("source"))
+
+
+def _name_of(pid):
+    """A name for an author id: the planner, a candidate or a person on file; a manager as company.json spells them; else the id tidied."""
+    n = display_name(pid)
+    if n != pid:
+        return n
+    for c in load("company.json").get("candidates", []):
+        if str(c.get("manager") or "").lower() == str(pid).lower():
+            return c["manager"]
+    return " ".join(w.upper() if len(w) <= 2 else w.capitalize() for w in str(pid).split("-"))
+
+
+def source_items(kind: str, limit: int = 50, q: str = "", person: str = ""):
+    """GET /api/source/{kind}: every item of one allowed source, newest first. The policy gate (item_store) decides what
+    exists: sessions only where opted_in is true; manager notes and DMs are never listed. count is the total before the limit.
+    original_url is the route the page fetches to open an original in place (GET /api/evidence/<file>, items[<id>])."""
+    if kind not in SOURCE_KINDS:
+        raise KeyError(kind)
+    src, label = SOURCE_KINDS[kind]
+    fixtures = fixture_ids()
+    owner = {}  # item id -> the fixture person whose evidence file holds it
+    for cid in fixtures:
+        for it in items_for(cid):
+            owner.setdefault(it["id"], cid)
+    qq = (q or "").lower()
+    rows = []
+    for it in item_store().values():
+        if it["source"] != src:
+            continue
+        pid = str((it.get("author") if src == "slack" else it.get("candidate")) or "")
+        text = _source_text(it)
+        if (qq and qq not in text.lower()) or (person and pid != person):
+            continue
+        f = pid if pid in fixtures else owner.get(it["id"])
+        rows.append({"id": it["id"], "person_id": pid, "person": _name_of(pid), "date": str(it.get("date") or ""), "where": _where(it),
+                     "text": text, "original_url": f"/api/evidence/{f}" if f else None})
+    rows.sort(key=lambda r: (r["date"], r["id"]), reverse=True)
+    return {"kind": kind, "label": label, "count": len(rows), "items": rows[:max(0, min(int(limit), 500))]}
+
+
+def _jsonl(f: Path):
+    out = []
+    if f.exists():
+        for line in f.read_text().splitlines():
+            if line.strip():
+                try:
+                    out.append(json.loads(line))
+                except ValueError:
+                    continue
+    return out
+
+
+def end_source():
+    """What POST /api/end summarises: ("conclusion", c), ("ask", row) or (None, None).
+    A conclusion is a filed row in state/asks.jsonl or a conclude/filed event in state/live.jsonl. Only the current
+    meeting's count: from the first row of state/live.jsonl on (the listener and a take truncate it when they start),
+    so a rehearsal's conclusion never answers today's call. A question typed after the conclusion on any surface but the
+    listener's is newer intent: then the latest ask is summarised instead. With no conclusion, the latest ask."""
+    live = _jsonl(LIVE_EVENTS)
+    start = min((float(r.get("t") or 0) for r in live), default=0.0)
+    asks = [r for r in _jsonl(ASKS) if r.get("kind") == "ask"]
+    last_ask = max(asks, key=lambda r: float(r.get("t") or 0), default=None)
+    concl = {}
+    for r in _jsonl(ASKS):  # filed rows: {ask_id, summary, question, open_questions, notified, filed_at}
+        if r.get("kind") != "ask" and (r.get("ask_id") or r.get("summary")):
+            concl[r.get("ask_id") or f"row-{len(concl)}"] = dict(r, t=float(r.get("filed_at") or 0))
+    for r in live:
+        if r.get("kind") == "filed":
+            concl.setdefault(r.get("ask_id") or f"ev-{r.get('t')}", dict(r, t=float(r.get("t") or 0)))
+    concludes = [r for r in live if r.get("kind") == "conclude"]
+    for r in concludes:  # a conclude the model called with no filed row after it still counts
+        if not any(c.get("summary") == r.get("summary") and abs(c["t"] - float(r.get("t") or 0)) < 10 for c in concl.values()):
+            concl[f"conclude-{r.get('t')}"] = dict(r, t=float(r.get("t") or 0), notified=r.get("candidate_ids") or [])
+    cands = [c for c in concl.values() if c["t"] >= start]
+    c = max(cands, key=lambda x: x["t"], default=None)
+    if c and last_ask and last_ask.get("surface") != "meet" and float(last_ask.get("t") or 0) > c["t"]:
+        c = None
+    if c:
+        match = [r for r in concludes if r.get("summary") == c.get("summary") and float(r.get("t") or 0) <= c["t"] + 1]
+        steps = (match[-1].get("next_steps") if match else None) or c.get("next_steps") or []
+        return "conclusion", {"t": c["t"], "summary": str(c.get("summary") or ""), "question": c.get("question") or (last_ask or {}).get("question"),
+                              "people": [str(x) for x in (c.get("notified") or c.get("candidate_ids") or [])], "next_steps": [str(s) for s in steps],
+                              "open_questions": list(c.get("open_questions") or [])}
+    if last_ask:
+        return "ask", last_ask
+    return None, None
+
+
+def _why_lines(pid: str, question: str):
+    """Their own verbatim receipts (the item's own words, its source, its id) for one question, the ones that cover a word of
+    the ask first; a mention by someone else or a manager's paraphrase is not their receipt. Plus coverage of the ask."""
+    store = item_store()
+    p = get_person(pid) or {}
+    row = None
+    if question:
+        a = ask(question, pool=[pid], k=1)
+        row = (a.get("people") or [None])[0]
+    covered = (row or {}).get("covered") or {}
+    sids = [sid for sids in covered.values() for sid in sids] + [r.get("source_id") for r in (row or {}).get("receipts") or []]
+    if not sids and is_fixture(pid):
+        sids = [r["source_id"] for r in (receipt_for(pid, "claim", question or ""), receipt_for(pid, "own_words")) if r]
+    gen = {r["id"]: r for r in p.get("receipts") or []}
+    out, seen = [], set()
+    for sid in sids or list(gen)[:2]:
+        if not sid or sid in seen or len(out) >= 3:
+            continue
+        seen.add(sid)
+        it = store.get(sid)
+        if it and ((it["source"] == "slack" and it.get("author") == pid) or (it["source"] in ("docs", "wcm", "sessions") and it.get("candidate") == pid)):
+            out.append(f"- \"{_verbatim(it)}\" ({source_label(it)}, {sid})")
+        elif sid in gen:
+            out.append(f"- \"{gen[sid]['text']}\" ({_gen_receipt_label(gen[sid])}, {sid})")
+        elif sid == f"will-{pid}" and p.get("will"):
+            out.append(f"- \"{p['will']}\" (their stated will, {sid})")
+    return out, covered, (row or {}).get("missing") or []
+
+
+_AUX = {"has", "have", "had", "been", "being", "do", "does", "did", "was", "were", "is", "are", "am", "get", "got", "make", "made", "done"}
+
+
+def meeting_memo(kind: str, src: dict):
+    """POST /api/end: the memo of what the meeting concluded, as markdown. The question, who to talk to and why (their verbatim
+    receipts with sources), the next step, the questions to ask first, then each person's decision memo (the /api/memo builder)
+    with criterion = the question. Returns {question, memo_markdown, people, concluded}."""
+    company = load("company.json")
+    concluded = kind == "conclusion"
+    question = str(src.get("question") or "").strip()
+    if concluded:
+        pids = [p for p in src["people"] if get_person(p)]
+        follow = None
+        if not pids and question:
+            a = ask(question)
+            pids, follow = [p["id"] for p in a["people"] if p.get("covered")], a.get("follow_up")
+    else:
+        a = ask(question)
+        pids, follow = [p["id"] for p in a["people"] if p.get("covered")], a.get("follow_up")
+    names = [display_name(p) for p in pids]
+    lines = ["# What the meeting concluded", "", f"Decision: {(company.get('decision') or {}).get('title', '')}", f"Question: {question or '(no question was put into words)'}"]
+    if concluded and src.get("summary"):
+        lines.append(f"Summary: {src['summary']}")
+    if not concluded:
+        lines.append(f"No conclusion was filed; this follows the last question asked ({src.get('surface', 'api')}, {time.strftime('%Y-%m-%d %H:%M', time.localtime(float(src.get('t') or 0)))}).")
+    lines += ["", "## Who to talk to, and why"]
+    missing_by = {}
+    if not pids:
+        lines.append("Nobody on file has their own receipts for these words yet." + (f" Pik asks: {follow}" if follow else ""))
+    for pid, name in zip(pids, names):
+        p = get_person(pid) or {}
+        why, covered, missing = _why_lines(pid, question)
+        missing_by[name] = missing
+        lines.append(f"### {name} ({p.get('role', '')}, {p.get('team', '')})")
+        lines += why or ["- No receipt on file covers this yet."]
+        if covered or missing:
+            lines.append(f"Words of the ask their own receipts cover: {', '.join(covered) or 'none'}. Not on file: {', '.join(missing) or 'none'}.")
+        lines.append("")
+    lines.append("## Next step")
+    steps = (src.get("next_steps") or []) if concluded else []
+    if steps:
+        lines += [f"- {s}" for s in steps]
+    elif names:
+        lines.append(f"- Talk to {', '.join(names[:-1]) + ' and ' + names[-1] if len(names) > 1 else names[0]} before deciding, starting with the questions below.")
+    else:
+        lines.append("- Put the ask into more words: what would this person actually do, and for which team?")
+    lines += ["", "## Questions to ask first"]
+    oq = []
+    for q in (src.get("open_questions") or []) if concluded else []:
+        if isinstance(q, dict):
+            oq.append(f"- {display_name(q['person']) + ': ' if q.get('person') else ''}{q.get('text', '')}")
+        else:
+            oq.append(f"- {q}")
+    if not oq:
+        oq = [f"- {n}: nothing on file shows {', '.join(m[:4])}. Ask about that first." for n, m in
+              ((n, [w for w in m if w.lower() not in _AUX]) for n, m in missing_by.items()) if m]
+        if follow:
+            oq.append(f"- {follow}")
+    lines += oq or ["- None were raised."]
+    lines += ["", "Nobody is scored. The people named see the same page."]
+    full = []
+    for pid in pids:
+        if not is_fixture(pid):
+            continue
+        try:
+            m = memo(pid, question or None).split("\n## Audit\n", 1)[0].rstrip()
+        except Exception as e:  # noqa: BLE001  (one person's memo failing must not lose the others)
+            m = f"# {display_name(pid)}\n(n/a: {redact(f'{type(e).__name__}: {e}')})"
+        full.append(re.sub(r"(?m)^(#+) ", lambda mm: "#" * min(len(mm.group(1)) + 2, 6) + " ", m))
+    if full:
+        lines += ["", "## The receipts in full, person by person", ""] + ["\n\n".join(full)]
+    return {"question": question, "memo_markdown": "\n".join(lines).rstrip() + "\n", "people": names, "concluded": concluded}
