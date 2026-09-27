@@ -21,7 +21,11 @@ if [ -z "${SKIP_BOTS:-}" ]; then
   pkill -f "surfaces/slack_bot.py" 2>/dev/null && echo "demo: stopped an old Slack bot"
   pkill -f "surfaces/notion_board.py" 2>/dev/null && echo "demo: stopped an old Notion watcher"
 fi
-sleep 1
+for port in $P1 $P2; do   # wait until the old servers have let go of their ports (SIGKILL after 5 s)
+  for _ in $(seq 1 10); do lsof -nP -iTCP:$port -sTCP:LISTEN -t >/dev/null 2>&1 || break; sleep 0.5; done
+  pids=$(lsof -nP -iTCP:$port -sTCP:LISTEN -t 2>/dev/null); [ -n "$pids" ] && kill -9 $pids 2>/dev/null
+done
+sleep 0.5
 
 trap 'trap - INT TERM; echo; echo "demo: stopping everything"; kill 0' INT TERM
 run() { local tag=$1; shift; ( "$@" 2>&1 | sed -u "s/^/[$tag] /" ) & }
