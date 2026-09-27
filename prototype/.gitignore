@@ -5,3 +5,4 @@ state/*.jsonl
 data/people.json.tmp
 state/*.tmp
 state/
+.pikd.py

@@ -35,7 +35,33 @@ LOCATION = os.environ.get("LIVE_LOCATION", "us-central1")
 MODEL = os.environ.get("LIVE_MODEL", "gemini-3.8-live")
 BACKEND = os.environ.get("LIVE_BACKEND", "vertex")  # vertex (the shared Recruit project) | api (GEMINI_API_KEY; the only place gemini-3.8-live-extended-thinking is listed)
 PROACTIVE = os.environ.get("PROACTIVE", "1") == "1"  # the model decides when to reply and ignores talk that is not for it
-THINK = int(os.environ.get("THINK", "512"))  # thinking budget for the live model (0 = off); Vertex accepts it on gemini-3.8-live
+THINK = int(os.environ.get("THINK", "512"))
+SPEAKERS = os.environ.get("SPEAKERS", "manager=Steven,planner=Carl")  # who plays which role on the call; the speaker chip on screen
+_FLASH = {"client": None}
+
+
+def who_said(text: str):
+    """Guess who said a heard line from its content (manager vs HR planner), with Gemini 3.8 Flash on Vertex.
+    A best-effort label for the screen ("Steven · manager"); None when it cannot tell. Never used for anything else."""
+    try:
+        if _FLASH["client"] is None:
+            _FLASH["client"] = genai.Client(vertexai=True, project=PROJECT, location="us",
+                                            http_options={"base_url": "https://aiplatform.us.rep.googleapis.com"})
+        names = dict(kv.split("=", 1) for kv in SPEAKERS.split(",") if "=" in kv)
+        prompt = ("Two people are on a call choosing one person for a two-year overseas exchange. The hiring MANAGER says what kind "
+                  "of person they need, asks what a candidate wrote, leans toward someone, and concludes. The HR PLANNER states "
+                  "constraints, dates, policy, and sometimes asks something vague. Classify the line below as exactly one word: "
+                  "manager, planner, or other. Answer other unless the line is clearly about choosing the person, the candidates, "
+                  "the criteria or the constraints; small talk, reactions, logistics and anything addressed to Pik are other.\n\nLine: " + text)
+        r = _FLASH["client"].models.generate_content(model="gemini-3.8-flash", contents=prompt)
+        w = (r.text or "").strip().lower()
+        role = "manager" if "manager" in w else ("planner" if "planner" in w else None)
+        if not role:
+            return None
+        return f"{names.get(role, role)} · {'manager' if role == 'manager' else 'HR planner'}"
+    except Exception:  # noqa: BLE001  (a label is never worth a crash)
+        return None
+  # thinking budget for the live model (0 = off); Vertex accepts it on gemini-3.8-live
 RATE = 16000
 RESUME = {"handle": None}  # latest session-resumption handle, reused on reconnect so context survives a drop
 SPEAK = os.environ.get("SPEAK", "1") == "1"  # play the model's voice for follow-up questions (Meet demo); 0 = never play audio
@@ -476,6 +502,12 @@ async def run_session(session, q):
                     txt = heard_box["text"].strip(); heard_box["text"] = ""
                     emit("heard", text=txt)
                     asyncio.create_task(maybe_trigger(txt))
+                    asyncio.create_task(tag_speaker(txt))
+
+        async def tag_speaker(txt):
+            who = await asyncio.get_running_loop().run_in_executor(None, who_said, txt)
+            if who:
+                emit("speaker", who=who, text=txt)
 
         async def listen():
             heard = ""
@@ -491,9 +523,11 @@ async def run_session(session, q):
                           txt = heard_box["text"].strip(); heard_box["text"] = ""
                           emit("heard", text=txt)
                           asyncio.create_task(maybe_trigger(txt))
+                          asyncio.create_task(tag_speaker(txt))
                   if sc and sc.output_transcription and sc.output_transcription.text:
                       _st = sc.output_transcription.text
-                      if not (_st.strip().startswith("<") and _st.strip().endswith(">")):  # "<no speech detected>" is the model staying quiet, not a line
+                      _clean = re.sub(r"<[^>]*>|\{[^}]*\}", "", _st).strip()  # "<no speech detected>", "<no speech>{pause}": the model staying quiet
+                      if _clean:
                           said_box["text"] += _st
                   if sc and (sc.turn_complete or getattr(sc, "generation_complete", False)) and said_box["text"].strip():
                       emit("said", text=" ".join(said_box["text"].split())); said_box["text"] = ""
