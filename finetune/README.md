@@ -1,6 +1,6 @@
 # Receipt retriever: a fine-tuned model the demo does not use (yet)
 
-This folder holds a real fine-tune with real numbers from one local run. It is not wired into the demo. The demo's default path is unchanged: `prototype/engine.py` ranks with its keyword engine, or with Gemini extraction when a key is set. Nothing in `prototype/` imports anything from here.
+This folder holds a real fine-tune with real numbers from one local run. The demo does not use it by default: `prototype/engine.py` ranks with its keyword engine, or with Gemini extraction when a key is set, exactly as before. Only when `PIK_RETRIEVER_URL` is set does `engine.ask()` also ask this retriever, over local HTTP (see "Use it in the engine"). Nothing in `prototype/` imports torch, sentence-transformers or anything from this folder.
 
 ## What it is
 
@@ -26,6 +26,7 @@ make -C finetune ask Q="Who offered to facilitate the look-back session about A/
 | train | `train.py` | `model/` (git-ignored), `results/train_log.txt` |
 | eval | `eval.py` | `results/metrics.json`, `results/RESULTS.md`, `results/per_ask.jsonl` (each ask's rank under each system) |
 | ask | `ask.py "question"` | prints the retriever's top receipts next to the keyword engine's answer |
+| serve | `serve.py` (`make -C finetune serve`, `PORT=8811`) | nothing; serves the retriever to `prototype/engine.py` when opted in (below) |
 
 `eval.py` and `ask.py` import `prototype/engine.py` read-only: keyword mode forced (no network), its evidence cache pointed at a temp dir, bytecode writing off, so nothing is written into `prototype/`.
 
@@ -163,13 +164,22 @@ All five retrieved receipts are correct. The keyword engine names Yui on "tests"
 - **Duplicates.** Many receipts share the same sentence (the generator reuses templates), so a top five can be five people who wrote the same line.
 - **One seed, one configuration.** No dev split, no sweep, no variance across seeds.
 
-## How it would plug in later (not built)
+## Use it in the engine (opt-in)
 
-1. The retriever proposes receipts for an ask: ids of receipts already on file (the policy-gated item store, `engine.item_store()` and `policy.json`, for the seeded people; `people.json` receipts for the rest), never text of its own.
-2. The existing validator checks every one, the way `extract_claims()` checks Gemini's claims today: the id must be in the allowed store and the quote must appear verbatim in its source, or it is dropped and counted on `/stats`.
-3. The page shows the receipts with their sources. The person named sees the same page and can contest a line. A human decides.
+```bash
+make -C finetune serve                                                           # loads finetune/model once, serves http://127.0.0.1:8811/retrieve
+PIK_RETRIEVER_URL=http://127.0.0.1:8811/retrieve make -C prototype run-heuristic   # the demo, with engine.ask() also asking the retriever
+```
 
-It would sit behind a flag, off by default, in place of the term-overlap step in `ask()`. The retriever never produces a score of a person; similarity only orders receipts.
+`serve.py` (stdlib HTTP, the `.venv` here) answers `POST /retrieve {"question", "k"}` with `{"items": [{"id", "person_id", "text", "score"}]}` over the same 553-receipt pool `eval.py` scores; `score` orders receipts and is never shown as a number about a person. With the variable set, `engine.ask()` asks for the top 5 receipts (`PIK_RETRIEVER_K`), 1.5 s timeout, and appends the people behind them who are not already in the keyword result. Each is built by the same row code as a keyword row (the fields the page, the Slack bot and the Notion watcher read) plus `"via": "retriever"`. Its receipt is kept only when the id is one of that person's receipts on file and the text is that receipt verbatim. Any failure (server down, timeout, bad reply) prints one `[engine] RETRIEVER FAILED ...` line on stderr and returns the keyword result unchanged.
+
+Checked on 2026-09-27, by running it, not assumed:
+
+- Variable unset: `engine.ask()` on six asks (English, Japanese, vague, with `context`, with `k=5`) gave byte-identical JSON before and after the engine edit (sha256 `f04cf24d...`, empty diff).
+- Variable set, retriever on a test port: "Who offered to facilitate the look-back session about A/B tests on what we charge?" keeps the keyword engine's three people unchanged and adds five via the retriever. All five are the people whose receipts are labelled `retro:pricing experiments`, the only correct ones in the pool. "障害対応のマニュアルを作成したのは誰ですか？", where the keyword engine returns no one, adds three authors of the incident response playbook, all correct.
+- Retriever down: one stderr line, result identical to the unset run. Retriever hanging: returns after 1.54 s, same.
+
+Not built yet: the retriever does not search Rin's, Yui's and Kei's items (its pool is the evaluated one). Retrieved people are appended after the keyword people, not ranked with them. A dropped retrieved receipt is reported on stderr, not yet counted on `/stats`. Whether each surface shows the `via` marker is up to that surface; the page's tiles read the same fields as any row.
 
 ## License and data
 

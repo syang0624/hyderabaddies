@@ -41,7 +41,7 @@ Lines that work well on the fixtures:
 - "What did Yui actually write about this herself?"
 - "Who has been running the Northwind syncs in English?" / "Who mentors the juniors on SQL?" / "Who should present the pricing roadmap to the exec team?"
 
-If the listener drops: Ctrl-C, run it again, reload the page. Typing the same sentence into the page's input bar goes through the same engine and renders the same way.
+The page's mic button starts the same listener without a terminal (`PIK_MIC` and `PIK_LISTEN_SPEAK` in `.env` stand in for `MIC` and `SPEAK`). If the listener drops: Ctrl-C, run it again, reload the page. Typing the same sentence into the page's input bar goes through the same engine and renders the same way.
 
 ## 3. Slack
 
@@ -65,13 +65,17 @@ make setup                  # once, only for the Gemini path: venv + google-gena
 make run-auth               # PIK_AUTH=1 MODE=auto on http://localhost:8787; every page and API now needs a session
 ```
 
-1. Open `http://localhost:8787`. It redirects to `/login`. Workspace stays "Kaede Works"; pick **Aya Nakamura, HR planner** (role: evaluator) and sign in. The page is the same one as before, with an identity chip (name, role, Settings, Stats, Sign out) and an extraction line in the header.
+1. Open `http://localhost:8787`. It redirects to `/login`. A "Today's context" card above the form names the decision (one exchange slot at Northwind Labs, starting April 2027); **Got it** hides it on this browser. Workspace stays "Kaede Works"; pick **Aya Nakamura, HR planner** (role: evaluator) and sign in. The page is the same one as before, with an identity chip (name, role, Settings, Stats, Sign out) and an extraction line in the header.
 2. Open **Settings** (`/settings`). Paste a Gemini API key (or switch to Vertex and give a project id and location, using the ADC of the shell that started the server). **Save**, then **Test key**: the model name, the latency and ok, or the error text. The header now reads "Extraction: gemini-3.8-flash via your key". The key lives in `prototype/state/byok.json` (git-ignored, mode 600), is read by the server at request time, and is returned masked. Without a key the header reads "keyword mode, no key" and everything still works.
 3. Back on the page, type one of these and press Enter: "Who has been running the Northwind syncs in English?" or "Who mentors the juniors on SQL?" Tiles appear only where a person's own receipts cover the words.
 4. Click a receipts-by-source card on the right: the drawer lists that person's receipts, each with its source.
-5. **Sign out** (the chip). Sign in as **Yui Sato** (role: subject). You land on `/?as=yui` and cannot leave it: the same receipts, no other names, and `/api/ask`, `/api/rank`, other people's pages and `/settings` answer 403. Open a line, type a note ("I took this so nobody had to reshuffle; it was not a request to travel."), **Add note**.
-6. Sign out, sign in as Aya again, click Yui's card: the note is on the evaluator's page, before any decision.
-7. Open **Stats** (`/stats`). Three rates, each with its formula in mono under it: **dropped-claim share** (claims dropped as unsourced or unfaithful over claims proposed, from the evidence caches; 0 in keyword mode, nonzero when Gemini proposes a quote that is not in its source), **contest rate** (notes over receipt lines shown), **asks per surface** (page, slack, notion, meet, api, with the server-side latency of each). The never-read counts come from `data/manifest.json`, never from opening the files. `make stats COOKIE=<curl cookie jar>` prints the same numbers in a terminal.
+5. **Activity cards** (Slack, Docs, Sheets, Sessions): hover one for its three most recent receipts; click it for the full source list, newest first (34, 5, 3 and 4 items on the fixtures). Manager notes and DMs are never listed.
+6. **Join Meet**, **Open Slack**, **Open task board** open the call, the demo Slack workspace and the Notion board (URLs from `.env`: `PIK_MEET_URL`, `PIK_SLACK_URL`, `PIK_NOTION_URL`).
+7. The **mic button** starts the Gemini 3.8 Live listener (`live.py`) from the page and stops it again; talk and the screen reacts as in section 2. One listener at a time: one already running in a terminal is shown, not doubled. Needs `make setup` and Google ADC; its log is `state/listener.log`; `PIK_LISTEN_SPEAK=0` mutes Pik's voice.
+8. **End meeting** stops the listener and shows the memo: the question, who to talk to and why (their verbatim receipts with sources), the next step, the questions to ask first. It follows the conclusion the meeting filed, or the last question asked when nothing was concluded.
+9. **Sign out** (the chip). Sign in as **Yui Sato** (role: subject). You land on `/?as=yui` and cannot leave it: the same receipts, no other names, and `/api/ask`, `/api/rank`, other people's pages and `/settings` answer 403. Open a line, type a note ("I took this so nobody had to reshuffle; it was not a request to travel."), **Add note**.
+10. Sign out, sign in as Aya again, click Yui's card: the note is on the evaluator's page, before any decision.
+11. Open **Stats** (`/stats`). Three rates, each with its formula in mono under it: **dropped-claim share** (claims dropped as unsourced or unfaithful over claims proposed, from the evidence caches; 0 in keyword mode, nonzero when Gemini proposes a quote that is not in its source), **contest rate** (notes over receipt lines shown), **asks per surface** (page, slack, notion, meet, api, with the server-side latency of each). The never-read counts come from `data/manifest.json`, never from opening the files. `make stats COOKIE=<curl cookie jar>` prints the same numbers in a terminal.
 
 Everything above is additive. With `PIK_AUTH` unset (`make run-heuristic`, `make run`), nothing asks for a session, `?as=yui` and `?present=1` behave exactly as before, and the Slack bot, the Notion watcher and the listener keep calling the same engine; they now name their surface in the ask log, nothing else changed.
 

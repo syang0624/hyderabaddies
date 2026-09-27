@@ -16,11 +16,36 @@
   a{color:var(--ink)}
   .na{font:400 12px/16px var(--mono);color:var(--red)}
   header{display:flex;align-items:center;gap:12px;height:44px;padding:32px 32px 0}
-  header .brand{font-size:20px;line-height:28px;font-weight:600;letter-spacing:-.6px}
   header .sp{flex:1}
-  header nav{display:flex;gap:16px;font-size:14px;line-height:20px}
-  header nav a{color:var(--body);text-decoration:none}
-  header nav a.here{color:var(--ink);font-weight:500}
+  header .here{font:400 12px/16px var(--mono);color:var(--mute);text-transform:uppercase;flex:none}
+  .hidden{display:none!important}
+
+  /* header: the mark on a lime disc, the wordmark, the hamburger menu (same on /, /settings, /stats) */
+  .mark{width:28px;height:28px;border-radius:50%;background:var(--lime);display:inline-flex;align-items:center;justify-content:center;flex:none}
+  .mark svg{width:14px;height:16px;display:block}
+  .brand{font-size:20px;line-height:28px;font-weight:600;letter-spacing:-.6px;flex:none}
+  .home{display:inline-flex;align-items:center;gap:12px;color:var(--ink);text-decoration:none;flex:none}
+  .nr{font:400 12px/16px var(--mono);color:var(--red);white-space:nowrap;flex:none}
+  .pm{position:relative;flex:none}
+  .pm-b{width:36px;height:36px;border-radius:9px;border:0;background:var(--card);box-shadow:var(--shadow);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink);padding:0}
+  .pm-b svg{width:18px;height:18px;display:block}
+  .pm-b[aria-expanded=true]{box-shadow:0 0 0 1px var(--body)}
+  .pm-b:focus-visible,.pm-m [role^=menuitem]:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .pm-m{position:absolute;right:0;top:calc(100% + 8px);z-index:60;width:292px;max-width:calc(100vw - 24px);background:var(--card);border-radius:12px;box-shadow:var(--shadow),0 16px 32px -16px #00000033;padding:6px;display:flex;flex-direction:column;gap:2px}
+  .pm-m[hidden]{display:none}
+  .pm-id{display:flex;flex-direction:column;gap:2px;padding:8px 12px 10px;border-bottom:1px solid var(--hair);margin-bottom:4px}
+  .pm-id b{font-size:14px;line-height:20px;font-weight:600;letter-spacing:-.28px;color:var(--ink)}
+  .pm-id span{font:400 12px/16px var(--mono);color:var(--mute)}
+  .pm-m [role^=menuitem]{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;border:0;background:transparent;text-align:left;padding:8px 12px;border-radius:8px;font:400 14px/20px var(--sans);letter-spacing:-.28px;color:var(--ink);text-decoration:none;cursor:pointer}
+  .pm-m [role^=menuitem]:hover{background:var(--soft)}
+  .pm-m [role^=menuitem][hidden]{display:none}
+  .pm-t{position:relative;width:28px;height:16px;border-radius:9999px;background:var(--hair);flex:none;transition:background .2s}
+  .pm-t::after{content:"";position:absolute;left:2px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--card);box-shadow:0 1px 2px #00000026;transition:transform .2s}
+  [aria-checked=true] .pm-t{background:var(--ink)}
+  [aria-checked=true] .pm-t::after{transform:translateX(12px);background:var(--lime)}
+  .pm-ext{font:400 11px/16px var(--mono);color:var(--mute);padding:8px 12px;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);margin:4px 0;word-break:break-word}
+  .pm-ext:empty{display:none}
+  @media (max-width:600px){header{padding:16px 16px 0}main{padding:24px 16px}footer{padding:0 16px 24px;flex-wrap:wrap}}
   .chip{display:inline-flex;align-items:center;gap:8px;font:400 12px/16px var(--mono);color:var(--body);padding:3px 10px;border-radius:9999px;background:var(--card);box-shadow:var(--shadow);white-space:nowrap}
   .chip a{color:inherit}
   main{max-width:960px;margin:0 auto;padding:32px;display:flex;flex-direction:column;gap:16px}
@@ -53,10 +78,10 @@
 </head>
 <body>
 <header>
-  <svg width="24" height="28" viewBox="0 0 28 32" aria-hidden="true"><path d="M14 9 C14 3 20 3 20 7" stroke="#171717" stroke-width="2.4" stroke-linecap="round" fill="none"/><ellipse cx="14" cy="21" rx="10" ry="11" fill="#171717"/><rect x="10" y="17" width="2.6" height="6" rx="1.3" fill="#D6F25A"/><rect x="15.4" y="17" width="2.6" height="6" rx="1.3" fill="#D6F25A"/></svg>
-  <span class="brand">Pik</span>
-  <nav><a href="/">Page</a><a href="/settings" id="nset">Settings</a><a href="/stats" class="here">Stats</a></nav>
-  <span class="sp"></span><span id="who"></span>
+  <a class="home" href="/" aria-label="Pik, the page"><span class="mark"><svg viewBox="0 0 28 32" aria-hidden="true"><path d="M14 9 C14 3 20 3 20 7" stroke="#171717" stroke-width="2.4" stroke-linecap="round" fill="none"/><ellipse cx="14" cy="21" rx="10" ry="11" fill="#171717"/><rect x="10" y="17" width="2.6" height="6" rx="1.3" fill="#D6F25A"/><rect x="15.4" y="17" width="2.6" height="6" rx="1.3" fill="#D6F25A"/></svg></span><span class="brand">Pik</span></a>
+  <span class="here">Stats</span>
+  <span class="sp"></span><span class="nr hidden" id="nr"></span>
+  <div class="pm" id="pm"><button class="pm-b" id="pm-b" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="pm-m" aria-label="Menu" title="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="pm-m" id="pm-m" role="menu" aria-label="Pik" hidden><div class="pm-id" id="pm-id"><b>Open mode</b><span>no one signed in</span></div><a role="menuitem" href="/settings" id="pm-set">Settings</a><a role="menuitem" href="/stats" id="pm-stats">Stats</a><button role="menuitemcheckbox" type="button" id="pm-never" aria-checked="false"><span>Show what Pik never reads</span><i class="pm-t" aria-hidden="true"></i></button><div class="pm-ext" id="pm-ext"></div><a role="menuitem" href="/login" id="pm-sign">Sign in</a></div></div>
 </header>
 <main>
   <div><div class="h">What Pik did, counted</div><p class="sub">Every number here is computed from the state files and the manifest when you load the page. Its formula is printed under it. Nothing is estimated.</p></div>
@@ -73,7 +98,6 @@ const pct=x=>x==null?NA('no denominator yet'):(100*x).toFixed(1)+'%';
 const tile=(k,n,f,d,cls)=>`<div class="tile ${cls||''}"><span class="k">${esc(k)}</span><span class="n">${n}</span>${d?`<div class="d">${d}</div>`:''}<span class="f">${esc(f)}</span></div>`;
 async function load(){
   let s=null;try{const r=await fetch('/api/stats');s=await r.json();if(!r.ok)throw new Error(s&&s.error)}catch(e){$('#tiles').innerHTML=`<div class="tile"><span class="k">Stats</span><span class="n">${NA(String(e))}</span><span class="f">/api/stats did not answer: ${esc(String(e))}</span></div>`;return}
-  try{const r=await fetch('/api/session');const d=await r.json();if(d.session){$('#who').innerHTML=`<span class="chip">${esc(d.session.name)} · ${esc(d.session.role)} <a href="/logout">Sign out</a></span>`;if(d.session.role==='subject')$('#nset').remove()}}catch(e){}
   const F=s.formulas||{};const c=s.claims||{};const ct=s.contest||{};const a=s.asks||{};const nr=s.never_read||{};
   const perSrc=Object.entries(s.receipts_per_source||{}).map(([k,v])=>`<span>${esc(k)} ${v}</span>`).join('');
   const total=Object.values(s.receipts_per_source||{}).reduce((x,y)=>x+y,0);
@@ -92,6 +116,40 @@ async function load(){
   $('#t2').innerHTML=`<h2>Last ${last.length} asks</h2><table><colgroup><col style="width:22%"><col style="width:16%"><col><col style="width:12%"><col style="width:26%"></colgroup><tr><th>when</th><th>surface</th><th>question</th><th class="n">ms</th><th>top</th></tr>${last.length?last.map(r=>`<tr><td class="n">${new Date(r.t*1000).toLocaleTimeString()}</td><td>${esc(r.surface)}</td><td class="q" title="${esc(r.question)}">${esc(r.question)}</td><td class="n">${r.latency_ms}</td><td>${r.top_name?esc(r.top_name)+(r.coverage!=null?` <span class="f">${Math.round(r.coverage)}% covered</span>`:''):(r.follow_up?'<span class="f">Pik asked</span>':'none')}</td></tr>`).join(''):`<tr><td colspan="5">no asks logged yet</td></tr>`}</table><span class="f">newest first; "covered" is the top person's coverage of the asked words by their own receipts, never a score</span>`;
   $('#gen').textContent=`computed ${new Date(s.generated_at*1000).toLocaleString()} from prototype/state/ and data/manifest.json; caches: ${Object.entries(s.caches||{}).map(([k,v])=>`${k} (${v.backend}, ${v.claims})`).join(', ')||'none'}`;
 }
+
+// ---------- header menu: identity, Settings, Stats, the never-read toggle, extraction, sign in or out (same on /, /settings, /stats) ----------
+const PM={session:null,ext:'',audit:null,nv:false,loaded:false};
+const pmEsc=s=>String(s==null?'':s).replace(/[\u2014\u2013]/g,'-').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function pmGet(k){try{return window.localStorage.getItem(k)}catch(e){return null}}
+function pmPut(k,v){try{window.localStorage.setItem(k,v)}catch(e){}}
+function pmItems(){return [...document.querySelectorAll('#pm-m [role^=menuitem]')].filter(x=>!x.hidden)}
+function pmOpen(on,focusFirst){const m=document.getElementById('pm-m'),b=document.getElementById('pm-b');if(!m||!b)return;m.hidden=!on;b.setAttribute('aria-expanded',on?'true':'false');if(on&&focusFirst){const it=pmItems()[0];if(it)it.focus()}}
+function pmRender(){const s=PM.session;const id=document.getElementById('pm-id');if(!id)return;
+  id.innerHTML=s?`<b>${pmEsc(s.name)}</b><span>${pmEsc(s.role)}${s.title?' · '+pmEsc(s.title):''}</span>`:`<b>Open mode</b><span>${PM.loaded?'no one signed in':'checking the session'}</span>`;
+  document.getElementById('pm-set').hidden=!!(s&&s.role==='subject');
+  document.getElementById('pm-never').setAttribute('aria-checked',PM.nv?'true':'false');
+  const ext=String(PM.ext||'');document.getElementById('pm-ext').textContent=ext?pmEsc(/^extraction/i.test(ext)?ext:'Extraction: '+ext).replace(/&amp;/g,'&'):'';
+  document.getElementById('pm-sign').textContent=s?'Sign out':'Sign in';
+  const nr=document.getElementById('nr');if(nr){const a=PM.audit;const dm=a&&a.never_read&&a.never_read.dm?a.never_read.dm.count:null;nr.textContent=`Never read: DMs ${dm==null?'?':dm}`;nr.title='Counted, never opened: direct messages and private channels';nr.classList.toggle('hidden',!PM.nv)}}
+function pmMount(){const b=document.getElementById('pm-b'),m=document.getElementById('pm-m');if(!b||!m)return;PM.nv=pmGet('pik.showNeverRead')==='1';
+  b.addEventListener('click',e=>{e.stopPropagation();pmOpen(m.hidden,e.detail===0)});
+  b.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();pmOpen(true,true)}});
+  m.addEventListener('keydown',e=>{const its=pmItems();const i=its.indexOf(document.activeElement);const n=its.length;
+    if((e.key==='ArrowDown'||e.key==='ArrowUp')&&n){e.preventDefault();its[e.key==='ArrowDown'?(i+1)%n:(i-1+n)%n].focus()}
+    else if(e.key==='Home'&&n){e.preventDefault();its[0].focus()}else if(e.key==='End'&&n){e.preventDefault();its[n-1].focus()}
+    else if(e.key==='Tab')pmOpen(false)});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!m.hidden){pmOpen(false);b.focus()}});
+  document.addEventListener('click',e=>{if(!m.hidden&&!e.target.closest('#pm'))pmOpen(false)});
+  document.getElementById('pm-never').addEventListener('click',e=>{e.stopPropagation();PM.nv=!PM.nv;pmPut('pik.showNeverRead',PM.nv?'1':'0');pmRender()});
+  document.getElementById('pm-sign').addEventListener('click',async e=>{if(!PM.session)return;e.preventDefault();let ok=false;
+    try{const r=await fetch('/api/logout',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});ok=r.ok}catch(err){ok=false}
+    location.href=ok?'/login':'/logout'}); // the GET route clears the cookie too, when the POST did not answer
+  pmRender()}
+async function pmLoad(){ // settings and stats load the session and the audit themselves; the main page feeds PM from its own fetches
+  try{const r=await fetch('/api/session');const d=await r.json();PM.session=(d&&d.session)||null;PM.ext=(d&&d.extraction)||''}catch(e){PM.ext='n/a: /api/session unreachable'}
+  PM.loaded=true;try{const r=await fetch('/api/audit');if(r.ok)PM.audit=await r.json()}catch(e){}
+  pmRender()}
+pmMount();pmLoad();
 load();
 </script>
 </body>

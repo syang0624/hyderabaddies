@@ -50,10 +50,8 @@
   #drawer .none{font-size:14px;line-height:20px;color:var(--body)}
   #rcard [data-drawer]{cursor:pointer}
   #hdr{display:flex;align-items:center;gap:12px;height:44px;flex:none}
-  #hdr .brand{font-size:20px;line-height:28px;font-weight:600;letter-spacing:-.6px}
   #hdr .sp{flex:1}
-  #hdr #counts{font:400 12px/16px var(--mono);color:var(--mute);white-space:nowrap;display:flex;gap:16px}
-  #hdr #counts .red{color:var(--red)}
+  #hdr #hna{min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   #hdr .ready{font:400 12px/16px var(--mono);color:var(--mute);display:none;align-items:center;gap:6px;white-space:nowrap}
   #hdr .ready::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--lime-deep)}
   #hdr .ready.on{display:inline-flex}
@@ -65,11 +63,11 @@
   .idchip a{color:var(--body);text-decoration:none}
   .idchip a:hover{color:var(--ink)}
   #subject .idrow{display:flex;justify-content:flex-end}
-  #hdr #ext{font:400 12px/16px var(--mono);color:var(--mute);white-space:nowrap;min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis}
-  #hdr #idchip{flex:none}
+  #subject .shdr{display:flex;align-items:center;gap:12px;height:44px}
+  #subject .shdr .sp{flex:1}
 
   /* the network over the map */
-  #panel{position:relative;flex:1;min-height:380px;background:var(--soft);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+  #panel{position:relative;flex:1;min-height:160px;background:var(--soft);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
   #map{position:absolute;inset:0}
   #map svg{display:block;width:100%;height:100%}
   #map .land{fill:var(--land);opacity:.34}
@@ -139,20 +137,42 @@
   #wave .bars i{display:block;width:4px;height:6px;border-radius:2px;background:var(--lime);transition:background .3s}
   #wave.said .bars i{background:var(--lime-deep)}
   #wave .wpill{padding:6px 18px;border-radius:9999px;background:var(--card);box-shadow:var(--shadow);font-size:14px;line-height:20px;color:var(--body);white-space:nowrap;min-width:150px;text-align:center}
-  #microw{display:flex;justify-content:center;height:56px;flex:none}
-  #microw .mic{width:56px;height:56px;border-radius:50%;background:var(--ink);display:flex;align-items:center;justify-content:center}
+  #microw{display:flex;flex-direction:column;align-items:center;gap:8px;flex:none}
+  #microw .micline{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;width:100%}
+  #microw .mic{grid-column:2;width:56px;height:56px;border-radius:50%;background:var(--ink);border:0;padding:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:box-shadow .3s}
   #microw .mic svg{width:22px;height:22px}
+  #microw .mic.on{box-shadow:0 0 0 4px var(--lime),0 0 0 10px var(--lime-tint)}
+  #microw .mic:focus-visible{outline:2px solid var(--ink);outline-offset:12px}
+  #microw .endb{grid-column:3;justify-self:start}
+  #join{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+  #join a{display:inline-flex;align-items:center;gap:6px;font-size:13px;line-height:18px;letter-spacing:-.2px;color:var(--ink);text-decoration:none;padding:4px 12px;border-radius:9999px;background:var(--card);box-shadow:var(--shadow);white-space:nowrap;cursor:pointer}
+  #join a:hover{box-shadow:0 0 0 1px var(--body)}
+  #join a[aria-disabled=true]{color:var(--mute);cursor:default;box-shadow:none;background:var(--soft)}
+  #join .dot{width:6px;height:6px;border-radius:50%;background:transparent;box-shadow:inset 0 0 0 1px var(--mute)}
+  #join .dot.run{background:var(--lime-deep);box-shadow:none}
+  #join .dot.down{background:var(--mute);box-shadow:none}
 
   /* Pik asks, and the input bar */
   #askbar{height:48px;flex:none;display:flex;align-items:center}
   #askbar .asks{display:inline-flex;align-items:baseline;gap:12px;background:var(--lime-tint);border-radius:9999px;padding:8px 18px;font-size:16px;line-height:24px;color:var(--ink);max-width:100%;animation:fadein .3s ease-out both}
   #askbar .asks .k{font:400 12px/16px var(--mono);color:var(--body);text-transform:uppercase;white-space:nowrap}
   #askbar .asks span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  #inbar{display:flex;align-items:center;gap:12px;height:60px;flex:none;background:var(--card);border-radius:9999px;box-shadow:var(--shadow);padding:8px 8px 8px 20px}
+  #inwrap{position:relative;flex:none}
+  #inbar{display:flex;align-items:center;gap:12px;height:60px;flex:none;background:var(--card);border-radius:9999px;box-shadow:var(--shadow);padding:8px}
   #inbar:focus-within{box-shadow:0 0 0 1px var(--body)}
-  #inbar .lnk{color:var(--mute);display:flex;flex:none}
-  #inbar .lnk svg{width:18px;height:18px}
-  #inbar input{flex:1;min-width:0;border:0;background:transparent;outline:none;font-size:16px;line-height:24px;color:var(--ink);text-overflow:ellipsis}
+  #inbar .pre{width:44px;height:44px;border-radius:50%;border:0;background:var(--soft);color:var(--body);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none;padding:0}
+  #inbar .pre svg{width:18px;height:18px}
+  #inbar .pre[aria-expanded=true]{background:var(--lime);color:var(--ink)}
+  #inbar .pre:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  #presets{position:absolute;left:0;right:0;bottom:calc(100% + 8px);z-index:20;display:none}
+  #presets.list{display:flex;flex-direction:column;width:min(540px,100%);background:var(--card);border-radius:12px;box-shadow:var(--shadow),0 16px 32px -16px #00000033;padding:6px}
+  #presets.list .k{font:400 12px/16px var(--mono);color:var(--mute);text-transform:uppercase;padding:8px 12px 4px}
+  #presets.list button{width:100%;text-align:left;border:0;background:transparent;padding:8px 12px;border-radius:8px;font-size:14px;line-height:20px;letter-spacing:-.28px;color:var(--ink);cursor:pointer}
+  #presets.list button:hover,#presets.list button:focus-visible{background:var(--soft);outline:none}
+  #presets.chips{display:flex;flex-wrap:wrap;gap:8px}
+  #presets.chips button{border:0;cursor:pointer;background:var(--card);box-shadow:var(--shadow);border-radius:9999px;padding:6px 12px;font-size:13px;line-height:18px;letter-spacing:-.2px;color:var(--ink);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #presets.chips button:hover,#presets.chips button:focus-visible{background:var(--lime-tint);outline:none}
+  #inbar input{flex:1;min-width:0;margin-left:4px;border:0;background:transparent;outline:none;font-size:16px;line-height:24px;color:var(--ink);text-overflow:ellipsis}
   #inbar input::placeholder{color:var(--mute)}
   #inbar .send{width:44px;height:44px;border-radius:50%;background:var(--ink);border:0;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
   #inbar .send svg{width:18px;height:18px}
@@ -228,8 +248,167 @@
   #pop .k{font:400 12px/16px var(--mono);color:var(--mute);text-transform:uppercase;margin-bottom:6px;white-space:normal}
   #toast{position:fixed;left:50%;bottom:40px;transform:translateX(-50%);background:var(--ink);color:#f2f2f2;padding:8px 14px;border-radius:8px;font-size:14px;line-height:20px;display:none;z-index:30}
   #toast.on{display:block;animation:fadein .3s ease-out}
+
+  /* header: the mark on a lime disc, the wordmark, the hamburger menu (same on /, /settings, /stats) */
+  .mark{width:28px;height:28px;border-radius:50%;background:var(--lime);display:inline-flex;align-items:center;justify-content:center;flex:none}
+  .mark svg{width:14px;height:16px;display:block}
+  .brand{font-size:20px;line-height:28px;font-weight:600;letter-spacing:-.6px;flex:none}
+  .home{display:inline-flex;align-items:center;gap:12px;color:var(--ink);text-decoration:none;flex:none}
+  .nr{font:400 12px/16px var(--mono);color:var(--red);white-space:nowrap;flex:none}
+  .pm{position:relative;flex:none}
+  .pm-b{width:36px;height:36px;border-radius:9px;border:0;background:var(--card);box-shadow:var(--shadow);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink);padding:0}
+  .pm-b svg{width:18px;height:18px;display:block}
+  .pm-b[aria-expanded=true]{box-shadow:0 0 0 1px var(--body)}
+  .pm-b:focus-visible,.pm-m [role^=menuitem]:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .pm-m{position:absolute;right:0;top:calc(100% + 8px);z-index:60;width:292px;max-width:calc(100vw - 24px);background:var(--card);border-radius:12px;box-shadow:var(--shadow),0 16px 32px -16px #00000033;padding:6px;display:flex;flex-direction:column;gap:2px}
+  .pm-m[hidden]{display:none}
+  .pm-id{display:flex;flex-direction:column;gap:2px;padding:8px 12px 10px;border-bottom:1px solid var(--hair);margin-bottom:4px}
+  .pm-id b{font-size:14px;line-height:20px;font-weight:600;letter-spacing:-.28px;color:var(--ink)}
+  .pm-id span{font:400 12px/16px var(--mono);color:var(--mute)}
+  .pm-m [role^=menuitem]{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;border:0;background:transparent;text-align:left;padding:8px 12px;border-radius:8px;font:400 14px/20px var(--sans);letter-spacing:-.28px;color:var(--ink);text-decoration:none;cursor:pointer}
+  .pm-m [role^=menuitem]:hover{background:var(--soft)}
+  .pm-m [role^=menuitem][hidden]{display:none}
+  .pm-t{position:relative;width:28px;height:16px;border-radius:9999px;background:var(--hair);flex:none;transition:background .2s}
+  .pm-t::after{content:"";position:absolute;left:2px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--card);box-shadow:0 1px 2px #00000026;transition:transform .2s}
+  [aria-checked=true] .pm-t{background:var(--ink)}
+  [aria-checked=true] .pm-t::after{transform:translateX(12px);background:var(--lime)}
+  .pm-ext{font:400 11px/16px var(--mono);color:var(--mute);padding:8px 12px;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);margin:4px 0;word-break:break-word}
+  .pm-ext:empty{display:none}
+
+  .chip.ink{background:var(--ink);color:#f2f2f2;box-shadow:none}
+  /* THE DECISION: a skeleton until an ask arrives, then the ask, who asked, and chips that progress */
+  #rcard .dec{background:var(--lime-tint);border-radius:8px;padding:16px 20px;display:flex;flex-direction:column;gap:10px;flex:none}
+  #rcard .dec .ch{display:flex;justify-content:space-between;gap:12px;font:400 12px/16px var(--mono);color:var(--body);text-transform:uppercase}
+  #rcard .dec .ask{font-size:20px;line-height:28px;letter-spacing:-.4px;color:var(--ink);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  #rcard .dec .by{font:400 12px/16px var(--mono);color:var(--body)}
+  #rcard .dec .ppl,#rcard .dec .st{display:flex;gap:6px;flex-wrap:wrap}
+  #rcard .dec .nx{font-size:14px;line-height:20px;color:var(--body);letter-spacing:-.28px}
+  #rcard .dec .nx .eyebrow{margin-right:6px}
+  #rcard .dec .emp{font-size:14px;line-height:20px;color:var(--body);letter-spacing:-.28px}
+  #rcard .dec .skel{display:flex;flex-direction:column;gap:10px}
+  #rcard .dec.sm{gap:8px;padding:14px 18px}
+  #rcard .dec.sm .ask{font-size:16px;line-height:24px;-webkit-line-clamp:2}
+  #rcard .dec.sm .ppl,#rcard .dec.sm .nx{display:none}
+  #rcard .dec .row2{display:flex;align-items:center;justify-content:space-between;gap:8px 12px;flex-wrap:wrap}
+  /* the stage is a fixed 1920x1080 frame with no scroll: the lit person's card gives the decision room */
+  body.present #rcard:has(.dec.sm){gap:12px}
+  body.present #rcard .dec.sm{padding:12px 18px;gap:6px}
+  body.present #rcard:has(.dec.sm) .big{display:none}
+  .sk{display:block;height:12px;border-radius:6px;background:linear-gradient(90deg,#e8f1bd 0%,#f9fdea 50%,#e8f1bd 100%);background-size:200% 100%;animation:shimmer 1.6s linear infinite}
+  .sk.big{height:22px}
+  @keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+  /* activity cards: a hover popover with the latest three, a CRM drawer on click */
+  #rcard .mini .m[data-kind]{cursor:pointer;transition:box-shadow .2s}
+  #rcard .mini .m[data-kind]:hover,#rcard .mini .m[data-kind]:focus-visible{box-shadow:0 0 0 1px var(--body);outline:none}
+  #kpop{position:fixed;z-index:45;width:380px;max-width:calc(100vw - 16px);background:var(--card);border-radius:12px;box-shadow:var(--shadow),0 20px 40px -20px #00000040;padding:12px 14px;display:none;flex-direction:column;gap:10px;pointer-events:none}
+  #kpop.on{display:flex}
+  #kpop .k{font:400 12px/16px var(--mono);color:var(--mute);text-transform:uppercase}
+  #kpop .r{display:flex;flex-direction:column;gap:4px;padding-top:10px;border-top:1px solid var(--hair)}
+  #kpop .r .q{font-size:14px;line-height:20px;color:var(--ink);letter-spacing:-.28px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  #kpop .m2{font:400 12px/16px var(--mono);color:var(--mute)}
+  #crm-scrim{position:fixed;inset:0;background:#17171733;z-index:48;display:none}
+  #crm-scrim.on{display:block}
+  #crm{position:fixed;top:0;right:0;bottom:0;width:min(780px,100vw);background:var(--page);box-shadow:-1px 0 0 var(--hair),-24px 0 48px -24px #00000033;z-index:49;display:flex;flex-direction:column;transform:translateX(102%);visibility:hidden;transition:transform .25s ease-out,visibility .25s}
+  #crm.on{transform:none;visibility:visible}
+  #crm .ch{display:flex;align-items:center;gap:12px;padding:20px 24px 12px}
+  #crm .ch h2{font-size:20px;line-height:28px;font-weight:600;letter-spacing:-.6px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  #crm .flt{display:flex;gap:8px;padding:0 24px 12px}
+  #crm .flt input,#crm .flt select{border:1px solid var(--hair);border-radius:8px;padding:8px 12px;font-size:14px;line-height:20px;background:var(--card);color:var(--ink);outline:none;min-width:0}
+  #crm .flt input{flex:1}
+  #crm .flt select{flex:0 1 200px;width:0;min-width:120px}
+  #crm .flt input:focus,#crm .flt select:focus{border-color:var(--body)}
+  #crm .tb{flex:1;min-height:0;overflow:auto;margin:0 24px 24px;background:var(--card);border-radius:12px;box-shadow:var(--shadow)}
+  #crm table{width:100%;border-collapse:collapse;font-size:14px;line-height:20px;letter-spacing:-.28px}
+  #crm th{position:sticky;top:0;background:var(--card);text-align:left;font:400 12px/16px var(--mono);color:var(--mute);text-transform:uppercase;padding:10px 12px;border-bottom:1px solid var(--hair);z-index:1}
+  #crm td{padding:10px 12px;border-bottom:1px solid var(--hair);vertical-align:top;color:var(--body)}
+  #crm td.dt,#crm td.wh{font:400 12px/20px var(--mono);white-space:nowrap;color:var(--mute)}
+  #crm td.pp{color:var(--ink);white-space:nowrap}
+  #crm td .clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  #crm td.none{color:var(--body);padding:24px 12px}
+  #crm tbody tr[data-i]{cursor:pointer}
+  #crm tbody tr[data-i]:hover,#crm tbody tr[data-i]:focus-visible{background:var(--soft);outline:none}
+  #crm .det{display:none;flex:1;min-height:0;overflow:auto;margin:0 24px 24px;background:var(--card);border-radius:12px;box-shadow:var(--shadow);padding:20px 24px;flex-direction:column;gap:16px;align-items:flex-start}
+  #crm .det.on{display:flex}
+  #crm .det .full{font-size:18px;line-height:28px;letter-spacing:-.3px;color:var(--ink);white-space:pre-wrap}
+  #crm .det dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0;font-size:14px;line-height:20px}
+  #crm .det dt{font:400 12px/20px var(--mono);color:var(--mute);text-transform:uppercase}
+  #crm .det dd{margin:0;color:var(--ink);word-break:break-word}
+  #crm .det dd.mono{font:400 12px/20px var(--mono)}
+  #crm .det .orig{align-self:stretch;padding:12px 14px;background:var(--soft);border-left:2px solid var(--hair);border-radius:0 6px 6px 0;font:12px/18px var(--mono);color:var(--body);white-space:pre-wrap;word-break:break-word}
+  /* the memo after End meeting: a modal on desktop, full screen on a phone */
+  #memo-scrim{position:fixed;inset:0;background:#17171740;z-index:70;display:none;align-items:center;justify-content:center;padding:32px}
+  #memo-scrim.on{display:flex}
+  #memo{width:min(760px,100%);max-height:100%;background:var(--card);border-radius:12px;box-shadow:var(--shadow),0 24px 48px -24px #00000059;display:flex;flex-direction:column;animation:fadein .2s ease-out both}
+  #memo .mh{padding:20px 24px 14px;display:flex;flex-direction:column;gap:6px;border-bottom:1px solid var(--hair)}
+  #memo .mq{font-size:20px;line-height:28px;font-weight:600;letter-spacing:-.6px}
+  #memo .mb{padding:16px 24px;overflow:auto;flex:1;min-height:0;font-size:15px;line-height:22px;color:var(--body);letter-spacing:-.2px}
+  #memo .mb h1,#memo .mb h2,#memo .mb h3{color:var(--ink);font-weight:600;margin:16px 0 6px}
+  #memo .mb>:first-child{margin-top:0}
+  #memo .mb h1{font-size:22px;line-height:30px;letter-spacing:-.6px}
+  #memo .mb h2{font-size:18px;line-height:26px;letter-spacing:-.4px}
+  #memo .mb h3{font-size:16px;line-height:24px;letter-spacing:-.3px}
+  #memo .mb p,#memo .mb ul,#memo .mb ol,#memo .mb blockquote{margin:0 0 10px}
+  #memo .mb ul,#memo .mb ol{padding-left:20px}
+  #memo .mb li{margin:2px 0}
+  #memo .mb blockquote{padding:8px 12px;border-left:2px solid var(--lime-deep);background:var(--soft);border-radius:0 6px 6px 0;color:var(--ink)}
+  #memo .mb strong{font-weight:600;color:var(--ink)}
+  #memo .mb code{font:13px/20px var(--mono)}
+  #memo .mb hr{border:0;border-top:1px solid var(--hair);margin:12px 0}
+  #memo .mf{padding:12px 24px 20px;display:flex;gap:8px;justify-content:flex-end;border-top:1px solid var(--hair)}
+  body.present #memo{width:1100px}
+  body.present #memo .mq{font-size:28px;line-height:36px}
+  body.present #memo .mb{font-size:20px;line-height:30px}
+  body.present #pm,body.present #pre,body.present #presets,body.present #join{display:none!important}
   @keyframes fadein{from{opacity:0}to{opacity:1}}
-  @media(max-width:1200px){#app{grid-template-columns:1fr}#rcard{height:auto}}
+  /* fit the window: the left column never scrolls the page on a desktop; the map takes what is left */
+  body:not(.present) #app{height:100vh;min-height:520px}
+  body:not(.present){overflow-x:hidden}
+  .right{overflow:clip;overflow-clip-margin:8px}
+  body:not(.present) #rcard{min-height:0;overflow:auto}
+  #wave{overflow:hidden;max-width:100%}
+  #wave .bars{flex:1 1 0;min-width:0;overflow:hidden}
+  #wave #wl{justify-content:flex-end}
+  #wave #wr{justify-content:flex-start}
+  #wave .bars i{flex:none}
+  @media (max-height:820px){
+    body:not(.present) #app{padding:16px 24px;gap:20px}
+    body:not(.present) .left{gap:10px}
+    body:not(.present) #greet{min-height:56px;gap:16px}
+    body:not(.present) #greet .pikav{width:56px;height:56px}
+    body:not(.present) #greet .pikav svg{width:28px;height:32px}
+    body:not(.present) #greet .line{font-size:22px;line-height:28px;letter-spacing:-.66px}
+    body:not(.present) #wave,body:not(.present) #wave .bars{height:40px}
+    body:not(.present) #wave .wpill{padding:4px 14px;min-width:120px}
+    body:not(.present) #microw .mic{width:44px;height:44px}
+    body:not(.present) #microw .mic svg{width:18px;height:18px}
+    body:not(.present) #askbar{height:auto}
+    body:not(.present) #inbar{height:52px;padding:6px}
+    body:not(.present) #inbar .pre,body:not(.present) #inbar .send{width:40px;height:40px}
+    body:not(.present) #rcard{padding:20px 20px 88px;gap:12px}
+  }
+  @media (max-width:899px){
+    body:not(.present) #app{grid-template-columns:1fr;height:auto;min-height:100vh}
+    body:not(.present) #panel{flex:none;height:clamp(240px,46vh,420px)}
+    body:not(.present) #rcard{height:auto;overflow:visible}
+    body:not(.present) #askbar{height:auto}
+  }
+  @media (max-width:600px){
+    body:not(.present) #app{padding:12px 16px 24px;gap:16px}
+    body:not(.present) .left{gap:12px}
+    body:not(.present) #greet{min-height:48px;gap:12px}
+    body:not(.present) #greet .pikav{width:48px;height:48px}
+    body:not(.present) #greet .pikav svg{width:24px;height:28px}
+    body:not(.present) #greet .line{font-size:20px;line-height:26px;letter-spacing:-.6px}
+    body:not(.present) #wave .wpill{min-width:0;padding:4px 12px}
+    body:not(.present) #rcard{padding:20px 16px 88px}
+    body:not(.present) #rcard .ttl .nm{font-size:26px;line-height:32px}
+    body:not(.present) #microw .micline{gap:10px}
+    #crm .ch,#crm .flt{padding-left:16px;padding-right:16px}
+    #crm .tb,#crm .det{margin:0 12px 12px}
+    #crm .wh{display:none}
+    #memo-scrim{padding:0}
+    #memo{width:100%;height:100%;max-height:none;border-radius:0}
+  }
   @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -240,15 +419,14 @@
 <div id="stage"><div id="app">
   <div class="left">
     <header id="hdr">
-      <svg width="24" height="28" viewBox="0 0 28 32" aria-hidden="true"><use href="#pikmark"/></svg>
+      <span class="mark" aria-hidden="true"><svg viewBox="0 0 28 32"><use href="#pikmark"/></svg></span>
       <span class="brand">Pik</span>
       <span class="sp"></span>
       <span class="na hidden" id="hna"></span>
       <span class="ready" id="ready"></span>
-      <span id="counts"></span>
-      <span id="ext" class="hidden"></span>
-      <span id="idchip" class="hidden"></span>
+      <span class="nr hidden" id="nr"></span>
       <span class="pill" id="status">At rest</span>
+      <div class="pm" id="pm"><button class="pm-b" id="pm-b" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="pm-m" aria-label="Menu" title="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button><div class="pm-m" id="pm-m" role="menu" aria-label="Pik" hidden><div class="pm-id" id="pm-id"><b>Open mode</b><span>no one signed in</span></div><a role="menuitem" href="/settings" id="pm-set">Settings</a><a role="menuitem" href="/stats" id="pm-stats">Stats</a><button role="menuitemcheckbox" type="button" id="pm-never" aria-checked="false"><span>Show what Pik never reads</span><i class="pm-t" aria-hidden="true"></i></button><div class="pm-ext" id="pm-ext"></div><a role="menuitem" href="/login" id="pm-sign">Sign in</a></div></div>
     </header>
     <div id="panel">
       <div id="map"></div>
@@ -259,16 +437,20 @@
     </div>
     <div id="greet"><div class="pikav"><svg viewBox="0 0 28 32" aria-hidden="true"><use href="#pikmark"/></svg></div><div class="line" id="pikline"></div></div>
     <div id="wave"><div class="bars" id="wl"></div><div class="wpill" id="wpill">At rest</div><div class="bars" id="wr"></div></div>
-    <div id="microw"><div class="mic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#f2f2f2" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div></div>
+    <div id="microw"><div class="micline"><button class="mic" id="mic" type="button" aria-pressed="false" aria-label="Turn Pik's listener on" title="Turn Pik's listener on"><svg viewBox="0 0 24 24" fill="none" stroke="#f2f2f2" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button><button class="act ghost endb hidden" id="endb" type="button">End meeting</button></div>
+      <nav id="join" aria-label="Surfaces"><a id="j-meet" target="_blank" rel="noopener" aria-disabled="true">Join Meet</a><a id="j-slack" target="_blank" rel="noopener" aria-disabled="true"><i class="dot"></i>Open Slack</a><a id="j-board" target="_blank" rel="noopener" aria-disabled="true"><i class="dot"></i>Open task board</a></nav></div>
     <div id="askbar"></div>
-    <div id="inbar"><span class="lnk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></span><span id="whochip"></span><input id="ask" type="text" placeholder="Ask who fits, or tell Pik about a person" autocomplete="off"><button class="send" id="go" aria-label="Ask Pik"><svg viewBox="0 0 24 24" fill="none" stroke="#f2f2f2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3L10 14M21 3l-7 18-4-7-7-4z"/></svg></button></div>
+    <div id="inwrap"><div id="presets" aria-label="Preset asks"></div><div id="inbar"><button class="pre" id="pre" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="presets" aria-label="Preset asks" title="Preset asks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1" fill="currentColor"/><circle cx="4" cy="12" r="1" fill="currentColor"/><circle cx="4" cy="18" r="1" fill="currentColor"/></svg></button><span id="whochip"></span><input id="ask" type="text" placeholder="Ask who fits, or tell Pik about a person" autocomplete="off"><button class="send" id="go" aria-label="Ask Pik"><svg viewBox="0 0 24 24" fill="none" stroke="#f2f2f2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3L10 14M21 3l-7 18-4-7-7-4z"/></svg></button></div></div>
     <footer id="foot"></footer>
   </div>
   <aside class="right"><div id="rcard"></div><div id="drawer"><div class="dh"><span class="eyebrow" id="dtitle"></span><span class="eyebrow">Esc closes</span></div><div id="dlist"></div></div></aside>
-</div></div>
+</div><div id="memo-scrim"><div id="memo" role="dialog" aria-modal="true" aria-labelledby="memo-q"><div class="mh"><span class="eyebrow">Meeting memo</span><div class="mq" id="memo-q"></div></div><div class="mb" id="memo-b"></div><div class="mf"><button class="act ghost" id="memo-close" type="button">Close</button><button class="act" id="memo-copy" type="button">Copy</button></div></div></div></div>
 <div id="subject" class="hidden"></div>
 <div id="pop" role="dialog"></div>
 <div id="toast"></div>
+<div id="kpop" role="tooltip"></div>
+<div id="crm-scrim"></div>
+<aside id="crm" role="dialog" aria-modal="true" aria-labelledby="crm-t" aria-hidden="true"><div class="ch"><h2 id="crm-t">Receipts</h2><span class="eyebrow" id="crm-n"></span><button class="act ghost" id="crm-x" type="button">Close</button></div><div class="flt"><input id="crm-q" type="search" placeholder="Search the receipts" autocomplete="off" aria-label="Search the receipts"><select id="crm-p" aria-label="Person"></select></div><div class="tb" id="crm-tb"><table><thead><tr><th>Date</th><th>Person</th><th class="wh">Where</th><th>Excerpt</th></tr></thead><tbody id="crm-body"></tbody></table></div><div class="det" id="crm-det"></div></aside>
 <audio id="pikvoice" preload="auto"></audio>
 
 <script src="/vendor/d3.min.js"></script>
@@ -351,7 +533,7 @@ function countText(t){const asked=Array.isArray(t.asked)?t.asked:null;const cov=
   if(asked&&asked.length<3)return 'too few words to count';if(!asked||!cov)return 'n/a';return `${cov.length} of ${asked.length} words have a receipt`}
 
 // ---------- header, footer ----------
-function renderHeader(){const a=S.audit;const read=a&&a.used?`Read ${Object.values(a.used).reduce((n,v)=>n+(v.count||0),0)}`:`Read ${NA('audit unreachable')}`;const dm=a&&a.never_read&&a.never_read.dm?a.never_read.dm.count:null;$('#counts').innerHTML=`<span>${read}</span><span class="red">Never read: DMs ${dm==null?'?':dm}</span>`;}
+function renderHeader(){PM.audit=S.audit;pmRender()} // the never-read counter shows in the header only when the menu toggle is on
 function renderFoot(){const a=S.audit;const el=$('#foot');
   const read=a&&a.used?`Read ${Object.values(a.used).reduce((n,v)=>n+(v.count||0),0)}`:`Read ${NA('audit unreachable')}`;const dm=a&&a.never_read&&a.never_read.dm?a.never_read.dm.count:null;
   const mode=S.source==='scripted'?'Scripted take':S.source==='live'?'Live call':((S.company||{}).backend==='heuristic'?'Keyword mode':(S.company&&S.company.backend?'Read by Gemini':''));
@@ -489,6 +671,7 @@ const WV={mode:'rest',pulseUntil:0,saidUntil:0,bars:[],t0:performance.now()};
 function buildWave(){const mk=box=>{for(let i=0;i<34;i++){const b=document.createElement('i');box.appendChild(b);WV.bars.push({el:b,i})}};mk($('#wl'));mk($('#wr'));
   const step=()=>{const t=(performance.now()-WV.t0)/1000;const now=Date.now();const speaking=WV.mode==='say';const on=speaking||WV.mode==='listen'||now<WV.pulseUntil||now<WV.saidUntil;const amp=now<WV.pulseUntil?1:(speaking||now<WV.saidUntil)?.8:(on?.45:0);
     let real=null;if(speaking&&AUD.live&&AUD.analyser){AUD.analyser.getByteFrequencyData(AUD.data);if(AUD.data.some(v=>v>8))real=AUD.data} // the voice itself, when the element is decoding; else the synthetic bars
+    else if(!speaking&&MIC.analyser){MIC.analyser.getByteFrequencyData(MIC.data);real=MIC.data} // the room, from the real input level, while the listener is on
     WV.bars.forEach(({el,i})=>{const env=1-Math.abs(i-17)/22;let h;if(real){const v=real[Math.min(real.length-1,2+Math.floor(i*(real.length-4)/34))]/255;h=4+v*46*(.6+.4*env)}else{const n=Math.sin(i*1.7+t*6)*.5+Math.sin(i*.6-t*4.2)*.35+Math.sin(i*3.1+t*9)*.15;h=on&&!reduced()?4+Math.max(0,n+1)*24*amp*env:(on?4+18*env*amp:4+8*env)}el.style.height=h+'px'});
     $('#wave').classList.toggle('said',speaking||now<WV.saidUntil);if(!reduced())requestAnimationFrame(step)};step();}
 function waveMode(){const s=S.status;WV.mode=s==='Pik is speaking'?'say':(s==='Listening'||s==='Heard'||s==='Pik asks')?'listen':'rest';const p=$('#wpill');p.textContent=s==='Pik is speaking'||Date.now()<WV.saidUntil?'Pik is speaking':s==='Pik asks'?'Pik asks':WV.mode==='listen'?'Listening...':s==='Concluded'||s==='Filed'?s:'At rest';}
@@ -519,15 +702,15 @@ function monthsHTML(f){const m={};Object.values(f.items||{}).forEach(it=>{const 
   const [y0,m0]=ks[0].split('-').map(Number),[y1,m1]=ks[ks.length-1].split('-').map(Number);const out=[];for(let y=y0,mo=m0;y<y1||(y===y1&&mo<=m1);){out.push(`${y}-${String(mo).padStart(2,'0')}`);mo++;if(mo>12){mo=1;y++}}
   const max=Math.max(...out.map(k=>m[k]||0),1);const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   return `<div class="bars">${out.map(k=>`<div class="b"><i style="height:${Math.max(4,Math.round((m[k]||0)/max*44))}px"></i><span>${MN[Number(k.slice(5))-1]}</span></div>`).join('')}</div>`}
-function activityHTML(total,c,note,f){return `<div class="act-h"><span class="t">Activity</span><span class="eyebrow">receipts by source</span></div><div class="big">${total}</div>${f?monthsHTML(f):''}<div class="mini">${[['Slack','slack','public channels'],['Docs','docs','shared documents'],['Sheets','wcm','Will Can Must'],['Sessions','sessions','opted-in AI sessions']].map(([k,s,d])=>`<div class="m" data-drawer="${s}"><span class="k">${k}</span><span class="n">${c[s]||0}</span><span class="d">${d}</span></div>`).join('')}</div>${note?`<div class="note">${esc(note)}</div>`:''}`}
+function activityHTML(total,c,note,f){return `<div class="act-h"><span class="t">Activity</span><span class="eyebrow">receipts by source</span></div><div class="big">${total}</div>${f?monthsHTML(f):''}<div class="mini">${[['Slack','slack','public channels'],['Docs','docs','shared documents'],['Sheets','wcm','Will Can Must'],['Sessions','sessions','opted-in AI sessions']].map(([k,s,d])=>`<div class="m" data-kind="${s}" tabindex="0" role="button" aria-label="${k}: ${c[s]||0} receipts. Hover for the latest three, open for all"><span class="k">${k}</span><span class="n">${c[s]||0}</span><span class="d">${d}</span></div>`).join('')}</div>${note?`<div class="note">${esc(note)}</div>`:''}`}
 async function renderRight(){const box=$('#rcard');if(F.as)return;
   if(S.record){return renderRightRecord()}
   const id=S.focus;
   if(!id){const a=S.audit||{};const u=a.used||{};const c={slack:(u.slack||{}).count||0,docs:(u.docs||{}).count||0,wcm:(u.wcm||{}).count||0,sessions:(u.sessions||{}).count||0};const tot=Object.values(u).reduce((n,v)=>n+(v.count||0),0);const co=String((S.company||{}).name||'').replace(/\s*\(.*\)$/,'');const d=(S.company||{}).decision||{};
     box.innerHTML=`<div class="ttl"><div><div class="nm">${esc(co||'Pik')}</div><div class="rl">People on file</div></div><div class="stat"><span class="k">receipts</span><span class="n">${a.used?tot:'n/a'}</span></div></div>
-    <div class="hero"><div class="ch"><span>The decision</span></div><div class="q">${esc(d.purpose||d.title||'Ask who fits, and Pik shows the receipts.')}</div><div class="src">${esc(nd(d.title||''))}</div></div>
+    <div class="dec" id="dec" aria-live="polite"></div>
     <div class="para"><div class="t">Pik reads public Slack channels, shared docs, Will Can Must sheets, opted-in AI sessions, and manager notes only beside the person's own words. It never reads DMs or private channels.</div></div>
-    ${activityHTML(a.used?tot:'n/a',c,`${((u.manager_notes||{}).count||0)} manager notes, paraphrases, never shown alone`,null)}<div id="toastp"><span class="k"></span><span class="p"></span><span class="bar"></span></div>`;return}
+    ${activityHTML(a.used?tot:'n/a',c,`${((u.manager_notes||{}).count||0)} manager notes, paraphrases, never shown alone`,null)}<div id="toastp"><span class="k"></span><span class="p"></span><span class="bar"></span></div>`;renderDecision();return}
   const f=await fileOf(id);if(S.focus!==id)return;const p=personOf(id)||{};const t=tileOf(id);const c=bySource(f);const total=Object.values(f.items).filter(it=>it.source!=='manager_notes').length;
   const recs=S.doc.filter(b=>b.type==='receipt'&&b.person===id);const verb=recs.filter(r=>r.stamp!=='paraphrase'&&r.kind!=='manager').pop();
   let hero;if(verb){const it=f.items[verb.source_id];hero={text:verb.text,src:it?labelOf(it):verb.source,sid:verb.source_id,kind:verb.kind==='own_words'?`${first(p.name)}'s own words`:`What ${first(p.name)} did`}}
@@ -535,12 +718,12 @@ async function renderRight(){const box=$('#rcard');if(F.as)return;
   else if(f.will)hero={text:f.will.text,src:labelOf(f.will.item),sid:f.will.sid,kind:`${first(p.name)}'s own words`};
   const words=hero?wordsFor(t,hero.sid):[];const cov=t&&t.covered&&typeof t.covered==='object'?Object.keys(t.covered):[];
   const mgr=recs.find(r=>r.kind==='manager')||(f.manager&&{text:f.manager.text,source:labelOf(f.manager.item)});
-  box.innerHTML=`<div class="ttl"><div><div class="nm">${esc(p.name||id)}</div><div class="rl">${esc([p.role,p.team].filter(Boolean).join(', '))}</div></div><div class="stat" data-drawer="all"><span class="k">receipts</span><span class="n">${total}</span></div></div>
+  box.innerHTML=`<div class="dec sm" id="dec" aria-live="polite"></div><div class="ttl"><div><div class="nm">${esc(p.name||id)}</div><div class="rl">${esc([p.role,p.team].filter(Boolean).join(', '))}</div></div><div class="stat" data-drawer="all"><span class="k">receipts</span><span class="n">${total}</span></div></div>
   ${hero?`<div class="hero" id="hero"><div class="ch"><span>${esc(hero.kind)}</span><span>Verbatim</span></div><div class="q">"${highlight(hero.text,words)}"</div><div class="src">${esc(srcLine(hero.src||hero.sid||''))}</div></div>`:`<div class="hero"><div class="ch"><span>On file</span></div><div class="q" style="color:var(--body)">Nothing on file yet. Receipts arrive as they work.</div></div>`}
   ${S.tiles.filter(o=>o.id!==id&&o.confidence>0&&o.source_id&&o.why).map(o=>`<div class="also"><span class="eyebrow">Also with a receipt</span><div class="ao"><b>${esc(o.name)}</b> "${esc(splitClaim(o.why).txt)}"</div><span class="src">${esc(srcLine(o.source||o.source_id))}</span></div>`).join('')}
   ${cov.length?`<div class="chips"><span class="eyebrow" style="align-self:center">Receipts for</span>${cov.map(w=>`<span class="chip lime">${esc(w)}</span>`).join('')}${t.missing&&t.missing.length?`<span class="chip">none for ${esc(t.missing.slice(0,3).join(', '))}${t.missing.length>3?'...':''}</span>`:''}</div>`:''}
   <div class="para">${f.will&&!(hero&&hero.sid===f.will.sid)?`<span class="eyebrow">In ${esc(first(p.name))}'s own words</span><div class="t">"${esc(f.will.text)}"</div>`:''}${mgr&&f.will?`<div class="mgr">${esc(managerLine(mgr))}: "${esc(mgr.text)}" (paraphrase, shown beside ${esc(first(p.name))}'s own words)</div>`:''}</div>
-  ${activityHTML(total,c,c.manager_notes?`${c.manager_notes} manager note${c.manager_notes===1?'':'s'}, a paraphrase, never shown alone`:'',f)}<div id="toastp"><span class="k"></span><span class="p"></span><span class="bar"></span></div>`;
+  ${activityHTML(total,c,c.manager_notes?`${c.manager_notes} manager note${c.manager_notes===1?'':'s'}, a paraphrase, never shown alone`:'',f)}<div id="toastp"><span class="k"></span><span class="p"></span><span class="bar"></span></div>`;renderDecision();
   if(S.pull)pullShow();
 }
 // the evidence drawer: one person's receipts from one source, verbatim, over the right column
@@ -556,10 +739,10 @@ document.addEventListener('click',e=>{const t=e.target.closest('#rcard [data-dra
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
 function managerLine(m){const s=String(m.source||'');const mm=/^(.+?)'s note/.exec(s);return mm?`${mm[1]} wrote`:'The manager wrote'}
 function renderRightRecord(){const r=S.record;const p=r.person||{};const box=$('#rcard');const fn=first(p.name||'');
-  box.innerHTML=`<div class="ttl"><div><div class="nm">${esc(p.name||'Record')}</div><div class="rl">${esc([p.role,p.team,p.location].filter(Boolean).join(', '))}</div></div><div class="stat"><span class="k">receipts</span><span class="n">0</span></div></div>
+  box.innerHTML=`<div class="dec sm" id="dec" aria-live="polite"></div><div class="ttl"><div><div class="nm">${esc(p.name||'Record')}</div><div class="rl">${esc([p.role,p.team,p.location].filter(Boolean).join(', '))}</div></div><div class="stat"><span class="k">receipts</span><span class="n">0</span></div></div>
   <div class="hero"><div class="ch"><span>${esc(fn)}'s own words</span><span>Blank</span></div><div class="q" style="color:var(--body)">Will: blank until ${esc(fn)} writes it. HR never writes it for them.</div><div class="src">${esc(r.op==='add'?`added by ${nameOf(r.by||requester())} \u00b7 ${String(p.added_at||new Date().toISOString()).slice(0,10)}`:r.op)}</div></div>
   <div class="para"><div class="t">Pik collects from allowlisted channels only. DMs never. ${esc(fn)} sees ${p.name?'their':'the'} own page from day one.</div></div>
-  ${activityHTML(0,{},'receipts arrive as they work',null)}<div id="toastp"><span class="k"></span><span class="p"></span><span class="bar"></span></div>`;}
+  ${activityHTML(0,{},'receipts arrive as they work',null)}<div id="toastp"><span class="k"></span><span class="p"></span><span class="bar"></span></div>`;renderDecision();}
 function flashHero(){const h=$('#hero');if(!h)return;h.classList.add('flash');setTimeout(()=>h.classList.remove('flash'),600)}
 // the progress toast: between a heard line that should pull receipts and the block that answers it
 function pullStart(label){S.pull={label,t0:Date.now()};pullShow();clearTimeout(pullStart._t);pullStart._t=setTimeout(()=>{if(S.pull)pullEnd(false)},6000)}
@@ -660,7 +843,7 @@ async function confirmDraft(){if(confirmDraft.busy)return;const d=S.draft;if(!d)
 }
 
 // ---------- the one renderer over both sources ----------
-function resetSession(){try{const v=$('#pikvoice');if(v){v.pause()}}catch(e){}S.doc=[];S.tiles=[];S.draft=null;S.concl=null;S.filed=null;S.drops=0;S.docSeen=false;S.focus=null;S.record=null;S.speaker=null;S.pikLine=null;S.droppedIds=new Set();S.seenReceipts=new Set();pullEnd(false);mapReset();$('#concl').className='over lime';$('#concl').innerHTML='';renderDraft();renderInput();renderGreeting();renderRight();renderFoot();}
+function resetSession(){try{const v=$('#pikvoice');if(v){v.pause()}}catch(e){}S.doc=[];S.dec=null;S.tiles=[];S.draft=null;S.concl=null;S.filed=null;S.drops=0;S.docSeen=false;S.focus=null;S.record=null;S.speaker=null;S.pikLine=null;S.droppedIds=new Set();S.seenReceipts=new Set();pullEnd(false);mapReset();$('#concl').className='over lime';$('#concl').innerHTML='';renderDraft();renderInput();renderGreeting();renderRight();renderFoot();}
 async function applyEvent(e,instant){
   if(!e||!e.kind)return;const k=e.kind;
   if(k==='status'){const t=String(e.text||'');const reconnect=/session ended, reconnecting/i.test(t);const isEnd=!reconnect&&/\bstopped\b|session ended|: end$/i.test(t);
@@ -676,15 +859,16 @@ async function applyEvent(e,instant){
     if(!S.doc.some(b=>b.type==='question')){S.doc.push({type:'question',id:'heard',text:e.text||'',instant});S.doc.heardEyebrow='Heard'}
     else{const q=S.doc.find(b=>b.type==='question');q.text=e.text||q.text;q.instant=instant} // the field always shows the last heard line
     if(e.who)S.speaker={who:String(e.who),text:String(e.text||'')};
+    if(e.local||looksLikeAsk(e.text))setDecision(e.text,{t:e.t,local:e.local});
     renderInput();if(!instant){wavePulse(1500);addThoughts(e.text);if(NEED.test(e.text||'')||e.local)pullStart(LIKELY.test(e.text||'')?'Factors, from receipts':'Pulling receipts...')}return}
   if(k==='speaker'){if(F.as)return;const q=S.doc.find(b=>b.type==='question');const txt=String(e.text||'');const cur=q?String(q.text||''):S.heardText;
-    if(e.who&&txt&&(cur===txt||cur.startsWith(txt))){S.speaker={who:String(e.who),text:cur};renderInput();}return}
+    if(e.who&&txt&&(cur===txt||cur.startsWith(txt))){S.speaker={who:String(e.who),text:cur};renderInput();if(S.dec&&!S.dec.local&&(S.dec.text===nd(cur)||S.dec.text.startsWith(nd(txt)))){S.dec.who=String(e.who);renderDecision()}}return}
   if(k==='say'){if(F.as)return;say(e,instant);return}
   if(k==='said'){if(F.as)return;const t=String(e.text||'');if(!t.trim()||/<no speech detected>/i.test(t))return;const now=Date.now();
     S.said.text=(now-S.said.t<2500?S.said.text:'')+t;S.said.t=now;if(!instant){waveSaid(1500);const keys=(S.tiles[0]&&S.tiles[0].asked)||[];setPikLine(S.said.text.trim(),keys)}return}
   if(k==='compose'||k==='patch'){if(F.as)return;
     const doc=Array.isArray(e.doc)?e.doc:null;if(doc)S.doc=doc.slice();else if(e.block){const b=e.block;S.doc=S.doc.filter(x=>x.id!==b.id&&!(['question','people','ask'].includes(b.type)&&x.type===b.type));if(e.op!=='remove')S.doc.push(b)}
-    S.docSeen=true;S.legacyIgnore=true;
+    S.docSeen=true;S.legacyIgnore=true;{const q0=S.doc.find(b=>b.type==='question');if(q0&&String(q0.text||'').trim())setDecision(q0.text,{t:e.t,local:e.local})}
     let recs=S.doc.filter(b=>b.type==='receipt');for(const r of recs){const rk=recKey(r);if(S.droppedIds.has(rk)){S.doc=S.doc.filter(x=>x!==r);continue}if(!(await trustReceipt(r))){S.doc=S.doc.filter(x=>x!==r);S.droppedIds.add(rk);S.drops++}}recs=S.doc.filter(b=>b.type==='receipt');
     const people=S.doc.find(b=>b.type==='people');const ask=S.doc.find(b=>b.type==='ask');
     if(ask){setStatus('Pik asks');if(!instant){setPikLine(ask.text,(S.tiles[0]&&S.tiles[0].asked)||[]);waveSaid(2500)}}else if(S.status==='Pik asks')setStatus('Heard');
@@ -697,10 +881,10 @@ async function applyEvent(e,instant){
     applyConstraints();renderFoot();
     if(last&&fresh){await fileOf(last.person);S.focus=last.person;S.record=null;await renderRight();if(!instant)flashHero();addHub(last,tileOf(last.person));focusMap(last.person);if(!F.as)recordView(last.person,'evaluator')}
     else if(last&&S.focus===last.person){await renderRight()}
-    return}
+    renderDecision();return}
   if(k==='dropped'){S.drops++;renderFoot();return}
-  if(k==='conclude'){if(F.as)return;S.concl=e;setStatus('Concluded');pullEnd(false);Object.values(M.kw).forEach(n=>{if(n.kind==='thought')fadeKeyword(n.key)});renderConcl();concludeMap(e.candidate_ids||[]);return}
-  if(k==='filed'){if(F.as)return;S.filed=e;setStatus('Filed');renderConcl();return}
+  if(k==='conclude'){if(F.as)return;S.concl=e;setStatus('Concluded');pullEnd(false);Object.values(M.kw).forEach(n=>{if(n.kind==='thought')fadeKeyword(n.key)});renderConcl();concludeMap(e.candidate_ids||[]);if(!S.dec&&(e.question||e.summary))setDecision(e.question||e.summary,{t:e.t});renderDecision();return}
+  if(k==='filed'){if(F.as)return;S.filed=e;setStatus('Filed');renderConcl();if(!S.dec&&e.question)setDecision(e.question,{t:e.t});renderDecision();return}
   if(k==='record'){const key=`${e.op}:${e.person&&e.person.id}`;if(!e.local&&S.seenRecords.has(key)){S.seenRecords.delete(key);return}
     const p=e.person||{};
     if(e.op==='add'){if(p.id)S.people[p.id]=Object.assign({},p,{added_by:p.added_by||nameOf(e.by||requester())});S.draft=null;renderDraft();if(!instant)flyIn(Object.assign({},p,{added_by:p.added_by||nameOf(e.by||requester())}));}
@@ -741,12 +925,206 @@ async function runTake(){
 }
 
 // ---------- session chip (renders only when a signed cookie exists; /login is optional unless PIK_AUTH=1) ----------
-async function renderSession(){const r=await fetchJ('/api/session');if(!r.ok||!r.data)return;const d=r.data;
-  if(!F.present&&d.extraction&&!F.as){const el=$('#ext');el.textContent=nd(d.extraction);el.classList.remove('hidden');}
-  if(!d.session)return;const u=d.session;S.session=u;
-  const chip=`<span class="idchip"><b>${esc(u.name)}</b><span>${esc(u.role)}</span>${u.role==='subject'?'':'<a href="/settings">Settings</a>'}<a href="/stats">Stats</a><a href="/logout">Sign out</a></span>`;
-  if(F.as){const box=$('#subject');let row=box.querySelector('.idrow');if(!row){row=document.createElement('div');row.className='idrow';box.prepend(row)}row.innerHTML=chip;}
-  else if(!F.present){const el=$('#idchip');el.innerHTML=chip;el.classList.remove('hidden');}}
+async function renderSession(){const r=await fetchJ('/api/session');PM.loaded=true;PM.audit=S.audit;
+  if(!r.ok||!r.data){PM.ext=`n/a: /api/session ${r.status||'unreachable'}`;pmRender();return}
+  const d=r.data;PM.ext=d.extraction||'';PM.session=d.session||null;S.session=d.session||null;pmRender();
+  if(S.dec&&S.dec.local&&S.session&&S.dec.who==='you'){S.dec.who=S.session.name;renderDecision()}}
+function mountSubjectHeader(){const box=$('#subject');if(!box||box.querySelector('.shdr'))return;const row=document.createElement('header');row.className='shdr';
+  row.innerHTML=`<span class="mark" aria-hidden="true"><svg viewBox="0 0 28 32"><use href="#pikmark"/></svg></span><span class="brand">Pik</span><span class="sp"></span>`;row.append($('#nr'),$('#pm'));box.prepend(row)}
+
+// ---------- header menu: identity, Settings, Stats, the never-read toggle, extraction, sign in or out (same on /, /settings, /stats) ----------
+const PM={session:null,ext:'',audit:null,nv:false,loaded:false};
+const pmEsc=s=>String(s==null?'':s).replace(/[\u2014\u2013]/g,'-').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function pmGet(k){try{return window.localStorage.getItem(k)}catch(e){return null}}
+function pmPut(k,v){try{window.localStorage.setItem(k,v)}catch(e){}}
+function pmItems(){return [...document.querySelectorAll('#pm-m [role^=menuitem]')].filter(x=>!x.hidden)}
+function pmOpen(on,focusFirst){const m=document.getElementById('pm-m'),b=document.getElementById('pm-b');if(!m||!b)return;m.hidden=!on;b.setAttribute('aria-expanded',on?'true':'false');if(on&&focusFirst){const it=pmItems()[0];if(it)it.focus()}}
+function pmRender(){const s=PM.session;const id=document.getElementById('pm-id');if(!id)return;
+  id.innerHTML=s?`<b>${pmEsc(s.name)}</b><span>${pmEsc(s.role)}${s.title?' · '+pmEsc(s.title):''}</span>`:`<b>Open mode</b><span>${PM.loaded?'no one signed in':'checking the session'}</span>`;
+  document.getElementById('pm-set').hidden=!!(s&&s.role==='subject');
+  document.getElementById('pm-never').setAttribute('aria-checked',PM.nv?'true':'false');
+  const ext=String(PM.ext||'');document.getElementById('pm-ext').textContent=ext?pmEsc(/^extraction/i.test(ext)?ext:'Extraction: '+ext).replace(/&amp;/g,'&'):'';
+  document.getElementById('pm-sign').textContent=s?'Sign out':'Sign in';
+  const nr=document.getElementById('nr');if(nr){const a=PM.audit;const dm=a&&a.never_read&&a.never_read.dm?a.never_read.dm.count:null;nr.textContent=`Never read: DMs ${dm==null?'?':dm}`;nr.title='Counted, never opened: direct messages and private channels';nr.classList.toggle('hidden',!PM.nv)}}
+function pmMount(){const b=document.getElementById('pm-b'),m=document.getElementById('pm-m');if(!b||!m)return;PM.nv=pmGet('pik.showNeverRead')==='1';
+  b.addEventListener('click',e=>{e.stopPropagation();pmOpen(m.hidden,e.detail===0)});
+  b.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){e.preventDefault();pmOpen(true,true)}});
+  m.addEventListener('keydown',e=>{const its=pmItems();const i=its.indexOf(document.activeElement);const n=its.length;
+    if((e.key==='ArrowDown'||e.key==='ArrowUp')&&n){e.preventDefault();its[e.key==='ArrowDown'?(i+1)%n:(i-1+n)%n].focus()}
+    else if(e.key==='Home'&&n){e.preventDefault();its[0].focus()}else if(e.key==='End'&&n){e.preventDefault();its[n-1].focus()}
+    else if(e.key==='Tab')pmOpen(false)});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!m.hidden){pmOpen(false);b.focus()}});
+  document.addEventListener('click',e=>{if(!m.hidden&&!e.target.closest('#pm'))pmOpen(false)});
+  document.getElementById('pm-never').addEventListener('click',e=>{e.stopPropagation();PM.nv=!PM.nv;pmPut('pik.showNeverRead',PM.nv?'1':'0');pmRender()});
+  document.getElementById('pm-sign').addEventListener('click',async e=>{if(!PM.session)return;e.preventDefault();let ok=false;
+    try{const r=await fetch('/api/logout',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'});ok=r.ok}catch(err){ok=false}
+    location.href=ok?'/login':'/logout'}); // the GET route clears the cookie too, when the POST did not answer
+  pmRender()}
+async function pmLoad(){ // settings and stats load the session and the audit themselves; the main page feeds PM from its own fetches
+  try{const r=await fetch('/api/session');const d=await r.json();PM.session=(d&&d.session)||null;PM.ext=(d&&d.extraction)||''}catch(e){PM.ext='n/a: /api/session unreachable'}
+  PM.loaded=true;try{const r=await fetch('/api/audit');if(r.ok)PM.audit=await r.json()}catch(e){}
+  pmRender()}
+
+// ---------- THE DECISION: a skeleton until an ask arrives; then the ask, who asked, and chips that progress ----------
+function looksLikeAsk(t){t=String(t||'');return NEED.test(t)||/\?\s*$/.test(t)||/^\s*(who|which|whom|someone|somebody|anyone)\b/i.test(t)}
+function setDecision(text,opts={}){text=nd(String(text||'').trim());if(!text)return;if(S.dec&&S.dec.text===text)return;
+  const sp=S.speaker&&S.speaker.who&&S.speaker.text&&(nd(S.speaker.text)===text||text.startsWith(nd(S.speaker.text))||nd(S.speaker.text).startsWith(text))?S.speaker.who:null;
+  S.dec={text,who:sp||(S.session&&S.session.name)||(opts.local?'you':''),t:Number(opts.t)||Date.now()/1000,local:!!opts.local};renderDecision()}
+function decisionHTML(){const d=S.dec;
+  if(!d)return `<div class="ch"><span>The decision</span></div><div class="skel" aria-hidden="true"><span class="sk big" style="width:86%"></span><span class="sk" style="width:58%"></span><span class="sk" style="width:36%"></span></div><div class="emp">Nothing open yet. Ask who fits a task, or say it in the meeting; the ask becomes the decision here.</div>`;
+  const tm=new Date(d.t*1000);const hhmm=isNaN(tm.getTime())?'':tm.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  const withR=S.tiles.filter(t=>t.source_id&&t.confidence!==0);const composed=S.docSeen||S.tiles.length>0;const c=S.concl;
+  const ppl=withR.length?`<div class="ppl">${withR.slice(0,4).map(t=>`<span class="chip">${esc(t.name)}</span>`).join('')}${withR.length>4?`<span class="chip">+${withR.length-4}</span>`:''}</div>`:composed?'':`<span class="sk" style="width:58%"></span>`;
+  const ns=c&&((c.next_steps||[])[0]||c.summary);
+  const nx=ns?`<div class="nx"><span class="eyebrow">Next</span>${esc(words25(ns,24))}</div>`:composed?`<div class="nx">${withR.length?'The next step lands here when the meeting concludes.':'No one has a receipt for this yet.'}</div>`:`<span class="sk" style="width:36%"></span>`;
+  const st=[];if(composed)st.push(`<span class="chip">${withR.length} with receipts</span>`);if(c)st.push('<span class="chip lime">Concluded</span>');if(S.filed)st.push('<span class="chip ink">Filed</span>');
+  return `<div class="ch"><span>The decision</span>${composed?'':'<span>Pulling receipts</span>'}</div><div class="ask">${esc(d.text)}</div><div class="row2"><div class="by">${d.who?`asked by ${esc(d.who)}`:'asked in the meeting'}${hhmm?` · ${esc(hhmm)}`:''}</div>${S.focus||S.record?(st.length?`<div class="st">${st.join('')}</div>`:''):''}</div>${ppl}${nx}${!(S.focus||S.record)&&st.length?`<div class="st">${st.join('')}</div>`:''}`}
+function renderDecision(){const el=$('#dec');if(el){el.innerHTML=decisionHTML();el.classList.toggle('sm',!!(S.focus||S.record))}renderEnd()}
+
+// ---------- the listener: the mic button (POST /api/listen), End meeting (POST /api/end), the join row (GET /api/surfaces) ----------
+const LS={on:false,by:null,unsupported:false,busy:false,surf:null,surfErr:null};
+const MIC={stream:null,ctx:null,analyser:null,data:null,asking:false};
+function renderMic(){const b=$('#mic');if(!b)return;const on=LS.on&&!LS.unsupported;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on?'true':'false');
+  const t=LS.unsupported?'Listener control needs the latest server':on?(LS.by==='external'?'Listening: started outside this page (external). Click to stop.':'Listening. Click to stop.'):"Turn Pik's listener on";
+  b.title=t;b.setAttribute('aria-label',t);renderEnd()}
+function listenIdle(){return S.filed?'Filed':S.concl?'Concluded':S.doc.some(b=>b.type==='question')?'Heard':'At rest'}
+function applyListen(fromUser){renderMic();
+  if(LS.on&&!LS.unsupported){if(fromUser)micStream(true);if(['At rest','Concluded','Filed'].includes(S.status))setStatus('Listening')}
+  else{micStream(false);if(S.status==='Listening')setStatus(listenIdle())}}
+async function setListen(want){if(LS.busy)return false;if(LS.unsupported){toast('Listener control needs the latest server',3200);return false}
+  LS.busy=true;const r=await postJ('/api/listen',{on:!!want});LS.busy=false;const d=r.data||{};
+  if(r.status===404){LS.unsupported=true;LS.on=false;applyListen(false);toast('Listener control needs the latest server',3200);return false}
+  if(!r.ok||d.ok===false){toast('Listener: '+nd(d.error||d.detail||`/api/listen ${r.status||'unreachable'}`),4200);return false}
+  LS.on=typeof d.on==='boolean'?d.on:typeof d.running==='boolean'?d.running:typeof d.listening==='boolean'?d.listening:!!want;
+  LS.by=LS.on?(d.started_by||'page'):null;applyListen(true);return true}
+async function micStream(on){ // only to drive the waveform from the real input level; a refusal keeps the event-driven bars
+  if(!on){if(MIC.stream)MIC.stream.getTracks().forEach(t=>{try{t.stop()}catch(e){}});if(MIC.ctx){try{MIC.ctx.close()}catch(e){}}MIC.stream=MIC.ctx=MIC.analyser=MIC.data=null;return}
+  if(MIC.stream||MIC.asking||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia)return;MIC.asking=true;
+  try{const st=await navigator.mediaDevices.getUserMedia({audio:true,video:false});if(!(LS.on&&!LS.unsupported)){st.getTracks().forEach(t=>t.stop());return}
+    const C=window.AudioContext||window.webkitAudioContext;const ctx=new C();const an=ctx.createAnalyser();an.fftSize=128;an.smoothingTimeConstant=.6;ctx.createMediaStreamSource(st).connect(an); // the analyser only reads the level: nothing goes to the speakers
+    MIC.stream=st;MIC.ctx=ctx;MIC.analyser=an;MIC.data=new Uint8Array(an.frequencyBinCount);if(ctx.state!=='running')ctx.resume().catch(()=>{});console.log('[mic] waveform follows the real input level')}
+  catch(e){console.log('[mic] no microphone for the waveform ('+((e&&e.name)||e)+'); the bars follow the events')}
+  finally{MIC.asking=false}}
+const surfUrl=x=>!x?'':typeof x==='string'?x:(x.url||x.href||x.link||x.join_url||'');
+function surfRun(x){if(!x||typeof x!=='object')return null;for(const k of ['running','up','alive','ok','on'])if(typeof x[k]==='boolean')return x[k];if(typeof x.status==='string')return /^(running|up|ok|on|live)$/i.test(x.status);return null}
+async function pollSurfaces(){if(F.as)return;const r=await fetchJ('/api/surfaces');
+  if(r.ok&&r.data&&typeof r.data==='object'){const d=r.data;LS.surf=d;LS.surfErr=null;const L=d.listen!==undefined?d.listen:d.listener!==undefined?d.listener:d.mic;
+    const on=typeof L==='boolean'?L:surfRun(L);
+    if(on!=null&&!LS.busy&&!LS.unsupported){const was=LS.on;LS.on=on;LS.by=on?((L&&L.started_by)||LS.by||'page'):null;if(was!==on)applyListen(false);else renderMic()}}
+  else LS.surfErr=`/api/surfaces ${r.status||'unreachable'}`;
+  renderJoin()}
+function renderJoin(){const d=LS.surf||{};
+  const set=(sel,x,label,dot)=>{const a=$(sel);if(!a)return;const u=surfUrl(x);if(u){a.href=u;a.removeAttribute('aria-disabled')}else{a.removeAttribute('href');a.setAttribute('aria-disabled','true')}
+    const run=surfRun(x);if(dot){const i=a.querySelector('.dot');i.className='dot'+(run===true?' run':run===false?' down':'')}
+    a.title=u?(dot?`${label}: ${run===true?'running':run===false?'not running':'status unknown'}`:label):`${label}: no link yet (${LS.surfErr||'not in /api/surfaces'})`};
+  set('#j-meet',d.meet||d.google_meet,'Join Meet');set('#j-slack',d.slack,'Slack',true);set('#j-board',d.board||d.task_board||d.taskboard||d.tasks||d.notion,'Task board',true)}
+function renderEnd(){const b=$('#endb');if(!b||F.as)return;b.classList.toggle('hidden',!((LS.on&&!LS.unsupported)||S.dec||S.concl))}
+const MEMO={md:'',from:null};
+async function endMeeting(){const b=$('#endb');if(b.disabled)return;b.disabled=true;b.textContent='Ending...';
+  const r=await postJ('/api/end',{});b.disabled=false;b.textContent='End meeting';const d=r.data||{};
+  if(!r.ok||d.ok===false){toast('End meeting: '+nd(d.error||`/api/end ${r.status||'unreachable'}`),4200);return}
+  showMemo(d);pollSurfaces()}
+function mdInline(s){return esc(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/__([^_]+)__/g,'<strong>$1</strong>')
+  .replace(/(^|[\s(])\*([^*\s][^*]*)\*(?=[\s).,;:!?]|$)/g,'$1<em>$2</em>').replace(/(^|[\s(])_([^_\s][^_]*)_(?=[\s).,;:!?]|$)/g,'$1<em>$2</em>')
+  .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>')}
+function mdToHtml(md){const lines=String(md).replace(/\r/g,'').split('\n');let out='',list=null,para=[],quote=[];
+  const fP=()=>{if(para.length){out+=`<p>${mdInline(para.join(' '))}</p>`;para=[]}},fL=()=>{if(list){out+=`<${list.t}>${list.items.map(x=>`<li>${mdInline(x)}</li>`).join('')}</${list.t}>`;list=null}},fQ=()=>{if(quote.length){out+=`<blockquote>${mdInline(quote.join(' '))}</blockquote>`;quote=[]}};
+  for(const raw of lines){const l=raw.replace(/\s+$/,'');let m;
+    if(!l.trim()){fP();fL();fQ();continue}
+    if((m=/^(#{1,6})\s+(.*)$/.exec(l))){fP();fL();fQ();const n=Math.min(3,m[1].length);out+=`<h${n}>${mdInline(m[2].replace(/\s#+$/,''))}</h${n}>`;continue}
+    if(/^\s*(---+|\*\*\*+|___+)\s*$/.test(l)){fP();fL();fQ();out+='<hr>';continue}
+    if((m=/^\s*>\s?(.*)$/.exec(l))){fP();fL();quote.push(m[1]);continue}
+    if((m=/^\s*[-*+]\s+(.*)$/.exec(l))){fP();fQ();if(!list||list.t!=='ul'){fL();list={t:'ul',items:[]}}list.items.push(m[1]);continue}
+    if((m=/^\s*\d+[.)]\s+(.*)$/.exec(l))){fP();fQ();if(!list||list.t!=='ol'){fL();list={t:'ol',items:[]}}list.items.push(m[1]);continue}
+    if(list&&/^\s{2,}\S/.test(raw)){list.items[list.items.length-1]+=' '+l.trim();continue}
+    fL();fQ();para.push(l.trim())}
+  fP();fL();fQ();return out}
+function showMemo(d){const m=d.memo;const md=String((m&&typeof m==='object'?(m.markdown||m.md||m.text):m)||d.memo_markdown||d.markdown||d.memo_md||d.md||'');MEMO.md=md;MEMO.from=document.activeElement;
+  const q=d.question||(m&&typeof m==='object'&&m.question)||(S.dec&&S.dec.text)||'';$('#memo-q').textContent=nd(q)||'This meeting';
+  $('#memo-b').innerHTML=md?mdToHtml(md):`<p><span class="na">n/a</span> /api/end answered without a memo.</p>`;$('#memo-scrim').classList.add('on');$('#memo-b').scrollTop=0;setTimeout(()=>{const c=$('#memo-copy');if(c)c.focus()},30)}
+function closeMemo(){const s=$('#memo-scrim');if(!s.classList.contains('on'))return;s.classList.remove('on');const f=MEMO.from;MEMO.from=null;if(f&&document.contains(f)&&f.focus)f.focus()}
+function copyMemo(){const t=MEMO.md||$('#memo-b').innerText;
+  const sel=()=>{let ok=false;try{const r=document.createRange();r.selectNodeContents($('#memo-b'));const s=getSelection();s.removeAllRanges();s.addRange(r);ok=document.execCommand('copy')}catch(e){}toast(ok?'Memo copied':'Memo selected. Press Cmd+C to copy.',3200)};
+  try{if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(()=>toast('Memo copied'),sel);else sel()}catch(e){sel()}}
+
+// ---------- presets: a list from the button, chips when the field is focused and empty ----------
+const PRESETS=['Who has been running the Northwind syncs in English?','Who mentors the juniors on SQL?','Who should present the pricing roadmap to the exec team?','Who can run pricing experiments with the US product team?'];
+let PRE_MODE=null;
+function presetsShow(mode){const el=$('#presets'),b=$('#pre');if(!el||!b)return;if(PRESENT)mode=null;PRE_MODE=mode;b.setAttribute('aria-expanded',mode==='list'?'true':'false');
+  if(!mode){el.className='';el.innerHTML='';el.removeAttribute('role');return}
+  el.className=mode;if(mode==='list')el.setAttribute('role','menu');else el.removeAttribute('role');
+  el.innerHTML=(mode==='list'?'<div class="k">Try an ask</div>':'')+PRESETS.map((p,i)=>`<button type="button" data-p="${i}"${mode==='list'?' role="menuitem"':''}>${esc(p)}</button>`).join('')}
+async function usePreset(i){const t=PRESETS[i];if(!t)return;presetsShow(null);const inp=$('#ask');inp.value=t;inp.dataset.text='';await submitAsk()}
+
+// ---------- activity cards: the latest three on hover (GET /api/source/<kind>?limit=3), every receipt in a CRM drawer on click ----------
+const KINDS={slack:{label:'Slack',api:'slack'},docs:{label:'Docs',api:'docs'},wcm:{label:'Sheets',api:'sheets'},sessions:{label:'Sessions',api:'sessions'}};
+const KP={cache:{},anchor:null,quiet:0};
+function rowOf(r){r=r||{};const pid=r.person_id||r.author||r.person||'';return {quote:nd(r.quote||r.excerpt||r.text||r.rendered||r.will||r.problem||''),person:nd(r.person_name||r.author_name||(typeof r.person==='string'&&r.person!==pid?r.person:'')||(pid?nameOf(pid):'')),pid,where:nd(r.where||r.channel||r.title||r.doc||r.sheet||r.label||''),date:nd(r.date||r.at||''),sid:nd(r.source_id||r.id||''),url:r.original_url||'',full:nd(r.full_text||r.text||r.rendered||r.quote||r.excerpt||'')}}
+function rowsOf(d){const a=(Array.isArray(d)?d:(d&&(d.receipts||d.items||d.rows||d.results)))||[];return a.map(rowOf)}
+async function kindRows(kind,limit,pid){const k=KINDS[kind];if(!k)return {ok:false,err:'unknown source '+kind};const key=kind+':'+limit+':'+(pid||'');if(KP.cache[key])return KP.cache[key];
+  const r=await fetchJ(`/api/source/${k.api}?limit=${limit}${pid?`&person=${encodeURIComponent(pid)}`:''}`);
+  const v=r.ok&&r.data?{ok:true,rows:rowsOf(r.data),count:(r.data.count!=null?r.data.count:r.data.total!=null?r.data.total:null)}:{ok:false,err:nd((r.data&&r.data.error)||`/api/source/${k.api} ${r.status||'unreachable'}`)};
+  if(v.ok)KP.cache[key]=v;return v}
+function placeKPop(card){const el=$('#kpop');el.classList.add('on');const r=card.getBoundingClientRect();const w=el.offsetWidth,h=el.offsetHeight;
+  const x=Math.max(8,Math.min(r.left+r.width/2-w/2,innerWidth-w-8));let y=r.top-h-8;if(y<8)y=Math.min(innerHeight-h-8,r.bottom+8);el.style.left=Math.round(x)+'px';el.style.top=Math.round(Math.max(8,y))+'px'}
+async function showKindPop(card){if(F.as||Date.now()<KP.quiet||$('#crm').classList.contains('on'))return;const kind=card.dataset.kind;if(!KINDS[kind])return;KP.anchor=card;const el=$('#kpop');const pid=S.focus&&!S.record?S.focus:'';const head=`<div class="k">${esc(KINDS[kind].label)} · latest${pid?` from ${esc(first(nameOf(pid)))}`:' receipts'}</div>`;
+  el.innerHTML=head+`<div class="r"><span class="sk" style="width:80%"></span><span class="sk" style="width:50%"></span></div>`;placeKPop(card);
+  const own=pid?fileRows(pid,kind):null;const v=own?{ok:true,rows:own}:await kindRows(kind,3,pid);if(KP.anchor!==card)return;
+  el.innerHTML=head+(v.ok?(v.rows.length?v.rows.slice(0,3).map(x=>`<div class="r"><div class="q">"${esc(x.quote)}"</div><div class="m2">${esc([x.person,x.where,x.date].filter(Boolean).join(' · '))}</div></div>`).join(''):`<div class="r"><div class="m2">No receipts from this source yet.</div></div>`):`<div class="r"><span class="na">n/a: ${esc(v.err)}</span></div>`)+`<div class="m2">Click for every receipt</div>`;placeKPop(card)}
+function fileRows(pid,kind){ // the lit person's card counts their own file: its latest three come from the same file
+  const f=S.files[pid];if(!f||!f.items||f.err)return null;return Object.values(f.items).filter(it=>it.source===kind).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||''))).map(it=>({quote:nd(itemWords(it)),person:nd(nameOf(it.author||pid)),where:nd(it.source==='docs'?(it.title||'Shared doc'):hubLabel(it,'')),date:nd(it.date||''),sid:it.id}))}
+function hideKindPop(){KP.anchor=null;const el=$('#kpop');if(el)el.classList.remove('on')}
+const CRM={kind:null,rows:[],count:0,q:'',person:'',sel:null};
+async function openCRM(kind){if(F.as||!KINDS[kind])return;hideKindPop();CRM.kind=kind;CRM.q='';CRM.sel=null;CRM.rows=[];CRM.pid=S.focus&&!S.record?S.focus:'';CRM.person='';
+  $('#crm-t').textContent=`${KINDS[kind].label} · loading`;$('#crm-n').textContent='';$('#crm-q').value='';$('#crm-p').innerHTML='';$('#crm-body').innerHTML='';$('#crm-det').classList.remove('on');$('#crm-det').innerHTML='';$('#crm-tb').classList.remove('hidden');
+  $('#crm').classList.add('on');$('#crm').setAttribute('aria-hidden','false');$('#crm-scrim').classList.add('on');setTimeout(()=>$('#crm-q').focus(),60);
+  const v=await kindRows(kind,500);if(CRM.kind!==kind)return;
+  if(!v.ok){$('#crm-t').textContent=`${KINDS[kind].label} · n/a`;$('#crm-body').innerHTML=`<tr><td colspan="4" class="none"><span class="na">n/a: ${esc(v.err)}</span></td></tr>`;return}
+  CRM.rows=v.rows.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date)));CRM.count=v.count!=null?v.count:v.rows.length;
+  const ppl=[...new Set(CRM.rows.map(r=>r.person).filter(Boolean))].sort((a,b)=>family(a).localeCompare(family(b)));const lit=CRM.pid&&CRM.rows.find(r=>r.pid===CRM.pid);CRM.person=lit?lit.person:'';
+  $('#crm-p').innerHTML=`<option value="">Everyone (${ppl.length})</option>`+ppl.map(p=>`<option value="${esc(p)}"${p===CRM.person?' selected':''}>${esc(p)}</option>`).join('');renderCRM()}
+function renderCRM(){const q=normq(CRM.q);const rows=CRM.rows.map((r,i)=>[r,i]).filter(([r])=>(!CRM.person||r.person===CRM.person)&&(!q||normq([r.quote,r.full,r.person,r.where,r.date,r.sid].join(' ')).includes(q)));
+  $('#crm-t').textContent=`${KINDS[CRM.kind].label} · ${CRM.count} receipt${CRM.count===1?'':'s'}`;$('#crm-n').textContent=rows.length===CRM.rows.length?'':`${rows.length} shown`;
+  $('#crm-body').innerHTML=rows.length?rows.map(([r,i])=>`<tr tabindex="0" data-i="${i}"><td class="dt">${esc(r.date)}</td><td class="pp">${esc(r.person)}</td><td class="wh">${esc(r.where)}</td><td class="ex"><div class="clamp">${esc(r.quote)}</div></td></tr>`).join(''):`<tr><td colspan="4" class="none">${CRM.rows.length?'No receipts match.':'No receipts from this source yet.'}</td></tr>`}
+function openRow(i){const r=CRM.rows[i];if(!r)return;CRM.sel=i;const d=$('#crm-det');
+  d.innerHTML=`<button class="act ghost" id="crm-back" type="button">Back to the list</button><div class="full">"${esc(r.full||r.quote)}"</div><dl><dt>Person</dt><dd>${esc(r.person||'n/a')}</dd><dt>Where</dt><dd>${esc(r.where||'n/a')}</dd><dt>Date</dt><dd>${esc(r.date||'n/a')}</dd><dt>Source id</dt><dd class="mono">${esc(r.sid||'n/a')}</dd></dl>${r.url?`<button class="act" id="crm-orig" type="button">Open the original</button><div class="orig hidden" id="crm-origbox"></div>`:''}`;
+  $('#crm-tb').classList.add('hidden');d.classList.add('on');$('#crm-back').addEventListener('click',closeRow);$('#crm-back').focus();
+  const ob=$('#crm-orig');if(ob)ob.addEventListener('click',()=>openOriginal(r))}
+async function openOriginal(r){const box=$('#crm-origbox');if(!box)return;box.classList.remove('hidden');box.textContent='Opening the original...'; // original_url is a route the page reads in place: GET /api/evidence/<file>, items[<id>]
+  const x=await fetchJ(r.url);const it=x.ok&&x.data&&x.data.items&&x.data.items[r.sid];if(!$('#crm-origbox'))return;
+  if(it){box.innerHTML=`<span class="eyebrow">${esc(labelOf(it)||it.id||r.sid)}</span>\n${esc(it.rendered||itemWords(it)||it.text||'')}`}else box.innerHTML=`<span class="na">n/a: ${esc(r.sid)} not in ${esc(r.url)} (${x.status||'unreachable'})</span>`}
+function closeRow(){$('#crm-det').classList.remove('on');$('#crm-tb').classList.remove('hidden');const tr=document.querySelector(`#crm-body tr[data-i="${CRM.sel}"]`);CRM.sel=null;if(tr)tr.focus()}
+function closeCRM(){if(!$('#crm').classList.contains('on'))return;const kind=CRM.kind;$('#crm').classList.remove('on');$('#crm').setAttribute('aria-hidden','true');$('#crm-scrim').classList.remove('on');CRM.kind=null;KP.quiet=Date.now()+400;
+  const c=document.querySelector(`#rcard .m[data-kind="${kind}"]`);if(c)c.focus()}
+
+function wireControls(){const inp=$('#ask');
+  $('#mic').addEventListener('click',()=>setListen(!(LS.on&&!LS.unsupported)));
+  $('#endb').addEventListener('click',endMeeting);
+  $('#j-meet').addEventListener('click',async e=>{const a=e.currentTarget;if(!a.getAttribute('href')){e.preventDefault();toast(a.title||'No Meet link yet',3200);return}
+    if(!(LS.on&&!LS.unsupported)){const ok=await setListen(true);if(!ok)return}toast('Share this tab in the call. Pik is listening.',4200)});
+  ['#j-slack','#j-board'].forEach(s=>$(s).addEventListener('click',e=>{if(!e.currentTarget.getAttribute('href')){e.preventDefault();toast(e.currentTarget.title,3200)}}));
+  $('#memo-close').addEventListener('click',closeMemo);$('#memo-copy').addEventListener('click',copyMemo);$('#memo-scrim').addEventListener('click',e=>{if(e.target.id==='memo-scrim')closeMemo()});
+  $('#pre').addEventListener('click',e=>{e.stopPropagation();const open=PRE_MODE!=='list';presetsShow(open?'list':null);if(open&&e.detail===0){const f=$('#presets button');if(f)f.focus()}});
+  $('#presets').addEventListener('pointerdown',e=>{if(e.target.closest('button'))e.preventDefault()});
+  $('#presets').addEventListener('click',e=>{const b=e.target.closest('button[data-p]');if(b){e.stopPropagation();usePreset(Number(b.dataset.p))}});
+  $('#presets').addEventListener('keydown',e=>{if(e.key!=='ArrowDown'&&e.key!=='ArrowUp')return;const its=[...$('#presets').querySelectorAll('button')];if(!its.length)return;const i=its.indexOf(document.activeElement);e.preventDefault();its[e.key==='ArrowDown'?(i+1)%its.length:(i-1+its.length)%its.length].focus()});
+  inp.addEventListener('focus',()=>{if(!inp.value.trim()&&PRE_MODE!=='list')presetsShow('chips')});
+  inp.addEventListener('input',()=>{if(inp.value.trim()){if(PRE_MODE==='chips')presetsShow(null)}else if(!PRE_MODE)presetsShow('chips')});
+  inp.addEventListener('blur',()=>setTimeout(()=>{if(PRE_MODE==='chips'&&document.activeElement!==inp&&!$('#presets').contains(document.activeElement))presetsShow(null)},150));
+  document.addEventListener('click',e=>{if(PRE_MODE==='list'&&!e.target.closest('#presets,#pre'))presetsShow(null)});
+  let hov=null;
+  document.addEventListener('mouseover',e=>{const c=e.target.closest&&e.target.closest('#rcard .m[data-kind]');if(!c||c===KP.anchor)return;clearTimeout(hov);hov=setTimeout(()=>showKindPop(c),120)});
+  document.addEventListener('mouseout',e=>{const c=e.target.closest&&e.target.closest('#rcard .m[data-kind]');if(!c||(e.relatedTarget&&c.contains(e.relatedTarget)))return;clearTimeout(hov);if(document.activeElement!==c)hideKindPop()});
+  document.addEventListener('focusin',e=>{const c=e.target.closest&&e.target.closest('#rcard .m[data-kind]');if(c)showKindPop(c)});
+  document.addEventListener('focusout',e=>{const c=e.target.closest&&e.target.closest('#rcard .m[data-kind]');if(c)hideKindPop()});
+  document.addEventListener('click',e=>{const c=e.target.closest('#rcard .m[data-kind]');if(c)openCRM(c.dataset.kind)});
+  document.addEventListener('keydown',e=>{const c=e.target.closest&&e.target.closest('#rcard .m[data-kind]');if(c&&(e.key==='Enter'||e.key===' ')){e.preventDefault();e.stopImmediatePropagation();openCRM(c.dataset.kind)}},true);
+  $('#crm-x').addEventListener('click',closeCRM);$('#crm-scrim').addEventListener('click',closeCRM);
+  $('#crm-q').addEventListener('input',e=>{CRM.q=e.target.value;renderCRM()});$('#crm-p').addEventListener('change',e=>{CRM.person=e.target.value;renderCRM()});
+  $('#crm-body').addEventListener('click',e=>{const tr=e.target.closest('tr[data-i]');if(tr)openRow(Number(tr.dataset.i))});
+  $('#crm-body').addEventListener('keydown',e=>{const tr=e.target.closest('tr[data-i]');if(tr&&(e.key==='Enter'||e.key===' ')){e.preventDefault();openRow(Number(tr.dataset.i))}});
+  document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;presetsShow(null);hideKindPop();if($('#memo-scrim').classList.contains('on')){closeMemo();return}closeCRM()});
+}
 // ---------- init ----------
 const PRESENT=F.present&&!F.as;
 function fitStage(){if(!PRESENT)return;const s=Math.min(innerWidth/1920,innerHeight/1080);const st=$('#stage');st.style.transform=`translate(${Math.round((innerWidth-1920*s)/2)}px,${Math.round((innerHeight-1080*s)/2)}px) scale(${s})`;} // the whole 1920x1080 stage, scaled to the window, centred
@@ -762,8 +1140,8 @@ async function init(){fitStage();
   if(au.ok&&au.data)S.audit=au.data;
   (S.company.candidates||[]).forEach(c=>{S.people[c.id]=Object.assign(S.people[c.id]||{},c,{seeded:true,generated:false})});
   const pl=S.company.decision&&S.company.decision.planner;if(pl&&pl.id)S.people[pl.id]=Object.assign(S.people[pl.id]||{},pl,{planner:true});
-  if(F.as){const own=await fetchJ(`/api/people/${encodeURIComponent(F.as)}`);if(own.ok&&own.data&&own.data.id)S.people[F.as]=Object.assign(S.people[F.as]||{},own.data);await fileOf(F.as);await renderSubject();renderSession();return}
-  renderHeader();renderFoot();renderGreeting();buildWave();waveMode();renderInput();if(PRESENT)loadVoice();renderSession();
+  if(F.as){const own=await fetchJ(`/api/people/${encodeURIComponent(F.as)}`);if(own.ok&&own.data&&own.data.id)S.people[F.as]=Object.assign(S.people[F.as]||{},own.data);await fileOf(F.as);await renderSubject();mountSubjectHeader();pmMount();renderSession();return}
+  pmMount();renderHeader();renderFoot();renderGreeting();buildWave();waveMode();renderInput();if(PRESENT)loadVoice();renderSession();wireControls();pollSurfaces();setInterval(pollSurfaces,5000);
   const inp=$('#ask');inp.addEventListener('keydown',e=>{if(e.key==='Enter')submitAsk()});$('#go').addEventListener('click',submitAsk);
   await buildMap();await renderRight();
   if(!F.take)await primeLive();else S.liveSince=LOADED;

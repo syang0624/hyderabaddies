@@ -3,7 +3,7 @@
 PY := .venv/bin/python
 VENV := .venv/.installed
 
-.PHONY: all setup pairs train eval ask clean
+.PHONY: all setup pairs train eval ask serve clean
 
 all: $(VENV)
 	$(MAKE) pairs
@@ -30,6 +30,11 @@ eval: $(VENV)
 # make -C finetune ask Q="Who offered to facilitate the look-back session about A/B tests on what we charge?"
 ask: $(VENV)
 	$(PY) ask.py "$(Q)"
+
+# the retriever as a local service for prototype/engine.py (opt-in there with PIK_RETRIEVER_URL); PORT=8811 by default
+PORT ?= 8811
+serve: $(VENV)
+	PORT=$(PORT) $(PY) serve.py
 
 clean:
 	rm -rf model
