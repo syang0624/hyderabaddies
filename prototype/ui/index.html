@@ -60,6 +60,13 @@
   #hdr .pill{font:400 12px/16px var(--mono);text-transform:uppercase;padding:3px 10px;border-radius:9999px;background:var(--card);box-shadow:var(--shadow);color:var(--mute);white-space:nowrap;transition:background .3s,color .3s}
   #hdr .pill.on{background:var(--lime);color:var(--ink);box-shadow:none}
   #hdr .pill.done{color:var(--ink)}
+  .idchip{display:inline-flex;align-items:center;gap:8px;font:400 12px/16px var(--mono);color:var(--body);padding:3px 10px;border-radius:9999px;background:var(--card);box-shadow:var(--shadow);white-space:nowrap}
+  .idchip b{font-weight:500;color:var(--ink)}
+  .idchip a{color:var(--body);text-decoration:none}
+  .idchip a:hover{color:var(--ink)}
+  #subject .idrow{display:flex;justify-content:flex-end}
+  #hdr #ext{font:400 12px/16px var(--mono);color:var(--mute);white-space:nowrap;min-width:0;flex:0 1 auto;overflow:hidden;text-overflow:ellipsis}
+  #hdr #idchip{flex:none}
 
   /* the network over the map */
   #panel{position:relative;flex:1;min-height:380px;background:var(--soft);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
@@ -239,6 +246,8 @@
       <span class="na hidden" id="hna"></span>
       <span class="ready" id="ready"></span>
       <span id="counts"></span>
+      <span id="ext" class="hidden"></span>
+      <span id="idchip" class="hidden"></span>
       <span class="pill" id="status">At rest</span>
     </header>
     <div id="panel">
@@ -563,7 +572,7 @@ function sortAZ(ts){return ts.slice().sort((a,b)=>family(a.name).localeCompare(f
 async function setTiles(tiles,opts={}){
   const kept=[];for(const t of tiles){if(await trustTile(t))kept.push(t);else S.drops++;}
   const need=kept.filter(t=>typeof t.confidence!=='number'&&!t.noconf);
-  if(need.length&&opts.criterion){const r=await postJ('/api/ask',{question:opts.criterion,pool:kept.map(t=>t.id),k:kept.length||3,requester:requester()});
+  if(need.length&&opts.criterion){const r=await postJ('/api/ask',{question:opts.criterion,pool:kept.map(t=>t.id),k:kept.length||3,requester:requester(),surface:'page'});
     if(r.ok&&r.data&&Array.isArray(r.data.people)){r.data.people.forEach(row=>{const t=kept.find(x=>x.id===row.id);if(t){t.confidence=row.confidence;t.asked=row.asked;t.covered=row.covered;t.missing=row.missing;if(!t.why&&row.receipts&&row.receipts[0]){t.why=row.receipts[0].text;t.source=row.receipts[0].source;t.source_id=row.receipts[0].source_id}}});
       kept.forEach(t=>{if(typeof t.confidence!=='number'&&r.data.people.length&&typeof r.data.people[0].confidence==='number'){t.confidence=0}});}}
   kept.forEach(t=>{t.criterion=opts.criterion||t.criterion;t.state=(t.confidence===0)?'back':''});
@@ -625,7 +634,7 @@ async function submitAsk(){const inp=$('#ask');if(!inp)return;const text=inp.val
 }
 async function runAsk(text,opts={}){ // a typed ask renders through the same path as the listener: heard, then a composed [question, people] document
   if(!S.doc.some(b=>b.type==='question'&&b.text===text))await applyEvent({t:Date.now()/1000,kind:'heard',text,local:true});
-  let payload=opts.payload;if(!payload){const r=await postJ('/api/ask',{question:text,requester:requester()});if(!r.ok||!r.data){toast('n/a: '+((r.data&&r.data.error)||`ask ${r.status||'unreachable'}`));pullEnd(false);return}payload=r.data}
+  let payload=opts.payload;if(!payload){const r=await postJ('/api/ask',{question:text,requester:requester(),surface:'page'});if(!r.ok||!r.data){toast('n/a: '+((r.data&&r.data.error)||`ask ${r.status||'unreachable'}`));pullEnd(false);return}payload=r.data}
   if(opts.note)headerNA(opts.note);
   const rows=(payload.people||[]).map(tileFromAsk).filter(t=>t.source_id);const doc=[{type:'question',id:'q-local',text}];
   if(rows.length)doc.push({type:'people',id:'p-local',criterion:text,tiles:rows});
@@ -702,7 +711,7 @@ async function applyEvent(e,instant){
     return}
   // legacy rows, honoured only until a composed doc has arrived in this session
   if(k==='show_candidates'){if(F.as||S.legacyIgnore)return;setStatus('Heard');S.doc=S.doc.filter(b=>b.type!=='people');if(!S.doc.some(b=>b.type==='question'))S.doc.push({type:'question',id:'legacy-q',text:e.criterion||'',instant});
-    const r=await postJ('/api/ask',{question:e.criterion||'',pool:e.ranking||[],k:(e.ranking||[]).length||3});renderInput();if(r.ok&&r.data){const rows=(r.data.people||[]).map(tileFromAsk);S.doc.push({type:'people',id:'legacy-p',criterion:e.criterion||'',tiles:rows});await setTiles(rows,{criterion:e.criterion,light:!instant});pullEnd(true)}return}
+    const r=await postJ('/api/ask',{question:e.criterion||'',pool:e.ranking||[],k:(e.ranking||[]).length||3,surface:'page'});renderInput();if(r.ok&&r.data){const rows=(r.data.people||[]).map(tileFromAsk);S.doc.push({type:'people',id:'legacy-p',criterion:e.criterion||'',tiles:rows});await setTiles(rows,{criterion:e.criterion,light:!instant});pullEnd(true)}return}
   if(k==='note'){if(F.as||S.legacyIgnore)return;if(!S.doc.some(b=>b.type==='constraint'&&b.text===e.text))S.doc.push({type:'constraint',id:'legacy-c'+hash(e.text),text:e.text,affects:[]});applyConstraints();return}
   if(k==='follow_up'){if(F.as||S.legacyIgnore)return;S.doc=S.doc.filter(b=>b.type!=='ask');S.doc.push({type:'ask',id:'legacy-a',text:e.text});setStatus('Pik asks');if(!instant)setPikLine(e.text,[]);renderInput();return}
 }
@@ -731,6 +740,13 @@ async function runTake(){
     await submitAsk();const t0=Date.now();while(!$('#confirm')&&Date.now()-t0<4000)await sleep(50);await sleep(800);const c=$('#confirm');if(c&&!c.disabled)c.click();else headerNA('n/a: draft did not appear');}
 }
 
+// ---------- session chip (renders only when a signed cookie exists; /login is optional unless PIK_AUTH=1) ----------
+async function renderSession(){const r=await fetchJ('/api/session');if(!r.ok||!r.data)return;const d=r.data;
+  if(!F.present&&d.extraction&&!F.as){const el=$('#ext');el.textContent=nd(d.extraction);el.classList.remove('hidden');}
+  if(!d.session)return;const u=d.session;S.session=u;
+  const chip=`<span class="idchip"><b>${esc(u.name)}</b><span>${esc(u.role)}</span>${u.role==='subject'?'':'<a href="/settings">Settings</a>'}<a href="/stats">Stats</a><a href="/logout">Sign out</a></span>`;
+  if(F.as){const box=$('#subject');let row=box.querySelector('.idrow');if(!row){row=document.createElement('div');row.className='idrow';box.prepend(row)}row.innerHTML=chip;}
+  else if(!F.present){const el=$('#idchip');el.innerHTML=chip;el.classList.remove('hidden');}}
 // ---------- init ----------
 const PRESENT=F.present&&!F.as;
 function fitStage(){if(!PRESENT)return;const s=Math.min(innerWidth/1920,innerHeight/1080);const st=$('#stage');st.style.transform=`translate(${Math.round((innerWidth-1920*s)/2)}px,${Math.round((innerHeight-1080*s)/2)}px) scale(${s})`;} // the whole 1920x1080 stage, scaled to the window, centred
@@ -746,8 +762,8 @@ async function init(){fitStage();
   if(au.ok&&au.data)S.audit=au.data;
   (S.company.candidates||[]).forEach(c=>{S.people[c.id]=Object.assign(S.people[c.id]||{},c,{seeded:true,generated:false})});
   const pl=S.company.decision&&S.company.decision.planner;if(pl&&pl.id)S.people[pl.id]=Object.assign(S.people[pl.id]||{},pl,{planner:true});
-  if(F.as){const own=await fetchJ(`/api/people/${encodeURIComponent(F.as)}`);if(own.ok&&own.data&&own.data.id)S.people[F.as]=Object.assign(S.people[F.as]||{},own.data);await fileOf(F.as);await renderSubject();return}
-  renderHeader();renderFoot();renderGreeting();buildWave();waveMode();renderInput();if(PRESENT)loadVoice();
+  if(F.as){const own=await fetchJ(`/api/people/${encodeURIComponent(F.as)}`);if(own.ok&&own.data&&own.data.id)S.people[F.as]=Object.assign(S.people[F.as]||{},own.data);await fileOf(F.as);await renderSubject();renderSession();return}
+  renderHeader();renderFoot();renderGreeting();buildWave();waveMode();renderInput();if(PRESENT)loadVoice();renderSession();
   const inp=$('#ask');inp.addEventListener('keydown',e=>{if(e.key==='Enter')submitAsk()});$('#go').addEventListener('click',submitAsk);
   await buildMap();await renderRight();
   if(!F.take)await primeLive();else S.liveSince=LOADED;

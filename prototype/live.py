@@ -183,7 +183,9 @@ def resolve(block: dict):
         return (b if b["text"] else None), None
     if t == "people":
         crit = (block.get("criterion") or block.get("text") or "").strip()
+        t0 = time.time()
         a = engine.ask(crit, "", None, 3, POOL)
+        engine.log_ask("meet", crit, (time.time() - t0) * 1000, a)
         def covered(ans):  # someone's OWN receipts cover at least one word of the ask (Steven's confidence field)
             return any((p.get("confidence") or 0) > 0 for p in ans["people"])
         if not covered(a):  # off the decision pool (a booth, a review, a call): ask the whole company
@@ -413,8 +415,9 @@ def pick_mic():
 async def main():
     EVENTS.write_text("")
     DOC.clear()
-    if BACKEND == "api":
-        client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])  # not the shared project; for gemini-3.8-live-extended-thinking
+    saved = engine.byok()  # /settings: a key saved there is used when LIVE_BACKEND is not set in the environment
+    if BACKEND == "api" or (os.environ.get("LIVE_BACKEND") is None and saved.get("api_key")):
+        client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY") or saved.get("api_key"))  # not the shared project; for gemini-3.8-live-extended-thinking
     else:
         client = genai.Client(vertexai=True, project=PROJECT, location=LOCATION)
     # The SDK forwards this dict to websockets.connect; a 20 s pong timeout was dropping the socket on venue Wi-Fi.

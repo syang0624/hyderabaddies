@@ -27,10 +27,10 @@ API = os.environ.get("PIK_API") or "http://localhost:8787"
 PUBLIC = (os.environ.get("PIK_PUBLIC_URL") or API).rstrip("/")  # what a link in Slack/Notion should point at (LAN ip for a phone)
 
 
-def ask(question, context="", requester=None, k=3):
+def ask(question, context="", requester=None, k=3, surface=None):
     import json
     import urllib.request
-    req = urllib.request.Request(f"{API}/api/ask", data=json.dumps({"question": question, "context": context, "requester": requester, "k": k}).encode(),
+    req = urllib.request.Request(f"{API}/api/ask", data=json.dumps({"question": question, "context": context, "requester": requester, "k": k, "surface": surface}).encode(),
                                  headers={"Content-Type": "application/json"})
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.loads(r.read())

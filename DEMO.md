@@ -55,6 +55,26 @@ On the Tickets board add a row with a Name and a Description and leave "Suggeste
 
 `http://localhost:8787`: type what matters, Enter; the map grows the same way the call does. Click a receipts-by-source card for the drawer of that person's receipts. `?as=yui` is what Yui sees: the same receipts, no other names, a note box on each line that lands on the evaluator's page before the decision is made. `curl -X POST localhost:8787/api/ask -d '{"question":"..."}'` is the whole API; every surface calls it and never ranks on its own.
 
+## Judge walkthrough, five minutes, one laptop
+
+One person, one laptop, no shared project: sign in, bring your own key, ask, read the receipts, contest a line as the person named, read the numbers.
+
+```bash
+cd prototype
+make setup                  # once, only for the Gemini path: venv + google-genai (keyword mode needs nothing)
+make run-auth               # PIK_AUTH=1 MODE=auto on http://localhost:8787; every page and API now needs a session
+```
+
+1. Open `http://localhost:8787`. It redirects to `/login`. Workspace stays "Kaede Works"; pick **Aya Nakamura, HR planner** (role: evaluator) and sign in. The page is the same one as before, with an identity chip (name, role, Settings, Stats, Sign out) and an extraction line in the header.
+2. Open **Settings** (`/settings`). Paste a Gemini API key (or switch to Vertex and give a project id and location, using the ADC of the shell that started the server). **Save**, then **Test key**: the model name, the latency and ok, or the error text. The header now reads "Extraction: gemini-3.8-flash via your key". The key lives in `prototype/state/byok.json` (git-ignored, mode 600), is read by the server at request time, and is returned masked. Without a key the header reads "keyword mode, no key" and everything still works.
+3. Back on the page, type one of these and press Enter: "Who has been running the Northwind syncs in English?" or "Who mentors the juniors on SQL?" Tiles appear only where a person's own receipts cover the words.
+4. Click a receipts-by-source card on the right: the drawer lists that person's receipts, each with its source.
+5. **Sign out** (the chip). Sign in as **Yui Sato** (role: subject). You land on `/?as=yui` and cannot leave it: the same receipts, no other names, and `/api/ask`, `/api/rank`, other people's pages and `/settings` answer 403. Open a line, type a note ("I took this so nobody had to reshuffle; it was not a request to travel."), **Add note**.
+6. Sign out, sign in as Aya again, click Yui's card: the note is on the evaluator's page, before any decision.
+7. Open **Stats** (`/stats`). Three rates, each with its formula in mono under it: **dropped-claim share** (claims dropped as unsourced or unfaithful over claims proposed, from the evidence caches; 0 in keyword mode, nonzero when Gemini proposes a quote that is not in its source), **contest rate** (notes over receipt lines shown), **asks per surface** (page, slack, notion, meet, api, with the server-side latency of each). The never-read counts come from `data/manifest.json`, never from opening the files. `make stats COOKIE=<curl cookie jar>` prints the same numbers in a terminal.
+
+Everything above is additive. With `PIK_AUTH` unset (`make run-heuristic`, `make run`), nothing asks for a session, `?as=yui` and `?present=1` behave exactly as before, and the Slack bot, the Notion watcher and the listener keep calling the same engine; they now name their surface in the ask log, nothing else changed.
+
 ## What to say when asked
 
 - Where does the data come from? Public Slack channels, shared docs, Will Can Must sheets, opted-in AI sessions, and manager notes only beside the person's own words. DMs and private channels are never opened; the audit counts them from a manifest.

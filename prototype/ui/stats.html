@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pik, stats</title>
+<style>
+  @font-face{font-family:Geist;src:url(/fonts/geist.woff2) format('woff2-variations');font-weight:100 900;font-display:swap}
+  @font-face{font-family:"Geist Mono";src:url(/fonts/geist-mono.woff2) format('woff2-variations');font-weight:100 900;font-display:swap}
+  :root{--page:#fafafa;--card:#ffffff;--soft:#f5f5f5;--ink:#171717;--body:#4d4d4d;--mute:#888888;--hair:#ebebeb;--lime:#D6F25A;--lime-deep:#bfe030;--lime-tint:#f4fbd6;--red:#ee0000;--red-soft:#f7d4d6;
+    --shadow:0 0 0 1px #00000014,0 1px 1px #00000005,0 2px 2px #0000000a;--sans:Geist,Inter,system-ui,-apple-system,sans-serif;--mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+  *{box-sizing:border-box}
+  html{background:var(--page)}
+  body{margin:0;background:var(--page);color:var(--ink);font:16px/24px var(--sans);letter-spacing:-.2px;-webkit-font-smoothing:antialiased;min-height:100vh}
+  h1,h2,p{margin:0}
+  a{color:var(--ink)}
+  .na{font:400 12px/16px var(--mono);color:var(--red)}
+  header{display:flex;align-items:center;gap:12px;height:44px;padding:32px 32px 0}
+  header .brand{font-size:20px;line-height:28px;font-weight:600;letter-spacing:-.6px}
+  header .sp{flex:1}
+  header nav{display:flex;gap:16px;font-size:14px;line-height:20px}
+  header nav a{color:var(--body);text-decoration:none}
+  header nav a.here{color:var(--ink);font-weight:500}
+  .chip{display:inline-flex;align-items:center;gap:8px;font:400 12px/16px var(--mono);color:var(--body);padding:3px 10px;border-radius:9999px;background:var(--card);box-shadow:var(--shadow);white-space:nowrap}
+  .chip a{color:inherit}
+  main{max-width:960px;margin:0 auto;padding:32px;display:flex;flex-direction:column;gap:16px}
+  .h{font-size:32px;line-height:40px;font-weight:600;letter-spacing:-1.28px}
+  .sub{font-size:16px;line-height:24px;color:var(--body)}
+  .tiles{display:flex;flex-direction:column;gap:12px}
+  .tile{background:var(--card);border-radius:12px;box-shadow:var(--shadow);border:1px solid var(--hair);padding:20px 24px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 24px;align-items:baseline}
+  .tile .k{font-size:16px;line-height:24px;font-weight:500;letter-spacing:-.32px}
+  .tile .n{font-size:32px;line-height:40px;font-weight:600;letter-spacing:-1.28px;text-align:right;white-space:nowrap}
+  .tile .n small{font-size:16px;line-height:24px;font-weight:400;color:var(--body);letter-spacing:-.2px;margin-left:6px}
+  .tile .f{grid-column:1/-1;font:400 12px/16px var(--mono);color:var(--mute);white-space:pre-wrap}
+  .tile .d{grid-column:1/-1;font-size:14px;line-height:20px;color:var(--body);display:flex;gap:6px;flex-wrap:wrap}
+  .tile .d span{background:var(--soft);border-radius:9999px;padding:2px 10px;font:400 12px/16px var(--mono);color:var(--body)}
+  .tile.red .n{color:var(--red)}
+  .tables{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:800px){.tables{grid-template-columns:1fr}}
+  .card{background:var(--card);border-radius:12px;box-shadow:var(--shadow);border:1px solid var(--hair);padding:20px 24px;display:flex;flex-direction:column;gap:12px;min-width:0}
+  .card h2{font-size:16px;line-height:24px;font-weight:500;letter-spacing:-.32px}
+  table{width:100%;border-collapse:collapse;font-size:14px;line-height:20px;table-layout:fixed}
+  th{font:400 12px/16px var(--mono);color:var(--mute);text-transform:uppercase;text-align:left;padding:0 0 8px;border-bottom:1px solid var(--hair);font-weight:400}
+  td{padding:8px 0;border-bottom:1px solid var(--hair);vertical-align:top;color:var(--body)}
+  td.n,th.n{text-align:right;font-family:var(--mono);font-size:12px;white-space:nowrap}
+  td.q{color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  td,th{overflow:hidden;text-overflow:ellipsis}
+  td.n+td,th.n+th{padding-left:12px}
+  tr:last-child td{border-bottom:0}
+  .f{font:400 12px/16px var(--mono);color:var(--mute)}
+  footer{padding:0 32px 24px;font:400 12px/16px var(--mono);color:var(--mute);display:flex;gap:24px}
+</style>
+</head>
+<body>
+<header>
+  <svg width="24" height="28" viewBox="0 0 28 32" aria-hidden="true"><path d="M14 9 C14 3 20 3 20 7" stroke="#171717" stroke-width="2.4" stroke-linecap="round" fill="none"/><ellipse cx="14" cy="21" rx="10" ry="11" fill="#171717"/><rect x="10" y="17" width="2.6" height="6" rx="1.3" fill="#D6F25A"/><rect x="15.4" y="17" width="2.6" height="6" rx="1.3" fill="#D6F25A"/></svg>
+  <span class="brand">Pik</span>
+  <nav><a href="/">Page</a><a href="/settings" id="nset">Settings</a><a href="/stats" class="here">Stats</a></nav>
+  <span class="sp"></span><span id="who"></span>
+</header>
+<main>
+  <div><div class="h">What Pik did, counted</div><p class="sub">Every number here is computed from the state files and the manifest when you load the page. Its formula is printed under it. Nothing is estimated.</p></div>
+  <div class="tiles" id="tiles"></div>
+  <div class="tables"><div class="card" id="t1"></div><div class="card" id="t2"></div></div>
+  <span class="f" id="gen"></span>
+</main>
+<footer><span>Every line carries its source</span><span>A to Z, not a rank</span></footer>
+<script>
+const $=s=>document.querySelector(s);const nd=s=>String(s==null?'':s).replace(/[\u2014\u2013]/g,'-');
+const esc=s=>nd(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const NA=w=>`<span class="na" title="${esc(w||'')}">n/a</span>`;
+const pct=x=>x==null?NA('no denominator yet'):(100*x).toFixed(1)+'%';
+const tile=(k,n,f,d,cls)=>`<div class="tile ${cls||''}"><span class="k">${esc(k)}</span><span class="n">${n}</span>${d?`<div class="d">${d}</div>`:''}<span class="f">${esc(f)}</span></div>`;
+async function load(){
+  let s=null;try{const r=await fetch('/api/stats');s=await r.json();if(!r.ok)throw new Error(s&&s.error)}catch(e){$('#tiles').innerHTML=`<div class="tile"><span class="k">Stats</span><span class="n">${NA(String(e))}</span><span class="f">/api/stats did not answer: ${esc(String(e))}</span></div>`;return}
+  try{const r=await fetch('/api/session');const d=await r.json();if(d.session){$('#who').innerHTML=`<span class="chip">${esc(d.session.name)} · ${esc(d.session.role)} <a href="/logout">Sign out</a></span>`;if(d.session.role==='subject')$('#nset').remove()}}catch(e){}
+  const F=s.formulas||{};const c=s.claims||{};const ct=s.contest||{};const a=s.asks||{};const nr=s.never_read||{};
+  const perSrc=Object.entries(s.receipts_per_source||{}).map(([k,v])=>`<span>${esc(k)} ${v}</span>`).join('');
+  const total=Object.values(s.receipts_per_source||{}).reduce((x,y)=>x+y,0);
+  const surf=Object.entries(a.by_surface||{}).map(([k,v])=>`<span>${esc(k)} ${v.asks}</span>`).join('');
+  $('#tiles').innerHTML=[
+    tile('Receipts extracted',`${total}<small>across ${(s.candidates_extracted||[]).length} people</small>`,F.receipts_per_source,perSrc||'<span>no evidence cache yet: open the page once</span>'),
+    tile('Dropped-claim share',`${pct(c.dropped_share)}<small>${c.dropped_unsourced||0} unsourced + ${c.dropped_unfaithful||0} unfaithful of ${c.proposed||0}</small>`,F.dropped_share,'',c.dropped_share?'red':''),
+    tile('Contest rate',`${pct(ct.rate)}<small>${ct.annotations||0} notes on ${ct.receipts_shown||0} lines</small>`,F.contest_rate,Object.entries(ct.by_author||{}).map(([k,v])=>`<span>${esc(k)} ${v}</span>`).join('')),
+    tile('Asks answered',`${a.total||0}<small>${Object.keys(a.by_surface||{}).length} surfaces</small>`,F.asks_per_surface,surf||'<span>none logged yet</span>'),
+    tile('Never read',`${Object.values(nr).reduce((x,y)=>x+(y.count||0),0)}<small>items</small>`,F.never_read,Object.entries(nr).map(([k,v])=>`<span>${esc(k)} ${v.count} (${esc(v.counted_from)})</span>`).join(''),'red'),
+    tile('Backend in use',`<small style="margin:0">${esc(s.backend||'')}</small>`,`MODE=${s.mode}; ${nd(s.extraction||'')}`,'')
+  ].join('');
+  const rows=Object.entries(a.by_surface||{});
+  $('#t1').innerHTML=`<h2>Asks per surface</h2><table><colgroup><col><col style="width:18%"><col style="width:24%"><col style="width:26%"></colgroup><tr><th>surface</th><th class="n">asks</th><th class="n">mean ms</th><th class="n">follow-ups</th></tr>${rows.length?rows.map(([k,v])=>`<tr><td>${esc(k)}</td><td class="n">${v.asks}</td><td class="n">${v.latency_ms_mean==null?'n/a':v.latency_ms_mean}</td><td class="n">${v.follow_ups}</td></tr>`).join(''):`<tr><td colspan="4">no asks logged yet</td></tr>`}</table><span class="f">mean ms = latency_ms_sum / asks, per surface, from state/asks.jsonl</span>`;
+  const last=a.last||[];
+  $('#t2').innerHTML=`<h2>Last ${last.length} asks</h2><table><colgroup><col style="width:22%"><col style="width:16%"><col><col style="width:12%"><col style="width:26%"></colgroup><tr><th>when</th><th>surface</th><th>question</th><th class="n">ms</th><th>top</th></tr>${last.length?last.map(r=>`<tr><td class="n">${new Date(r.t*1000).toLocaleTimeString()}</td><td>${esc(r.surface)}</td><td class="q" title="${esc(r.question)}">${esc(r.question)}</td><td class="n">${r.latency_ms}</td><td>${r.top_name?esc(r.top_name)+(r.coverage!=null?` <span class="f">${Math.round(r.coverage)}% covered</span>`:''):(r.follow_up?'<span class="f">Pik asked</span>':'none')}</td></tr>`).join(''):`<tr><td colspan="5">no asks logged yet</td></tr>`}</table><span class="f">newest first; "covered" is the top person's coverage of the asked words by their own receipts, never a score</span>`;
+  $('#gen').textContent=`computed ${new Date(s.generated_at*1000).toLocaleString()} from prototype/state/ and data/manifest.json; caches: ${Object.entries(s.caches||{}).map(([k,v])=>`${k} (${v.backend}, ${v.claims})`).join(', ')||'none'}`;
+}
+load();
+</script>
+</body>
+</html>

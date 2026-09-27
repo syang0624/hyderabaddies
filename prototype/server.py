@@ -11,12 +11,14 @@ import re
 import subprocess
 import sys
 import threading
+import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, urlencode, urlparse
 
 sys.path.insert(0, str(Path(__file__).parent))
 import engine  # noqa: E402
+import auth  # noqa: E402  (signed sessions; only enforced when PIK_AUTH=1)
 
 HERE = Path(__file__).parent
 UI = HERE / "ui"
@@ -93,6 +95,38 @@ class H(BaseHTTPRequestHandler):
         self.end_headers()
         return self.wfile.write(body)
 
+    # ---- sessions (additive: with PIK_AUTH unset and no cookie, every branch below is a no-op) ----
+    def _session(self):
+        if not hasattr(self, "_sess"):
+            self._sess = auth.from_headers(self.headers)
+        return self._sess
+
+    def _redirect(self, location, cookie=None):
+        self.send_response(302)
+        self.send_header("Location", location)
+        if cookie:
+            self.send_header("Set-Cookie", cookie)
+        self.send_header("Content-Length", "0")
+        self.end_headers()
+
+    def _gate(self, path):
+        """PIK_AUTH=1: no session -> pages go to /login, APIs get a 401 with the login path. Returns True when handled."""
+        if not auth.AUTH or auth.is_public(path) or self._session():
+            return False
+        if path.startswith("/api/"):
+            self._json({"error": "sign in first", "login": "/login"}, 401)
+        else:
+            self._redirect("/login?next=" + self.path.replace("&", "%26"))
+        return True
+
+    def _subject(self):
+        """The signed-in subject's id, or None (an evaluator, a guest, or no session)."""
+        s = self._session()
+        return s["id"] if s and s.get("role") == "subject" else None
+
+    def _page(self, name):
+        return self._text((UI / name).read_text(), "text/html; charset=utf-8")
+
     def _body(self):
         n = int(self.headers.get("Content-Length") or 0)
         try:
@@ -111,8 +145,37 @@ class H(BaseHTTPRequestHandler):
         q = parse_qs(u.query)
         p = u.path
         try:
+            if self._gate(p):
+                return
+            subj = self._subject()
             if p in ("/", "/index.html"):
-                return self._text((UI / "index.html").read_text(), "text/html; charset=utf-8")
+                if subj and q.get("as", [""])[0] != subj:  # a signed-in subject gets their own page, nothing else
+                    q2 = dict(q, **{"as": [subj]})
+                    return self._redirect("/?" + urlencode({k: v[0] for k, v in q2.items()}))
+                return self._page("index.html")
+            if p == "/login":
+                return self._page("login.html")
+            if p == "/logout":
+                return self._redirect("/login", auth.set_cookie_header(None))
+            if p == "/settings":
+                if subj:
+                    return self._json({"error": "settings are for evaluators"}, 403)
+                return self._page("settings.html")
+            if p == "/stats":
+                return self._page("stats.html")
+            if p == "/api/session":
+                s = self._session()
+                return self._json({"session": s, "auth_required": auth.AUTH, "people": auth.people(),
+                                   "extraction": engine.extraction_status(), "backend": engine.backend_name()})
+            if p == "/api/byok":
+                if subj:
+                    return self._json({"error": "settings are for evaluators"}, 403)
+                return self._json(engine.byok_public())
+            if p == "/api/stats":
+                return self._json(engine.stats())
+            if subj and (p in ("/api/people", "/api/graph", "/api/cities") or (p.startswith("/api/people/") and p.rsplit("/", 1)[1] != subj)
+                         or (p.startswith("/api/evidence/") and p.rsplit("/", 1)[1] != subj) or (p.startswith("/api/memo/") and p.rsplit("/", 1)[1] != subj)):
+                return self._json({"error": "the subject sees only their own page"}, 403)
             if p.startswith("/fonts/") and p.endswith(".woff2") and "/" not in p[7:]:
                 return self._file(UI / "fonts" / p[7:], "font/woff2")
             if p.startswith("/vendor/") and re.fullmatch(r"[A-Za-z0-9_.-]+\.(js|json)", p[8:]):
@@ -126,6 +189,8 @@ class H(BaseHTTPRequestHandler):
             if p == "/api/company":
                 c = engine.load("company.json")
                 c["backend"] = engine.backend_name()
+                if subj:
+                    q = dict(q, view=["subject"], cid=[subj])
                 if q.get("view", [""])[0] == "subject":
                     # the subject sees only themselves: no other candidates, no tag scores, no ranking
                     cid = q.get("cid", [""])[0]
@@ -171,7 +236,7 @@ class H(BaseHTTPRequestHandler):
                 cid = p.rsplit("/", 1)[1]
                 return self._text(engine.memo(cid, q.get("criterion", [None])[0]), "text/markdown; charset=utf-8")
             if p == "/api/annotations":
-                return self._json(engine.annotations())
+                return self._json([a for a in engine.annotations() if not subj or a["candidate"] == subj])
             if p == "/api/take":
                 return self._json(_take_state())
             return self._json({"error": "not found"}, 404)
@@ -184,13 +249,53 @@ class H(BaseHTTPRequestHandler):
         u = urlparse(self.path)
         p = u.path
         try:
+            if self._gate(p):
+                return
             b = self._body()
+            subj = self._subject()
+            if p == "/api/login":
+                try:
+                    s = auth.new_session(str(b.get("who") or ""), str(b.get("workspace") or "Kaede Works"))
+                except ValueError as e:
+                    return self._json({"error": str(e)}, 400)
+                body = json.dumps({"ok": True, "session": s, "next": f"/?as={s['id']}" if s["role"] == "subject" else "/"}).encode()
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json; charset=utf-8")
+                self.send_header("Set-Cookie", auth.set_cookie_header(s))
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                return self.wfile.write(body)
+            if p == "/api/logout":
+                body = b'{"ok": true}'
+                self.send_response(200)
+                self.send_header("Content-Type", "application/json; charset=utf-8")
+                self.send_header("Set-Cookie", auth.set_cookie_header(None))
+                self.send_header("Content-Length", str(len(body)))
+                self.end_headers()
+                return self.wfile.write(body)
+            if p == "/api/byok":
+                if subj:
+                    return self._json({"error": "settings are for evaluators"}, 403)
+                if b.get("clear"):
+                    return self._json(engine.clear_byok())
+                try:
+                    return self._json(engine.save_byok(str(b.get("kind") or "api"), str(b.get("api_key") or ""), str(b.get("project") or ""), str(b.get("location") or "")))
+                except ValueError as e:
+                    return self._json({"error": str(e)}, 400)
+            if p == "/api/byok/test":
+                if subj:
+                    return self._json({"error": "settings are for evaluators"}, 403)
+                return self._json(engine.test_key())
+            if subj and p in ("/api/ask", "/api/rank", "/api/chat", "/api/people", "/api/take", "/api/reset", "/api/snapshot"):
+                return self._json({"error": "the subject never sees the ask, the ranking or the records"}, 403)
             if p == "/api/rank":
                 if b.get("view") == "subject" or u.query.find("view=subject") >= 0:
                     return self._json({"error": "the subject never sees a ranking"}, 403)
                 return self._json(engine.rank(b.get("criterion", "")))
             if p == "/api/annotate":
-                return self._json(engine.annotate(b["candidate"], b["source_id"], b.get("author", "subject"), b["text"]))
+                if subj and b.get("candidate") != subj:
+                    return self._json({"error": "a note goes on your own page"}, 403)
+                return self._json(engine.annotate(b["candidate"], b["source_id"], subj or b.get("author", "subject"), b["text"]))
             if p == "/api/snapshot":
                 # dev only: the page posts a PNG data URL of itself (html2canvas) for deck stills
                 import base64, re as _re
@@ -207,10 +312,19 @@ class H(BaseHTTPRequestHandler):
                     return self._json({"error": "the subject never sees the ask"}, 403)
                 pool = b.get("pool")
                 pool = [str(x) for x in pool] if isinstance(pool, list) and pool else None
-                return self._json(engine.ask(b.get("question", ""), b.get("context", ""), b.get("requester"), int(b.get("k", 3)), pool))
+                t0 = time.time()
+                a = engine.ask(b.get("question", ""), b.get("context", ""), b.get("requester"), int(b.get("k", 3)), pool)
+                # the ask log (stats): the surface names itself; older surfaces are recognised by what they always sent
+                surface = b.get("surface") or ("notion" if b.get("requester") == "notion" else "slack" if b.get("context") == "slack" else "api")
+                engine.log_ask(str(surface), b.get("question", ""), (time.time() - t0) * 1000, a)
+                return self._json(a)
             if p == "/api/chat":
                 fn = engine.parse_command_llm if engine.MODE == "gemini" else engine.parse_command
-                return self._json(fn(b.get("text", ""), b.get("requester")))
+                t0 = time.time()
+                d = fn(b.get("text", ""), b.get("requester"))
+                if isinstance(d, dict) and d.get("intent") == "ask" and isinstance(d.get("ask"), dict):  # the page's input bar asks through here
+                    engine.log_ask(str(b.get("surface") or "page"), b.get("text", ""), (time.time() - t0) * 1000, d["ask"])
+                return self._json(d)
             if p == "/api/people":
                 try:
                     person = engine.add_person(b, b.get("requester") or b.get("by"), b.get("said"))
@@ -237,6 +351,10 @@ class H(BaseHTTPRequestHandler):
     def do_PATCH(self):
         p = urlparse(self.path).path
         try:
+            if self._gate(p):
+                return
+            if self._subject():
+                return self._json({"error": "the subject never edits the records"}, 403)
             b = self._body()
             if p.startswith("/api/people/"):
                 pid = p.rsplit("/", 1)[1]
@@ -256,6 +374,10 @@ class H(BaseHTTPRequestHandler):
         p = u.path
         q = parse_qs(u.query)
         try:
+            if self._gate(p):
+                return
+            if self._subject():
+                return self._json({"error": "the subject never edits the records"}, 403)
             b = self._body() if self.headers.get("Content-Length") else {}
             if p.startswith("/api/people/"):
                 pid = p.rsplit("/", 1)[1]
@@ -272,5 +394,5 @@ class H(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    print(f"evidence layer demo: http://localhost:{PORT}  backend={engine.backend_name()}  mode={engine.MODE}")
+    print(f"evidence layer demo: http://localhost:{PORT}  backend={engine.backend_name()}  mode={engine.MODE}  auth={'on (PIK_AUTH=1)' if auth.AUTH else 'off'}  {engine.extraction_status()}")
     ThreadingHTTPServer(("0.0.0.0", PORT), H).serve_forever()

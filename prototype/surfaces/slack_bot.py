@@ -60,7 +60,7 @@ def card(question, a):
 
 def handle(question, say, thread_ts=None):
     try:
-        a = _env.ask(question, context="slack")
+        a = _env.ask(question, context="slack", surface="slack")
     except Exception as e:  # noqa: BLE001  (engine down: say so instead of silence)
         say(username="Pik", text=f"Pik: the engine at {_env.API} is not answering ({type(e).__name__}). Start it with `make run-heuristic`.", thread_ts=thread_ts)
         return

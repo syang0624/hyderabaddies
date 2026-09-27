@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pik, sign in</title>
+<style>
+  @font-face{font-family:Geist;src:url(/fonts/geist.woff2) format('woff2-variations');font-weight:100 900;font-display:swap}
+  @font-face{font-family:"Geist Mono";src:url(/fonts/geist-mono.woff2) format('woff2-variations');font-weight:100 900;font-display:swap}
+  :root{--page:#fafafa;--card:#ffffff;--soft:#f5f5f5;--ink:#171717;--body:#4d4d4d;--mute:#888888;--hair:#ebebeb;--lime:#D6F25A;--lime-deep:#bfe030;--lime-tint:#f4fbd6;--red:#ee0000;
+    --shadow:0 0 0 1px #00000014,0 1px 1px #00000005,0 2px 2px #0000000a;--sans:Geist,Inter,system-ui,-apple-system,sans-serif;--mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+  *{box-sizing:border-box}
+  html{background:var(--page)}
+  body{margin:0;background:var(--page);color:var(--ink);font:16px/24px var(--sans);letter-spacing:-.2px;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+  h1,h2,p{margin:0}
+  button,input,select{font:inherit;color:inherit;letter-spacing:inherit}
+  a{color:var(--ink)}
+  .eyebrow{font:400 12px/16px var(--mono);color:var(--mute);text-transform:uppercase}
+  .na{font:400 12px/16px var(--mono);color:var(--red)}
+  header{display:flex;align-items:center;gap:12px;height:44px;padding:32px 32px 0}
+  header .brand{font-size:20px;line-height:28px;font-weight:600;letter-spacing:-.6px}
+  header .sp{flex:1}
+  header .pill{font:400 12px/16px var(--mono);text-transform:uppercase;padding:3px 10px;border-radius:9999px;background:var(--card);box-shadow:var(--shadow);color:var(--mute);white-space:nowrap}
+  header .pill.on{background:var(--lime);color:var(--ink);box-shadow:none}
+  main{flex:1;display:flex;align-items:center;justify-content:center;padding:32px}
+  .card{width:440px;max-width:100%;background:var(--card);border-radius:12px;box-shadow:var(--shadow);padding:28px;display:flex;flex-direction:column;gap:18px;border:1px solid var(--hair)}
+  .card h1{font-size:24px;line-height:32px;font-weight:600;letter-spacing:-.96px}
+  .card .sub{font-size:14px;line-height:20px;color:var(--body)}
+  label{display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:20px;color:var(--body)}
+  input,select{border:1px solid var(--hair);border-radius:8px;padding:8px 12px;font-size:14px;line-height:20px;background:var(--card);color:var(--ink);outline:none;-webkit-appearance:none;appearance:none}
+  input:focus,select:focus{border-color:var(--body)}
+  select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+  .role{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--soft);border-radius:8px;padding:12px 14px;font-size:14px;line-height:20px;color:var(--body)}
+  .chip{display:inline-flex;align-items:center;font:400 12px/16px var(--mono);color:var(--ink);padding:3px 10px;border-radius:9999px;background:var(--lime);white-space:nowrap}
+  .chip.mute{background:var(--card);box-shadow:var(--shadow);color:var(--body)}
+  .act{border:0;border-radius:8px;background:var(--ink);color:#f2f2f2;padding:10px 16px;font-size:14px;line-height:20px;font-weight:500;letter-spacing:-.28px;cursor:pointer}
+  .act[disabled]{opacity:.4;cursor:default}
+  .note{font:400 12px/16px var(--mono);color:var(--mute)}
+  footer{padding:0 32px 24px;font:400 12px/16px var(--mono);color:var(--mute);display:flex;gap:24px}
+</style>
+</head>
+<body>
+<header>
+  <svg width="24" height="28" viewBox="0 0 28 32" aria-hidden="true"><path d="M14 9 C14 3 20 3 20 7" stroke="#171717" stroke-width="2.4" stroke-linecap="round" fill="none"/><ellipse cx="14" cy="21" rx="10" ry="11" fill="#171717"/><rect x="10" y="17" width="2.6" height="6" rx="1.3" fill="#D6F25A"/><rect x="15.4" y="17" width="2.6" height="6" rx="1.3" fill="#D6F25A"/></svg>
+  <span class="brand">Pik</span><span class="sp"></span><span class="pill" id="pill">Sign in</span>
+</header>
+<main>
+  <form class="card" id="f" autocomplete="off">
+    <div><h1>Who is looking?</h1><p class="sub">Pik shows the same receipts to the evaluator and to the person named. Pick who you are for this walk-through.</p></div>
+    <label>Workspace<input id="ws" type="text" value="Kaede Works"></label>
+    <label>You are<select id="who"></select></label>
+    <div class="role"><span id="roletext">Evaluator: sees the ask, the receipts, the stats.</span><span class="chip" id="role">evaluator</span></div>
+    <button class="act" id="go" type="submit">Sign in</button>
+    <span class="na" id="err" hidden></span>
+    <span class="note">Signed cookie, one server run. Fictional company, fictional people. No password: this is a demo of the product, not of a login.</span>
+  </form>
+</main>
+<footer><span>Every line carries its source</span><span>A to Z, not a rank</span><span id="ext"></span></footer>
+<script>
+const $=s=>document.querySelector(s);const nd=s=>String(s==null?'':s).replace(/[\u2014\u2013]/g,'-');
+const esc=s=>nd(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let PEOPLE=[];
+async function load(){
+  let d=null;try{const r=await fetch('/api/session');d=await r.json()}catch(e){}
+  if(!d){$('#err').hidden=false;$('#err').textContent='n/a: /api/session unreachable';return}
+  PEOPLE=d.people||[];$('#ext').textContent=nd(d.extraction||'');
+  if(d.auth_required)$('#pill').classList.add('on');
+  if(d.session){$('#ws').value=d.session.workspace||'Kaede Works'}
+  $('#who').innerHTML=PEOPLE.map(p=>`<option value="${esc(p.id)}" ${d.session&&d.session.id===p.id?'selected':''}>${esc(p.name)} · ${esc(p.title)}</option>`).join('');
+  roleOf();
+}
+function roleOf(){const p=PEOPLE.find(x=>x.id===$('#who').value)||{};$('#role').textContent=p.role||'';$('#role').className='chip'+(p.role==='subject'?'':' mute');
+  $('#roletext').textContent=p.role==='subject'?'Subject: sees only their own page, can add a note on any line.':'Evaluator: sees the ask, the receipts, the stats.';}
+$('#who').addEventListener('change',roleOf);
+$('#f').addEventListener('submit',async e=>{e.preventDefault();$('#go').disabled=true;$('#err').hidden=true;
+  let d=null,ok=false;try{const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({who:$('#who').value,workspace:$('#ws').value})});ok=r.ok;d=await r.json()}catch(x){}
+  if(!ok||!d||!d.ok){$('#err').hidden=false;$('#err').textContent='n/a: '+((d&&d.error)||'login failed');$('#go').disabled=false;return}
+  const next=new URLSearchParams(location.search).get('next');location.href=(d.session.role==='subject'||!next||!next.startsWith('/'))?d.next:next;});
+load();
+</script>
+</body>
+</html>

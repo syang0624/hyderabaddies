@@ -92,7 +92,7 @@ def run_once(ds_id, title, status_kind):
         desc = text(props.get("Description", {}))
         if not name.strip():
             continue
-        a = _env.ask(name, context=desc, requester="notion")
+        a = _env.ask(name, context=desc, requester="notion", surface="notion")
         if a.get("follow_up") or not a["people"]:
             notion.pages.update(page_id=page["id"], properties={"Why": rt(f"Pik asks: {a.get('follow_up')}")})
             print(f"[{time.strftime('%H:%M:%S')}] {name!r}: asked a follow-up", flush=True)

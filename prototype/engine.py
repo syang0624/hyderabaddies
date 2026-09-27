@@ -162,21 +162,117 @@ def item_text(it):
 # ---------- LLM backend ----------
 
 _client = None
+_client_key = None  # which credentials built _client, so a new key on /settings takes effect at the next request
+
+BYOK = STATE / "byok.json"  # bring your own key; state/ is git-ignored; the key never leaves the server
+
+
+def byok():
+    """The saved credentials, or {}. Fields: kind (api|vertex), api_key, project, location, saved_at."""
+    try:
+        return json.loads(BYOK.read_text()) if BYOK.exists() else {}
+    except ValueError:
+        return {}
+
+
+def mask(key: str | None):
+    if not key:
+        return None
+    return key[:4] + "…" + key[-4:] if len(key) > 10 else "…"
+
+
+def byok_public():
+    """What a page may see: never the key."""
+    b = byok()
+    return {"kind": b.get("kind"), "key_masked": mask(b.get("api_key")), "project": b.get("project"), "location": b.get("location"),
+            "saved_at": b.get("saved_at"), "model": GEMINI_MODEL, "configured": bool(b.get("api_key") or b.get("project"))}
+
+
+def save_byok(kind: str, api_key: str = "", project: str = "", location: str = ""):
+    if kind not in ("api", "vertex"):
+        raise ValueError("kind must be api (a Gemini API key) or vertex (a project id and location)")
+    api_key, project, location = api_key.strip(), project.strip(), (location.strip() or "us-central1")
+    if kind == "api" and len(api_key) < 20:
+        raise ValueError("that does not look like a Gemini API key")
+    if kind == "vertex" and not re.fullmatch(r"[a-z][a-z0-9-]{4,29}", project):
+        raise ValueError("that does not look like a Google Cloud project id")
+    row = {"kind": kind, "api_key": api_key if kind == "api" else "", "project": project if kind == "vertex" else "",
+           "location": location if kind == "vertex" else "", "saved_at": time.time()}
+    tmp = BYOK.with_suffix(".json.tmp")
+    tmp.write_text(json.dumps(row))
+    try:
+        os.chmod(tmp, 0o600)
+    except OSError:
+        pass
+    os.replace(tmp, BYOK)
+    return byok_public()
+
+
+def clear_byok():
+    if BYOK.exists():
+        BYOK.unlink()
+    return byok_public()
+
+
+def redact(text: str) -> str:
+    """Strip the saved key from any error text before it reaches a log or a response."""
+    k = byok().get("api_key")
+    return str(text).replace(k, "***") if k else str(text)
 
 
 def gemini_client():
-    global _client
-    if _client is not None:
+    """The google-genai client, built from state/byok.json when a key is saved there (read at request time),
+    else from ADC on the Recruit project exactly as before."""
+    global _client, _client_key
+    b = byok()
+    key = ("api", b.get("api_key")) if b.get("api_key") else (("vertex", b.get("project"), b.get("location")) if b.get("project") else ("adc",))
+    if _client is not None and _client_key == key:
         return _client
     from google import genai  # type: ignore
 
-    _client = genai.Client(
-        vertexai=True,
-        project=GCP_PROJECT,
-        location=GCP_LOCATION,
-        http_options={"base_url": GCP_BASE_URL},
-    )
+    if key[0] == "api":
+        _client = genai.Client(api_key=b["api_key"])
+    elif key[0] == "vertex":
+        _client = genai.Client(vertexai=True, project=b["project"], location=b["location"] or "us-central1")
+    else:
+        _client = genai.Client(
+            vertexai=True,
+            project=GCP_PROJECT,
+            location=GCP_LOCATION,
+            http_options={"base_url": GCP_BASE_URL},
+        )
+    _client_key = key
     return _client
+
+
+def test_key():
+    """One five-token call. Returns model, latency_ms, ok, and the reply or the error text (key redacted)."""
+    t0 = time.time()
+    try:
+        client = gemini_client()
+        r = client.models.generate_content(model=GEMINI_MODEL, contents="Reply with the single word: ok",
+                                           config={"max_output_tokens": 5, "temperature": 0})
+        return {"ok": True, "model": GEMINI_MODEL, "latency_ms": int((time.time() - t0) * 1000), "text": (r.text or "").strip()[:80],
+                "via": byok_public()["kind"] or "adc"}
+    except ImportError:
+        return {"ok": False, "model": GEMINI_MODEL, "latency_ms": int((time.time() - t0) * 1000),
+                "error": "google-genai is not installed in this Python; run make setup and start with make run-auth", "via": byok_public()["kind"] or "adc"}
+    except Exception as e:  # noqa: BLE001
+        return {"ok": False, "model": GEMINI_MODEL, "latency_ms": int((time.time() - t0) * 1000),
+                "error": redact(f"{type(e).__name__}: {str(e)[:300]}"), "via": byok_public()["kind"] or "adc"}
+
+
+def extraction_status():
+    """One line for the header: which extractor answers, and whose credentials."""
+    b = byok()
+    if MODE == "heuristic":
+        return "keyword mode, key saved but MODE=heuristic" if (b.get("api_key") or b.get("project")) else "keyword mode, no key"
+    if b.get("api_key"):
+        return f"Extraction: {GEMINI_MODEL} via your key"
+    if b.get("project"):
+        return f"Extraction: {GEMINI_MODEL} via your project {b['project']}"
+    name = backend_name()
+    return f"Extraction: {GEMINI_MODEL} via ADC ({GCP_PROJECT})" if name.startswith("gemini") else "keyword mode, no key"
 
 
 def llm_json(prompt: str):
@@ -1302,3 +1398,98 @@ def file_ask(row: dict):
     with ASKS.open("a") as f:
         f.write(json.dumps(row, ensure_ascii=False) + "\n")
     return row
+
+
+# ---------- the ask log and the stats page (nothing invented: every number is computed from state/ and the manifest) ----------
+
+_ASK_LOCK = threading.Lock()
+
+
+def log_ask(surface: str, question: str, latency_ms: int, answer: dict):
+    """Append one row per /api/ask (or engine.ask from the listener) to state/asks.jsonl, beside the filed conclusions.
+    Rows carry kind="ask" so the two never mix. Never raises: a full disk must not break an answer."""
+    top = (answer.get("people") or [None])[0]
+    row = {"kind": "ask", "surface": (surface or "api")[:20], "t": time.time(), "latency_ms": int(latency_ms), "question": str(question)[:200],
+           "top": top["id"] if top else None, "top_name": top["name"] if top else None, "coverage": (top.get("confidence") if top else None),
+           "follow_up": bool(answer.get("follow_up")), "considered": answer.get("considered")}
+    try:
+        with _ASK_LOCK, ASKS.open("a") as f:
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+    except OSError as e:
+        print(f"[engine] could not log the ask: {e}")
+    return row
+
+
+def _ask_rows():
+    if not ASKS.exists():
+        return []
+    out = []
+    for line in ASKS.read_text().splitlines():
+        if line.strip():
+            try:
+                r = json.loads(line)
+            except ValueError:
+                continue
+            if r.get("kind") == "ask":
+                out.append(r)
+    return out
+
+
+def stats():
+    """Live counts from state/evidence-*.json, state/annotations.json, state/asks.jsonl and data/manifest.json."""
+    store = item_store()
+    # one evidence cache per candidate: the freshest, whichever backend wrote it
+    caches = {}
+    for f in STATE.glob("evidence-*.json"):
+        try:
+            ev = json.loads(f.read_text())
+        except ValueError:
+            continue
+        cid = ev.get("candidate")
+        if cid and (cid not in caches or ev.get("generated_at", 0) > caches[cid].get("generated_at", 0)):
+            caches[cid] = ev
+    per_source = {src: 0 for src in policy()["allowed_sources"]}
+    kept = dropped_unsourced = dropped_unfaithful = 0
+    for ev in caches.values():
+        for c in ev.get("claims", []):
+            kept += 1
+            sid = (c.get("source_ids") or [None])[0]
+            src = store.get(sid, {}).get("source") if sid else None
+            if src in per_source:
+                per_source[src] += 1
+        dropped_unsourced += int(ev.get("dropped_unsourced", 0) or 0)
+        dropped_unfaithful += int(ev.get("dropped_unfaithful", 0) or 0)
+    proposed = kept + dropped_unsourced + dropped_unfaithful
+    anns = annotations()
+    asks = _ask_rows()
+    by_surface = {}
+    for r in asks:
+        s = by_surface.setdefault(r.get("surface", "api"), {"asks": 0, "latency_ms_sum": 0, "follow_ups": 0})
+        s["asks"] += 1
+        s["latency_ms_sum"] += int(r.get("latency_ms", 0) or 0)
+        s["follow_ups"] += 1 if r.get("follow_up") else 0
+    for s in by_surface.values():
+        s["latency_ms_mean"] = round(s["latency_ms_sum"] / s["asks"]) if s["asks"] else None
+    man = manifest()
+    never = {}
+    for src, cfg in policy()["excluded_sources"].items():
+        m = man.get(cfg.get("file") or "", {}) if cfg.get("file") else {}
+        never[src] = {"count": (m.get("count") or 0) if cfg.get("file") else 0, "file": cfg.get("file"), "counted_from": "manifest" if m else "no file on disk"}
+    return {
+        "generated_at": time.time(), "backend": backend_name(), "extraction": extraction_status(), "mode": MODE,
+        "candidates_extracted": sorted(caches), "caches": {cid: {"backend": ev.get("backend"), "claims": len(ev.get("claims", []))} for cid, ev in caches.items()},
+        "receipts_per_source": per_source,
+        "claims": {"kept": kept, "dropped_unsourced": dropped_unsourced, "dropped_unfaithful": dropped_unfaithful, "proposed": proposed,
+                   "dropped_share": round((dropped_unsourced + dropped_unfaithful) / proposed, 4) if proposed else None},
+        "contest": {"annotations": len(anns), "receipts_shown": kept, "rate": round(len(anns) / kept, 4) if kept else None,
+                    "by_author": {a: len([x for x in anns if x.get("author") == a]) for a in sorted({x.get("author") for x in anns})}},
+        "asks": {"total": len(asks), "by_surface": by_surface, "last": sorted(asks, key=lambda r: r.get("t", 0))[-10:][::-1]},
+        "never_read": never,
+        "formulas": {
+            "receipts_per_source": "claims kept in state/evidence-<id>-*.json (freshest cache per person), grouped by the source of their first source id",
+            "dropped_share": "(dropped_unsourced + dropped_unfaithful) / (kept + dropped_unsourced + dropped_unfaithful), summed over the same caches",
+            "contest_rate": "rows in state/annotations.json / claims kept (each kept claim is one receipt line the subject can contest)",
+            "asks_per_surface": "rows with kind=ask in state/asks.jsonl grouped by surface; latency is the server-side ms per /api/ask",
+            "never_read": "counts from data/manifest.json for policy.json excluded_sources; the files are never opened by the evidence path",
+        },
+    }

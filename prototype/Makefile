@@ -7,7 +7,7 @@ PORT ?= 8787
 ADC ?= $(firstword $(wildcard $(HOME)/.config/carl-life-os/gcloud-tmuc/application_default_credentials.json $(HOME)/.config/gcloud/application_default_credentials.json))
 export GOOGLE_APPLICATION_CREDENTIALS ?= $(ADC)
 
-.PHONY: setup run run-heuristic run-gemini test reset open smoke live live-sim video-mode warm manifest people ask slack notion take take-meet take-crud live-script people-reset people-log graph
+.PHONY: setup run run-heuristic run-gemini run-auth stats test reset open smoke live live-sim video-mode warm manifest people ask slack notion take take-meet take-crud live-script people-reset people-log graph
 
 setup:            ## one-time: venv + google-genai + sounddevice (Gemini mode and the live layer)
 	$(PY) -m venv $(VENV) && $(PIP) -q install --upgrade pip google-genai sounddevice slack_bolt notion-client
@@ -47,6 +47,12 @@ run-heuristic:    ## no network, no credentials, deterministic
 
 run-gemini:       ## force Gemini on Vertex; fails loudly if creds/quota are missing
 	PORT=$(PORT) MODE=gemini $(PYV) server.py
+
+run-auth:         ## the judge walkthrough: sign-in required (PIK_AUTH=1), bring your own key on /settings, /stats; auto backend (Gemini via your key or ADC, else keyword)
+	PIK_AUTH=1 PORT=$(PORT) MODE=auto $(if $(wildcard $(PYV)),$(PYV),$(PY)) server.py
+
+stats:            ## the numbers behind /stats, from the state files (against a running server; with PIK_AUTH=1 pass COOKIE=<cookie file from curl -c>)
+	curl -sf $(if $(COOKIE),-b $(COOKIE)) localhost:$(PORT)/api/stats | $(PY) -c 'import sys,json;d=json.load(sys.stdin);c=d["claims"];t=d["contest"];print("backend:",d["backend"],"|",d["extraction"]);print("receipts per source:",d["receipts_per_source"]);print("dropped share:",c["dropped_share"],"=",c["dropped_unsourced"],"+",c["dropped_unfaithful"],"/",c["proposed"]);print("contest rate:",t["rate"],"=",t["annotations"],"/",t["receipts_shown"]);print("asks per surface:",{k:v["asks"] for k,v in d["asks"]["by_surface"].items()});print("never read:",{k:v["count"] for k,v in d["never_read"].items()})' || echo "make stats: /api/stats did not answer (server down, or PIK_AUTH=1 without COOKIE=)"
 
 reset:            ## clear cached evidence, ranking and annotations
 	rm -f state/*.json
