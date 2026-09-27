@@ -51,6 +51,9 @@ def main():
                 return {name: s.dataset.name || s.id, label: (s.querySelector('.prog')||{}).textContent || '',
                         title: h1 ? h1.textContent.trim() : '', w: r.width, h: r.height,
                         tbd: (s.innerText.match(/\\[TBD[^\\]]*\\]/g) || []),
+                        words: (() => { const m = s.querySelector('.m').cloneNode(true); m.querySelectorAll('aside,canvas,svg,.formulas,.src').forEach(e => e.remove()); const t = m.innerText.replace(/\\s+/g, ' ').trim(); return t ? t.split(' ').length : 0 })(),
+                        srcLen: (s.querySelector('.src') || {textContent: ''}).textContent.length,
+                        srcOver: (() => { const e = s.querySelector('.src'); return e ? e.scrollWidth > e.clientWidth + 1 : false })(),
                         steps: [...s.querySelectorAll('.notes p')].map(p => ({n: +p.dataset.step, text: p.textContent.trim()}))}
             })"""
         )
@@ -80,13 +83,17 @@ def main():
                 out.append(f"*{s['title']}*")
             out.append("")
             for st in s["steps"]:
-                cue = "On arrival" if st["n"] == 0 else f"Keypress {st['n']}"
+                cue = "On arrival" if st["n"] == 0 else ("Judges" if st["n"] == 99 else f"Keypress {st['n']}")
                 out.append(f"- **{cue}.** {st['text']}")
             out.append("")
         (HERE / "NOTES.md").write_text("\n".join(out), encoding="utf-8")
 
     tbd = [(s["name"], s["tbd"]) for s in info if s["tbd"]]
     print(f"slides: {len(files)}  pdf: {a.pdf}  pages: {len(ims)}  size: {size/1e6:.1f} MB  pngs: {png_dir}")
+    print("visible words per slide (title included; source line, formula lines and canvas text excluded):")
+    for s in info:
+        flag = "  SOURCE LINE OVERFLOWS" if s["srcOver"] else ""
+        print(f"  {s['label'] or s['name']:>10}  {s['name']:<28} {s['words']:>4} words   src {s['srcLen']:>3} chars{flag}")
     for name, t in tbd:
         print(f"[TBD] still on slide {name}: {t}")
     if errors:

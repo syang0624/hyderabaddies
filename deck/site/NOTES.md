@@ -6,82 +6,93 @@ Keys: Right or Space = next build step, then next slide. Left = back. N = notes 
 ## 01 / 10: Title
 *Who is the best person for this? Answered from what people actually did, with the receipt attached.*
 
-- **On arrival.** Say the name once: P, I, K. Then the one line: who is the best person for this, answered from what people actually did, with the receipt attached. Do not explain more here; the next slide carries the story.
+- **On arrival.** Say the name once: P, I, K. Then the one line: who is the best person for this, answered from what people actually did, with the receipt attached. Nothing more here.
+- **Judges.** To Jim (Indeed): “answered from what people actually did” is skills-first, inside how work gets done. To Robert (Glassdoor): “with the receipt attached” means the person named sees it too. To Damien (Google Cloud): everything you will see runs on Vertex AI, Gemini 3.8 Flash and Live. To Ho Joon (OpenAI): the safeguard comes first: nobody is scored.
 
 ## 02 / 10: Problem
-*At Recruit Holdings, AI is dissolving job categories, yet who does what next is still decided from a sheet, a paraphrase and memory.*
+*At Recruit Holdings, who does what is decided from memory, as AI dissolves the roles.*
 
 - **On arrival.** Read the title as one breath. Five roles sit on the right: HR planner, engineer, designer, product manager, sales.
-- **Keypress 1.** Build 1: the five roles dissolve into one lime blob, “one task force, per task”. Say: with AI, an HR person ships software and an engineer runs an HR process. Teams form per task, so the question becomes who has actually done this, and with what capacity.
-- **Keypress 2.** Build 2, Who: the deciders and the decided-about. Placement, promotion, the exchange slot, the mentor pick.
-- **Keypress 3.** Build 3, What: an HR leader told us there is no metric for will and matching runs on human intuition. A product leader with 30 to 40 people builds a deck of the past year himself. The evidence is produced as people work and could back up or correct a decision made from a 1:1.
-- **Keypress 4.** Build 4, Why now: the same HR leader expects AI to break down job categories; teams must form around who really wants and can do the task. 80.9% of employees in Japan already use AI at work (Recruit Management Solutions, survey Jan 2026, n=1,429). In the notes only: 63% of work already falls outside core job descriptions (Deloitte 2022, n=1,021). Hours of interviews, leadership and individual contributors, agree.
-- **Keypress 5.** Build 5, Why options fall short: AI skill tags drift and still end in intuition. The Slack and document evidence goes unused because a one-sided use would be unaccountable to the employee, “really creepy” in the HR leader’s words. 360 free text goes unanswered; checkbox self-reports are hated. A tool forced on everyone at once fails, so the answer has to live inside the tools already in use.
+- **Keypress 1.** Keypress 1, Who: HR and line managers deciding placement, promotion, the exchange slot and the mentor pick, and the people decided about.
+- **Keypress 2.** Keypress 2, What: an HR leader told us there is no metric for will and matching runs on human intuition. A product leader with 30 to 40 people builds a deck of the past year himself. The evidence is produced as people work and could back up or correct a decision made from a 1:1.
+- **Keypress 3.** Keypress 3, Why now: the roles dissolve into one lime blob, “one task force, per task”. With AI, an HR person ships software and an engineer runs an HR process; the same HR leader expects AI to break down job categories, so teams must form around who really wants and can do the task. 80.9% of employees in Japan already use AI at work (Recruit Management Solutions, survey Jan 2026, n=1,429). Notes only: 63% of work already falls outside core job descriptions (Deloitte 2022, n=1,021). Hours of interviews, leadership and individual contributors, agree.
+- **Keypress 4.** Keypress 4, Why current options fall short: AI skill tags drift and still end in intuition. The Slack and document evidence goes unused because a one-sided use would be unaccountable to the employee, “really creepy” in the HR leader’s words. 360 free text goes unanswered; checkbox self-reports are hated. A tool forced on everyone at once fails, so the answer has to live inside the tools already in use.
+- **Judges.** To Jim: “teams form around who can do the task” is skills-first staffing, a workflow he has run at scale. To Robert: the evaluated build their own case because information is one-sided; that asymmetry is the problem. To Damien: 80.9% AI use at work is why this must run inside the tools people already use, on the customer’s cloud. To Ho Joon: the failure mode is a wrong AI output (a drifting skill tag) driving a people decision.
 
 ## 03 / 10: Inspiration
 *The evidence already exists. What was missing is a page the employee can see too.*
 
 - **On arrival.** Title only. Pause on “a page the employee can see too”; that is the whole product in one clause.
-- **Keypress 1.** Build 1, observed: the evaluated side rebuilds the evidence by hand every cycle. The evaluator side burns 4 or 5 days a quarter pitching people from memory (his own past organisations, not a Recruit figure).
-- **Keypress 2.** Build 2, revealed: read the Japanese first, then the English. The company could legally read its own Slack and still would not. Accountability and transparency toward the employee is the blocker, not the data and not the law.
-- **Keypress 3.** Build 3, unlock: leaders keep their own rules of evaluation, so a vendor’s score is rejected first. Pik borrows the customer’s rubric and adds only provenance: the same receipts, the same page, both sides.
+- **Keypress 1.** Keypress 1, observed: the evaluated side rebuilds the evidence by hand every cycle. The evaluator side too: a former leader of 150 engineers ran a calibration room, 5 to 10 managers pitching 150 people from memory, “easily 4 or 5 days per quarter” (his own past organisations, not a Recruit figure).
+- **Keypress 2.** Keypress 2, revealed: the head of HR, in Japanese: 「理屈上は使えます。説明責任、透明性。」 In theory we can use it; accountability, transparency. The company could legally read its own Slack and still would not. The blocker is accountability and transparency toward the employee, not the data and not the law.
+- **Keypress 3.** Keypress 3, unlock: leaders keep their own rules of evaluation, so a vendor’s score is rejected first. Pik borrows the customer’s rubric and adds only provenance: the same receipts, the same page, both sides.
+- **Judges.** To Jim: the third quote: leaders keep their own rules, so Pik borrows the rubric instead of imposing one. To Robert: the first quote is information the boss did not see; the fix is a page the employee sees too, his company’s thesis. To Damien: the second quote is why the deployment must be inside the customer’s own project: accountability, not data access, is the blocker. To Ho Joon: symmetry is the safeguard, not a policy document: the person named can contest a line.
 
 ## 04 / 10: Solution
 *Pik answers who is best for this, where you ask, with the receipt attached.*
 
-- **On arrival.** Title, then click the video (it plays with sound; click again to pause). 90 seconds: the Meet, the Slack thread, the Notion ticket, the page. Let it run to the end line.
-- **Keypress 1.** Build 1, who it is for: three people around one decision. The lead who forms the task force, the HR planner who staffs it, and the person named, who sees the same page.
-- **Keypress 2.** Build 2, step 1: nothing new to open. The question is asked in the Meet, in Slack, on the ticket.
-- **Keypress 3.** Build 3, step 2: the answer is a person plus the verbatim receipt with its source. Allowed sources only.
-- **Keypress 4.** Build 4, step 3: the person named sees the same receipts, no other names, and can add a note to any line before the decision is made.
+- **On arrival.** Title. Then click the video (it plays with sound; click again to pause). 90 seconds: the Meet, the Slack thread, the Notion ticket, the page. Let it run to the end line.
+- **Keypress 1.** Keypress 1: the camera leans into the Meet still: Pik is a participant, presenting a page while people talk.
+- **Keypress 2.** Keypress 2, who it is for: three people around one decision. The lead who forms the task force, the HR planner who staffs it, and the person named, who sees the same page.
+- **Keypress 3.** Keypress 3, step 1: nothing new to open. The question is asked in the Meet, in Slack, on the ticket.
+- **Keypress 4.** Keypress 4, step 2: the answer is a person plus the verbatim receipt with its source. Allowed sources only.
+- **Keypress 5.** Keypress 5, step 3: the person named sees the same receipts, no other names, and can add a note to any line before the decision is made.
+- **Judges.** To Jim: no new system to log into; the answer lands in Meet, Slack and the ticket board. To Robert: step 3, the person named sees the same page and can answer first. To Damien: the Meet listener is Gemini 3.8 Live on Vertex AI calling one tool; the screen reacts in about a second. To Ho Joon: the model only extracts and calls tools; it never names a person the engine did not return with a source.
 
 ## 05 / 10: What changes
 *Workers do the work.*
 
 - **On arrival.** Dark slide, empty. Three lines, three keypresses. Say each line once, then stop.
-- **Keypress 1.** Build 1: workers do the work. No self-report, no deck at review time.
-- **Keypress 2.** Build 2: managers decide from receipts, in their own rubric.
-- **Keypress 3.** Build 3: nobody is scored. Coverage of the ask, never a number about a person.
+- **Keypress 1.** Keypress 1: workers do the work. No self-report, no deck at review time.
+- **Keypress 2.** Keypress 2: managers decide from receipts, in their own rubric.
+- **Keypress 3.** Keypress 3: nobody is scored. Coverage of the ask, never a number about a person.
+- **Judges.** To Jim: line 1 is the productivity claim: proving your work stops being a second job. To Robert: line 2, decisions from receipts the person can see. To Damien: the receipts are extracted by Gemini 3.8 Flash and verified in code. To Ho Joon: line 3 is the safeguard, said in three words.
 
 ## 06 / 10: Impact
 
-- **On arrival.** Empty on arrival. One number, then the rings, then two lines.
-- **Keypress 1.** Build 1: the number counts up to 51.2%. Recruit’s own 2023 survey of 2,761 HR staff: half say the way people are placed and transferred needs rethinking, and the top reason is a mismatch between people’s skills and the work they are given. Of those who see the need, 50.9% have not acted yet. This is Recruit’s own measurement of the problem Pik answers.
-- **Keypress 2.** Build 2: the rings grow. TAM: talent management software, $11.3B in 2025 (Fortune Business Insights). SAM: Japan’s HRTech cloud market, ¥138.5B in FY2024 (MIC Research), about $0.92B at an assumed ¥150 per dollar; say the rate is an assumption. SOM, bottom-up: Recruit Holdings’ 45,586 employees times $8 per seat per month times 12, about $4.4M a year; Japan only, Recruit Co., Ltd.’s 12,709 employees, about $1.2M a year. $8 is Lattice’s public Goals price; its list runs $4 to $10. The rings are not to scale.
-- **Keypress 3.** Build 3: the outcome. After an internal move, 75% are still there at two years versus 56% without one (LinkedIn Workplace Learning Report 2023; the percentages are chart values, the report’s text says “a greater chance of staying”). And the 2026 version of the problem, from a Recruit group company: 41.2% of HR managers say putting the right person in the right place is hard (Recruit Management Solutions, Feb 2026, n=335).
+- **On arrival.** Opens close on the number, still at zero.
+- **Keypress 1.** Keypress 1: the number counts up to 51.2%. Recruit Co., Ltd.’s own 2023 survey of 2,761 HR staff at companies with 30 or more employees, surveyed 2023-03-29 to 03-31: half say the way people are placed and transferred needs rethinking, and the top reason is a mismatch between people’s skills and the work they are given. Of those who see the need, 50.9% have not acted yet. Recruit’s own measurement of the problem Pik answers.
+- **Keypress 2.** Keypress 2: the camera pulls back and the rings grow. TAM: talent management software, $11.3B in 2025 (Fortune Business Insights). SAM: Japan’s HRTech cloud market, ¥138.5B in FY2024 (Deloitte Tohmatsu MIC Research), about $0.92B at an assumed ¥150 per dollar; say the rate is an assumption. SOM, bottom-up: Recruit Holdings’ 45,586 employees (2026-03-31, S&P Global) times $8 per seat per month times 12, about $4.4M a year; Japan only, Recruit Co., Ltd.’s 12,709 employees (2026-04-01), about $1.2M a year. $8 is Lattice’s public Goals price; its list runs $4 to $10. The rings are not to scale.
+- **Keypress 3.** Keypress 3: the outcome. After an internal move, 75% are still there at two years versus 56% without one (LinkedIn Workplace Learning Report 2023; the percentages are chart values, the report’s text says “a greater chance of staying”). The 2026 version of the problem, from a Recruit group company: 41.2% of HR managers say putting the right person in the right place is hard (Recruit Management Solutions, Feb 2026, n=335).
+- **Judges.** To Jim: the outcome line is retention after an internal move; Indeed’s own Hiring Lab reports 46% of skills in a typical posting face hybrid transformation by GenAI. To Robert: 51.2% is HR itself saying placement needs rethinking; the person named seeing the same page is the mechanism for satisfaction with a transfer (only about half of Japanese workers are satisfied with their last one, Recruit Management Solutions 2024). To Damien: SOM is priced per seat inside the customer’s Google Cloud project. To Ho Joon: the pilot metrics that go with this number are dropped-claim share and contest rate.
 
 ## 07 / 10: Different
-*Score tools grade you in secret. Pik shows the receipt to both sides.*
+*Score tools grade in secret. Pik shows both sides the receipt.*
 
 - **On arrival.** Title only. Do not lead with privacy; lead with what the person sees.
-- **Keypress 1.** Build 1: the field. Lattice scores from typed reviews and surveys. Microsoft retired Delve on 2024-12-16 (“already available and improved” in profile cards) and Viva Topics on 2025-02-22; People Skills, GA mid-2025, infers skills and lets the employee confirm or reject a tag, the closest cousin, but a tag is not the evidence. Workday, Gloat and Eightfold rank profiles; Eightfold’s match score runs 0 to 5. The Japanese talent databases are filled in by HR.
-- **Keypress 2.** Build 2: Pik reads what people wrote and did in allowed sources, computes coverage of the ask rather than a score, and shows the person named the same page.
-- **Keypress 3.** Build 3: hard to copy, never impossible. A score product would have to unwind its own output to match this; the rest is the customer’s data access and the customer’s rubric.
+- **Keypress 1.** Keypress 1: the field, on two axes: what the tool reads (typed profiles or what people actually did) and what the person named sees (a score about them or the same page). Lattice scores typed reviews and surveys, $4 to $10 per seat per month. Kaonavi, Talent Palette and SmartHR are databases filled in by HR; Talent Palette ranks placements by match degree. Workday, Gloat and Eightfold rank profiles; Eightfold’s match score runs 0 to 5. Glean ranks experts from documents, opaquely, and gives the person no page. Microsoft retired Delve on 2024-12-16 (“already available and improved” in profile cards) and Viva Topics on 2025-02-22; People Skills, GA 2025, infers skill tags the employee confirms or rejects, the closest cousin, but a tag is not the evidence.
+- **Keypress 2.** Keypress 2: Pik, alone in the top right: what people wrote and did, coverage of the ask instead of a score, the same page for the person named.
+- **Keypress 3.** Keypress 3: hard to copy, never impossible. A score product would have to unwind its own output; the rest is the customer’s own data access and the customer’s own rubric.
+- **Judges.** To Jim: asked directly: this is not Smart Screening pointed inward; there is no fit score. To Robert: the vertical axis is his: what the person sees. To Damien: People Skills lives only inside Microsoft 365; Recruit’s Japan side runs on Google Workspace and Slack, where Pik lives. To Ho Joon: wrong claims are dropped visibly, never hidden inside a score.
 
 ## 08 / 10: Technical design
-*The model extracts and cites. Software checks the quote against the source. A human decides.*
+*The model extracts and cites. Software checks the quote. A human decides.*
 
-- **On arrival.** Title only: the model extracts and cites, software checks the quote against the source, a human decides. Six keypresses draw the pipeline left to right.
-- **Keypress 1.** Build 1, sources: public Slack channels, shared documents, Will Can Must sheets, manager notes (only beside the person’s own words), opted-in AI sessions. Below, in red: direct messages and private channels are never opened.
-- **Keypress 2.** Build 2, policy gate: an allowlist, a purpose lock (one named decision), opt-in for sessions.
-- **Keypress 3.** Build 3, extractor and validator: Gemini 3.8 Flash on Vertex AI returns one claim as a source id plus a verbatim quote. Software checks that the quote is actually in that source; if not, the claim is dropped and the drop is counted.
-- **Keypress 4.** Build 4, receipt store and the one API: POST /api/ask with a question is the whole API. Every surface calls it; none ranks on its own.
-- **Keypress 5.** Build 5, surfaces: the Meet listener on Gemini 3.8 Live, the Slack bot, the Notion watcher, and the page with its evaluator view and subject view.
-- **Keypress 6.** Build 6, the red path: DMs and private channels go straight to the audit as a count from a manifest (file, count, hash). Never opened. Stack line at the bottom is the real stack.
+- **On arrival.** Title only: the model extracts and cites, software checks the quote against the source, a human decides. Six keypresses; the camera follows the pipeline left to right and pulls back at the end.
+- **Keypress 1.** Keypress 1, sources (camera on the left column): public Slack channels, shared documents, Will Can Must sheets, manager notes (only beside the person’s own words), opted-in AI session summaries.
+- **Keypress 2.** Keypress 2, the gate: an allowlist of sources, a purpose lock (the page exists for one named decision), opt-in for AI sessions.
+- **Keypress 3.** Keypress 3, extractor and validator, the point of the slide: Gemini 3.8 Flash on Vertex AI returns one claim as a source id plus a verbatim quote. Software checks that the quote is actually in that source; if not, the claim is dropped and the drop is counted.
+- **Keypress 4.** Keypress 4, the receipt store and the one API: POST /api/ask with a question is the whole API. Every surface calls it; none ranks on its own.
+- **Keypress 5.** Keypress 5, surfaces: the Meet listener on Gemini 3.8 Live, the Slack bot, the Notion watcher, and the page with its evaluator view and subject view.
+- **Keypress 6.** Keypress 6, the red path (camera pulls back): direct messages and private channels are never opened; the audit counts them from a manifest (file, count, hash). The stack line at the bottom is the real stack: Python 3 standard library server, one HTML page with d3, google-genai on Vertex AI, sounddevice, slack_bolt, notion-client.
+- **Judges.** To Jim: the policy gate and the validation are code, not prompts. To Robert: the page has a subject view that is server-scoped to the person named. To Damien: Gemini 3.8 Flash for extraction and Gemini 3.8 Live for the meeting, both on Vertex AI inside the customer’s project, tool calls only. To Ho Joon: the model extracts and cites, software verifies, a human decides; the dropped-claim count is the safeguard made visible.
 
 ## 09 / 10: Roadmap
-*Recruit first. Then every floor where the question is who has done this.*
+*Recruit first. Then every floor that asks who has done this.*
 
-- **On arrival.** Title, then the map builds in three keypresses. Under 75 words on the slide; the evidence is here.
-- **Keypress 1.** Build 1, Japan lights: a pilot with one HR team in Japan, one decision type, the customer’s own rubric and taxonomy. Measured on one real cycle: dropped-claim share, contest rate, evaluator minutes.
-- **Keypress 2.** Build 2, the verticals: hospitals, where surgeon volume predicts outcomes (Birkmeyer et al., NEJM 2003, 474,108 Medicare patients, eight procedures: surgeon volume was inversely related to operative mortality for all eight); airlines, where crew scheduling has to respect aircraft-type qualifications and currency; architecture, engineering and construction, where firms report a staffing crisis (Deltek Clarity A&E study, 43rd edition, 2022: 43% of firms named hiring more staff a top initiative) and every proposal asks who here has done a hospital or a bridge before.
-- **Keypress 3.** Build 3, North America: Recruit’s own network into the Western market through Indeed and Glassdoor. The group that built the outside marketplace has no equivalent for the inside.
+- **On arrival.** Title, then the map builds in three keypresses with the camera on each place, and pulls back on the fourth.
+- **Keypress 1.** Keypress 1, Japan lights: a pilot with one HR team in Japan, one decision type, the customer’s own rubric and taxonomy. Measured on one real cycle: dropped-claim share, contest rate, evaluator minutes.
+- **Keypress 2.** Keypress 2, the verticals: hospitals, where surgeon volume predicts outcomes (Birkmeyer et al., NEJM 2003, 474,108 Medicare patients, eight procedures: surgeon volume was inversely related to operative mortality for all eight); airlines, where crew scheduling has to respect aircraft-type qualifications and currency; architecture, engineering and construction, where firms report a staffing crisis (Deltek Clarity A&E study, 43rd edition, 2022: 43% of firms named hiring more staff a top initiative) and every proposal asks who here has done a hospital or a bridge before.
+- **Keypress 3.** Keypress 3, North America: Recruit’s own words are “Skills-First Hiring”, evaluating people on skills gained through past experience; Pik is that idea pointed inward, and Indeed and Glassdoor are the route west. The group that built the outside marketplace has no equivalent for the inside.
+- **Keypress 4.** Keypress 4: the camera pulls back to the whole map, everything lit.
+- **Judges.** To Jim: “Skills-first hiring” on the long-term line is Recruit’s own strategy phrase from the FY2024 annual report. To Robert: Glassdoor is named as the route west; the contest rate is a milestone. To Damien: the pilot replaces fixtures with connectors to the customer’s exports, inside their project. To Ho Joon: the invariants (no score, both sides, verified quotes) hold before any scale.
 
 ## 10 / 10: End
 *Because the future of your work depends on who you Pik.*
 
 - **On arrival.** Dark. One keypress.
-- **Keypress 1.** Build 1: the line, once. “Because the future of your work depends on who you Pik.” Then thank them and stop. The repo is on the slide for the Q&A.
+- **Keypress 1.** Keypress 1: the line, once. “Because the future of your work depends on who you Pik.” Then thank them and stop. The repo is on the slide for the Q&A.
+- **Judges.** To Jim and Robert: the repo is public; what is live and what is templated is in the appendix. To Damien: it runs today on Vertex AI in our project. To Ho Joon: disclosure of what is live versus templated is on A4.
 
 ## Appendix: Appendix
 *Appendix*
@@ -91,51 +102,61 @@ Keys: Right or Space = next build step, then next slide. Left = back. N = notes 
 ## A1 / A10: A1 Data policy
 *What Pik reads, and what it never reads.*
 
-- **On arrival.** Where does the data come from? Public Slack channels, shared docs, Will Can Must sheets, opted-in AI sessions, and manager notes only beside the person’s own words. DMs and private channels are never opened; the audit counts them from a manifest.
+- **On arrival.** Where does the data come from? Public Slack channels, shared docs, Will Can Must sheets, opted-in AI sessions, and manager notes only beside the person’s own words. DMs and private channels are never opened; the audit counts them from a manifest: file, count, hash. Every add, edit or removal of a person record is logged: who asked, what they said, what changed.
+- **Judges.** To Jim: Will Can Must is Recruit’s own sheet; Pik reads what people already fill in. To Robert: manager notes are shown beside the person’s own words, never instead of them. To Damien: the allowlist is enforced in the customer’s project, nothing leaves. To Ho Joon: the manifest count of what was never read is part of the audit.
 
 ## A2 / A10: A2 Is that a score?
 *No. It is coverage of the ask by a person’s own receipts.*
 
-- **On arrival.** Is that a score? No. “2 of 7 words have a receipt” is coverage of the ask by that person’s own receipts, never sorted by, never shown to the person as a rank.
+- **On arrival.** Is that a score? No. “2 of 7 words have a receipt” is coverage of the ask by that person’s own receipts, never sorted by, never shown to the person as a rank. It changes with the ask, not with the person.
+- **Judges.** To Jim: coverage is per ask, so there is no standing profile to game. To Robert: the person is never shown a number about themselves. To Damien: the computation is deterministic code over the model’s cited claims. To Ho Joon: this is the design decision that removes the ranking incentive from the model.
 
 ## A3 / A10: A3 What if it is wrong?
 *The person sees the same page and can contest a line before the decision.*
 
-- **On arrival.** What if it is wrong? The person sees the same page and can contest a line before the decision. A claim whose quote is not in its source is dropped and counted.
+- **On arrival.** What if it is wrong? The person sees the same page and can contest a line before the decision. A claim whose quote is not in its source is dropped and counted; the count is shown in the footer of the page.
+- **Judges.** To Jim: contest before the decision, not after. To Robert: the person’s own words sit beside the manager’s note. To Damien: the validator is a string check against the source text, not another model call. To Ho Joon: dropped-claim share is the first pilot metric.
 
 ## A4 / A10: A4 What is real in the demo
 *The company is fictional. The pipeline and the surfaces run in the repo.*
 
-- **On arrival.** What is real: the company and its 200 people are fixtures under prototype/data. Live: the listener, the extraction with receipts, the Slack bot, the Notion watcher, the page. Templated: the memo. Connectors to real exports are proposed; the demo reads JSON shaped like them.
+- **On arrival.** What is real: the company and its 200 people are fixtures under prototype/data (34 public Slack messages, 5 documents, 3 Will Can Must sheets, 3 manager notes, 5 AI-session summaries of which 4 opted in, 2 DMs never read). Live: the listener, the extraction with receipts (Gemini 3.8 Flash, or keyword mode offline), the Slack bot, the Notion watcher, the page. Templated: the memo.
+- **Judges.** To Jim: Slack and Notion are the real apps. To Robert: the page’s subject view is live. To Damien: both models run on Vertex AI in our project today. To Ho Joon: the extraction runs in keyword mode offline too, so the safeguard does not depend on the model.
 
 ## A5 / A10: A5 Japanese and English
 *The listener reacts in English, Japanese and Korean. Receipts stay in their own language.*
 
-- **On arrival.** Languages: Gemini 3.8 Live hears English, Japanese and Korean and calls the same tools. Receipts are shown verbatim in their original language.
+- **On arrival.** Languages: Gemini 3.8 Live hears English, Japanese and Korean and calls the same tools. Receipts are shown verbatim in their original language. Pik speaks only when addressed by name, or when it has one clarifying question.
+- **Judges.** To Jim: one engine serves the Japan side and the US side. To Robert: the person’s words are never paraphrased by translation. To Damien: Gemini 3.8 Live handles the three languages natively. To Ho Joon: the model maps words to the customer’s tags; it never invents a person.
 
 ## A6 / A10: A6 Deployment and security
 *Inside the customer’s Google Cloud project. Nothing leaves.*
 
-- **On arrival.** Deployment: the customer’s Google Cloud project, Vertex AI, one laptop for the pilot. Nothing leaves the project.
+- **On arrival.** Deployment: the customer’s Google Cloud project, Vertex AI, one laptop for the pilot. Nothing leaves the project. Every add, edit or removal of a person record is logged: who asked, what they said, what changed; drafts are never logged.
+- **Judges.** To Jim: no new store of people data outside the customer. To Robert: the audit log is readable by the person’s side too. To Damien: Vertex AI in the customer’s own project is the whole deployment story. To Ho Joon: the purpose lock bounds what the model is ever asked about.
 
 ## A7 / A10: A7 Pilot plan and metrics
 *One HR team, one decision type, one real cycle. Three measures.*
 
-- **On arrival.** Pilot: one team, one decision type, their rubric. Three measures on one real cycle: dropped-claim share, contest rate, evaluator minutes.
+- **On arrival.** Pilot: one team, one decision type, their rubric. Three measures on one real cycle: dropped-claim share, contest rate, evaluator minutes before and after. A human concludes; Pik never names a person the engine did not return with a source.
+- **Judges.** To Jim: evaluator minutes per decision is the productivity measure. To Robert: contest rate measures whether people actually use their side of the page. To Damien: the pilot runs on the customer’s exports in their project. To Ho Joon: dropped-claim share is the model’s faithfulness, measured in production.
 
 ## A8 / A10: A8 Competitors in detail
-*Who reads what, who scores, and what the person sees.*
+*Who reads what, who scores, what the person sees.*
 
-- **On arrival.** Competitors in detail: nobody we interviewed named Lattice, Microsoft, Gloat, Eightfold or Glean; they are from the market scan. Delve found the document; Pik finds the person and shows its work.
+- **On arrival.** Competitors in detail: nobody we interviewed named Lattice, Microsoft, Gloat, Eightfold or Glean; they are from the market scan. Lattice: $4 to $10 per seat per month, $4,000 minimum, AI risk flags for managers. Microsoft: Delve retired 2024-12-16, Viva Topics 2025-02-22; People Skills (GA 2025) infers skill tags, no proficiency score, the person confirms or rejects. Workday Skills Cloud, Gloat, Eightfold (match score 0 to 5), Fuel50: ranked matches on typed or inferred profiles. Glean expert search ranks by document authorship, opaquely. Kaonavi, Talent Palette (placement proposals by match degree), SmartHR: HR-entered databases. Delve found the document; Pik finds the person and shows its work.
+- **Judges.** To Jim: none of these answer inside the meeting or the ticket. To Robert: the last column is the one that matters to him. To Damien: People Skills is Microsoft 365 only. To Ho Joon: every competitor’s output is a score or a tag; Pik’s is a verified quote.
 
 ## A9 / A10: A9 The interviews
 *Five conversations, about three hours twenty minutes, Friday and Saturday.*
 
-- **On arrival.** The interviews: five conversations, recorded, about 3 h 20 min in total. Roles only, never names. The head of HR spoke through an interpreter; the Japanese on slide 03 is his own wording.
+- **On arrival.** The interviews: five conversations, recorded, about 3 h 20 min in total. Roles only, never names. The head of HR spoke through an interpreter; the Japanese on slide 03 is his own wording. The product leader has 5 to 6 product managers and 30 to 40 people; the mentor managed 30 to 40 at one company and up to 150 at another.
+- **Judges.** To Jim: the mentor’s calibration-room account is a workflow Indeed leaders know. To Robert: the product leader is the evaluated side of the page. To Damien: the head of HR’s constraint is accountability toward employees, which the in-project deployment answers. To Ho Joon: the fear named on tape was a wrong AI output driving a promotion or a transfer.
 
 ## A10 / A10: A10 Inspiration, alt
 *Read in the order they come to mind, or laid out flat with the source on every line.*
 
-- **On arrival.** Alternative to slide 03, for Carl to pick. On arrival: a fanned stack of sheets; only the top few are read, the rest fade. That is matching from memory, “in the order they come to mind”.
-- **Keypress 1.** Build 1: the stack is read from the top, the rest stays dark.
-- **Keypress 2.** Build 2: the sheets resolve into receipts laid out flat, every line with its source. Nothing new was collected; the same evidence, now visible to both sides.
+- **On arrival.** Alternative to slide 03, for Carl to pick. On arrival: a fanned stack of sheets. That is matching from memory, “in the order they come to mind”.
+- **Keypress 1.** Keypress 1: the stack is read from the top; the rest stays dim.
+- **Keypress 2.** Keypress 2: the sheets resolve into receipts laid out flat, every line with its source. Nothing new was collected; the same evidence, now visible to both sides.
+- **Judges.** To Jim: the sheets are the Will Can Must sheets and Slack threads people already write. To Robert: laid out flat, both sides read the same receipts. To Damien: the flat layout is what Gemini 3.8 Flash extracts, with the source id on every line. To Ho Joon: a receipt without a source line does not exist on the page.
