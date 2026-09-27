@@ -180,6 +180,7 @@
   #subject{max-width:960px;margin:0 auto;padding:32px;display:flex;flex-direction:column;gap:16px}
   #subject .h{font-size:32px;line-height:40px;font-weight:600;letter-spacing:-1.28px}
   #subject .sub{font-size:16px;line-height:24px;color:var(--body)}
+  #subject.noanim .card{animation:none}
   .card{background:var(--card);border-radius:8px;box-shadow:var(--shadow);padding:20px 24px;display:flex;flex-direction:column;gap:12px;animation:fadein .3s ease-out both;animation-delay:calc(var(--i,0)*60ms)}
   .card.para{background:var(--soft)}
   .card.lit{box-shadow:0 0 0 2px var(--lime)}
@@ -547,7 +548,7 @@ function cardHTML(o,i){const f=S.files[o.pid]||{items:{}};const sid=(o.sids||[])
   const notes=(o.notes||[]).map(a=>`<div class="note"><b>note from ${esc(nameOf(a.author))} \u00b7 ${esc(a.at?new Date(a.at*1000).toISOString().slice(0,10):'')}</b>${esc(a.text)}</div>`).join('');
   const ann=o.stub?`<div class="annbox"><input type="text" id="an-${esc(sid)}-${o.k}" placeholder="Add context, or contest this line"><button class="act" data-ann="${esc(sid)}" data-for="an-${esc(sid)}-${o.k}">Add note</button></div>`:'';
   return `<div class="card ${o.kind==='mgr'?'para':''} ${o.stub?'stub':''}" data-sids="${esc((o.sids||[]).join(' '))}" style="--i:${i||0}"><div class="ch"><span>${esc(o.title||'')}</span><span>${o.kind==='mgr'?'Paraphrase':'Verbatim'}</span></div><div class="q">"${esc(o.text)}"</div><div class="foot"><span class="src">${esc(srcLine(it?(it.label||labelOf(it)):sid))}</span>${it?`<a data-open="${esc(sid)}" data-pid="${esc(o.pid)}">Open the original</a>`:''}</div>${it?`<div class="orig">${esc(it.rendered||it.text||'')}</div>`:''}${notes}${ann}</div>`;}
-async function renderSubject(){const id=F.as;const box=$('#subject');const f=await fileOf(id);const p=personOf(id)||{};
+async function renderSubject(){const id=F.as;const box=$('#subject');const f=await fileOf(id);const p=personOf(id)||{};if(box.dataset.rendered)box.classList.add('noanim');
   const annBy={};(f.annotations||[]).forEach(a=>(annBy[a.source_id]=annBy[a.source_id]||[]).push(a));const cards=[];let k=0;
   const push=(kind,text,sid,src)=>{k++;cards.push({kind,pid:id,text,sids:[sid],title:kindTitle(kind,id,src),notes:annBy[sid],stub:true,k})};
   if(f.will)push('own',f.will.text,f.will.sid,'');
@@ -560,8 +561,11 @@ async function renderSubject(){const id=F.as;const box=$('#subject');const f=awa
   box.querySelectorAll('[data-open]').forEach(a=>a.addEventListener('click',e=>{e.stopPropagation();a.closest('.card').classList.toggle('open');showItemPop(a.dataset.pid,a.dataset.open,a)}));
   box.querySelectorAll('.stub').forEach(st=>{st.addEventListener('click',e=>{if(e.target.closest('input,button,a'))return;st.classList.toggle('open')});});
   box.querySelectorAll('[data-ann]').forEach(b=>b.addEventListener('click',async e=>{e.stopPropagation();const inp=document.getElementById(b.dataset.for);const t=(inp.value||'').trim();if(!t)return;
-    const r=await postJ('/api/annotate',{candidate:id,source_id:b.dataset.ann,author:id,text:t});if(!r.ok){toast('n/a: '+((r.data&&r.data.error)||'annotate failed'));return}await fileOf(id,true);renderSubject();}));
-  recordView(id,id);
+    const r=await postJ('/api/annotate',{candidate:id,source_id:b.dataset.ann,author:id,text:t});if(!r.ok){toast('n/a: '+((r.data&&r.data.error)||'annotate failed'));return}
+    const a=(r.data&&r.data.text)?r.data:{author:id,source_id:b.dataset.ann,text:t,at:Date.now()/1000};(S.files[id]||{annotations:[]}).annotations.push(a);
+    const card=b.closest('.card');const note=document.createElement('div');note.className='note';note.innerHTML=`<b>note from ${esc(nameOf(a.author))} \u00b7 ${esc(a.at?new Date(a.at*1000).toISOString().slice(0,10):'')}</b>${esc(a.text)}`;
+    card.insertBefore(note,card.querySelector('.annbox'));inp.value='';}));  // only this card changes: no rebuild, no fade, the other inputs keep what is in them
+  box.dataset.rendered='1';recordView(id,id);
 }
 
 // ---------- CRUD by conversation, and the typed fallback for the demo ----------
