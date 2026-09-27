@@ -335,6 +335,7 @@ async function pollLive(){
       if(e.kind==='status'){$('#live').classList.toggle('on',!/stopped/.test(e.text));$('#livest').textContent=/stopped/.test(e.text)?'Listener off':'Listening';$('#liveheard').textContent=e.text;}
       if(e.kind==='heard'){$('#live').classList.add('on');$('#liveheard').textContent=e.text;}
       if(e.kind==='note'){liveNotes.push(e.text);$('#livest').textContent='On the record';$('#liveheard').textContent=e.text;}
+      if(e.kind==='follow_up'){$('#live').classList.add('on');$('#livest').textContent='Receipts asks';$('#liveheard').textContent=e.text;}
       if(e.kind==='show_candidates'&&!AS){
         if(e.t>LOADED) setToday(false); $('#crit').value=e.criterion; $('#livest').textContent=e.via==='transcript'?'Heard the criterion (transcript)':'Heard the criterion'; $('#liveheard').textContent=e.criterion;
         await doRank(); if(e.ranking&&e.ranking[0]) await selectCand(e.ranking[0]);

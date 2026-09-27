@@ -433,12 +433,14 @@ def _will(p):
     return ""
 
 
-def ask(question: str, context: str = "", requester: str | None = None, k: int = 3):
+def ask(question: str, context: str = "", requester: str | None = None, k: int = 3, pool: list | None = None):
     """Rank people on evidence overlap with the question (skills, will, receipts), minus a load penalty.
     Returns people with why + receipts + load, and a follow-up question when the ask is too vague to rank."""
     q = _tokens(question + " " + (context or "")) - STOP
     rows = []
     for p in people():
+        if pool and p["id"] not in pool:
+            continue
         if str(p.get("availability", "")).startswith("on leave"):
             continue
         score = 0.0

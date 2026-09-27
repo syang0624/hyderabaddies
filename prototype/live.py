@@ -31,8 +31,12 @@ LOCATION = os.environ.get("LIVE_LOCATION", "us-central1")
 MODEL = os.environ.get("LIVE_MODEL", "gemini-3.8-live")
 RATE = 16000
 RESUME = {"handle": None}  # latest session-resumption handle, reused on reconnect so context survives a drop
+SPEAK = os.environ.get("SPEAK", "1") == "1"  # play the model's voice for follow-up questions (Meet demo); 0 = never play audio
+SPEAKING = {"until": 0.0}  # audio is played only until this time, set when a follow-up is pending
+OUT_RATE = 24000
 CHUNK = 1600  # 100 ms
 EVENTS = engine.STATE / "live.jsonl"
+out_stream = None
 
 TOOLS = [types.Tool(function_declarations=[
     types.FunctionDeclaration(
@@ -148,6 +152,15 @@ async def main():
     name = sd.query_devices(dev if dev is not None else sd.default.device[0])["name"]
     stream = sd.RawInputStream(samplerate=RATE, blocksize=CHUNK, dtype="int16", channels=1, device=dev, callback=on_audio)
     stream.start()
+    global out_stream
+    out_stream = None
+    if SPEAK:
+        try:
+            out_stream = sd.RawOutputStream(samplerate=OUT_RATE, dtype="int16", channels=1)
+            out_stream.start()
+        except Exception as e:  # noqa: BLE001
+            emit("status", text=f"no audio output ({type(e).__name__}); follow-ups will be shown, not spoken")
+            out_stream = None
     attempt = 0
     while True:
         try:
@@ -204,6 +217,11 @@ async def run_session(session, q):
                           asyncio.create_task(maybe_trigger(txt))
                   if sc and sc.output_transcription and sc.output_transcription.text:
                       emit("said", text=sc.output_transcription.text)
+                  if sc and sc.model_turn and SPEAK and time.time() < SPEAKING["until"]:
+                      for part in sc.model_turn.parts or []:
+                          blob = getattr(part, "inline_data", None)
+                          if blob and blob.data and out_stream is not None:
+                              out_stream.write(blob.data)
                   if msg.tool_call:
                       responses = []
                       for fc in msg.tool_call.function_calls:
@@ -218,7 +236,7 @@ async def run_session(session, q):
                               emit("conclude", **args)
                           elif fc.name == "note":
                               emit("note", text=args.get("text", ""))
-                          responses.append(types.FunctionResponse(id=fc.id, name=fc.name, response=result, scheduling="SILENT"))
+                          responses.append(types.FunctionResponse(id=fc.id, name=fc.name, response=result, scheduling="INTERRUPT" if result.get("say_out_loud_now") else "SILENT"))
                       await session.send_tool_response(function_responses=responses)
 
         lt = asyncio.create_task(listen())
