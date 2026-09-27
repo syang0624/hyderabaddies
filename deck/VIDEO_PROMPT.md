@@ -1,8 +1,8 @@
-# New thread: the 90-second demo video for Receipts (Innovation Cup 2026, due Sun Sep 27, 11:00 AM PDT)
+# New thread: the 90-second demo video for Pik (Innovation Cup 2026, due Sun Sep 27, 11:00 AM PDT)
 
 Run `date` first. Everything is in `~/CODELocalProjects/hyderabaddies` (public repo `syang0624/hyderabaddies`; pull before every push; commit as Carl Kho <carl@somach.life>, no attribution lines). Read, in this order: `PRD.md` Part A (§0 to §7, it is short), `PRD.md` §9.3a (the shot list and the exact lines that pass the live regression), `deck/JUDGE-MAP.md`, `prototype/README.md`. Do not read Part B of the PRD unless a fact is missing.
 
-## What Receipts is, in one breath
+## What Pik is, in one breath
 It tracks your achievements for you (what you wrote and shipped, with the original attached) and answers "who is the best person for this?" wherever you already work: a Google Meet, a Slack channel, a ticket board. No score. The person named sees the same receipts. Your company keeps its own rubric.
 
 ## What runs (all on `main`, all verified)

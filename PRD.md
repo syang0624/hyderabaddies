@@ -1,16 +1,16 @@
-# PRD: Receipts, the evidence layer for people decisions
+# PRD: Pik, the evidence layer for people decisions
 
-Working title **Receipts**. Team hyderabaddies: Carl Kho, Steven Yang. Recruit Innovation Cup 2026, San Francisco (DG717). **v3**, Sat Sep 26 2026, ~14:15 PDT, by Claude (Fable 5.1) in Steven's session. v1 (~04:00) was reviewed by fifteen verifiers on PR #3; v2 (~07:45) folded in every finding; **v3 re-aligns the plan with the codebase as Carl built it between 12:50 and 13:40** (the `prototype/` page plus a live meeting layer) **and with the Ryo interview** (11:42–12:30, evaluated side). The FastAPI/React design in §11.0–§11.13 is now the target architecture for after the event; Sunday's plan is §11.A and §12. Companion file: [sync.md](sync.md) holds the reasoning behind every decision here, with evidence pointers, so nobody has to re-derive it. **v3.1**, ~14:30 PDT, by Claude (Fable 5.1) in Carl's session: the Hiro interview (§2.2 P6, §2.5, §2.7, §9.0, §10.1 N13), patch status and the simulated call (§11.A.2, §11.A.4). No other section changed. **v3.2**, ~16:50 PDT: §9.3a (how the 90-second video stays clear; the UI stays) and §11.A.5 (four video-clarity tweaks).
+Product name **Pik** (the working title was Receipts until Sat Sep 26 ~19:00 PDT; "receipts" stays as the name of the evidence items). Team hyderabaddies: Carl Kho, Steven Yang. Recruit Innovation Cup 2026, San Francisco (DG717). **v3**, Sat Sep 26 2026, ~14:15 PDT, by Claude (Fable 5.1) in Steven's session. v1 (~04:00) was reviewed by fifteen verifiers on PR #3; v2 (~07:45) folded in every finding; **v3 re-aligns the plan with the codebase as Carl built it between 12:50 and 13:40** (the `prototype/` page plus a live meeting layer) **and with the Ryo interview** (11:42–12:30, evaluated side). The FastAPI/React design in §11.0–§11.13 is now the target architecture for after the event; Sunday's plan is §11.A and §12. Companion file: [sync.md](sync.md) holds the reasoning behind every decision here, with evidence pointers, so nobody has to re-derive it. **v3.1**, ~14:30 PDT, by Claude (Fable 5.1) in Carl's session: the Hiro interview (§2.2 P6, §2.5, §2.7, §9.0, §10.1 N13), patch status and the simulated call (§11.A.2, §11.A.4). No other section changed. **v3.2**, ~16:50 PDT: §9.3a (how the 90-second video stays clear; the UI stays) and §11.A.5 (four video-clarity tweaks).
 
 ---
 
-# Receipts, v4: company intelligence, wherever you already work
+# Pik, v4: company intelligence, wherever you already work
 
 *Rewritten Sat Sep 26, ~17:30 PDT, from Carl and Steven's 17:00 conversation. Part A (below) is the plan. Part B (after the line) is the evidence and the detail behind it; nothing in Part B overrides Part A.*
 
 ## 0. In plain words
 
-**Receipts tracks your achievements for you, so you do the work instead of proving it.** It reads what you already wrote and shipped, in places your company allows, and keeps a receipt for each with the original attached.
+**Pik tracks your achievements for you, so you do the work instead of proving it.** It reads what you already wrote and shipped, in places your company allows, and keeps a receipt for each with the original attached.
 
 **Then it answers one question wherever you already are: who is the best person for this?** In a Google Meet, in a Slack channel, on a Jira ticket. It answers with people, each with their receipts, their current load, and a "why". It never scores anyone, it asks a clarifying question when the request is vague, and the person it names can see the same receipts.
 
@@ -83,7 +83,7 @@ Rule: one engine. If a surface needs something the engine lacks, add it to `/api
 
 ## B0. In plain words (v3.2 version, kept for the record)
 
-**Receipts tracks your achievements for you.** It reads what you already wrote and shipped, in the places your company allows (public Slack channels, shared documents, the sheet you gave HR), turns each into a receipt with the original attached, and shows the same page to you and your manager. You do the work; the proof is automatic.
+**Pik tracks your achievements for you.** It reads what you already wrote and shipped, in the places your company allows (public Slack channels, shared documents, the sheet you gave HR), turns each into a receipt with the original attached, and shows the same page to you and your manager. You do the work; the proof is automatic.
 
 Your manager walks into the evaluation meeting with receipts instead of a paraphrase. When they say who they need for a slot, the receipts show up in the meeting, sorted on their words. Nobody is scored. You see what they see and can answer before they decide. Your company keeps its own rubric.
 
@@ -108,7 +108,7 @@ What runs today: extraction with a verbatim quote checked against the source, th
 
 ## 1. The product in one paragraph
 
-**Receipts** is a purpose-locked evidence page for one high-stakes people decision. For each person being considered, it assembles what they themselves wrote (**declared will**), what they chose to do (**revealed will**) and what their manager wrote about them (**the paraphrase**), from sources a policy file explicitly allows, and turns them into short claims that each carry a verbatim receipt from a named source. The evaluator reads the evidence against a criterion typed in her own words; the person being evaluated sees the **same evidence** and can add context or contest a line before the decision is made; the decision memo carries every footnote and an audit strip of what was read and what was never read. **No score is presented as a verdict; a human decides.** The demo decision: an HR planner at a fictional Japanese company choosing one of three people for a two-year overseas exchange. It is reachable from Slack (a real bot, shown live in the final), by email (an interface with a working local stub), and on the web (the page itself), so nobody has to open yet another system to start. The longer arc: this is the first module of an evidence-first HR operating system, with a 2050 epilogue where the same page and the same rules cover a mixed workforce of humans and humanoid workers.
+**Pik** is a purpose-locked evidence page for one high-stakes people decision. For each person being considered, it assembles what they themselves wrote (**declared will**), what they chose to do (**revealed will**) and what their manager wrote about them (**the paraphrase**), from sources a policy file explicitly allows, and turns them into short claims that each carry a verbatim receipt from a named source. The evaluator reads the evidence against a criterion typed in her own words; the person being evaluated sees the **same evidence** and can add context or contest a line before the decision is made; the decision memo carries every footnote and an audit strip of what was read and what was never read. **No score is presented as a verdict; a human decides.** The demo decision: an HR planner at a fictional Japanese company choosing one of three people for a two-year overseas exchange. It is reachable from Slack (a real bot, shown live in the final), by email (an interface with a working local stub), and on the web (the page itself), so nobody has to open yet another system to start. The longer arc: this is the first module of an evidence-first HR operating system, with a 2050 epilogue where the same page and the same rules cover a mixed workforce of humans and humanoid workers.
 
 One sentence for the deck: **evidence, with receipts, that both the evaluator and the employee can see, for one high-stakes people decision.**
 
@@ -144,7 +144,7 @@ One sentence for the deck: **evidence, with receipts, that both the evaluator an
 | P3 | **Evidence exists but cannot be used.** Slack and documents could show whether the boss's rating is right; the blocker is not law but accountability and "creepiness" toward employees. | VP: 「ポテンシャリティとしてはすごくあると思ってる」 `[R 0:42:26]`; 「理屈上は使えます…説明責任、透明性」 `[R 0:44:24]`; 「すげえ気持ち悪ぃ」 `[R 0:55:14]` | Purpose lock, allowlisted sources, DMs excluded by config, the audit strip, and the two-sided mirror |
 | P4 | **A wrong AI output can push a wrong promotion or transfer.** | VP: the thing he most wants to avoid `[R 0:48:34]` | No score as verdict; claims dropped when unsupported; the subject can contest before the decision |
 | P5 | **The evaluated person cannot show what their boss did not see.** A product manager's manager builds his own deck every cycle of "all the things that even my boss didn't see"; the 360's free text stays empty; peer perception has no workaround at all. | Ryo (Recruit product org, 5–6 PMs, 30–40 people), Sat 11:42–12:30, `interviews/INTERVIEW_NOTES.md` §7 (11-50 00:26–00:44, 03:38–04:00, 04:52); consent given verbally after the interview | The subject view is the employee's own evidence deck, for free; team formation is the framing he understood at once ("very specific, easy to understand"); peer perception is out of scope and we say so |
-| P6 | **The evaluation meeting runs on pitches from memory, and the evidence behind each pitch is written by the person being judged.** Managers pitch each member to a room so that scales line up; rubrics cannot hold exceptions. | Hiro (Recruit mentor; ex-Meta manager of 30–40, ex-Indeed engineering leader of up to 150), Sat 13:40–14:05, `interviews/INTERVIEW_NOTES.md` §9: 150 people every three months, 5–10 managers plus directors pitch each member, "easily 4 or 5 days per quarter" (13-40 03:49–04:36); about 50 checkboxes to senior, evidence kept by the engineer and checked by the manager (13-40 08:18–09:22); "let people write everything for you" (13-50 01:29); the algorithm engineer who checks no communication box and needs a hand-made exception (13-50 02:44–03:27). Consent is not on tape; Carl to confirm | Receipts is the packet each manager brings to that room: the company's own rubric (checkboxes, WCM, behaviours) as the schema, a receipt on every line, an exception visible as evidence instead of a missing tick. The person writes nothing; they review and contest. |
+| P6 | **The evaluation meeting runs on pitches from memory, and the evidence behind each pitch is written by the person being judged.** Managers pitch each member to a room so that scales line up; rubrics cannot hold exceptions. | Hiro (Recruit mentor; ex-Meta manager of 30–40, ex-Indeed engineering leader of up to 150), Sat 13:40–14:05, `interviews/INTERVIEW_NOTES.md` §9: 150 people every three months, 5–10 managers plus directors pitch each member, "easily 4 or 5 days per quarter" (13-40 03:49–04:36); about 50 checkboxes to senior, evidence kept by the engineer and checked by the manager (13-40 08:18–09:22); "let people write everything for you" (13-50 01:29); the algorithm engineer who checks no communication box and needs a hand-made exception (13-50 02:44–03:27). Consent is not on tape; Carl to confirm | Pik is the packet each manager brings to that room: the company's own rubric (checkboxes, WCM, behaviours) as the schema, a receipt on every line, an exception visible as evidence instead of a missing tick. The person writes nothing; they review and contest. |
 
 ### 2.3 Five load-bearing passages, three readings each
 
@@ -153,7 +153,7 @@ This was a 72-minute conversation after midnight, interpreted consecutively and 
 | Passage | Reading A (strong) | Reading B (moderate) | Reading C (weak) | What the product bets on |
 |---|---|---|---|---|
 | 「それが一番困ってる」 `[R 0:26:10]`, "Yes, exactly" `[R 0:26:30]` | Operational team formation under blurred roles is his number-one problem | The problem is strategic: what the ideal organization is and which careers lead there; "allocation" was Steven's word, untranslated | Conversational agreement with a laugh to an English framing | **B.** The product serves one decision inside that strategic problem; it does not claim to form teams. Against C: he had steered to this topic himself `[R 0:23:12]` and called it the hottest management topic unprompted |
-| 「どっちもそうです」 `[R 0:34:48]` | Both gaps (gut feel; drift up the chain) are live pains | Both are true in principle, and HR already mitigates the second by interviewing the person | Polite agreement to a two-part leading question | **B.** Drift is real and has a manual workaround; Receipts automates the workaround (the person's words travel intact) rather than claiming HR is helpless |
+| 「どっちもそうです」 `[R 0:34:48]` | Both gaps (gut feel; drift up the chain) are live pains | Both are true in principle, and HR already mitigates the second by interviewing the person | Polite agreement to a two-part leading question | **B.** Drift is real and has a manual workaround; Pik automates the workaround (the person's words travel intact) rather than claiming HR is helpless |
 | "That's right" `[R 0:31:27]` after Shion's 「思いついた順」 | Matching from memory is today's pain | The problem is known and the skill-tag system already targets it, so we must beat the internal tags | Assent to a leading 「…しかないんじゃないか？」 | **B.** We adopt their taxonomy as the schema and add provenance; we do not claim they have no system |
 | The endorsement `[R 0:56:18–0:56:43]`: Shion 「決定の根拠にするとか」, VP 「めちゃくちゃあると思う」, "It's very good value, I think so", then `[VP-FACT-2]` | Evidence as grounds for decisions has high value to him | The value is real, and we would not be the only supplier | A courteous close at ~01:05 after an hour | **Between A and B.** The only idea he endorsed on value; no pilot commitment exists ("would be willing to try?" was never translated). The difference we must show is the employee's side of the page, which nothing he described has |
 | The replacement-budget passage `[VP-FIG-2, R 0:37:33–0:40:16]` | Willingness to pay for a team-formation tool | A replacement budget: he would bet his current Japan spend on training systems plus matching AI only if the product replaced all of it | A hypothetical price with no time basis, said right after "I've heard this before" 「聞いたことある話ですね」 and before "many players, Workday" | **B.** Use it only as "the customer already spends on this category", label the time basis unconfirmed, never as our revenue, and only if cleared |
@@ -170,7 +170,7 @@ Led by us and confirmed with a word or two: matching from memory `[R 0:31:05–0
 - **Recruiting throughput.** Indeed already sells AI sourcing and screening (Recruit Holdings results post, Sep 4 2026, verified). A candidate-summary product is a substitution question waiting to happen.
 - **Covert monitoring.** Legal at the company, and it still would not ship, because employees would find it creepy and managers might misuse it `[R 0:44:24, 0:49:34, 0:55:14]`. Both of our covert framings were answered with accountability. The careless version of this product is the default everyone builds.
 - **Scoring people.** Indeed's Smart Screening ships a "Smart Fit Score" and says hiring stays a human process. Workday scores. The VP's fear is a wrong score driving a wrong decision. We cite instead.
-- **Replacing the company's evaluation model.** Hiro, unprompted: "You guys might think that people assignment and evaluation is just evaluate their performance, impact, potential. It's not. It's not the problem they are solving, or they want the solution for. They want to maintain their culture, they want to stick with their own rules of evaluation," because evaluation, assignment and promotion are the leader's tools, "carrot and stick" (13-50 06:30–07:12). Ask Recruit HR and you get a Will Can Must solution "because that's the culture" (07:40–07:49); ask leaders elsewhere and you get something different. A product that brings its own rubric or its own score is rejected by the buyer before the employee ever sees it. Receipts borrows the rubric (§3, "borrow the customer's taxonomy") and never scores.
+- **Replacing the company's evaluation model.** Hiro, unprompted: "You guys might think that people assignment and evaluation is just evaluate their performance, impact, potential. It's not. It's not the problem they are solving, or they want the solution for. They want to maintain their culture, they want to stick with their own rules of evaluation," because evaluation, assignment and promotion are the leader's tools, "carrot and stick" (13-50 06:30–07:12). Ask Recruit HR and you get a Will Can Must solution "because that's the culture" (07:40–07:49); ask leaders elsewhere and you get something different. A product that brings its own rubric or its own score is rejected by the buyer before the employee ever sees it. Pik borrows the rubric (§3, "borrow the customer's taxonomy") and never scores.
 
 ### 2.7 The three seats (after Hiro, Sat 14:05)
 
@@ -242,7 +242,7 @@ Words that appear nowhere in our evidence and should not be used as observed fac
 
 **Judge map.** Public backgrounds only (from `codex-packet/work/judges-research.md`, verified Sep 26); nothing here predicts how anyone will judge, and the fictional council transcripts are never to be quoted as a judge's view.
 
-| Judge | Public background | The part of Receipts that speaks to that background | The question to expect |
+| Judge | Public background | The part of Pik that speaks to that background | The question to expect |
 |---|---|---|---|
 | Jim Giles, CTO, Indeed | Led Google Docs/Sheets/Slides/Drive engineering; founded the Workspace AI platform; "how technology can improve the way work gets done" | Grounded citations applied to the HR chain of custody; a product that lives inside existing tools (Slack/email intake) | "How is this not Smart Screening pointed inward?" Answer: it produces receipts for both sides, not a fit score for one |
 | Robert Hohman, co-founder and former CEO, Glassdoor | Built a company on making workplace information visible to workers | The two-sided mirror: the employee sees the evidence | "Why would an employer show the employee this?" Answer: because a one-sided design is blocked by exactly that asymmetry (P3) |
@@ -257,7 +257,7 @@ Words that appear nowhere in our evidence and should not be used as observed fac
 
 All demo people are fictional and already exist in `prototype/data/company.json`; keep the names **and the ids** so the storylines survive the migration (ids stay `wcm-rin`, `mn-yui`, `sl-023`, `doc-kei-1`, `ses-rin-1`; see §11.2).
 
-| Persona | Who | What they need from Receipts | Demo identity |
+| Persona | Who | What they need from Pik | Demo identity |
 |---|---|---|---|
 | **HR planner (evaluator)** | Aya Nakamura, HR planner in the COE at Kaede Works. Owns the exchange decision. Today she has three Will/Can/Must sheets, three manager notes and what she remembers. | See each person's own words next to the manager's paraphrase; read the evidence against the criterion she actually has; take one page into the decision meeting with receipts; know what was and was not read. | `aya`, role `evaluator`; token generated at `make seed` (never a guessable default) |
 | **The subject** | **Rin Mori** (senior marketing analyst, Growth, manager Hayashi, 6 years). Her sheet: "Lead the Tokyo pricing analytics team next year and build the junior analyst program. I would like to stay close to the Japan market for the next two years." Her manager's note: "Rin is our strongest analyst and presents well. Would represent us well overseas. Ready for a bigger stage." Her public words: "Thanks, though I'd rather build the team here first." **Yui Sato** (product operations, Pricing, manager Okada, 3 years). Her sheet: "I want to work with the US product team on pricing experiments. My spoken English in meetings is weak but my writing is strong, and I want to fix the speaking part by being immersed." Her manager's note: "Yui loves travel and is flexible on location. English is a concern for a US posting." She volunteered for the partner's notes, ran six weeks of English practice, then ran a partner sync in English. **Kei Tanaka** (software engineer, Platform, manager Fujii, 4 years). His sheet: "I want to understand why our partner ships faster than we do and bring that back. I am less interested in a bigger title than in changing how we work." His manager's note: "Not sure he wants to move. Key person for the migration, hard to release." He pushed back on a job-based reorg and ran a one-owner pilot that cut lead time from 6.1 to 3.4 days. | See exactly which claims and sources the evaluator sees about them; add context or contest a line before the decision; never see a number about themselves or anyone else, and never see other candidates. | `rin` / `yui` / `kei`, role `subject`; tokens generated at seed |
@@ -299,7 +299,7 @@ intake (Slack / email / web)
 ```mermaid
 sequenceDiagram
     participant Aya as Aya (Slack)
-    participant Bot as Receipts bot (Socket Mode)
+    participant Bot as Pik bot (Socket Mode)
     participant API as FastAPI
     participant Corpus as Corpus + policy
     participant LLM as Gemini (Vertex)
@@ -322,7 +322,7 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     participant Rin as Rin (phone: web composer in the video; Slack or email in the final)
-    participant In as Web page / Receipts bot / email stub
+    participant In as Web page / Pik bot / email stub
     participant API as FastAPI
     participant SSE as SSE stream
     participant Aya as Aya's browser
@@ -513,7 +513,7 @@ Ryo could not picture the drift chain and understood team formation at once; Car
 
 | # | Beat | What the audience sees | What must be real | Fallback |
 |---|---|---|---|---|
-| 1 | **The live meeting** | Two people on a call, the planner and a hiring manager. The manager says who they need ("someone who will push back on a job-based culture and can hold their own in English"). The live bar shows "heard the criterion"; the candidates re-sort on those words with receipts. Receipts never speaks and never scores. In the final, a judge plays the hiring manager. | `live.py`: microphone → Gemini 3.8 Live → `show_candidates(criterion)` → `engine.rank` → the page; events only in `state/live.jsonl`. | Type the criterion into the box (the same rank call). Badge says "typed". |
+| 1 | **The live meeting** | Two people on a call, the planner and a hiring manager. The manager says who they need ("someone who will push back on a job-based culture and can hold their own in English"). The live bar shows "heard the criterion"; the candidates re-sort on those words with receipts. Pik never speaks and never scores. In the final, a judge plays the hiring manager. | `live.py`: microphone → Gemini 3.8 Live → `show_candidates(criterion)` → `engine.rank` → the page; events only in `state/live.jsonl`. | Type the criterion into the box (the same rank call). Badge says "typed". |
 | 2 | **Receipts** | Rin's page: her own words ("stay close to the Japan market for the next two years") beside her manager's ("Would represent us well overseas. Ready for a bigger stage."); claims that expand into their source; the meta line "N claims, M dropped". | Extraction with source-id validation today; with §11.A patch 1, a verbatim quote check by role, and the dropped count by reason. | Keyword mode, badged. |
 | 3 | **The two-sided mirror** | "What the candidate sees": the same claims and sources, no fit numbers, no other people. From a phone, Rin adds a note on her manager's line ("I'd rather build the team here first") and it appears on the evaluator's page. Line for the stage (Ryo): *the employee gets their own evidence deck for free.* | Annotation stored and re-rendered; with §11.A patch 2, server-side scoping for the phone. | Same laptop, toggle the view. |
 | 4 | **The post-call conclusion** | When the two agree on a next step, the pop-up: what the meeting concluded, who to talk to, next steps, "ask them before deciding"; then the decision memo with receipts and the audit strip (read / never read). | `conclude` tool call → dialog; memo templated from stored claims; audit from policy (with patch 3, counts from the manifest). | Open the memo from the button. |
@@ -537,7 +537,7 @@ Record at 1920×1080, browser 1440 px wide at 110% zoom, after `make reset` and 
 
 > [3–10] Choosing who goes where still runs on memory and gut feel. One posting overseas, three people.
 >
-> [10–30] Two people on a call. The manager says who they need. Receipts is listening. It never speaks and it never scores. It puts the evidence on the shared screen, re-sorted on their own words, with receipts.
+> [10–30] Two people on a call. The manager says who they need. Pik is listening. It never speaks and it never scores. It puts the evidence on the shared screen, re-sorted on their own words, with receipts.
 >
 > [30–46] Every line is a receipt: what the person wrote, what they chose to do, next to what the manager wrote. Open one. Word for word. What could not be sourced was dropped, and it says so.
 >
@@ -575,7 +575,7 @@ Per-beat counts: 16, 36, 36, 43, 31, 18. Rehearse with a timer; if a beat runs l
 
 | s | Section | Content |
 |---|---|---|
-| 0–8 | Title | "Receipts. Evidence, with receipts, that both the evaluator and the employee can see, for one high-stakes people decision." |
+| 0–8 | Title | "Pik. Evidence, with receipts, that both the evaluator and the employee can see, for one high-stakes people decision." |
 | 8–35 | Problem | "Choosing who goes where in a large company still runs on memory and gut feel. This week the head of HR at a large Japanese enterprise told us there is no metric for what people want, and that the company is trying AI skill tags to support what intuition used to do. A product leader there told us he builds his own deck every cycle because his boss does not see his work, and that the 360's free text stays empty. A former leader of 150 engineers told us managers pitch their people from memory for four or five days a quarter, and that companies keep their own rules of evaluation." (Every sentence is an unprompted statement; say "the head of HR at a large Japanese enterprise" only if cleared, otherwise "an HR leader at a large enterprise"; "a product leader there" is Ryo, who consented to the interview; ask him before naming him; "a former leader of 150 engineers" is Hiro, describing his own past orgs, never named on stage.) |
 | 35–55 | Insight | "Everyone in this space, Workday included, builds the same thing: mine the data, produce a score, show managers. It is legal, and it does not ship, because employees find it creepy and nobody is accountable to them. The blocker is not data. It is design. Innovation has to be careful." |
 | 55–125 | Solution (demo) | Play the video from 10 s to 80 s, or run beats 1, 2 and 3 live (a teammate plays the hiring manager on the call) if the network holds. Say "this is a recording" if it is. |
@@ -592,7 +592,7 @@ The template (`attachments/hackathon_template.pptx`, verified Sat) requires slid
 
 | Slide | Label | Content (source in this document) | Cap |
 |---|---|---|---|
-| 01 Title | Title, subtitle + one-line pitch, team name, date | "Receipts" · the one sentence from §1 · hyderabaddies · Sep 27 2026 | |
+| 01 Title | Title, subtitle + one-line pitch, team name, date | "Pik" · the one sentence from §1 · hyderabaddies · Sep 27 2026 | |
 | 02 Problem | WHO | The HR planner choosing one person for an expensive, two-year posting (§2.1) | Problem + Insight ≤ 200 words across 02–03 |
 | | WHAT | The decision is made from a twice-yearly sheet and the boss's paraphrase; will has no metric (§2.1, VP unprompted) | |
 | | WHY IT MATTERS NOW | A two-year commitment decided from a paraphrase; the customer already runs AI matching on skill tags but trusts none of it as a verdict (§2.1); `[VP-FIG-1]` only if cleared | |
@@ -689,7 +689,7 @@ Steven's instruction: the thing to get done is "quantifying and helping the othe
 | N8 | Knowledge workers spend ~20% of the week finding information or colleagues | RESEARCH (2012, widely over-cited) | McKinsey Global Institute, "The social economy", 2012 | Avoid on stage; background only |
 | N9 | Labour supply shortfall of about 11 million by 2040; ~3.41 million by 2030 | RESEARCH | Recruit Works Institute, "未来予測2040", March 2023; Recruit's own think tank | Roadmap slide only |
 | N10 | Government target: AI robots that learn, adapt and act alongside people by 2050; 2030 milestone of robots more than 90% of people feel comfortable with | RESEARCH | Cabinet Office Moonshot Goal 3 | Roadmap slide only |
-| N11 | Evaluator time per candidate: today vs Receipts | ILLUSTRATIVE until timed | `t_today` = minutes assembling sheet + notes + asking around (ask Aya's real counterpart); `t_receipts` = review minutes of the generated page including contest handling; hours freed = cycles × candidates × (t_today − t_receipts) ÷ 60 | Show the formula with blanks; no number until measured |
+| N11 | Evaluator time per candidate: today vs Pik | ILLUSTRATIVE until timed | `t_today` = minutes assembling sheet + notes + asking around (ask Aya's real counterpart); `t_receipts` = review minutes of the generated page including contest handling; hours freed = cycles × candidates × (t_today − t_receipts) ÷ 60 | Show the formula with blanks; no number until measured |
 | N13 | Evaluation meetings in a ~150-person engineering org: every three months, 5–10 managers plus directors per room pitching each member, "easily 4 or 5 days per quarter" of leadership time; the evidence per person is written by the person; industry cadence now about six months | VERIFIED (interview) | Hiro, 13-40 03:49–04:36 and 08:18–09:22; his own past orgs (Indeed, Meta), pre-LLM; not a Recruit figure, so no clearance needed; say "a former leader of a 150-person engineering org" on stage | Impact slide: the cost the buyer already pays today; N11's `t_today` gets a real anchor |
 | N12 | "A large Japanese enterprise" of roughly fifty thousand people | RESEARCH | Recruit Holdings employee count ≈ 47–49.5K (PitchBook, via STEVEN-RESEARCH.md) | Say "large Japanese enterprise" unless naming the customer is cleared |
 
@@ -727,7 +727,7 @@ Watch item: Workday Rising, Oct 12–15 2026, two weeks after the event.
 - Something the customer already uses shows the employee their own evidence (ask: §9.6 step 6, §15.3 item 8).
 - A branching template plus corporate Claude produces an equally trusted page in the evaluator's own time (the packet's baseline objection; test it in the pilot).
 - Managers refuse to write notes if the subject can see them, and HR prefers their silence to the receipts.
-- No HR team will buy per decision; they only buy platforms (then Receipts is a feature of a matching vendor, and the accelerator's PoC is how to find out).
+- No HR team will buy per decision; they only buy platforms (then Pik is a feature of a matching vendor, and the accelerator's PoC is how to find out).
 
 ---
 
@@ -1280,7 +1280,7 @@ Manifest (`docs/SLACK_SETUP.md`):
 
 ```yaml
 display_information:
-  name: Receipts (Kaede Works demo)
+  name: Pik (Kaede Works demo)
   description: Opens the evidence page for a named people decision. Fictional demo.
 features:
   bot_user: { display_name: receipts, always_online: true }
@@ -1649,7 +1649,7 @@ Edit the third column at 17:00 and at 09:00 Sun to match what actually landed. N
 - [ ] Member names **and roles** in the Slack post, not in the deck (template notes).
 - [ ] Nothing from the clearance list (§15.3) appears in any public artifact unless cleared in writing; the self-check grep (§0) returns nothing on the README and the deck text.
 - [ ] Scripts rewritten in your own words (organizer rule on AI-suggested ideas); timed read-through done Saturday night.
-- [ ] Slack post text ready and handed to Carl: "Team hyderabaddies: Carl Kho (engineering, evaluation), Steven Yang (product, story). Receipts. Repo: <url>. Demo video (90 s): <url>. Deck: <pdf>." **Carl posts** in `#announcements-all` by 10:45.
+- [ ] Slack post text ready and handed to Carl: "Team hyderabaddies: Carl Kho (engineering, evaluation), Steven Yang (product, story). Pik. Repo: <url>. Demo video (90 s): <url>. Deck: <pdf>." **Carl posts** in `#announcements-all` by 10:45.
 - [ ] Prelim slot number (announced Sat 6:30 PM) written on a card; PC prepared in advance; wait behind the judges during the previous team; mic and clicker in the final; the final's extra material exists as speaker notes (no setup time after prelim results).
 
 ---

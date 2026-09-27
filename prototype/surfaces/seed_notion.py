@@ -2,7 +2,7 @@
 three new ones with no owner (the board watcher fills those within 5 s while you watch).
 
 Owners, whys and receipts links come from the engine (/api/ask), the same call the watcher makes, so nothing is invented here.
-Needs RECEIPTS_NOTION_TOKEN and RECEIPTS_NOTION_DB (see notion_board.py) and the engine running.
+Needs PIK_NOTION_TOKEN and PIK_NOTION_DB (see notion_board.py) and the engine running.
 Run: make seed-notion   (DRY=1 previews). A ticket whose title already exists on the board is skipped.
 """
 import os
