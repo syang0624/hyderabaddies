@@ -80,6 +80,12 @@ def on_ask(message, say):
     handle(message.get("text", ""), say, message.get("thread_ts") or message.get("ts"))
 
 
+@app.event("message")
+def on_other_message(body, logger):
+    """Every channel message the bot can see reaches here after the ASK matcher; stay silent, and keep Bolt from
+    printing an 'Unhandled request' block per message."""
+
+
 @app.action("loop_in")
 def on_loop(ack, body, say):
     ack()
