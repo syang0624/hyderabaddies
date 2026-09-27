@@ -27,6 +27,12 @@ slack:            ## Slack surface (Socket Mode); tokens in ~/.config/carl-life-
 notion:           ## Notion board surface; token + database id in ~/.config/carl-life-os/.env
 	$(PYV) surfaces/notion_board.py
 
+seed-slack:       ## fill the demo Slack workspace with fictional history from the fixtures (needs chat:write.customize, channels:manage, channels:join); DRY=1 previews
+	$(PYV) surfaces/seed_slack.py
+
+seed-notion:      ## fill the Notion board with fictional tickets (Done / In progress / new); DRY=1 previews
+	$(PYV) surfaces/seed_notion.py
+
 manifest:         ## count + hash every fixture file; the audit counts never-read sources from this, without opening them
 	$(PY) -c 'import engine,json;m=engine.build_manifest();print(json.dumps({k:v["count"] for k,v in m.items()}))'
 
