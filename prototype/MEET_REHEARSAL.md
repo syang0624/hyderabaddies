@@ -1,6 +1,6 @@
 # Meet rehearsal (Pik in a Google Meet)
 
-**Status, Sat Sep 26 22:45 PDT: DRAFT.** The bot's browser must be **Dia, on a separate Dia profile named "Pik"**. `meet_bot.py` is being reworked to drive it and refuses to start until then (it used Playwright's bundled Chromium, which Carl does not allow). What was checked before the stop: the bot types "Pik", turns mic and camera off and clicks "Ask to join" on the real Meet page. Meet then answered "You can't join this video call" with nobody in the call. Admission and presenting were never tested.
+**Status, Sat Sep 26 22:55 PDT: works in Dia up to one click.** Tested on a live call (meet.google.com/pcg-dqab-tgi): the host (carl@somach.life, Dia profile "Somach Systems, Inc.") created the call; Pik joined from the signed-out Dia profile "O-Intuition" as a guest named **Pik**; the host admitted it (two participants); Pik opened the live screen (`localhost:8787/?present=1`, title "Pik") and clicked Share screen, and the share picker listed the Pik tab. The pick itself needs a real click (Chrome's rule). Everything runs in Dia; no other browser. `meet_bot.py` (Chromium) is removed; it is in git history (a9f3db6).
 
 ## Terminals, in order (from `prototype/`)
 
@@ -8,12 +8,14 @@
 |---|---|---|
 | 1 | `make run-heuristic` (usually already up on :8787) | `http://localhost:8787/?present=1` loads, tab title "Pik" |
 | 2 | `MIC="MacBook" SPEAK=1 make live` | terminal prints `status: listening on <mic> via gemini-3.8-live`. Then reload the Pik tab; the old conclusion clears |
-| 3 | the bot (Dia profile "Pik", being reworked) | prints `09 presenting the Pik tab` |
+| 3 | `./meet_dia.sh` (new call) or `./meet_dia.sh <meet link>` (your call) | prints `SHARE PICKER OPEN`; click the **Pik** tab, then **Share** |
 
-## Carl's two hand steps
+## Carl's hand steps
 
-1. In Dia (kho@uni.minerva.edu), open the Meet link. Use the calendar event "Pik Meet rehearsal" (https://meet.google.com/pph-eqws-fjo) or a fresh meet.google.com/new. Turn mic and camera off, click **Join now**, and paste the link into terminal 3.
-2. When "Pik" asks to join, click **Admit**. If Pik keeps getting "You can't join this video call" while you are in the call, open Host controls and set Meeting access to **Open**.
+1. Once per Dia launch: Dia must run with `--enable-applescript-javascript` (quit Dia, then `open -a Dia --args --enable-applescript-javascript`; tabs restore).
+2. `./meet_dia.sh` makes the call as carl@somach.life and admits Pik by itself. It takes the keyboard for one second to type "Pik". To use your own call instead, pass its link and click **Admit** when Pik knocks.
+3. When it prints `SHARE PICKER OPEN`: in Pik's Meet tab click the **Pik** tab, then **Share**. The composed screen is now what the call sees.
+4. Steven joins the same link from his laptop (mic on). Carl's host tab stays muted: `make live` hears the room through the laptop mic.
 
 ## The five beats (Steven = manager, Carl = HR planner; lines from `live_sim.py`)
 
@@ -33,4 +35,4 @@
 2. Type the criterion into the "What matters" box on the Pik tab and press Enter. This works only until the composed screen covers the box. Badge that take "typed".
 3. Stop `make live`, then run `make live-sim`. It forces SPEAK=0: `say -o` writes wav files and nothing plays. It is **not** an offline replay. It streams the seven scripted lines into the same Gemini Live session, so it needs Vertex too. It runs on its own clock (about 2 minutes, 8 s after each line), not on your cue. It covers a dead mic, not a dead Gemini. A real offline replay (a saved `live.jsonl` stepped beat by beat) is not built.
 
-**Disclosure (one line).** Live: Gemini 3.8 Live hears the call and composes the screen, and the engine ranks and pulls receipts on every line. Fixed: the company and people (Kaede Works, 200 fictional people), the memo template, and Pik's join steps, which are scripted browser automation.
+**Disclosure (one line).** Live: Gemini 3.8 Live hears the call and composes the screen, and the engine ranks and pulls receipts on every line. Fixed: the company and people (Kaede Works, 200 fictional people), the memo template, and Pik's join steps, which are scripted in Dia (AppleScript).
