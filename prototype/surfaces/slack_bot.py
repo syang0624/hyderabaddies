@@ -60,11 +60,11 @@ def handle(question, say, thread_ts=None):
     try:
         a = _env.ask(question, context="slack")
     except Exception as e:  # noqa: BLE001  (engine down: say so instead of silence)
-        say(text=f"Pik: the engine at {_env.API} is not answering ({type(e).__name__}). Start it with `make run-heuristic`.", thread_ts=thread_ts)
+        say(username="Pik", text=f"Pik: the engine at {_env.API} is not answering ({type(e).__name__}). Start it with `make run-heuristic`.", thread_ts=thread_ts)
         return
     answer = a["people"][0]["name"] if a["people"] else f"asks: {a.get('follow_up')}"
     print(f"[{time.strftime('%H:%M:%S')}] ask {question!r} -> {answer}", flush=True)
-    say(blocks=card(question, a), text=f"Pik: {answer}", thread_ts=thread_ts)
+    say(username="Pik", blocks=card(question, a), text=f"Pik: {answer}", thread_ts=thread_ts)
 
 
 @app.event("app_mention")
@@ -90,7 +90,7 @@ def on_other_message(body, logger):
 def on_loop(ack, body, say):
     ack()
     name, why = body["actions"][0]["value"].split("|", 1)
-    say(text=f"@{name}, looping you in. {why}".strip(), thread_ts=body.get("message", {}).get("thread_ts") or body.get("message", {}).get("ts"))
+    say(username="Pik", text=f"@{name}, looping you in. {why}".strip(), thread_ts=body.get("message", {}).get("thread_ts") or body.get("message", {}).get("ts"))
 
 
 @app.action("why")
