@@ -1,13 +1,17 @@
 """Live meeting layer: microphone -> Gemini 3.8 Live (Vertex) -> tool calls -> the UI.
 
-The model listens to an HR planning call. When the speakers describe who they need, it calls
-show_candidates(criterion); the UI re-ranks on that criterion. When the call reaches a
-conclusion, it calls conclude(...); the UI shows the post-call pop-up. Every event is appended
-to state/live.jsonl, which server.py serves at /api/live. Nothing here scores anyone.
+The model listens to an HR planning call and composes the shared screen from five primitives
+(question, people, receipt, constraint, ask) by editing a small layout document: compose(blocks)
+replaces it, patch(op, block) edits one block. The engine (engine.ask, engine.receipt_for,
+engine.constraint) supplies every name, quote and constraint match; the model only decides what is
+on screen and in what order. When the call reaches a conclusion, it calls conclude(...); the UI
+shows the printed conclusion. Every event is appended to state/live.jsonl, which server.py serves
+at /api/live. Nothing here scores anyone.
 
 Run:  .venv/bin/python live.py            (Ctrl-C to stop)
 Env:  GCP_PROJECT (default recruit-hackathon-2026-e), LIVE_LOCATION (us-central1),
-      LIVE_MODEL (gemini-3.8-live), MIC (substring of the input device name, default: system default)
+      LIVE_MODEL (gemini-3.8-live), MIC (substring of the input device name, default: system default),
+      SPEAK=1 to play the follow-up question through the speaker (0 in tests)
 """
 from __future__ import annotations
 
@@ -38,15 +42,36 @@ CHUNK = 1600  # 100 ms
 EVENTS = engine.STATE / "live.jsonl"
 out_stream = None
 
+BLOCK = types.Schema(type="OBJECT", description="One block of the shared screen.", properties={
+    "type": types.Schema(type="STRING", enum=["question", "people", "receipt", "constraint", "ask"],
+                         description="question: the ask as heard. people: up to three tiles, filled by the engine from `criterion`. "
+                                     "receipt: one verbatim quote for `person`, filled by the engine. constraint: a chip in the speakers' words. "
+                                     "ask: the bot's one follow-up question, shown and spoken."),
+    "id": types.Schema(type="STRING", description="Short id you choose (q1, p1, r1, c1, a1). Needed to replace or remove a block later."),
+    "text": types.Schema(type="STRING", description="question, constraint, ask: the words, lightly cleaned, in English."),
+    "criterion": types.Schema(type="STRING", description="people: what matters for this slot, in the speakers' own words."),
+    "person": types.Schema(type="STRING", description="receipt: the person's id from the candidate list."),
+    "kind": types.Schema(type="STRING", enum=["own_words", "manager", "claim"],
+                         description="receipt: own_words = what they wrote about themselves; manager = the manager's note; claim = something they did."),
+    "about": types.Schema(type="STRING", description="receipt (kind=claim): what the quote should be about, a few words."),
+    "people": types.Schema(type="ARRAY", items=types.Schema(type="STRING"), description="constraint: ids of people the speakers themselves said it applies to. Usually empty; the engine matches facts on file."),
+}, required=["type"])
+
 TOOLS = [types.Tool(function_declarations=[
     types.FunctionDeclaration(
-        name="show_candidates", behavior="NON_BLOCKING",
-        description=("Call this as soon as the speakers describe the kind of person they need for the slot "
-                     "(skills, attitude, language, what they must be willing to do). Pass their words, lightly cleaned, "
-                     "as one criterion sentence. Call it again whenever the criterion changes."),
+        name="compose", behavior="NON_BLOCKING",
+        description=("Replace the whole shared screen with these blocks, in this order. Call it the moment a speaker says what kind of person "
+                     "they need: [question, people]. Call it again when the ask changes. Keep it small: one question, one people block, at most two receipts."),
+        parameters=types.Schema(type="OBJECT", properties={"blocks": types.Schema(type="ARRAY", items=BLOCK)}, required=["blocks"]),
+    ),
+    types.FunctionDeclaration(
+        name="patch", behavior="NON_BLOCKING",
+        description=("Edit one block of the shared screen: add a constraint chip when a speaker states a constraint, date or budget; add a receipt when they "
+                     "lean toward one person or ask what someone actually said or did; replace the question when the ask changes; remove a block that no longer applies."),
         parameters=types.Schema(type="OBJECT", properties={
-            "criterion": types.Schema(type="STRING", description="What matters for this slot, in the speakers' own words."),
-        }, required=["criterion"]),
+            "op": types.Schema(type="STRING", enum=["add", "replace", "remove"]),
+            "block": BLOCK,
+        }, required=["op", "block"]),
     ),
     types.FunctionDeclaration(
         name="conclude", behavior="NON_BLOCKING",
@@ -60,11 +85,6 @@ TOOLS = [types.Tool(function_declarations=[
             "open_questions": types.Schema(type="ARRAY", items=types.Schema(type="STRING"), description="Questions to ask the candidates before deciding."),
         }, required=["summary"]),
     ),
-    types.FunctionDeclaration(
-        name="note", behavior="NON_BLOCKING",
-        description="Call this for any other fact the speakers state that should be on the record (a constraint, a date, a budget). One short sentence.",
-        parameters=types.Schema(type="OBJECT", properties={"text": types.Schema(type="STRING")}, required=["text"]),
-    ),
 ])]
 
 
@@ -77,29 +97,223 @@ Candidates under consideration (use these ids in tool calls):
 {people}
 
 Rules:
-- You never speak unless a speaker addresses you by name ("Pik"). If you must respond, use at most one short sentence.
-- You never score, rank or recommend a person. Humans decide. You only call tools that put evidence on the shared screen.
-- Call show_candidates the moment a speaker says what kind of person they need ("I need someone who...", "we're looking for...", "the person has to..."). Do it immediately, on that sentence, even if the description is incomplete. Call it again whenever the description changes or is refined, in any language.
-- Call note for constraints, dates and budgets the speakers state.
+- You never speak unless a tool result contains say_out_loud_now; then say exactly that sentence once, and nothing else. If a speaker addresses you by name ("Pik"), answer in one short sentence.
+- You never score, rank or recommend a person. Humans decide. You compose the shared screen; the engine fills in every name and every quote.
+- The screen is a small document of blocks: question, people, receipt, constraint, ask. compose replaces it; patch edits one block.
+- The moment a speaker says what kind of person they need ("I need someone who...", "we're looking for...", "the person has to...", or the same in Japanese), call compose with [question, people] on that sentence, even if the description is incomplete. Call compose again whenever the description changes or is refined.
+- When a speaker states a constraint, a date or a budget ("nobody leaves pricing before Q1", "starts April"), call patch add constraint with their words. One chip per constraint: two constraints in one breath are two patches.
+- When they lean toward one person or ask what that person actually wrote or did, call patch add receipt for that person (kind own_words for what they wrote about themselves, manager for the manager's note, claim for something they did, with `about`).
+- If a tool result says follow_up, nothing on file bears on those words; the screen keeps the question and, if they say no more, Pik asks that sentence out loud. Only speak when a message tells you to say a sentence, or a tool result contains say_out_loud_now; say it once, then be silent.
 - Call conclude when they agree on a next step or wrap up. Summarise only what they said.
 - The speakers may talk in English or Japanese. Write tool arguments in English."""
 
 
 NEED = re.compile(r"\b(need|needs|looking for|want|wants|ideal(?:ly)?|has to be|must be|should be)\b.{0,40}\b(someone|somebody|a person|people|engineer|manager|candidate)\b|\bsomeone who\b|\bthe person\b.{0,20}\b(has|must|needs|should)\b|欲しい|ほしい|必要|探して|人がいい|人が良い|人がほしい", re.I)
 LAST_TOOL = {"t": 0.0}
+DOC: list[dict] = []  # the shared screen, as the model last left it (resolved blocks)
+POOL = [c["id"] for c in engine.load("company.json")["candidates"]]
+SINGLETON = {"question", "people", "ask"}  # at most one of each on screen
+MAX_BLOCKS = 8
+_seq = {"n": 0}
 
 
-async def maybe_trigger(text):
-    """Fallback: if a heard sentence states a need and the model has not called show_candidates within 3 s of it, rank on it anyway."""
+def _bid(prefix):
+    _seq["n"] += 1
+    return f"{prefix}{_seq['n']}"
+
+
+def resolve(block: dict):
+    """Fill a block from the engine. The model supplies type + words; the engine supplies every name, quote and match.
+    Returns (resolved block or None, follow_up or None)."""
+    t = block.get("type")
+    b = {"type": t, "id": block.get("id") or _bid(t[0])}
+    if t == "question":
+        b["text"] = (block.get("text") or "").strip()
+        return (b if b["text"] else None), None
+    if t == "constraint":
+        text = (block.get("text") or "").strip()
+        if not text:
+            return None, None
+        c = engine.constraint(text, POOL, block.get("people") or [])
+        b.update(text=text, affects=c["affects"])
+        return b, None
+    if t == "ask":
+        b["text"] = (block.get("text") or "").strip()
+        return (b if b["text"] else None), None
+    if t == "people":
+        crit = (block.get("criterion") or block.get("text") or "").strip()
+        a = engine.ask(crit, "", None, 3, POOL)
+        tiles = []
+        for p in a["people"]:
+            r = (p.get("receipts") or [None])[0]
+            if not r:
+                continue  # a tile without a receipt has no source id: the page would drop it anyway
+            tiles.append({"id": p["id"], "name": p["name"], "role": p["role"], "team": p["team"], "why": r["text"], "source": r["source"], "source_id": r["source_id"]})
+        b.update(criterion=crit, tiles=tiles)
+        return (b if tiles else None), (None if tiles else a.get("follow_up"))
+    if t == "receipt":
+        r = engine.receipt_for(block.get("person") or "", block.get("kind") or "claim", block.get("about") or "")
+        if not r:
+            return None, None
+        b.update(r)
+        return b, None
+    return None, None
+
+
+def _apply(op, b):
+    """Edit DOC in place. Singletons replace by type; anything else by id."""
+    global DOC
+    key = (lambda x: x["type"]) if b["type"] in SINGLETON else (lambda x: x["id"])
+    same_text = lambda x: x["type"] == b["type"] == "constraint" and engine._norm(x["text"]) == engine._norm(b["text"])  # noqa: E731
+    DOC = [x for x in DOC if not (key(x) == key(b) or same_text(x))]
+    if op != "remove":
+        DOC.append(b)
+    if b["type"] in ("people", "receipt") and op != "remove":  # fresh tiles or a receipt answer the pending ask
+        DOC = [x for x in DOC if x["type"] != "ask"]
+    DOC = DOC[-MAX_BLOCKS:]
+
+
+def emit_legacy(b, via=None):
+    """The events the page reacted to before the composition layer, so nothing regresses."""
+    if b["type"] == "people":
+        emit("show_candidates", criterion=b["criterion"], ranking=[t["id"] for t in b["tiles"]], **({"via": via} if via else {}))
+    elif b["type"] == "constraint":
+        emit("note", text=b["text"])
+    elif b["type"] == "ask":
+        emit("follow_up", text=b["text"])
+
+
+def place(op: str, block: dict, via: str | None = None):
+    """Resolve one block through the engine, edit DOC, emit the patch. Returns (kinds placed, follow_up)."""
+    if op == "remove":  # nothing to resolve: drop by id (or by type for the singletons)
+        b = {"type": block.get("type"), "id": block.get("id") or ""}
+        _apply("remove", b)
+        emit("patch", op="remove", block=b, doc=list(DOC))
+        return set(), None
+    b, follow_up = resolve(block)
+    kinds = set()
+    if b:
+        old_q = next((x["text"] for x in DOC if x["type"] == "question"), None)
+        _apply(op, b)
+        emit("patch", op=op, block=b, doc=list(DOC))
+        emit_legacy(b, via)
+        kinds.add(b["type"])
+        if b["type"] == "question" and op != "remove" and b["text"] != old_q and any(x["type"] in ("people", "ask") for x in DOC):
+            # the ask changed: the tiles must follow the words (the engine answers, or asks back)
+            k2, follow_up = place("replace", {"type": "people", "criterion": b["text"]}, via)
+            kinds |= k2
+    elif block.get("type") == "people" and follow_up:
+        pass  # nothing bears on the words: the caller asks back after a short pause (see pending_ask)
+    else:
+        emit("dropped", block=block, reason="engine returned nothing for it")
+    return kinds, follow_up
+
+
+def compose(blocks: list, via: str | None = None):
+    """Replace the whole screen. The question is carried forward if the model left it out."""
+    global DOC
+    old_q = next((x for x in DOC if x["type"] == "question"), None)
+    kept = [x for x in DOC if x["type"] == "constraint"]  # constraints are on the record until removed
+    old_people = next((x for x in DOC if x["type"] == "people"), None)
+    DOC = []
+    kinds, follow_up = set(), None
+    if old_q and not any((x or {}).get("type") == "question" for x in blocks):
+        DOC.append(old_q)
+    DOC.extend(kept)
+    for blk in blocks[:MAX_BLOCKS]:
+        b, fu = resolve(blk or {})
+        follow_up = follow_up or fu
+        if b:
+            _apply("add", b)
+            kinds.add(b["type"])
+            emit_legacy(b, via)
+        elif (blk or {}).get("type") == "people" and fu:
+            if old_people:  # nothing bears on the new words: the last tiles stay, dimmed, under the coming ask
+                _apply("add", old_people)
+        else:
+            emit("dropped", block=blk, reason="engine returned nothing for it")
+    emit("compose", doc=list(DOC))
+    return kinds, follow_up
+
+
+def speak_now(text):
+    """Let the model's next audio through for a few seconds (the one spoken follow-up), and tell it what to say."""
+    SPEAKING["until"] = time.time() + 12
+    return {"say_out_loud_now": text}
+
+
+ASK_DELAY = 3.0  # the model composes on half sentences; an ask on a half sentence would talk over the speaker
+PENDING = {"task": None}
+CURRENT = {"session": None, "on_placed": None}  # the live session (to have the follow-up spoken) and the sim's grader
+
+
+async def pending_ask(text, session=None, on_placed=None):
+    """Ask back only if nobody said anything more for ASK_DELAY seconds (no further tool call). Then show the ask block,
+    open the speaker window and prompt the model to say that one sentence."""
+    t0 = LAST_TOOL["t"]
+    await asyncio.sleep(ASK_DELAY)
+    if LAST_TOOL["t"] != t0:
+        return  # they kept talking and the model acted on it; the ask is withdrawn
+    a, _ = resolve({"type": "ask", "text": text})
+    _apply("add", a)
+    emit("compose", doc=list(DOC))
+    emit_legacy(a)
+    if on_placed:
+        on_placed({"ask"})
+    speak_now(text)
+    if session is not None:
+        try:
+            await session.send_client_content(turns=types.Content(role="user", parts=[types.Part(text=f'Pik, say exactly this once, then stay silent: "{text}"')]), turn_complete=True)
+        except Exception as e:  # noqa: BLE001
+            emit("status", text=f"could not prompt the follow-up ({type(e).__name__}); shown, not spoken")
+
+
+def schedule_ask(text, session=None, on_placed=None):
+    if PENDING["task"] and not PENDING["task"].done():
+        PENDING["task"].cancel()
+    PENDING["task"] = asyncio.create_task(pending_ask(text, session or CURRENT["session"], on_placed or CURRENT["on_placed"]))
+
+
+async def handle_tool_call(fc, session=None, on_placed=None):
+    """One function call from the model -> engine -> events. Returns (FunctionResponse, kinds placed) so the sim can grade it.
+    `session` lets a debounced follow-up be spoken; `on_placed(kinds)` reports blocks placed later (the sim grades them)."""
+    args = dict(fc.args or {})
+    result = {"ok": True}
+    kinds = set()
+    LAST_TOOL["t"] = time.time()
+    if fc.name in ("compose", "patch"):
+        if fc.name == "compose":
+            kinds, follow_up = await asyncio.to_thread(compose, list(args.get("blocks") or []))
+        else:
+            kinds, follow_up = await asyncio.to_thread(place, args.get("op") or "add", dict(args.get("block") or {}))
+        result = {"screen": [{"type": b["type"], "id": b["id"]} for b in DOC]}
+        if follow_up:
+            result["follow_up"] = follow_up
+            result["note"] = "nothing on file bears on these words; if they say no more, Pik will ask this out loud in a moment. Do not say it yourself."
+            schedule_ask(follow_up, session, on_placed)
+        elif "ask" in kinds:  # the model wrote its own follow-up: say it now
+            result.update(speak_now(next(b["text"] for b in DOC if b["type"] == "ask")))
+    elif fc.name == "conclude":
+        emit("conclude", **args)
+        kinds.add("conclude")
+    else:
+        result = {"error": f"unknown tool {fc.name}"}
+    return types.FunctionResponse(id=fc.id, name=fc.name, response=result, scheduling="INTERRUPT" if result.get("say_out_loud_now") else "SILENT"), kinds
+
+
+async def maybe_trigger(text, t_heard=None):
+    """Fallback: if a heard sentence states a need and the model has not composed within 3 s of it, compose on it anyway."""
     if not NEED.search(text):
-        return
-    t_heard = time.time()
+        return set()
+    t_heard = t_heard or time.time()
     await asyncio.sleep(3)
     if LAST_TOOL["t"] >= t_heard - 2:  # the model handled it
-        return
-    r = await asyncio.to_thread(engine.rank, text.strip())
+        return set()
     LAST_TOOL["t"] = time.time()
-    emit("show_candidates", criterion=text.strip(), ranking=[x["candidate"] for x in r["ranking"]], via="transcript")
+    kinds, follow_up = await asyncio.to_thread(compose, [{"type": "question", "text": text.strip()}, {"type": "people", "criterion": text.strip()}], "transcript")
+    if follow_up:
+        schedule_ask(follow_up)
+    return kinds
 
 
 def emit(kind, **payload):
@@ -121,6 +335,7 @@ def pick_mic():
 
 async def main():
     EVENTS.write_text("")
+    DOC.clear()
     client = genai.Client(vertexai=True, project=PROJECT, location=LOCATION)
     # The SDK forwards this dict to websockets.connect; a 20 s pong timeout was dropping the socket on venue Wi-Fi.
     try:
@@ -184,6 +399,7 @@ async def main():
 
 
 async def run_session(session, q):
+    CURRENT["session"] = session
     if True:
 
         async def pump():
@@ -225,18 +441,8 @@ async def run_session(session, q):
                   if msg.tool_call:
                       responses = []
                       for fc in msg.tool_call.function_calls:
-                          args = dict(fc.args or {})
-                          result = {"ok": True}
-                          if fc.name == "show_candidates":
-                              LAST_TOOL["t"] = time.time()
-                              r = await asyncio.to_thread(engine.rank, args.get("criterion", ""))
-                              result = {"shown": [{"id": x["candidate"], "name": x["name"], "evidence_items": len(x["receipts"])} for x in r["ranking"]]}
-                              emit("show_candidates", criterion=args.get("criterion", ""), ranking=[x["candidate"] for x in r["ranking"]])
-                          elif fc.name == "conclude":
-                              emit("conclude", **args)
-                          elif fc.name == "note":
-                              emit("note", text=args.get("text", ""))
-                          responses.append(types.FunctionResponse(id=fc.id, name=fc.name, response=result, scheduling="INTERRUPT" if result.get("say_out_loud_now") else "SILENT"))
+                          resp, _ = await handle_tool_call(fc, session)
+                          responses.append(resp)
                       await session.send_tool_response(function_responses=responses)
 
         lt = asyncio.create_task(listen())

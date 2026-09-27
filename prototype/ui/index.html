@@ -156,10 +156,55 @@
   body.present .stub .txt{font-size:18px;line-height:26px}
   body.subjectonly .critbar,body.subjectonly .cands,body.subjectonly .seg,body.subjectonly .live{display:none}
   @media(prefers-reduced-motion:reduce){.cand.moved,#printer.on,.live .dots i{animation:none}}
+
+  /* The composed screen (Meet): five primitives, one block at a time, nothing scrolls */
+  #stage{position:fixed;inset:0;z-index:15;background:var(--paper);display:none;flex-direction:column;gap:26px;padding:44px 64px 40px;overflow:hidden}
+  body.stage #stage{display:flex}
+  body.stage{overflow:hidden}
+  #stage .sbrand{display:flex;justify-content:space-between;align-items:center;color:var(--mute);font:500 12px/16px var(--mono);letter-spacing:.5px;text-transform:uppercase}
+  #stage .sbrand .brand{font-size:16px;text-transform:none;letter-spacing:-.4px;color:var(--ink)}
+  #stage .blk{animation:settle .5s ease-out both}
+  #stage .blk.wait{visibility:hidden;animation:none}
+  #stage .sq{font-size:44px;line-height:52px;font-weight:700;letter-spacing:-1.6px;max-width:1180px;color:var(--ink)}
+  #stage .sq .eyebrow{display:block;margin-bottom:10px}
+  #stage .sq.small{font-size:28px;line-height:34px;letter-spacing:-.9px;color:var(--body)}
+  #stage .stiles{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  #stage .stile{position:relative;background:var(--receipt);border:1.5px solid var(--rule);border-radius:22px;padding:22px 22px 20px;display:grid;grid-template-columns:76px 1fr;gap:16px;align-items:start;box-shadow:var(--shadow);transition:opacity .4s,border-color .3s}
+  #stage .stile svg{width:76px;height:76px;display:block}
+  #stage .stile .nm{font-size:26px;line-height:30px;font-weight:700;letter-spacing:-.8px}
+  #stage .stile .rl{font-size:14px;line-height:20px;color:var(--mute);margin-top:2px}
+  #stage .stile .why{font-size:17px;line-height:25px;color:var(--body);margin-top:12px;border-top:1px dashed var(--rule);padding-top:10px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  #stage .stile .src{font:12px/16px var(--mono);color:var(--mute);margin-top:8px}
+  #stage .stile.dim{opacity:.32}
+  #stage .stile .reason{font:600 13px/18px var(--mono);color:var(--ink);margin-top:10px;border-top:1px dashed var(--rule);padding-top:8px}
+  #stage .stile.focus{border-color:var(--ink);box-shadow:0 0 0 3px var(--ink),var(--shadow)}
+  #stage .stile.back{opacity:.45}
+  #stage .schips{display:flex;gap:12px;flex-wrap:wrap}
+  #stage .schip{border:1.5px solid var(--ink);border-radius:999px;padding:9px 18px;font:600 16px/22px var(--mono);letter-spacing:-.2px;color:var(--ink);background:var(--paper)}
+  #stage .sask{display:flex;gap:22px;align-items:center;background:var(--ink);color:#0A0A0A;border-radius:22px;padding:28px 32px;font-size:30px;line-height:38px;font-weight:600;letter-spacing:-.8px}
+  #stage .sask .spk{display:flex;flex-direction:column;gap:6px;align-items:center;font:600 11px/14px var(--mono);letter-spacing:.6px;text-transform:uppercase;opacity:.75;white-space:nowrap}
+  #stage .sask .spk svg{width:26px;height:26px}
+  #stage .srecs{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  #stage .srecs.one{grid-template-columns:1fr}
+  #stage .srec .q{font-size:23px;line-height:31px}
+  #stage .srec .from{font:13px/18px var(--mono);color:var(--mute)}
+  #stage .sfoot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:16px;color:var(--mute);font:12px/16px var(--mono)}
+  #stage .sfoot .drop{color:var(--coral)}
+  body.present #stage{padding:56px 80px 48px}
+  body.present #stage .sq{font-size:52px;line-height:60px}
+  body.present #stage .stile .why{font-size:19px;line-height:27px}
+  body.present #stage .sask{font-size:34px;line-height:42px}
+  @media(max-width:1100px){#stage .sq{font-size:34px;line-height:40px}#stage .stiles{gap:12px}#stage .stile{grid-template-columns:56px 1fr}#stage .stile svg{width:56px;height:56px}}
+  @media(prefers-reduced-motion:reduce){#stage .blk{animation:none}}
 </style>
 </head>
 <body>
 <div id="shade"></div>
+<div id="stage" aria-live="polite">
+  <div class="sbrand"><span class="brand"><i></i> Pik</span><span id="sdecision"></span></div>
+  <div id="sblocks" style="display:flex;flex-direction:column;gap:26px;min-height:0"></div>
+  <div class="sfoot"><span id="sstatus">Listening</span><span id="sdrop"></span></div>
+</div>
 <div id="printer">
   <div class="paper" id="concl">
     <p class="eyebrow">What this meeting concluded</p>
@@ -327,16 +372,53 @@ async function loadAudit(){const a=await (await fetch('/api/audit')).json();
   $('#audit').innerHTML=`<span class="h">Read</span>`+Object.entries(a.used).map(([k,v])=>`<span class="n">${v.count}</span><span>${esc(v.note)}</span>`).join('')
     +`<span class="h">Never read</span>`+Object.entries(a.never_read).map(([k,v])=>`<span class="n never">${v.count}</span><span class="never">${esc(k.replace('_',' '))}: ${esc(v.note)}${v.sha256?` · manifest ${v.sha256.slice(0,8)}`:''}</span>`).join('');}
 function openAudit(){document.getElementById('auditDlg').showModal();}
+
+// ---- the composed screen: the model's document, rendered; every name and quote checked against the evidence store ----
+let doc=[], shownIds=new Set(), stageHidden=false, stageDrops=0;
+const normq=s=>String(s||'').toLowerCase().replace(/[\u2019]/g,"'").replace(/[\u201c\u201d]/g,'"').replace(/[^\w' ]+/g,' ').split(/\s+/).filter(Boolean).join(' ');
+async function itemsOf(id){ if(!evcache[id]){ try{ evcache[id]=await (await fetch(`/api/evidence/${id}`)).json(); }catch(e){ return {}; } } return (evcache[id]&&evcache[id].items)||{}; }
+async function checkBlock(b){
+  // same rule as claims: a person or a quote without a source id the engine returned is dropped
+  if(b.type==='people'){ const tiles=[]; for(const t of (b.tiles||[])){ const its=await itemsOf(t.id); if(company.candidates.some(c=>c.id===t.id)&&t.source_id&&its[t.source_id]) tiles.push(t); else stageDrops++; } return tiles.length?{...b,tiles}:null; }
+  if(b.type==='receipt'){ const its=await itemsOf(b.person); const it=its[b.source_id]; if(it&&normq(it.rendered).includes(normq(b.text))) return b; stageDrops++; return null; }
+  if(b.type==='constraint'||b.type==='question'||b.type==='ask') return b.text?b:null;
+  return null; }
+function shapeOf(id){ const k=company.candidates.findIndex(c=>c.id===id); return k<0?'':SHAPES[k%3](SHAPE_COLORS[k%3]); }
+async function renderStage(fresh){
+  const ok=[]; for(const b of doc){ const v=await checkBlock(b); if(v) ok.push(v); }
+  const question=ok.find(b=>b.type==='question'), people=ok.find(b=>b.type==='people'), ask=ok.find(b=>b.type==='ask');
+  const cons=ok.filter(b=>b.type==='constraint'); const byKind={}; ok.filter(b=>b.type==='receipt').forEach(r=>{byKind[r.person+'/'+r.kind]=r;}); const recs=Object.values(byKind).slice(-2);
+  const dimmed={}; cons.forEach(c=>(c.affects||[]).forEach(a=>{ if(!dimmed[a.id]) dimmed[a.id]=a.reason; }));
+  const focus=recs.length?recs[recs.length-1].person:null;
+  const parts=[];
+  if(question) parts.push({id:question.id,html:`<div class="sq ${people||ask||recs.length?'':''}"><span class="eyebrow">Heard</span>${esc(question.text)}</div>`});
+  if(cons.length) parts.push({id:'chips:'+cons.map(c=>c.id).join(','),html:`<div class="schips">${cons.map(c=>`<span class="schip">${esc(c.text)}</span>`).join('')}</div>`});
+  if(people) parts.push({id:people.id,html:`<div class="stiles">${people.tiles.map(t=>{const d=dimmed[t.id]; const isF=focus===t.id; const cls=isF?'focus':(d?'dim':((focus||ask)?'back':''));
+      return `<div class="stile ${cls}">${shapeOf(t.id)}<div><div class="nm">${esc(t.name)}</div><div class="rl">${esc(t.role)}, ${esc(t.team)}</div>${d&&!isF?`<div class="reason">${esc(d)}</div>`:`<div class="why">${esc(splitClaim(t.why).txt)}</div><div class="src">${esc(t.source)}</div>${d?`<div class="reason">${esc(d)}</div>`:''}`}</div></div>`}).join('')}</div>`});
+  if(ask) parts.push({id:ask.id,html:`<div class="sask"><span class="spk"><svg viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a9 9 0 0 1 0 14"/></svg>Pik asks</span><span>${esc(ask.text)}</span></div>`});
+  if(recs.length) parts.push({id:recs.map(r=>r.id).join(','),html:`<div class="srecs ${recs.length===1?'one':''}">${recs.map(r=>`<div class="receipt srec ${r.stamp==='paraphrase'?'grey':''}"><div class="head"><span class="eyebrow">${esc(r.stamp==='paraphrase'?`What ${r.source.split("'")[0]} wrote`:`${r.name.split(' ')[0]}, own words`)}</span><span class="stamp ${r.stamp==='paraphrase'?'grey':''}">${esc(r.stamp)}</span></div><p class="q">${esc(r.text)}</p><div class="from">${esc(r.source)} · ${esc(r.source_id)}</div></div>`).join('')}</div>`});
+  const box=$('#sblocks'); box.innerHTML=parts.map(p=>`<div class="blk ${fresh&&!shownIds.has(p.id)?'wait':''}" data-id="${esc(p.id)}">${p.html}</div>`).join('');
+  $('#sdecision').textContent=nd(`${company.name} · ${company.decision.title}`);
+  $('#sdrop').textContent=stageDrops?`${stageDrops} dropped: no source`:'';
+  // one block at a time: new blocks appear 350 ms apart, in document order
+  const fresh_=[...box.querySelectorAll('.blk.wait')]; fresh_.forEach((el,i)=>setTimeout(()=>el.classList.remove('wait'),350*(i+1)));
+  shownIds=new Set(parts.map(p=>p.id));
+  const on=!AS&&!stageHidden&&doc.length>0; document.body.classList.toggle('stage',on);
+}
+function stageStatus(t){ const el=$('#sstatus'); if(el) el.textContent=t; }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&document.body.classList.contains('stage')&&!document.body.classList.contains('present')){ stageHidden=true; document.body.classList.remove('stage'); } });
 function closePrinter(){$('#printer').classList.remove('on');$('#shade').classList.remove('on');}
 async function pollLive(){
   try{
     const r=await (await fetch('/api/live?since='+liveSince)).json();
     for(const e of r.events){
       liveSince=Math.max(liveSince,e.t);
-      if(e.kind==='status'){$('#live').classList.toggle('on',!/stopped/.test(e.text));$('#livest').textContent=/stopped/.test(e.text)?'Listener off':'Listening';$('#liveheard').textContent=e.text;}
+      if(e.kind==='status'){$('#live').classList.toggle('on',!/stopped/.test(e.text));$('#livest').textContent=/stopped/.test(e.text)?'Listener off':'Listening';$('#liveheard').textContent=e.text; stageStatus(/stopped/.test(e.text)?'Listener off':'Listening'); if(/simulated call|listening on/.test(e.text)&&e.t>LOADED){doc=[];stageDrops=0;stageHidden=false;await renderStage(false);}}
+      if((e.kind==='compose'||e.kind==='patch')&&!AS){ doc=e.doc||[]; stageHidden=false; stageDrops=0; await renderStage(e.t>LOADED); }
+      if(e.kind==='heard') stageStatus('Heard: '+e.text.slice(0,90));
       if(e.kind==='heard'){$('#live').classList.add('on');$('#liveheard').textContent=e.text;}
       if(e.kind==='note'){liveNotes.push(e.text);$('#livest').textContent='On the record';$('#liveheard').textContent=e.text;}
-      if(e.kind==='follow_up'){$('#live').classList.add('on');$('#livest').textContent='Pik asks';$('#liveheard').textContent=e.text;}
+      if(e.kind==='follow_up'){$('#live').classList.add('on');$('#livest').textContent='Pik asks';$('#liveheard').textContent=e.text; stageStatus('Pik asks');}
       if(e.kind==='show_candidates'&&!AS){
         if(e.t>LOADED) setToday(false); $('#crit').value=e.criterion; $('#livest').textContent=e.via==='transcript'?'Heard the criterion (transcript)':'Heard the criterion'; $('#liveheard').textContent=e.criterion;
         await doRank(); if(e.ranking&&e.ranking[0]) await selectCand(e.ranking[0]);
@@ -348,7 +430,7 @@ async function pollLive(){
         const fill=(sec,list,items)=>{$(sec).classList.toggle('hidden',!(items&&items.length));$(list).innerHTML=(items||[]).map(x=>`<li>${esc(x)}</li>`).join('');};
         fill('#cnext','#cnextl',e.next_steps); fill('#copen','#copenl',e.open_questions); fill('#cnotes','#cnotesl',liveNotes);
         if(ids[0]) await selectCand(ids[0]);
-        $('#shade').classList.add('on'); $('#printer').classList.add('on'); $('#livest').textContent='Concluded';
+        $('#shade').classList.add('on'); $('#printer').classList.add('on'); $('#livest').textContent='Concluded'; stageStatus('Concluded');
       }
     }
   }catch(err){}

@@ -36,7 +36,23 @@ make run-heuristic            # terminal 1, the page
 make live                     # terminal 2, mic -> gemini-3.8-live (Vertex, us-central1) -> tool calls
 ```
 
-`MIC="MacBook" make live` picks an input device by name. The model only calls tools (`show_candidates`, `note`, `conclude`); it never speaks unless addressed as "Pik", and it never ranks anyone itself. Events land in `state/live.jsonl`; the page polls `/api/live`. Nothing is recorded to disk except those events.
+`MIC="MacBook" make live` picks an input device by name. Events land in `state/live.jsonl`; the page polls `/api/live`. Nothing is recorded to disk except those events. `SPEAK=0 make live` never plays audio (the sim forces this).
+
+### The screen is composed live, from five primitives
+
+The model does not draw; it edits a small layout document and the page renders it. Two tools: `compose(blocks)` replaces the document, `patch(op, block)` adds, replaces or removes one block (`conclude` is the third tool, unchanged). Five block types, no more:
+
+| Block | The model supplies | The engine fills in |
+|---|---|---|
+| `question` | the ask, as heard | nothing |
+| `people` | `criterion` | up to three tiles from `engine.ask` (name, role, one why, source id), in the engine's order |
+| `receipt` | `person`, `kind` (`own_words`, `manager`, `claim`), `about` | the verbatim quote, its source label and id (`engine.receipt_for`) |
+| `constraint` | the chip text | which tiles it touches, from facts on file: team, location, availability (`engine.constraint`) |
+| `ask` | the follow-up (or the engine's `follow_up` when the ask is too vague to fill tiles) | spoken once through the speaker when `SPEAK=1`, then silence |
+
+The model never names a person or quotes anyone itself. A tile or a receipt must carry a source id the engine returned; the page checks it against the evidence store (and, for a receipt, that the quote is in the source) and drops it otherwise, counting the drops in the footer. The screen starts empty except the question; blocks appear one at a time; nothing scrolls. A `compose` carries the question and the constraint chips forward unless the model removes them; a changed question re-runs the tiles on the new words; an `ask` sits over the last tiles until a receipt or fresh tiles answer it. `?present=1` is what gets shared in the Meet; Esc hides the composed screen outside present mode.
+
+`make live-sim` speaks a seven-line scripted call (macOS `say`, never through the speakers) into the same session and grades which blocks landed after each line: question + people, constraint, people (Japanese), ask, receipt, conclude. The old events (`show_candidates`, `note`, `follow_up`, `conclude`) are still emitted beside `compose` / `patch`, so the page underneath keeps working.
 
 ## The engine behind every surface (Meet, Slack, Jira)
 

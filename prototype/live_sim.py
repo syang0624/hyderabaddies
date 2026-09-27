@@ -1,8 +1,10 @@
 """Simulated meeting for the live layer: TTS audio -> Gemini 3.8 Live -> tool calls, no microphone.
 
 Speaks a scripted PM/HR call through macOS `say` into wav files (never through the speakers),
-streams them to the same Live session live.py uses, and reports which tools fired after each
-line and how long they took. Events go to state/live.jsonl, so the page reacts as in a real call.
+streams them to the same Live session live.py uses, and reports which blocks the model placed on
+the shared screen after each line (question, people, constraint, ask, receipt, conclude) and how
+long they took. Events go to state/live.jsonl, so the page reacts as in a real call. SPEAK is
+forced to 0: nothing is ever played.
 
 Run:  .venv/bin/python live_sim.py            (needs macOS `say`; ~2 minutes)
 """
@@ -21,13 +23,15 @@ sys.path.insert(0, str(Path(__file__).parent))
 import live  # noqa: E402
 from google.genai import types  # noqa: E402
 
-# (speaker voice, line, tools we expect to fire on it: set of names, or empty set for "nothing")
+# (speaker voice, line, blocks we expect on the screen after it: a set of block kinds, or empty for "nothing")
+# A line passes when every expected kind was placed, and "ask" / "conclude" fired only when expected.
 SCRIPT = [
     ("Samantha", "Hey, how was the weekend? The coffee at this place is really good. Anyway, I have about ten minutes.", set()),
-    ("Daniel", "Sure. So for the Northwind exchange slot. Honestly I need someone who will push back on the job-based culture over there instead of just absorbing it. And they have to hold their own in English in meetings.", {"show_candidates"}),
-    ("Samantha", "Got it. One constraint from my side: the posting starts April 2027, and we cannot lose anyone from pricing before the Q1 close.", {"note"}),
-    ("Kyoko", "あと、英語で会議をリードできて、上司の意見にも異議を唱えられる人がいいです。", {"show_candidates"}),
-    ("Samantha", "Actually, we also need someone good for this. Just someone good.", {"show_candidates", "follow_up"}),
+    ("Daniel", "Sure. So for the Northwind exchange slot. Honestly I need someone who will push back on the job-based culture over there instead of just absorbing it. And they have to hold their own in English in meetings.", {"question", "people"}),
+    ("Samantha", "Got it. One constraint from my side: the posting starts April 2027, and we cannot lose anyone from pricing before the Q1 close.", {"constraint"}),
+    ("Kyoko", "あと、英語で会議をリードできて、上司の意見にも異議を唱えられる人がいいです。", {"people"}),
+    ("Samantha", "Actually, we also need someone good for this. Just someone good.", {"ask"}),
+    ("Daniel", "I keep coming back to Yui. What did she actually write about this herself, and what did her manager write about her?", {"receipt"}),
     ("Daniel", "Okay. Looking at this, Yui's own words say she wants exactly that, and she has been running the Northwind sync in English. Let's set up calls with Yui and Kei this week, and ask Yui whether her manager's note about being flexible on location is actually true. That's it for today, thanks.", {"conclude"}),
 ]
 RATE = 16000
@@ -43,7 +47,9 @@ def tts(voice, text):
 
 
 async def main():
+    live.SPEAK = False  # never play audio in tests
     live.EVENTS.write_text("")
+    live.DOC.clear()
     client = live.genai.Client(vertexai=True, project=live.PROJECT, location=live.LOCATION)
     # The SDK forwards this dict to websockets.connect; a 20 s pong timeout was dropping the socket on venue Wi-Fi.
     try:
@@ -57,6 +63,7 @@ async def main():
         session_resumption=types.SessionResumptionConfig(handle=None),
     )
     fired: list[tuple[float, str, dict]] = []
+    placed: list[tuple[float, set]] = []  # (t, block kinds placed) per tool call, graded per line
     said: list[str] = []
     heard_buf = [""]
     drops = 0
@@ -73,6 +80,8 @@ async def main():
       config.session_resumption = types.SessionResumptionConfig(handle=RESUME["handle"])
       async with client.aio.live.connect(model=live.MODEL, config=config) as session:
         live.emit("status", text=f"simulated call via {live.MODEL}" + (f" (reconnect {drops})" if drops else ""))
+        live.CURRENT["session"] = session
+        live.CURRENT["on_placed"] = lambda k: placed.append((time.time(), set(k)))
 
         async def listen():
             while True:  # receive() returns after every turn_complete; keep reading until the socket closes
@@ -86,45 +95,27 @@ async def main():
                           txt = heard_buf[0].strip(); heard_buf[0] = ""
                           live.emit("heard", text=txt)
                           async def fallback(txt=txt, t_heard=time.time()):
-                              if not live.NEED.search(txt):
-                                  return
-                              await asyncio.sleep(3)
-                              if live.LAST_TOOL["t"] >= t_heard - 2:
-                                  return
-                              r = await asyncio.to_thread(live.engine.rank, txt)
-                              live.LAST_TOOL["t"] = time.time()
-                              fired.append((time.time(), "show_candidates", {"criterion": txt, "via": "transcript"}))
-                              live.emit("show_candidates", criterion=txt, ranking=[x["candidate"] for x in r["ranking"]], via="transcript")
+                              kinds = await live.maybe_trigger(txt, t_heard)
+                              if kinds:
+                                  fired.append((time.time(), "transcript", {"kinds": sorted(kinds), "criterion": txt}))
+                                  placed.append((time.time(), kinds))
                           asyncio.create_task(fallback())
                   if sc and sc.output_transcription and sc.output_transcription.text:
                       said.append(sc.output_transcription.text)
                   if msg.tool_call:
                       responses = []
                       for fc in msg.tool_call.function_calls:
-                          args = dict(fc.args or {})
-                          fired.append((time.time(), fc.name, args))
-                          result = {"ok": True}
-                          if fc.name == "show_candidates":
-                              live.LAST_TOOL["t"] = time.time()
-                              a = await asyncio.to_thread(live.engine.ask, args.get("criterion", ""), "", None, 3, [c["id"] for c in live.engine.load("company.json")["candidates"]])
-                              if a.get("follow_up"):
-                                  live.emit("follow_up", text=a["follow_up"])
-                                  fired.append((time.time(), "follow_up", {"text": a["follow_up"]}))
-                              r = await asyncio.to_thread(live.engine.rank, args.get("criterion", ""))
-                              result = {"shown": [{"id": x["candidate"], "name": x["name"]} for x in r["ranking"]]}
-                              live.emit("show_candidates", criterion=args.get("criterion", ""), ranking=[x["candidate"] for x in r["ranking"]])
-                          elif fc.name == "conclude":
-                              live.emit("conclude", **args)
-                          elif fc.name == "note":
-                              live.emit("note", text=args.get("text", ""))
-                          responses.append(types.FunctionResponse(id=fc.id, name=fc.name, response=result, scheduling="SILENT"))
+                          fired.append((time.time(), fc.name, dict(fc.args or {})))
+                          resp, kinds = await live.handle_tool_call(fc)
+                          placed.append((time.time(), kinds))
+                          responses.append(resp)
                       await session.send_tool_response(function_responses=responses)
 
         lt = asyncio.create_task(listen())
         try:
             while idx < len(audio):
                 voice, text, expect, pcm = audio[idx]
-                n0 = len(fired)
+                n0 = len(fired); p0 = len(placed)
                 for i in range(0, len(pcm), RATE // 5):  # 100 ms chunks at real-time pace
                     await session.send_realtime_input(audio=types.Blob(data=pcm[i:i + RATE // 5], mime_type=f"audio/pcm;rate={RATE}"))
                     await asyncio.sleep(0.1)
@@ -133,9 +124,10 @@ async def main():
                     await session.send_realtime_input(audio=types.Blob(data=silence, mime_type=f"audio/pcm;rate={RATE}"))
                     await asyncio.sleep(0.1)
                 got = fired[n0:]
-                names = {n for _, n, _ in got}
+                kinds = set().union(*[k for _, k in placed[p0:]]) if placed[p0:] else set()
+                ok = expect <= kinds and all((k in kinds) == (k in expect) for k in ("ask", "conclude"))
                 lat = f"{got[0][0] - t_end:+.1f}s after the line ended" if got else "none"
-                report.append((names == expect, voice, text[:60], sorted(names), sorted(expect), lat, [a for _, _, a in got]))
+                report.append((ok, voice, text[:60], sorted(kinds), sorted(expect), lat, [{"tool": n, **a} for _, n, a in got]))
                 idx += 1
         except Exception as e:  # noqa: BLE001
             drops += 1
@@ -149,10 +141,11 @@ async def main():
     passed = 0
     for ok, voice, text, names, expect, lat, args in report:
         passed += ok
-        print(f"{'PASS' if ok else 'FAIL'}  {voice:9} {text!r}\n      fired={names} expected={expect} first={lat}")
+        print(f"{'PASS' if ok else 'FAIL'}  {voice:9} {text!r}\n      placed={names} expected={expect} first={lat}")
         for a in args:
             print("      ", json.dumps(a, ensure_ascii=False)[:220])
     print(f"\n{passed}/{len(report)} lines behaved as expected. Socket drops: {drops}. Model spoke {len(said)} times: {' | '.join(s.strip() for s in said)[:200]!r}")
+    print(f"screen at the end: {[b['type'] for b in live.DOC]}")
     return passed == len(report)
 
 

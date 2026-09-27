@@ -403,6 +403,19 @@ def reset():
 STOP = set("the a an and or for of to in on with who is best person someone somebody we need want looking this that our their can will should be by at from as it".split())
 
 
+def _stem(w):
+    """Light stemming so 'meeting' meets 'meetings' and 'leading' meets 'lead'. Not linguistics; enough for word forms in a spoken ask."""
+    for suf in ("ings", "ing", "ies", "es", "ed", "s"):
+        if len(w) > len(suf) + 2 and w.endswith(suf):
+            w = w[:-len(suf)] + ("y" if suf == "ies" else "")
+            break
+    return w
+
+
+def _terms(s):
+    return {_stem(t) for t in _tokens(s)} - STOP
+
+
 def people():
     f = DATA / "people.json"
     return json.loads(f.read_text()) if f.exists() else []
@@ -436,7 +449,7 @@ def _will(p):
 def ask(question: str, context: str = "", requester: str | None = None, k: int = 3, pool: list | None = None):
     """Rank people on evidence overlap with the question (skills, will, receipts), minus a load penalty.
     Returns people with why + receipts + load, and a follow-up question when the ask is too vague to rank."""
-    q = _tokens(question + " " + (context or "")) - STOP
+    q = _terms(question + " " + (context or ""))
     rows = []
     for p in people():
         if pool and p["id"] not in pool:
@@ -446,19 +459,19 @@ def ask(question: str, context: str = "", requester: str | None = None, k: int =
         score = 0.0
         hits = []
         for t, lvl in (p.get("skills") or {}).items():
-            ov = _tokens(t) & q
+            ov = _terms(t) & q
             if ov:
                 score += 2.0 * lvl / 5
                 hits.append(("skill", f"{t} ({lvl}/5)", None))
         w = _will(p)
         if w:
-            ov = _tokens(w) & q
+            ov = _terms(w) & q
             if len(ov) >= 2:
                 score += 1.5 + 0.2 * len(ov)
                 hits.append(("will", w, None))
         recs = _person_receipts(p)
         for text, lab, sid in recs:
-            ov = _tokens(text) & q
+            ov = _terms(text) & q
             if len(ov) >= 2:
                 score += 1.0 + 0.3 * len(ov)
                 hits.append(("receipt", text, (lab, sid)))
@@ -490,3 +503,73 @@ def ask(question: str, context: str = "", requester: str | None = None, k: int =
             follow_up = "Is this for the Tokyo side or the partner side, and by when?"
     return {"question": question, "criterion": " ".join(sorted(q)), "people": out, "follow_up": follow_up,
             "considered": len(rows), "backend": "keyword", "note": "Order is evidence overlap with the words, minus a load penalty. Not a verdict."}
+
+
+# ---------- the composed screen (Meet): the engine supplies every name, quote and constraint match ----------
+
+SOURCE_LABEL = {"slack": lambda it: f"Slack {it.get('channel','')}, {it.get('date','')}", "docs": lambda it: f"Doc: {it.get('title','')}",
+                "wcm": lambda it: f"Will Can Must sheet, {it.get('date','')}", "manager_notes": lambda it: f"{it.get('manager','')}'s note, {it.get('date','')}",
+                "sessions": lambda it: f"AI session, opted in, {it.get('date','')}"}
+
+
+def source_label(it):
+    return SOURCE_LABEL.get(it.get("source"), lambda i: i.get("id", ""))(it)
+
+
+def receipt_for(person: str, kind: str = "claim", about: str = ""):
+    """One verbatim quote for a person, with its source id. kind: own_words (the WCM will line), manager (the manager's note),
+    or claim (the extracted claim whose quote best overlaps `about`). Returns None if the person or source is unknown."""
+    company = load("company.json")
+    c = next((x for x in company["candidates"] if x["id"] == person), None)
+    if not c:
+        return None
+    items = {it["id"]: it for it in items_for(person)}
+    if kind == "own_words":
+        it = next((i for i in items.values() if i["source"] == "wcm"), None)
+        return it and {"person": person, "name": c["name"], "text": it["will"], "source": source_label(it), "source_id": it["id"], "stamp": "verbatim", "kind": kind}
+    if kind == "manager":
+        it = next((i for i in items.values() if i["source"] == "manager_notes"), None)
+        return it and {"person": person, "name": c["name"], "text": it["text"], "source": source_label(it), "source_id": it["id"], "stamp": "paraphrase", "kind": kind}
+    e = extract_claims(person)
+    q = _terms(about or "")
+    best, best_ov = None, -1
+    for cl in e["claims"]:
+        if cl["kind"] in ("declared_will", "manager_paraphrase"):
+            continue
+        ov = len(q & _terms(cl.get("quote") or cl["text"])) + len(q & _terms(cl["text"]))
+        if ov > best_ov:
+            best, best_ov = cl, ov
+    if not best:
+        return None
+    sid = best["source_ids"][0]
+    it = items.get(sid)
+    if not it:
+        return None
+    return {"person": person, "name": c["name"], "text": best.get("quote") or best["text"], "source": source_label(it), "source_id": sid,
+            "stamp": "verbatim", "kind": "claim", "claim_kind": best["kind"]}
+
+
+def constraint(text: str, pool: list | None = None, named: list | None = None):
+    """Which people a stated constraint touches, from facts on file (team, role, location, availability), never from judgement.
+    `named` are ids the speakers themselves named; they are kept with the reason 'named on the call'."""
+    company = load("company.json")
+    ids = pool or [c["id"] for c in company["candidates"]]
+    q = _terms(text)
+    by_id = {p["id"]: p for p in people()}
+    affects = []
+    for cid in ids:
+        p = by_id.get(cid) or next((dict(c) for c in company["candidates"] if c["id"] == cid), None)
+        if not p:
+            continue
+        for field in ("team", "role", "location", "availability"):
+            v = str(p.get(field) or "")
+            ov = _terms(v) & q
+            if ov:
+                reason = {"team": f"on the {v} team", "location": f"based in {v}", "availability": f"availability: {v}"}.get(field, f"{field}: {v}")
+                affects.append({"id": cid, "name": p["name"], "reason": reason, "field": field})
+                break
+    for cid in named or []:
+        if cid in ids and not any(a["id"] == cid for a in affects):
+            p = by_id.get(cid) or next((c for c in company["candidates"] if c["id"] == cid), {})
+            affects.append({"id": cid, "name": p.get("name", cid), "reason": "named on the call", "field": "said"})
+    return {"text": text, "affects": affects}

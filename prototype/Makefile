@@ -54,8 +54,8 @@ reset:            ## clear cached evidence, ranking and annotations
 open:
 	open http://localhost:$(PORT)
 
-live-sim:         ## scripted PM/HR call (macOS say) through Gemini Live; reports which tools fired
-	$(PYV) live_sim.py
+live-sim:         ## scripted PM/HR call (macOS say) through Gemini Live; grades which blocks landed per line (never plays audio)
+	SPEAK=0 $(PYV) live_sim.py
 
 video-mode:       ## clean state, then open the page in present mode
 	rm -f state/*.json state/live.jsonl && open 'http://localhost:$(PORT)/?present=1'
