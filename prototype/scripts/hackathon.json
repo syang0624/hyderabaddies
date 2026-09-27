@@ -25,12 +25,12 @@
    "text": "Since you're on that, I can help. What does the person need to have done?"
   },
   {
-   "at": 9.5,
+   "at": 13.0,
    "op": "heard",
    "text": "Someone who has run a cross-team event and can present the outcome to the exec team."
   },
   {
-   "at": 10.0,
+   "at": 13.5,
    "op": "compose",
    "blocks": [
     {
@@ -46,13 +46,13 @@
    ]
   },
   {
-   "at": 10.2,
+   "at": 13.7,
    "op": "say",
    "id": "pik_02_two",
-   "text": "Two people have receipts for that. Rin presented the pricing roadmap to the exec team. Yui ran the Northwind syncs in English. On screen, word for word."
+   "text": "Two people have receipts for that. Rin presented the pricing roadmap to the exec team. Yui ran the Northwind syncs in English."
   },
   {
-   "at": 20.0,
+   "at": 26.0,
    "op": "place",
    "op_kind": "add",
    "block": {
@@ -64,13 +64,13 @@
    }
   },
   {
-   "at": 20.2,
+   "at": 26.2,
    "op": "say",
    "id": "pik_03_rin",
    "text": "Rin wrote: I'll present the pricing analytics roadmap to the exec team on the ninth. Slack, growth analytics, June."
   },
   {
-   "at": 29.5,
+   "at": 38.0,
    "op": "conclude",
    "args": {
     "summary": "Ask Rin and Yui this week who leads the hackathon.",
@@ -85,13 +85,13 @@
    }
   },
   {
-   "at": 30.0,
+   "at": 38.5,
    "op": "say",
    "id": "pik_04_filed",
    "text": "Filed. Rin and Yui can see this same page."
   },
   {
-   "at": 33.0,
+   "at": 41.5,
    "op": "filed",
    "args": {
     "ask_id": "hackathon-1",
@@ -105,7 +105,7 @@
    }
   },
   {
-   "at": 36.0,
+   "at": 45.0,
    "op": "status",
    "text": "scripted take: end"
   }
