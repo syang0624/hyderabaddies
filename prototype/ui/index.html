@@ -431,12 +431,12 @@ function focusMap(id){ // the lit person: lime disc, lime edges into it, the dar
   M.g.pills.selectAll('*').remove();const n=M.nodes[id];const t=tileOf(id);if(!n||!t||!Array.isArray(t.asked))return;
   const mx=n.x,my=n.y+62;
   const txt=countText(t);const w=txt.length*7.3+24;const g=M.g.pills.append('g').attr('class','pill').attr('transform',`translate(${mx},${my})`).style('opacity',0);
-  g.append('rect').attr('x',-w/2).attr('y',-13).attr('width',w).attr('height',26).attr('rx',13);g.append('text').attr('dy','.35em').attr('text-anchor','middle').text(txt);g.transition().duration(300).style('opacity',1);
+  g.append('rect').attr('x',-w/2).attr('y',-13).attr('width',w).attr('height',26).attr('rx',13);g.append('text').attr('dy','.35em').attr('text-anchor','middle').text(txt);g.transition().duration(300).style('opacity',1);drawReasons();
 }
 function applyConstraints(){const aff={};S.doc.filter(b=>b.type==='constraint').forEach(c=>{(c.affects||[]).forEach(a=>{aff[a.id]=a.reason});if(M.ready)addKeyword(c.text,'constraint')});
   S.tiles.forEach(t=>{t.dim_reason=aff[t.id]||null;t.state=aff[t.id]?'dim':(t.confidence===0?'back':'')});
-  if(!M.ready)return;Object.values(M.nodes).forEach(n=>n.g.classed('con',!!aff[n.id]));Object.values(M.edges).forEach(e=>e.path.classed('con',Object.keys(aff).some(id=>e.id.endsWith('>'+id))));
-  M.g.reasons.selectAll('*').remove();Object.entries(aff).forEach(([id,reason])=>{const n=M.nodes[id];if(n&&reason){const g=M.g.reasons.append('g').attr('class','reason').attr('transform',`translate(${n.x},${n.y+64})`);g.append('text').attr('text-anchor','middle').text(reason)}});}
+  if(!M.ready)return;M.aff=aff;Object.values(M.nodes).forEach(n=>n.g.classed('con',!!aff[n.id]));Object.values(M.edges).forEach(e=>e.path.classed('con',Object.keys(aff).some(id=>e.id.endsWith('>'+id))));drawReasons();}
+function drawReasons(){if(!M.ready)return;M.g.reasons.selectAll('*').remove();Object.entries(M.aff||{}).forEach(([id,reason])=>{const n=M.nodes[id];if(n&&reason){const g=M.g.reasons.append('g').attr('class','reason').attr('transform',`translate(${n.x},${n.y+(id===S.focus&&M.g.pills.select('*').size()?92:64)})`);g.append('text').attr('text-anchor','middle').text(reason)}});} // the lit person's count pill sits at +62: its reason goes under the pill
 function concludeMap(ids){if(!M.ready)return;Object.values(M.nodes).forEach(n=>{n.g.classed('chosen',ids.includes(n.id)).classed('settle',!ids.includes(n.id)).classed('lit',false)});
   Object.values(M.edges).forEach(e=>{const on=ids.some(id=>e.id.endsWith('>'+id));e.path.classed('lit',on).classed('settle',!on)});Object.values(M.kw).forEach(k=>k.g.classed('settle',true));M.g.pills.selectAll('*').remove();}
 function flyIn(p){if(!M.ready||!p||!p.id||M.nodes[p.id])return;const n=addPersonNode({id:p.id,name:p.name,role:p.role,team:p.team,location:p.location,confidence:null});if(n){n.g.select('.rl').text('0 receipts');drawEdge(`pik>${p.id}`,M.pik,n,'')}}

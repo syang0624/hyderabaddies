@@ -1,5 +1,5 @@
 {
- "beat_ss": 1.647,
+ "beat_ss": 1.545,
  "beat_len": 20.31,
  "rest": 1.0,
  "jcut": 1.4,
@@ -15,14 +15,14 @@
   "m2_id": "07_manager2_alt"
  },
  "marks": {
-  "listening": 1.78,
-  "question": 2.6,
-  "tiles": 5.01,
-  "own_words": 6.63,
-  "ask": 9.03,
-  "manager_note": 10.63,
-  "conclusion": 18.65,
-  "filed": 19.48
+  "listening": 1.73,
+  "question": 3.4,
+  "tiles": 5.23,
+  "own_words": 6.6,
+  "ask": 8.99,
+  "manager_note": 10.61,
+  "conclusion": 18.64,
+  "filed": 19.43
  },
  "rows": [
   [
@@ -77,5 +77,5 @@
   ]
  ],
  "webm": "meet_v3.webm",
- "recorded": "2026-09-26 23:47:02"
+ "recorded": "2026-09-27 00:21:28"
 }

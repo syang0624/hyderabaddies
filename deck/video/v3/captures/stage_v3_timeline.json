@@ -1,15 +1,15 @@
 {
- "settle": 2.639,
+ "settle": 2.547,
  "end": 78.0,
  "follow_up": "What would this person actually do in the first month?",
  "engine_follow_up": "What would this person actually do in the first month?",
  "marks": {
-  "tiles": 12.85,
-  "chips": 27.34,
-  "ask": 36.14,
-  "receipts": 49.0,
-  "conclusion": 69.96,
-  "filed": 72.37
+  "tiles": 13.86,
+  "chips": 27.27,
+  "ask": 36.11,
+  "receipts": 49.72,
+  "conclusion": 70.64,
+  "filed": 73.01
  },
  "lines": {
   "L1": "Sure. So for the Northwind exchange slot. Honestly I need someone who will push back on the job-based culture over there instead of just absorbing it. And they have to hold their own in English in meetings.",
@@ -81,5 +81,5 @@
   ]
  ],
  "webm": "stage_v3.webm",
- "recorded": "2026-09-26 23:48:25"
+ "recorded": "2026-09-27 00:22:59"
 }

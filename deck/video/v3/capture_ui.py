@@ -150,10 +150,10 @@ async def new_page(pw, tmpdir):
 
 
 async def settle_page(pg, url, lead):
-    """goto, wait for the graph and strip to exist (fully drawn page), then `lead` seconds at rest. Returns seconds since goto."""
+    """goto, wait for the drawn page (the map's land paths and the status pill; the subject page has neither), then `lead` seconds at rest. Returns seconds since goto."""
     t_go = time.time()
     await pg.goto(url)
-    await pg.wait_for_function("document.querySelectorAll('#graph svg circle').length >= 100 || document.body.classList.contains('subjectonly')", timeout=20000)
+    await pg.wait_for_function("(document.querySelectorAll('#map svg path').length > 0 && !!(document.querySelector('#status')||{}).textContent) || document.body.classList.contains('subjectonly')", timeout=20000)
     await pg.wait_for_timeout(int(lead * 1000))
     return time.time() - t_go
 
@@ -173,13 +173,14 @@ async def finish(pg, ctx, b, name):
     return dst
 
 
+# the Pik screen since f7d96aa: the heard line lives in the #inbar input, people are nodes on the map, a receipt adds its source hub
 MEET_CHECKS = {
     "listening": "document.querySelector('#status') && /listening/i.test(document.querySelector('#status').textContent)",
-    "question": "document.querySelectorAll('#conv .question').length > 0",
-    "tiles": "document.querySelectorAll('#tiles .tile').length >= 3",
-    "own_words": "document.querySelectorAll('#panel .cards .card').length >= 1",
-    "ask": "document.querySelectorAll('#conv .askbar').length > 0",
-    "manager_note": "document.querySelectorAll('#panel .cards .card.grey').length >= 1",
+    "question": "((document.querySelector('#ask')||{}).value||'').length > 20",
+    "tiles": "document.querySelectorAll('#map .person').length >= 3",
+    "own_words": "document.querySelectorAll('#map .hub').length >= 1",
+    "ask": "!!document.querySelector('#askbar .asks')",
+    "manager_note": "[...document.querySelectorAll('#map .hub text')].some(t => /note/i.test(t.textContent)) && /paraphrase/i.test((document.querySelector('#rcard')||{}).textContent||'')",
     "conclusion": "!!document.querySelector('#concl.on')",
     "filed": "!!document.querySelector('#concl .filed.on')",
 }
@@ -218,20 +219,21 @@ async def cap_crud(pw, port, lead):
         b, ctx, pg = await new_page(pw, C / "_tmp")
         t_ctx = time.time()
         await settle_page(pg, f"http://127.0.0.1:{port}/?present=1&admin=1", lead)
-        await pg.evaluate("S.source='scripted';renderHeader()")  # the badge the page's own ?take=crud sets
+        await pg.evaluate("S.source='scripted';renderFoot()")  # the footer badge the page's own ?take=crud sets
         inp = pg.locator("#ask")
         await inp.click(); await inp.fill("")
+        n_before = await pg.evaluate("document.querySelectorAll('#map .person').length")
         t0 = time.time(); settle = t0 - t_ctx
         marks = {"type_start": 0.0}
         await inp.type(sentence, delay=tms)
         marks["type_end"] = round(time.time() - t0, 2)
         await asyncio.sleep(0.1)
         await pg.keyboard.press("Enter"); marks["enter"] = round(time.time() - t0, 2)
-        await wait_marks(pg, {"draft": "!!document.querySelector('.tile.draft') && !!document.querySelector('#confirm')"}, t0, marks, until=6)
+        await wait_marks(pg, {"draft": "!!document.querySelector('#draft.on') && !!document.querySelector('#confirm')"}, t0, marks, until=6)
         await asyncio.sleep(0.8)
         await pg.click("#confirm"); marks["confirm"] = round(time.time() - t0, 2)
-        await wait_marks(pg, {"added": "/added by/i.test((document.querySelector('#panel')||{}).textContent||'')",
-                              "node_home": "document.querySelectorAll('#graph svg circle').length >= 201"}, t0, marks, until=6)
+        await wait_marks(pg, {"added": "/added by/i.test((document.querySelector('#rcard')||{}).textContent||'')",
+                              "node_home": f"document.querySelectorAll('#map .person').length >= {n_before + 1}"}, t0, marks, until=6)
         await asyncio.sleep(2.5)
         dst = await finish(pg, ctx, b, "crud")
     http(port, "/api/reset", {"people": True})  # Mika Ono leaves with the take; the next page load counts 200 again
@@ -270,9 +272,9 @@ async def cap_mirror(pw, port, lead):
 
 STAGE_CHECKS = {
     "tiles": MEET_CHECKS["tiles"],
-    "chips": "document.querySelectorAll('#conv .chip').length >= 2",
+    "chips": "document.querySelectorAll('#map .kw.constraint').length >= 2",  # constraints are keyword nodes with a lock glyph
     "ask": MEET_CHECKS["ask"],
-    "receipts": "document.querySelectorAll('#panel .cards .card').length >= 2",
+    "receipts": "document.querySelectorAll('#map .hub').length >= 2",  # her own words and Okada's note, each a source hub on the map
     "conclusion": MEET_CHECKS["conclusion"],
     "filed": MEET_CHECKS["filed"],
 }
@@ -324,6 +326,14 @@ async def main():
         if proc is not None:
             proc.terminate(); log(f"stopped server pid {proc.pid}")
         shutil.rmtree(C / "_tmp", ignore_errors=True)
+    # what is on disk now, so a stale capture is obvious: each timeline's `recorded` stamp next to its webm's mtime
+    log("== captures on disk")
+    for name in ("meet_v3", "crud", "stage_v3", "mirror"):
+        tl, wv = C / f"{name}_timeline.json", C / f"{name}.webm"
+        rec = json.loads(tl.read_text()).get("recorded", "?") if tl.exists() else "no timeline"
+        mt = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(wv.stat().st_mtime)) if wv.exists() else "no webm"
+        stale = "" if tl.exists() and wv.exists() and abs(wv.stat().st_mtime - time.mktime(time.strptime(rec, "%Y-%m-%d %H:%M:%S"))) < 120 else "   <- STALE or missing"
+        log(f"  {name:9s} recorded {rec}   webm {mt}{stale}")
 
 
 if __name__ == "__main__":
