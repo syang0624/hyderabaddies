@@ -45,6 +45,7 @@ em{font-style:normal;background:var(--lime);color:var(--ink);padding:0 .06em;bor
 body.print .camera{transform:none!important;transition:none}
 @media (prefers-reduced-motion:reduce){.camera{transition:none;transform:none!important}}
 body.print .b{opacity:1;transform:none;transition:none}
+body.print .past,body.print .b.on.past,body.print #technical .arch .g.past,body.print #roadmap .map .g.past{opacity:1!important}
 body.print *{transition:none!important;animation:none!important}
 
 /* chrome */
