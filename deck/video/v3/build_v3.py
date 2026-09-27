@@ -63,7 +63,8 @@ SEGMENTS = [
       caps=[("A new ticket. Pik fills in the owner, and the why.", 1.0, 8.8)]),
  dict(name="10_verticals",  src=R2/"10_verticals.mp4",  dur=5.4, speed=1.1, light=True, vo=[("10_verticals_alt", 0.1)],
       caps=[("Anywhere the wrong person on the job is expensive.", 2.6, 5.4)]),
- dict(name="11_end",        src=R2/"11_end.mp4",        dur=3.6, light=True, vo=[("11_end", 0.25)]),
+ dict(name="11_end",        src=(D/"renders"/"11_end.mp4") if (D/"renders"/"11_end.mp4").exists() else R2/"11_end.mp4",  # v3: + the music credit line (html/11_end.html, render.py)
+      dur=3.6, light=True, vo=[("11_end", 0.25)]),
 ]
 
 
@@ -206,7 +207,8 @@ def main():
         f"| {s['start']:5.1f}s | {s['name']} | {s['dur']:.1f}s | {'SLATE' if s['name'] in slates else pathlib.Path(s['src']).name}{' x' + str(s['speed']) if s.get('speed') else ''} | "
         f"{', '.join(f'{n} @{o:+.1f}' for n,o in s.get('vo',[])) or '(silent)'} | {' / '.join(c[0] for c in s.get('caps',[])) or ''} |\n" for s in SEGMENTS)
         + f"\nTotal {t:.1f}s. Built by build_v3.py. Slates: {', '.join(slates) or 'none'}. Music: {'bed.wav, ' + str(DUCK_SPEECH) + ' dB under speech, ' + str(DUCK_GAP) + ' dB in gaps' if bed.exists() else 'none'}.\n"
-        + f"Meet capture: {C/'meet_v3.webm'} ss {MEET['beat_ss']} marks {json.dumps(mk)}\n")
+        + f"Meet capture: captures/meet_v3.webm ss {MEET['beat_ss']} (page seconds when each block was visible: {json.dumps(mk)}).\n"
+        + "Music: Kosmose Vaikus by Kevin MacLeod, incompetech.com, CC BY 4.0.\n")
     print("wrote", OUT)
 
 

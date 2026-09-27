@@ -21,3 +21,12 @@ deck/video/v2/vo/*.raw.wav
 # V2 frame dumps from render.py
 deck/video/v2/_frames/
 deck/video/v2/_seg/
+# V3 scratch: frame dumps, per-beat segments, Playwright's temporary video dir
+deck/video/v3/_frames/
+deck/video/v3/_seg/
+deck/video/v3/captures/_tmp/
+deck/video/v3/vo/*.take*.wav
+deck/video/v3/**/_*.log
+# a worktree symlinks these to the main checkout's venvs (pw/ and .venv/ above only match real directories)
+deck/video/pw
+prototype/.venv
