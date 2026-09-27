@@ -220,7 +220,7 @@
 </div></dialog>
 
 <script>
-let company=null, cur=null, view='eval', evcache={}, lastRank=null, lastHits=new Set(), liveSince=0, liveNotes=[];
+let company=null, cur=null, view='eval', evcache={}, lastRank=null, lastHits=new Set(), liveSince=0, liveNotes=[]; const LOADED=Date.now()/1000;
 const $=s=>document.querySelector(s);
 const nd=s=>String(s).replace(/[—–]/g,'-');
 const esc=s=>nd(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -336,7 +336,7 @@ async function pollLive(){
       if(e.kind==='heard'){$('#live').classList.add('on');$('#liveheard').textContent=e.text;}
       if(e.kind==='note'){liveNotes.push(e.text);$('#livest').textContent='On the record';$('#liveheard').textContent=e.text;}
       if(e.kind==='show_candidates'&&!AS){
-        setToday(false); $('#crit').value=e.criterion; $('#livest').textContent=e.via==='transcript'?'Heard the criterion (transcript)':'Heard the criterion'; $('#liveheard').textContent=e.criterion;
+        if(e.t>LOADED) setToday(false); $('#crit').value=e.criterion; $('#livest').textContent=e.via==='transcript'?'Heard the criterion (transcript)':'Heard the criterion'; $('#liveheard').textContent=e.criterion;
         await doRank(); if(e.ranking&&e.ranking[0]) await selectCand(e.ranking[0]);
       }
       if(e.kind==='conclude'&&!AS){
