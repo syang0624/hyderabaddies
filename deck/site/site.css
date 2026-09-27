@@ -44,7 +44,7 @@ em{font-style:normal;background:var(--lime);color:var(--ink);padding:0 .06em;bor
 .camera{position:absolute;inset:0;transform-origin:960px 540px;transition:transform .7s cubic-bezier(.45,0,.2,1)}
 body.print .camera{transform:none!important;transition:none}
 @media (prefers-reduced-motion:reduce){.camera{transition:none;transform:none!important}}
-body.print .b{opacity:1;transform:none;transition:none}
+body.print .b,body.print .b.on.past,body.print #technical .arch .g.past,body.print #roadmap .map .g.past{opacity:1;transform:none;transition:none}
 body.print .past,body.print .b.on.past,body.print #technical .arch .g.past,body.print #roadmap .map .g.past{opacity:1!important}
 body.print *{transition:none!important;animation:none!important}
 
@@ -108,14 +108,15 @@ body.print #solution .vid .poster{display:block}
 .lines{position:absolute;left:0;top:160px;width:1600px;display:flex;flex-direction:column;gap:64px}
 .lines h1{font-size:96px;line-height:1.08}
 .lines h1.lime{color:var(--lime)}
-#end h1{position:absolute;left:0;top:240px;width:1400px;font-size:96px;line-height:1.08}
+#end h1{position:absolute;left:0;top:240px;width:1560px;font-size:96px;line-height:1.08}
 #appendix h1{position:absolute;left:0;top:0}
 #appendix .list{position:absolute;left:0;top:220px;width:1600px;display:grid;grid-template-columns:1fr 1fr;gap:10px 40px}
 
 /* 06 impact: the number, its caption, the outcome line; rings on the right with three formula lines */
 #impact .big{position:absolute;left:-8px;top:-20px}
 #impact .cap{position:absolute;left:0;top:336px;width:900px}
-#impact .out{position:absolute;left:0;top:480px;width:900px}
+#impact .out{position:absolute;left:0;top:452px;width:900px}
+#impact .vp{position:absolute;left:0;top:576px;width:680px}
 #impact .rings{position:absolute;left:1080px;top:0;width:520px;height:600px}
 #impact .rings svg{display:block;width:520px;height:600px;overflow:visible}
 #impact .rings circle{transform-box:view-box;transform-origin:260px 560px;transform:scale(0);transition:transform .9s cubic-bezier(.2,.7,.2,1)}
@@ -129,7 +130,7 @@ body.print #impact .rings circle{transform:none}
 #impact .rings .tam{fill:#fff;stroke:var(--hair);stroke-width:1}
 #impact .rings .sam{fill:var(--tint);stroke:var(--lime);stroke-width:1}
 #impact .rings .som{fill:var(--lime);stroke:var(--lime-deep);stroke-width:1}
-#impact .formulas{position:absolute;left:880px;top:624px;width:720px;text-align:right;display:flex;flex-direction:column;gap:6px}
+#impact .formulas{position:absolute;left:700px;top:616px;width:900px;text-align:right;display:flex;flex-direction:column;gap:6px}
 #impact .formulas .mono{white-space:nowrap}
 
 /* 07 different: the 2x2, names only */

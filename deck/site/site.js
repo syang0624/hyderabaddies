@@ -76,24 +76,23 @@ function fit(){const k=Math.min(innerWidth/1920,innerHeight/1080);stage.style.se
 HOOKS.roles=function(el){
   const W=520,H=556,cx=260,cy=250;
   const roles=[['HR planner',96,78],['Engineer',410,66],['Designer',258,208],['Product manager',110,380],['Sales',412,372]];
-  let t=0,target=0,inst=null,tm=0;
+  let t=0,target=0,inst=null;
   new p5(p=>{
-    p.setup=()=>{p.createCanvas(W,H);if(PRINT)p.pixelDensity(1);p.noiseSeed(11);if(PRINT)p.noLoop()};
-    p.draw=()=>{p.clear();tm+=0.01;
+    p.setup=()=>{p.createCanvas(W,H);if(PRINT)p.pixelDensity(1);if(PRINT)p.noLoop()};
+    p.draw=()=>{p.clear();
       if(PRINT)t=target;else t+=(target-t)*0.045;if(Math.abs(target-t)<.002)t=target;
-      const e=easeInOut(t);const ba=Math.max(0,(t-.45)/.55);
-      if(ba>0){p.push();p.noStroke();p.fill(LIME[0],LIME[1],LIME[2],255*ba);p.beginShape();const N=40;
-        for(let i=0;i<N+3;i++){const a=(i%N)/N*p.TWO_PI;const r=(88+ba*26)*(1+.12*(p.noise(1.6*Math.cos(a)+4,1.6*Math.sin(a)+4,PRINT?.3:tm)-.5)*2);p.curveVertex(cx+r*Math.cos(a),cy+r*Math.sin(a))}
-        p.endShape();p.pop()}
-      roles.forEach(([name,x0,y0])=>{const x=p.lerp(x0,cx,e),y=p.lerp(y0,cy,e);const r=40*(1-.9*e);const la=1-Math.min(1,t*1.6);const da=1-Math.max(0,(t-.7)/.3);
-        p.push();p.drawingContext.shadowColor='rgba(0,0,0,.08)';p.drawingContext.shadowBlur=8;p.drawingContext.shadowOffsetY=2;
-        const fc=p.lerpColor(p.color(255),p.color(LIME[0],LIME[1],LIME[2]),Math.min(1,t*1.4));fc.setAlpha(255*da);p.stroke(HAIR[0],HAIR[1],HAIR[2],255*da);p.strokeWeight(1);p.fill(fc);if(da>0)p.circle(x,y,r*2);p.pop();
+      const e=easeInOut(t);const ga=Math.max(0,(t-.35)/.65);
+      if(ga>0){p.push();p.noStroke();p.fill(LIME[0],LIME[1],LIME[2],255*ga);p.circle(cx,cy,2*(96+ga*18));p.pop()}
+      roles.forEach(([name,x0,y0],i)=>{const a=-Math.PI/2+i*Math.PI*2/5;const x1=cx+62*Math.cos(a),y1=cy+62*Math.sin(a);
+        const x=p.lerp(x0,x1,e),y=p.lerp(y0,y1,e);const r=40-8*e;const la=1-Math.min(1,t*1.6);
+        p.push();p.drawingContext.shadowColor='rgba(0,0,0,.10)';p.drawingContext.shadowBlur=8;p.drawingContext.shadowOffsetY=2;
+        p.stroke(HAIR[0],HAIR[1],HAIR[2]);p.strokeWeight(1);p.fill(255);p.circle(x,y,r*2);p.pop();
         if(la>0)txt(p,name,x,y+r+12,20,BODY,la,'center','top')})};
     inst=p;
   },el);
   const cv=()=>el.querySelector('canvas');
   return {step(n,instant){target=n>=3?1:0;if(instant||PRINT)t=target;if(PRINT&&inst)inst.redraw();
-    const c=cv();if(c){c.style.transition=instant?'none':'opacity .24s ease-out';c.style.opacity=n>3?'.35':'1'}}}
+    const c=cv();if(c){c.style.transition=instant?'none':'opacity .24s ease-out';c.style.opacity=(n>3&&!PRINT)?'.35':'1'}}}
 };
 
 /* 04 solution: the demo video, muted until clicked, big play affordance */

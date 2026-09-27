@@ -61,5 +61,17 @@ No numbers. Model names (Gemini 3.8 Flash, Gemini 3.8 Live) and the stack (the s
 | 30 to 40 people; up to 150 | slide | A9 The interviews | [I] ryo 11-40 03:38-03:59; hiro 13-40 03:26 (5 to 6 PMs and the 30 to 40 managed elsewhere: notes) |
 | 9 receipt source lines | slide (canvas) | A10 Inspiration, alt | [F] `prototype/data/slack.json` and `wcm.json` ids and dates |
 
+## VP figures, cleared by Carl 2026-09-27 05:30 ([V] VP meeting; transcript refs from deck_research_interviews.md section 2(c))
+| Figure | Where | Text | Caveats and reference |
+|---|---|---|---|
+| about 3,000 first-line managers (VP-FIG-3) | 02 Problem, WHO line; source line "a VP of HR at Recruit Holdings, in interview" | About 3,000 first-line managers deciding placement, and the people decided about. | 「多分3,000人ぐらいのファーストラインマネージャー」, group-wide, R 0:49:34:1205; "多分" = probably, so "about". [V] |
+| ¥200M (VP-FIG-2) | 06 Impact, build 4 line and the formula line "Interview: ¥200M = $1.3M ... no period stated" | In interview, HR leadership named ¥200M for HR, training and matching systems | 「2 億だったら払うな」 R 0:38:23:982; scope 「日本国内で使ってる人事システム ... 研修の、システムとか ... マッチングにかかってるようなコスト ... 少なく見積もって多分 2 億円ぐらい」 R 0:39:34:1017, LMS at 0:40:03:1036. No time basis on tape (Carl asked "per month", R 0:36:36:951; the answer gives none): never "a year". Conditional on replacing everything; preceded by 「聞いたことある話ですね」 R 0:37:33:966. USD at the ¥150 rate assumed on the slide. [V] |
+| ¥100M per exchange posting (VP-FIG-1) | 06 Impact, build 4 line and the formula line | and ¥100M per exchange posting | 「1億」 R 0:21:03:555, yen confirmed R 0:21:24-0:21:27:581-586, contents unstated; the posting is two years (R 0:20:51:541, untagged). The tape first wobbles "1 million dollars" / "1 million yen". [V] |
+| about five years of data (VP-FIG-4) | notes only: 08 Technical keypress 1, 02 Problem keypress 4 | about five years of data (hedged) | 「5年分かな」 R 0:51:23:1254, hedged. [V] |
+| about 800 skill tags, scored 1 to 5 (VP-FIG-5) | notes only: 08 Technical keypress 1, 02 Problem keypress 4 | about 800 skill tags, each scored 1 to 5 | 「タグは 800 個あって ... 1 から 5 点満点」 R 0:32:26:895; "maybe uh 800 skill tags" R 0:33:05:902. [V] |
+| about 200 people (VP-FIG-6) | notes only: 02 Problem keypress 1 | the VP's own organisation is about 200 people | "I have the twen- uh, 200 members" R 0:00:47:37. Not the fictional Kaede Works (also 200). [V] |
+
+Still out: VP-FACT-1 (the internal pilot), VP-FACT-2 (the internal prototype), VP-FACT-3 (the screening-fairness example), every interviewee name.
+
 ## Kept off every slide and note (uncleared, per `deck_research_interviews.md` section ii)
-All figures from the VP meeting (organisation size, yen amounts, manager counts, years of data, tag counts), the internal pilot and internal prototype (VP-FACT-1 and 2), the gender-skew example (VP-FACT-3), every interviewee name, and led statements presented as the VP's findings. Also not used, on the market researcher's advice: the "30% of first-year earnings" mis-hire figure (no primary source) and the $1.8B internal-talent-marketplace figure (weak publisher).
+The internal pilot and internal prototype (VP-FACT-1 and 2), the gender-skew example (VP-FACT-3), every interviewee name, and led statements presented as the VP's findings. Also not used, on the market researcher's advice: the "30% of first-year earnings" mis-hire figure (no primary source) and the $1.8B internal-talent-marketplace figure (weak publisher).
