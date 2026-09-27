@@ -27,7 +27,7 @@ SCRIPT = [
     ("Daniel", "Sure. So for the Northwind exchange slot. Honestly I need someone who will push back on the job-based culture over there instead of just absorbing it. And they have to hold their own in English in meetings.", {"show_candidates"}),
     ("Samantha", "Got it. One constraint from my side: the posting starts April 2027, and we cannot lose anyone from pricing before the Q1 close.", {"note"}),
     ("Kyoko", "あと、英語で会議をリードできて、上司の意見にも異議を唱えられる人がいいです。", {"show_candidates"}),
-    ("Samantha", "Actually, we also need someone good for this. Just someone good.", {"show_candidates"}),
+    ("Samantha", "Actually, we also need someone good for this. Just someone good.", {"show_candidates", "follow_up"}),
     ("Daniel", "Okay. Looking at this, Yui's own words say she wants exactly that, and she has been running the Northwind sync in English. Let's set up calls with Yui and Kei this week, and ask Yui whether her manager's note about being flexible on location is actually true. That's it for today, thanks.", {"conclude"}),
 ]
 RATE = 16000
@@ -106,6 +106,10 @@ async def main():
                           result = {"ok": True}
                           if fc.name == "show_candidates":
                               live.LAST_TOOL["t"] = time.time()
+                              a = await asyncio.to_thread(live.engine.ask, args.get("criterion", ""), "", None, 3, [c["id"] for c in live.engine.load("company.json")["candidates"]])
+                              if a.get("follow_up"):
+                                  live.emit("follow_up", text=a["follow_up"])
+                                  fired.append((time.time(), "follow_up", {"text": a["follow_up"]}))
                               r = await asyncio.to_thread(live.engine.rank, args.get("criterion", ""))
                               result = {"shown": [{"id": x["candidate"], "name": x["name"]} for x in r["ranking"]]}
                               live.emit("show_candidates", criterion=args.get("criterion", ""), ranking=[x["candidate"] for x in r["ranking"]])

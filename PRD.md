@@ -63,7 +63,7 @@ Both surfaces and the Meet bot call the same engine. It lives in `core/` (today 
 
 | When (PDT) | Agent in Carl's session (the engine) | Carl | Steven |
 |---|---|---|---|
-| Sat 18:00 | `people.json` (200), `/api/ask`, load and availability, `follow_up`; `make ask` smoke | Storyboard and motion for the video; the blob character system | Pull `main`; read §4; start the Slack surface against `/api/ask` |
+| Sat 18:00 | **Done 17:45:** `people.json` (200), `/api/ask` with why + receipts + load + `follow_up`, `/api/people`, `make people`, `make ask`; the Meet bot asks within the decision pool and speaks a follow-up when the ask is vague (`SPEAK=1`); sim 13: 6/6, 0 drops | Storyboard and motion for the video; the blob character system | Pull `main`; read §4; start the Slack surface against `/api/ask` |
 | Sat 20:00 | Meet bot speaks the follow-up (Gemini Live audio out, only for `follow_up`); conclusion unchanged | Record the Meet beat with Steven (two takes) | Jira mock page with the pop-up; Slack mention action |
 | Sat 22:00 | Smoke on all three surfaces; truth table; README | Cut the video (Cap); deck stills from all three surfaces | Slack + Jira demo takes for the video |
 | Sun 08:30 | `make reset && make manifest && make warm`; final `live-sim` | Deck final; PDF export; competitor slide | Repo split to `hyderabaddies-receipts`; README |
