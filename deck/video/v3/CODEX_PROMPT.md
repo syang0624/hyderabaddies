@@ -1,5 +1,7 @@
 # Pik video: handoff for the next session (GPT-6 Astra / Codex, run by Steven)
 
+> **V5 is next (Sun ~00:50):** Carl and Steven are recording the Meet beat themselves on the live page (beat sheet: `prototype/MEET_TAKE.md`; the file lands at `deck/video/v5/captures/meet_real.mov`). V5 = V4 with that real take at about 29 to 64 s, the front beats tightened, and the new-hire (08b_crud) and Yui's-page (08c_mirror) beats REMOVED (Carl: unclear on screen). Do not rebuild those two beats. Until V5 exists, V4 is the submission fallback.
+
 > **Current cut: V4** (`deck/video/v4/pik_90s_v4.mp4`, 89.7 s; stage video `deck/video/v4/meet_stage_demo.mp4` + `STAGE_CUES.md`; `STORYBOARD_v4.md`, `TIMING.md`).
 > V4 = this V3 cut on ONE brand (the product screen's tokens: page #fafafa, white cards with the hairline shadow, ink #171717, one lime accent #D6F25A; the mascot is the screen's Pik mark), with every animated beat re-rendered and the product-page captures re-recorded on the rebuilt screen (00:21 to 00:23).
 > Re-stitch V4 with `python3 deck/video/v4/build_v4.py` (reads `../v2/renders`, `../v3/renders`, `../v3/captures`, `../v3/vo`, `../v3/music`) and `python3 deck/video/v4/build_stage_v4.py`. Everything below about V3's pieces still holds; V3's own mp4 is superseded.
