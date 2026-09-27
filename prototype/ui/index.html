@@ -454,7 +454,7 @@ function mapReset(){if(!M.ready)return;Object.values(M.nodes).forEach(n=>n.g.rem
 
 // ---------- Pik's voice: pre-rendered lines played by id, a real analyser drives the waveform ----------
 const AUD={manifest:null,ctx:null,analyser:null,data:null,live:false};
-async function loadVoice(){if(AUD.manifest)return;const r=await fetchJ('/vendor/pik_audio.json');if(r.ok&&r.data&&typeof r.data==='object'){AUD.manifest=r.data;renderReady()}else console.log('[say] no manifest: /vendor/pik_audio.json '+(r.status||'unreachable'))}
+async function loadVoice(){if(AUD.manifest)return;const r=await fetchJ('/vendor/pik_audio.json?v='+Date.now());if(r.ok&&r.data&&typeof r.data==='object'){AUD.manifest=r.data;renderReady()}else console.log('[say] no manifest: /vendor/pik_audio.json '+(r.status||'unreachable'))}
 function armAudio(){ // on the cue key press (a user gesture): the context may start, and the element may play later without one
   try{if(!AUD.ctx){const C=window.AudioContext||window.webkitAudioContext;AUD.ctx=new C();const src=AUD.ctx.createMediaElementSource($('#pikvoice'));AUD.analyser=AUD.ctx.createAnalyser();AUD.analyser.fftSize=128;AUD.analyser.smoothingTimeConstant=.6;AUD.data=new Uint8Array(AUD.analyser.frequencyBinCount);src.connect(AUD.analyser);AUD.analyser.connect(AUD.ctx.destination)}if(AUD.ctx.state!=='running')AUD.ctx.resume()}catch(e){console.log('[say] audio graph unavailable: '+e)}}
 function say(e,instant){const id=String(e.id||'');const a=AUD.manifest&&AUD.manifest[id];const dur=(a&&Number(a.dur))||3;
