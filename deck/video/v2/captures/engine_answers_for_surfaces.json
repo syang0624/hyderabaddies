@@ -1,0 +1,91 @@
+{
+  "slack": {
+    "question": "who's best to run pricing experiments with the US product team?",
+    "engine_backend": "keyword",
+    "blocks": [
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "*Yui Sato*, Product operations, Pricing\n• pricing (5/5)\n• product thinking (4/5)\n• Volunteered or acted in #random: \"Finally finished the Northwind onboarding videos. Their pricing team structure is really different from ours.\""
+        }
+      },
+      {
+        "type": "context",
+        "elements": [
+          {
+            "type": "mrkdwn",
+            "text": "On their plate: 2 open tickets, 24 h booked this week · available"
+          }
+        ]
+      },
+      {
+        "type": "section",
+        "text": {
+          "type": "mrkdwn",
+          "text": "> Volunteered or acted in #random: \"Finally finished the Northwind onboarding videos. Their pricing team structure is really different from ours.\"  _(Slack #random, 2026-06-20)_\n> Declared will, in their own words: \"I want to work with the US product team on pricing experiments. My spoken English in meetings is weak but my writing is strong, and I want to fix the speaking part by being immersed.\"  _(Will Can Must sheet)_"
+        }
+      },
+      {
+        "type": "context",
+        "elements": [
+          {
+            "type": "mrkdwn",
+            "text": "Also: Rin Mori (Senior marketing analyst) · Yuto Murakami (Growth manager)"
+          }
+        ]
+      },
+      {
+        "type": "actions",
+        "elements": [
+          {
+            "type": "button",
+            "text": {
+              "type": "plain_text",
+              "text": "Loop in Yui"
+            },
+            "style": "primary",
+            "action_id": "loop_in",
+            "value": "Yui Sato|pricing (5/5)"
+          },
+          {
+            "type": "button",
+            "text": {
+              "type": "plain_text",
+              "text": "Why? See the receipts"
+            },
+            "url": "http://localhost:8787/?q=who%27s%20best%20to%20run%20pricing%20experiments%20with%20the%20US%20product%20team%3F&focus=yui",
+            "action_id": "why"
+          }
+        ]
+      },
+      {
+        "type": "context",
+        "elements": [
+          {
+            "type": "mrkdwn",
+            "text": "Order is evidence overlap with your words, minus load. Not a score. The person sees the same receipts."
+          }
+        ]
+      }
+    ]
+  },
+  "notion_ui_refresh": {
+    "title": "UI refresh",
+    "description": "Rework the receipts page navigation before the Nov launch. Needs a product designer.",
+    "engine_backend": "keyword",
+    "follow_up": null,
+    "top": {
+      "name": "Shota Schulz",
+      "role": "Product designer",
+      "team": "Design",
+      "why": [
+        "product thinking (5/5)"
+      ]
+    },
+    "also": [
+      "Gen Haddad",
+      "Mei Fukuda"
+    ]
+  }
+}
