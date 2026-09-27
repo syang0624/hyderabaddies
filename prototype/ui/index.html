@@ -189,6 +189,10 @@
   #rcard .ttl .stat{text-align:right;flex:none;display:flex;align-items:baseline;gap:8px}
   #rcard .ttl .stat .k{font:400 12px/16px var(--mono);color:var(--mute);text-transform:uppercase}
   #rcard .ttl .stat .n{font-size:24px;line-height:32px;font-weight:600;letter-spacing:-.96px}
+  #rcard .ttl button.stat{background:none;border:0;padding:4px 6px;margin:-4px -6px;border-radius:8px;font:inherit;color:inherit;cursor:pointer}
+  #rcard .ttl button.stat:hover{background:var(--soft,#f4f4f4)}
+  #rcard .ttl button.stat:focus-visible{outline:2px solid var(--ink,#171717);outline-offset:2px}
+  #rcard .ttl .stat .car{font-size:12px;color:var(--mute)}
   #rcard .hero{background:var(--lime-tint);border-radius:8px;padding:18px 20px;display:flex;flex-direction:column;gap:10px;transition:background .3s}
   #rcard .hero.flash{background:var(--lime)}
   #rcard .hero .ch{display:flex;justify-content:space-between;gap:12px;font:400 12px/16px var(--mono);color:var(--body);text-transform:uppercase}
@@ -459,7 +463,7 @@
 const QS=new URLSearchParams(location.search);
 const F={present:QS.get('present')==='1',as:QS.get('as'),q:QS.get('q'),focus:QS.get('focus'),admin:QS.get('admin')==='1',nonum:QS.get('nonum')==='1',take:QS.get('take'),before:QS.get('before')==='1'};
 const LOADED=Date.now()/1000;
-const S={company:null,audit:null,cities:null,people:{},files:{},doc:[],tiles:[],draft:null,focus:null,drops:0,status:'At rest',source:null,concl:null,filed:null,docSeen:false,liveSince:0,seenRecords:new Set(),pending:null,legacyIgnore:false,droppedIds:new Set(),seenReceipts:new Set(),sessionOpen:false,speaker:null,heardText:'',said:{text:'',t:0},pikLine:null,pull:null,record:null};
+const S={showPol:(()=>{try{return localStorage.getItem('pik.showPolicy')==='1'}catch(e){return false}})(),company:null,audit:null,cities:null,people:{},files:{},doc:[],tiles:[],draft:null,focus:null,drops:0,status:'At rest',source:null,concl:null,filed:null,docSeen:false,liveSince:0,seenRecords:new Set(),pending:null,legacyIgnore:false,droppedIds:new Set(),seenReceipts:new Set(),sessionOpen:false,speaker:null,heardText:'',said:{text:'',t:0},pikLine:null,pull:null,record:null};
 const recKey=r=>`${r.id||''}|${r.person||''}|${r.source_id||''}|${r.kind||''}`;
 const $=s=>document.querySelector(s);
 const nd=s=>String(s==null?'':s).replace(/[\u2014\u2013]/g,'-');
@@ -707,9 +711,9 @@ async function renderRight(){const box=$('#rcard');if(F.as)return;
   if(S.record){return renderRightRecord()}
   const id=S.focus;
   if(!id){const a=S.audit||{};const u=a.used||{};const c={slack:(u.slack||{}).count||0,docs:(u.docs||{}).count||0,wcm:(u.wcm||{}).count||0,sessions:(u.sessions||{}).count||0};const tot=Object.values(u).reduce((n,v)=>n+(v.count||0),0);const co=String((S.company||{}).name||'').replace(/\s*\(.*\)$/,'');const d=(S.company||{}).decision||{};
-    box.innerHTML=`<div class="ttl"><div><div class="nm">${esc(co||'Pik')}</div><div class="rl">People on file</div></div><div class="stat"><span class="k">receipts</span><span class="n">${a.used?tot:'n/a'}</span></div></div>
+    box.innerHTML=`<div class="ttl"><div><div class="nm">${esc(co||'Pik')}</div><div class="rl">People on file</div></div><button class="stat pol" type="button" id="polbtn" aria-expanded="${S.showPol?'true':'false'}" aria-controls="polp" title="What Pik reads, and never reads"><span class="k">receipts</span><span class="n">${a.used?tot:'n/a'}</span><span class="car" aria-hidden="true">${S.showPol?'▴':'▾'}</span></button></div>
     <div class="dec" id="dec" aria-live="polite"></div>
-    <div class="para"><div class="t">Pik reads public Slack channels, shared docs, Will Can Must sheets, opted-in AI sessions, and manager notes only beside the person's own words. It never reads DMs or private channels.</div></div>
+    <div class="para" id="polp"${S.showPol?'':' hidden'}><div class="t">Pik reads public Slack channels, shared docs, Will Can Must sheets, opted-in AI sessions, and manager notes only beside the person's own words. It never reads DMs or private channels.</div></div>
     ${activityHTML(a.used?tot:'n/a',c,`${((u.manager_notes||{}).count||0)} manager notes, paraphrases, never shown alone`,null)}<div id="toastp"><span class="k"></span><span class="p"></span><span class="bar"></span></div>`;renderDecision();return}
   const f=await fileOf(id);if(S.focus!==id)return;const p=personOf(id)||{};const t=tileOf(id);const c=bySource(f);const total=Object.values(f.items).filter(it=>it.source!=='manager_notes').length;
   const recs=S.doc.filter(b=>b.type==='receipt'&&b.person===id);const verb=recs.filter(r=>r.stamp!=='paraphrase'&&r.kind!=='manager').pop();
@@ -735,6 +739,7 @@ async function openDrawer(source){const id=S.focus;if(!id)return;const f=await f
   $('#dlist').innerHTML=items.length?items.map(it=>`<div class="it"><div class="q">"${esc(itemWords(it))}"</div><span class="src">${esc(srcLine(labelOf(it)))}${it.author&&it.author!==id?`, by ${esc(nameOf(it.author))}`:''}</span></div>`).join(''):`<div class="none">No receipts from this source for ${esc(first(p.name||id))}. 0 is the honest count.</div>`;
   $('#drawer').classList.add('on');}
 function closeDrawer(){$('#drawer').classList.remove('on')}
+document.addEventListener('click',e=>{const pb=e.target.closest('#polbtn');if(pb){e.stopPropagation();S.showPol=!S.showPol;try{localStorage.setItem('pik.showPolicy',S.showPol?'1':'0')}catch(err){}const pp=$('#polp');if(pp)pp.hidden=!S.showPol;pb.setAttribute('aria-expanded',S.showPol?'true':'false');const c=pb.querySelector('.car');if(c)c.textContent=S.showPol?'\u25b4':'\u25be';return}});
 document.addEventListener('click',e=>{const t=e.target.closest('#rcard [data-drawer]');if(t){e.stopPropagation();openDrawer(t.dataset.drawer);return}if($('#drawer').classList.contains('on')&&!e.target.closest('#drawer'))closeDrawer()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
 function managerLine(m){const s=String(m.source||'');const mm=/^(.+?)'s note/.exec(s);return mm?`${mm[1]} wrote`:'The manager wrote'}
