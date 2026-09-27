@@ -67,6 +67,9 @@ RESUME = {"handle": None}  # latest session-resumption handle, reused on reconne
 SPEAK = os.environ.get("SPEAK", "1") == "1"  # play the model's voice for follow-up questions (Meet demo); 0 = never play audio
 SPEAKING = {"until": 0.0}  # set when a follow-up is pending (kept for the page; playback no longer depends on it)
 PLAYING = {"until": 0.0}  # while Pik's voice plays (plus a short tail) the mic is not sent, so it cannot hear itself (half-duplex)
+ADDRESSED = {"until": 0.0}  # Pik's voice is played only for ~15 s after someone says its name, or for a follow-up the engine asked for
+LAST_HEARD = {"text": ""}
+NAME_RE = re.compile(r"\bpik\b|ピック|픽", re.I)
 OUT_RATE = 24000
 CHUNK = 1600  # 100 ms
 EVENTS = engine.STATE / "live.jsonl"
@@ -128,12 +131,10 @@ Candidates under consideration (use these ids in tool calls):
 
 Rules:
 - When to speak (at most two short sentences, under 15 words each, in the speaker's language):
-  (a) someone addresses you ("Pik", "ピック", "픽"): answer them, and make the matching tool call if they asked for something;
-  (b) right before you pull something onto the screen: one acknowledgement ("Let me check who has written about that");
-  (c) right after a compose lands: one sentence on who came up and why, in their own words ("Yui and Kei came up: Yui wrote she wants the US pricing work");
-  (d) when a tool result carries follow_up or say_out_loud_now: say exactly that sentence once;
-  (e) when someone asks what is on screen or what a receipt says: read it, word for word.
-  Otherwise stay silent. Small talk, jokes, and logistics are not for you, even if they mention you in passing.
+  (a) someone addresses you by name ("Pik", "ピック", "픽"): answer them, and make the matching tool call if they asked for something;
+  (b) when a tool result carries follow_up or say_out_loud_now: say exactly that sentence once;
+  (c) when someone addresses you and asks what is on screen or what a receipt says: read it, word for word.
+  In every other case you are SILENT: no acknowledgements, no narration after the screen changes, no reactions to talk that was not addressed to you. You still compose the screen for any request about people or work, silently.
 - Never say a name, a quote, or a number that a tool result did not return. Never say "the best" or "I recommend"; say what the receipts say. Nobody is scored.
 - You never score, rank or recommend a person. Humans decide. You compose the shared screen; the engine fills in every name and every quote.
 - The screen is a small document of blocks: question, people, receipt, constraint, ask. compose replaces it; patch edits one block.
@@ -347,7 +348,7 @@ async def handle_tool_call(fc, session=None, on_placed=None):
         kinds.add("conclude")
     else:
         result = {"error": f"unknown tool {fc.name}"}
-    return types.FunctionResponse(id=fc.id, name=fc.name, response=result, scheduling="INTERRUPT" if result.get("say_out_loud_now") else ("WHEN_IDLE" if fc.name in ("compose", "patch", "conclude") else "SILENT")), kinds
+    return types.FunctionResponse(id=fc.id, name=fc.name, response=result, scheduling="INTERRUPT" if result.get("say_out_loud_now") else ("WHEN_IDLE" if NAME_RE.search(LAST_HEARD["text"]) else "SILENT")), kinds
 
 
 async def maybe_trigger(text, t_heard=None):
@@ -500,9 +501,14 @@ async def run_session(session, q):
                 await asyncio.sleep(0.5)
                 if heard_box["text"].strip() and time.time() - heard_box["t"] > 1.5:
                     txt = heard_box["text"].strip(); heard_box["text"] = ""
-                    emit("heard", text=txt)
+                    emit("heard", text=txt); note_heard(txt)
                     asyncio.create_task(maybe_trigger(txt))
                     asyncio.create_task(tag_speaker(txt))
+
+        def note_heard(txt):
+            LAST_HEARD["text"] = txt
+            if NAME_RE.search(txt):
+                ADDRESSED["until"] = time.time() + 15
 
         async def tag_speaker(txt):
             who = await asyncio.get_running_loop().run_in_executor(None, who_said, txt)
@@ -521,7 +527,7 @@ async def run_session(session, q):
                       heard_box["t"] = time.time()
                       if heard_box["text"].endswith((".", "?", "!", "。")) or len(heard_box["text"]) > 160:
                           txt = heard_box["text"].strip(); heard_box["text"] = ""
-                          emit("heard", text=txt)
+                          emit("heard", text=txt); note_heard(txt)
                           asyncio.create_task(maybe_trigger(txt))
                           asyncio.create_task(tag_speaker(txt))
                   if sc and sc.output_transcription and sc.output_transcription.text:
@@ -533,7 +539,7 @@ async def run_session(session, q):
                       emit("said", text=" ".join(said_box["text"].split())); said_box["text"] = ""
                   if sc and getattr(sc, "interrupted", False):
                       PLAYING["until"] = 0.0
-                  if sc and sc.model_turn and SPEAK:
+                  if sc and sc.model_turn and SPEAK and (time.time() < ADDRESSED["until"] or time.time() < SPEAKING["until"]):  # voice only when called by name, or for an engine follow-up
                       for part in sc.model_turn.parts or []:
                           blob = getattr(part, "inline_data", None)
                           if blob and blob.data and out_stream is not None:
