@@ -33,10 +33,14 @@ import engine  # noqa: E402
 PROJECT = os.environ.get("GCP_PROJECT", "recruit-hackathon-2026-e")
 LOCATION = os.environ.get("LIVE_LOCATION", "us-central1")
 MODEL = os.environ.get("LIVE_MODEL", "gemini-3.8-live")
+BACKEND = os.environ.get("LIVE_BACKEND", "vertex")  # vertex (the shared Recruit project) | api (GEMINI_API_KEY; the only place gemini-3.8-live-extended-thinking is listed)
+PROACTIVE = os.environ.get("PROACTIVE", "1") == "1"  # the model decides when to reply and ignores talk that is not for it
+THINK = int(os.environ.get("THINK", "512"))  # thinking budget for the live model (0 = off); Vertex accepts it on gemini-3.8-live
 RATE = 16000
 RESUME = {"handle": None}  # latest session-resumption handle, reused on reconnect so context survives a drop
 SPEAK = os.environ.get("SPEAK", "1") == "1"  # play the model's voice for follow-up questions (Meet demo); 0 = never play audio
-SPEAKING = {"until": 0.0}  # audio is played only until this time, set when a follow-up is pending
+SPEAKING = {"until": 0.0}  # set when a follow-up is pending (kept for the page; playback no longer depends on it)
+PLAYING = {"until": 0.0}  # while Pik's voice plays (plus a short tail) the mic is not sent, so it cannot hear itself (half-duplex)
 OUT_RATE = 24000
 CHUNK = 1600  # 100 ms
 EVENTS = engine.STATE / "live.jsonl"
@@ -91,13 +95,20 @@ TOOLS = [types.Tool(function_declarations=[
 def system_prompt():
     c = engine.load("company.json")
     people = "\n".join(f"- {p['id']}: {p['name']}, {p['role']}, {p['team']}, reports to {p['manager']}" for p in c["candidates"])
-    return f"""You are Pik, a silent listener on a call between an HR planner and a hiring manager at {c['name']}.
+    return f"""You are Pik, a participant on a call between an HR planner and a hiring manager at {c['name']}. You listen to everything and speak rarely, briefly, and only when it helps.
 The decision: {c['decision']['title']}. Purpose: {c['decision']['purpose']}
 Candidates under consideration (use these ids in tool calls):
 {people}
 
 Rules:
-- You never speak unless a tool result contains say_out_loud_now; then say exactly that sentence once, and nothing else. If a speaker addresses you by name ("Pik"), answer in one short sentence AND make the matching tool call.
+- When to speak (at most two short sentences, under 15 words each, in the speaker's language):
+  (a) someone addresses you ("Pik", "ピック", "픽"): answer them, and make the matching tool call if they asked for something;
+  (b) right before you pull something onto the screen: one acknowledgement ("Let me check who has written about that");
+  (c) right after a compose lands: one sentence on who came up and why, in their own words ("Yui and Kei came up: Yui wrote she wants the US pricing work");
+  (d) when a tool result carries follow_up or say_out_loud_now: say exactly that sentence once;
+  (e) when someone asks what is on screen or what a receipt says: read it, word for word.
+  Otherwise stay silent. Small talk, jokes, and logistics are not for you, even if they mention you in passing.
+- Never say a name, a quote, or a number that a tool result did not return. Never say "the best" or "I recommend"; say what the receipts say. Nobody is scored.
 - You never score, rank or recommend a person. Humans decide. You compose the shared screen; the engine fills in every name and every quote.
 - The screen is a small document of blocks: question, people, receipt, constraint, ask. compose replaces it; patch edits one block.
 - The moment a speaker says what kind of person they need ("I need someone who...", "we're looking for...", "the person has to...", or the same in Japanese), call compose with [question, people] on that sentence, even if the description is incomplete. Call compose again whenever the description changes or is refined.
@@ -146,8 +157,12 @@ def resolve(block: dict):
     if t == "people":
         crit = (block.get("criterion") or block.get("text") or "").strip()
         a = engine.ask(crit, "", None, 3, POOL)
-        if not a["people"]:  # off the decision pool (a booth, a review, a call): ask the whole company
+        def covered(ans):  # someone's OWN receipts cover at least one word of the ask (Steven's confidence field)
+            return any((p.get("confidence") or 0) > 0 for p in ans["people"])
+        if not covered(a):  # off the decision pool (a booth, a review, a call): ask the whole company
             a = engine.ask(crit, "", None, 3, None)
+        if not covered(a):  # nothing on file bears on these words: no empty tiles; the question stays and Pik asks
+            a = dict(a, people=[], follow_up=a.get("follow_up") or "Nothing on file bears on those words. What would this person actually do, and for which team?")
         tiles = []
         for p in a["people"]:
             r = (p.get("receipts") or [None])[0]
@@ -306,7 +321,7 @@ async def handle_tool_call(fc, session=None, on_placed=None):
         kinds.add("conclude")
     else:
         result = {"error": f"unknown tool {fc.name}"}
-    return types.FunctionResponse(id=fc.id, name=fc.name, response=result, scheduling="INTERRUPT" if result.get("say_out_loud_now") else "SILENT"), kinds
+    return types.FunctionResponse(id=fc.id, name=fc.name, response=result, scheduling="INTERRUPT" if result.get("say_out_loud_now") else ("WHEN_IDLE" if fc.name in ("compose", "patch", "conclude") else "SILENT")), kinds
 
 
 async def maybe_trigger(text, t_heard=None):
@@ -371,7 +386,10 @@ def pick_mic():
 async def main():
     EVENTS.write_text("")
     DOC.clear()
-    client = genai.Client(vertexai=True, project=PROJECT, location=LOCATION)
+    if BACKEND == "api":
+        client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])  # not the shared project; for gemini-3.8-live-extended-thinking
+    else:
+        client = genai.Client(vertexai=True, project=PROJECT, location=LOCATION)
     # The SDK forwards this dict to websockets.connect; a 20 s pong timeout was dropping the socket on venue Wi-Fi.
     try:
         client._api_client._websocket_ssl_ctx.update({"ping_interval": 20, "ping_timeout": 90})
@@ -387,6 +405,10 @@ async def main():
         context_window_compression=types.ContextWindowCompressionConfig(sliding_window=types.SlidingWindow()),
         session_resumption=types.SessionResumptionConfig(handle=None),
     )
+    if PROACTIVE:
+        config.proactivity = types.ProactivityConfig(proactive_audio=True)
+    if THINK > 0:
+        config.thinking_config = types.ThinkingConfig(thinking_budget=THINK)
     loop = asyncio.get_running_loop()
     q: asyncio.Queue = asyncio.Queue(maxsize=50)
 
@@ -440,6 +462,8 @@ async def run_session(session, q):
         async def pump():
             while True:
                 chunk = await q.get()
+                if time.time() < PLAYING["until"]:
+                    continue  # Pik is talking: do not feed its own voice back in
                 await session.send_realtime_input(audio=types.Blob(data=chunk, mime_type=f"audio/pcm;rate={RATE}"))
 
         heard_box = {"text": "", "t": 0.0}
@@ -467,11 +491,16 @@ async def run_session(session, q):
                           emit("heard", text=txt)
                           asyncio.create_task(maybe_trigger(txt))
                   if sc and sc.output_transcription and sc.output_transcription.text:
-                      emit("said", text=sc.output_transcription.text)
-                  if sc and sc.model_turn and SPEAK and time.time() < SPEAKING["until"]:
+                      _st = sc.output_transcription.text.strip()
+                      if _st and not (_st.startswith("<") and _st.endswith(">")):  # "<no speech detected>" is the model staying quiet, not a line
+                          emit("said", text=_st)
+                  if sc and getattr(sc, "interrupted", False):
+                      PLAYING["until"] = 0.0
+                  if sc and sc.model_turn and SPEAK:
                       for part in sc.model_turn.parts or []:
                           blob = getattr(part, "inline_data", None)
                           if blob and blob.data and out_stream is not None:
+                              PLAYING["until"] = max(PLAYING["until"], time.time()) + len(blob.data) / 2 / OUT_RATE + 0.4
                               out_stream.write(blob.data)
                   if msg.tool_call:
                       responses = []
