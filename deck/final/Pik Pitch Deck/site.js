@@ -146,13 +146,13 @@ HOOKS.arch=function(s){
     p.setAttribute('d',`M${x1} ${y1} C${mx} ${y1} ${mx} ${y2} ${x2} ${y2}`);p.setAttribute('class','edge '+(cls||''));p.setAttribute('marker-end',cls==='never'?'url(#ahr)':'url(#ah)');G(st).appendChild(p);
     if(cls!=='never'){const L=p.getTotalLength()||600;p.dataset.len=L;p.style.strokeDasharray=L;p.style.strokeDashoffset=L}}
   // columns: sources 0-200, gate 240-400, extract 440-640, validate 680-880, core database 920-1130, confidence 1170-1360, surfaces 1400-1600
-  const SRC=['Slack','Docs','Will Can Must','Meetings','AI sessions'];
+  const SRC=['Slack','Google Drive','Will Can Must','Meetings','AI sessions'];
   SRC.forEach((t,i)=>node(1,0,i*68,200,56,[t]));
   node(2,240,108,160,112,['Gate','allowlist','purpose lock'],'lime');
   node(3,440,108,200,112,['Extract','Gemini 3.8 Flash']);
   node(3,680,108,200,112,['Validate','quote in source']);
   glab(4,1025,22,'CORE DATABASE');
-  const DB=[['Hard skills','skills, work done',40],['Soft skills','culture, style',150],['Will, capacity','load, time zone',260]];
+  const DB=[['Hard skills','skills, work done',40],['Soft skills','culture, style',150],['Capacity','load, time zone',260]];
   DB.forEach(([a,b,y])=>node(4,920,y,210,84,[a,b]));
   node(5,1170,108,190,112,['Confidence','per task','JA↔EN retriever'],'lime');
   node(5,1170,252,190,56,['POST /api/ask'],'dark');
@@ -193,8 +193,8 @@ HOOKS.archnext=function(s){
   function label(st,x,y,txt,sub,anchor){const t=document.createElementNS(NS,'text');t.setAttribute('x',x);t.setAttribute('y',y);t.setAttribute('class','lab'+(sub?' sub':''));t.setAttribute('text-anchor',anchor||'middle');t.textContent=txt;G(st).appendChild(t);grow(st,x-130,y-24,260,30)}
   // today, always visible: sources into the core database
   label(0,500,-6,'TODAY',true);
-  node(0,380,20,240,64,['Slack, Docs, Meet']);
-  node(0,380,160,240,84,['Core database','hard, soft, will']);
+  node(0,380,20,240,64,['Slack, Drive, Meet']);
+  node(0,380,160,240,84,['Core database','skills, culture, capacity']);
   edge(0,'M500 84 L500 160');
   // build 1: the retriever, built this weekend
   label(1,850,126,'OURS, FINE-TUNED',true);
