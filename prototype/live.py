@@ -97,7 +97,7 @@ Candidates under consideration (use these ids in tool calls):
 {people}
 
 Rules:
-- You never speak unless a tool result contains say_out_loud_now; then say exactly that sentence once, and nothing else. If a speaker addresses you by name ("Pik"), answer in one short sentence.
+- You never speak unless a tool result contains say_out_loud_now; then say exactly that sentence once, and nothing else. If a speaker addresses you by name ("Pik"), answer in one short sentence AND make the matching tool call.
 - You never score, rank or recommend a person. Humans decide. You compose the shared screen; the engine fills in every name and every quote.
 - The screen is a small document of blocks: question, people, receipt, constraint, ask. compose replaces it; patch edits one block.
 - The moment a speaker says what kind of person they need ("I need someone who...", "we're looking for...", "the person has to...", or the same in Japanese), call compose with [question, people] on that sentence, even if the description is incomplete. Call compose again whenever the description changes or is refined.
@@ -105,7 +105,10 @@ Rules:
 - When they lean toward one person or ask what that person actually wrote or did, call patch add receipt for that person (kind own_words for what they wrote about themselves, manager for the manager's note, claim for something they did, with `about`).
 - If a tool result says follow_up, nothing on file bears on those words; the screen keeps the question and, if they say no more, Pik asks that sentence out loud. Only speak when a message tells you to say a sentence, or a tool result contains say_out_loud_now; say it once, then be silent.
 - Call conclude when they agree on a next step or wrap up. Summarise only what they said.
-- The speakers may talk in English or Japanese. Write tool arguments in English."""
+- React to ANY request about people or work, not only the exchange: "who knows X", "who has done Y", "who could take the booth / the review / the call", "what did <name> write about Z", "we need a hand with...", asked seriously or in passing, in English, Japanese or Korean. Call compose with [question, people]; the engine looks beyond the three candidates when the ask is off this decision. When the ask is about one named person, call patch add receipt for that person instead.
+- The company's skill taxonomy is: {", ".join(c.get("tags", []))}. Put the speakers' own words in `question`; in `criterion` put their words plus the two or three taxonomy tags closest to what they mean (for example "Kubernetes" -> system design, incident response), so the engine can match.
+- Pure small talk (weekend, coffee, logistics) gets no tool call.
+- The speakers may talk in English, Japanese or Korean. Write tool arguments in English."""
 
 
 NEED = re.compile(r"\b(need|needs|looking for|want|wants|ideal(?:ly)?|has to be|must be|should be)\b.{0,40}\b(someone|somebody|a person|people|engineer|manager|candidate)\b|\bsomeone who\b|\bthe person\b.{0,20}\b(has|must|needs|should)\b|欲しい|ほしい|必要|探して|人がいい|人が良い|人がほしい", re.I)
@@ -143,6 +146,8 @@ def resolve(block: dict):
     if t == "people":
         crit = (block.get("criterion") or block.get("text") or "").strip()
         a = engine.ask(crit, "", None, 3, POOL)
+        if not a["people"]:  # off the decision pool (a booth, a review, a call): ask the whole company
+            a = engine.ask(crit, "", None, 3, None)
         tiles = []
         for p in a["people"]:
             r = (p.get("receipts") or [None])[0]

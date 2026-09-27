@@ -668,7 +668,8 @@ def ask(question: str, context: str = "", requester: str | None = None, k: int =
         elif len(q) < 3:
             follow_up = "What would this person actually do in the first month?"
         else:
-            follow_up = "Is this for the Tokyo side or the partner side, and by when?"
+            words = ", ".join(sorted(q)[:4])
+            follow_up = f"Nothing on file mentions {words}. What would this person actually do, and for which team?"
     return {"question": question, "criterion": " ".join(sorted(q)), "asked": list(qmap.values()), "people": out, "follow_up": follow_up,
             "considered": len(rows), "backend": "keyword", "note": ASK_NOTE}
 
