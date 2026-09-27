@@ -263,6 +263,7 @@ async function init(){
   renderCands(); await selectCand(company.candidates[0].id); loadAudit();
   if(AS) setView('subject');
   if(QS.get('before')==='1'&&!AS) setToday(true);
+  if(QS.get('q')&&!AS){$('#crit').value=QS.get('q'); await doRank(); const f=QS.get('focus'); if(f&&company.candidates.some(c=>c.id===f)) await selectCand(f);}
 }
 function renderCands(order){
   const ids=order||company.candidates.map(c=>c.id);

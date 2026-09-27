@@ -53,6 +53,17 @@ Response: `{"people":[{"id","name","role","team","location","languages","why":[.
 
 `GET /api/people?q=engineer` lists people (no receipts) for pickers.
 
+## Surfaces: Slack and a Notion board (both call `/api/ask`, nothing else)
+
+```bash
+make slack     # Socket Mode bot: ask "who is best for ..." in a channel it is in, or @mention it -> best person, why, load, alternates, "Loop in" button, "Why? See the receipts" link
+make notion    # board watcher: a ticket whose "Suggested owner" is empty gets an owner, a why and a receipts link within 5 s
+```
+
+Secrets live in `~/.config/carl-life-os/.env` (never in this repo): `RECEIPTS_SLACK_BOT_TOKEN`, `RECEIPTS_SLACK_APP_TOKEN`, `RECEIPTS_NOTION_TOKEN`, `RECEIPTS_NOTION_DB`, optional `RECEIPTS_PUBLIC_URL` (a LAN address so links open from a phone). Third-party: `slack_bolt` (MIT), `notion-client` (MIT). The people are fictional, so a "mention" is text and the board's owner is a text property; a Jira or Linear assignee field would need real users.
+
+The "why" link opens the receipts page with the question prefilled: `/?q=<question>&focus=<person id>`.
+
 ## The 90-second demo, click by click
 
 1. Page opens on Rin. Read the two boxes at the top: her own Will Can Must line beside her manager's paraphrase.

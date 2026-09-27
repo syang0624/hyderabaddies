@@ -7,10 +7,10 @@ PORT ?= 8787
 ADC ?= $(firstword $(wildcard $(HOME)/.config/carl-life-os/gcloud-tmuc/application_default_credentials.json $(HOME)/.config/gcloud/application_default_credentials.json))
 export GOOGLE_APPLICATION_CREDENTIALS ?= $(ADC)
 
-.PHONY: setup run run-heuristic run-gemini test reset open smoke live live-sim video-mode warm manifest people ask
+.PHONY: setup run run-heuristic run-gemini test reset open smoke live live-sim video-mode warm manifest people ask slack notion
 
 setup:            ## one-time: venv + google-genai + sounddevice (Gemini mode and the live layer)
-	$(PY) -m venv $(VENV) && $(PIP) -q install --upgrade pip google-genai sounddevice
+	$(PY) -m venv $(VENV) && $(PIP) -q install --upgrade pip google-genai sounddevice slack_bolt notion-client
 
 live:             ## meeting listener: mic -> Gemini 3.8 Live -> tool calls -> the UI (MIC="MacBook" to pick a device)
 	MODE=heuristic $(PYV) live.py
@@ -20,6 +20,12 @@ people:           ## generate the fictional company (200 people) -> data/people.
 
 ask:              ## who is best for Q? e.g. make ask Q="someone who can run the Northwind sync in English"
 	curl -sf -X POST localhost:$(PORT)/api/ask -H 'Content-Type: application/json' -d "{\"question\": \"$(Q)\"}" | $(PY) -c 'import sys,json;d=json.load(sys.stdin);print("follow_up:",d["follow_up"]);[print(f"{i+1}. {p[chr(110)+chr(97)+chr(109)+chr(101)]} ({p[chr(114)+chr(111)+chr(108)+chr(101)]}, {p[chr(116)+chr(101)+chr(97)+chr(109)]}) load={p[chr(108)+chr(111)+chr(97)+chr(100)]} why={p[chr(119)+chr(104)+chr(121)]}") for i,p in enumerate(d["people"])]'
+
+slack:            ## Slack surface (Socket Mode); tokens in ~/.config/carl-life-os/.env
+	$(PYV) surfaces/slack_bot.py
+
+notion:           ## Notion board surface; token + database id in ~/.config/carl-life-os/.env
+	$(PYV) surfaces/notion_board.py
 
 manifest:         ## count + hash every fixture file; the audit counts never-read sources from this, without opening them
 	$(PY) -c 'import engine,json;m=engine.build_manifest();print(json.dumps({k:v["count"] for k,v in m.items()}))'
