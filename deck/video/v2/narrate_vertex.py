@@ -33,8 +33,19 @@ MANAGER = ("You are a text-to-speech engine. Read the user's text aloud exactly,
 
 # id, voice, style, text. Replace these with the v2 lines; keep ids stable so build.py rows keep working.
 LINES = [
-    ("01_blur",   "Charon", STYLE, "The line between jobs is blurring."),
-    ("03_meet",   "Charon", STYLE, "Meet Pik."),
+    ("01_blur",      "Charon", STYLE, "In a post-LLM world, the line between what one person can do is blurring."),
+    ("02_asked",     "Charon", STYLE, "We asked people at Recruit Holdings what their hardest problem in HR is. Every answer was the same shape: who does what next, decided from memory."),
+    ("03_asks",      "Charon", STYLE, "Who is the best person to mentor the interns? To lead the pricing task force? For the two-year exchange? Same question, every week."),
+    ("04_meetpik",   "Charon", STYLE, "Meet Pik. It knows who's done what, and answers where you ask."),
+    ("05_mining",    "Charon", STYLE, "Pik reads what Yui already wrote and shipped, where the company allows. Every line keeps its source."),
+    ("06_receipts",  "Charon", STYLE, "Two hundred people. Always current."),
+    ("07_meet",      "Charon", STYLE, "It hears the criterion and re-sorts on their words. No score."),
+    ("07_manager",   "Puck",   MANAGER, "For the Northwind slot I need someone who will push back on the job-based culture instead of just absorbing it, and they have to hold their own in English in meetings."),
+    ("07_manager2",  "Puck",   MANAGER, "Okay, let's set up calls with Yui and Kei this week, and ask Yui whether that location note is actually true."),
+    ("08_slack",     "Charon", STYLE, "Or ask in Slack. One press to loop her in."),
+    ("09_ticket",    "Charon", STYLE, "On a ticket, it fills in the owner, and shows why."),
+    ("10_verticals", "Charon", STYLE, "The same map answers hospitals, airlines, construction sites. Anywhere the wrong person on the job is expensive."),
+    ("11_end",       "Charon", STYLE, "Because the future of your work depends on who you Pik."),
 ]
 
 

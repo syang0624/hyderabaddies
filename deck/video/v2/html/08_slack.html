@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pik V2 08 slack: who leads the team</title>
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+  /* Beat 08 (8 s): a fuller Slack replica. Aya types "who's best to lead the pricing task force?", Enter, Pik's ephemeral
+     card slides in with the real bot's block layout (prototype/surfaces/slack_bot.py card()), Yui's lines verbatim from
+     prototype/data (sl-020, sl-011, wcm-yui). The cursor moves once to "Loop in Yui", presses, a message posts. */
+  body{background:#fff}
+  #stage{background:#fff;font-family:var(--sans);color:#1D1C1D;font-size:15px;line-height:22px}
+  .sk-top{position:absolute;left:0;top:0;width:1920px;height:44px;background:#350D36;display:flex;align-items:center;justify-content:center}
+  .sk-top .nav{position:absolute;left:276px;top:11px;display:flex;gap:10px}
+  .sk-top .nav i{display:block;width:22px;height:22px;border-radius:6px;background:rgba(255,255,255,.14);opacity:.5}
+  .sk-top .search{width:720px;height:28px;border-radius:6px;background:rgba(255,255,255,.22);color:rgba(255,255,255,.85);font-size:13px;line-height:28px;padding-left:34px;position:relative}
+  .sk-top .search::before{content:"";position:absolute;left:11px;top:7px;width:11px;height:11px;border:2px solid rgba(255,255,255,.85);border-radius:50%}
+  .sk-top .search::after{content:"";position:absolute;left:23px;top:18px;width:6px;height:2px;background:rgba(255,255,255,.85);transform:rotate(45deg)}
+  .sk-top .me{position:absolute;right:20px;top:9px;width:26px;height:26px;border-radius:5px;background:#7D5BA6;color:#fff;font-weight:600;font-size:12px;line-height:26px;text-align:center}
+  .sk-side{position:absolute;left:0;top:44px;width:260px;height:1036px;background:#3F0E40;color:rgba(255,255,255,.72)}
+  .sk-side .ws{height:49px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;color:#fff;font-weight:700;font-size:18px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .sk-side .ws b::after{content:"";display:inline-block;margin-left:8px;border:5px solid transparent;border-top-color:#fff;vertical-align:-3px}
+  .sk-side .ws i{width:30px;height:30px;border-radius:50%;background:#fff;display:block;position:relative}
+  .sk-side .ws i::after{content:"";position:absolute;left:9px;top:9px;width:12px;height:12px;border-left:2px solid #3F0E40;border-bottom:2px solid #3F0E40;transform:rotate(-45deg) translate(2px,-2px)}
+  .sk-side .sec{margin-top:14px;padding:0 16px;height:28px;display:flex;align-items:center;font-size:15px}
+  .sk-side .sec::before{content:"";display:inline-block;margin-right:10px;border:5px solid transparent;border-top-color:rgba(255,255,255,.72);transform:translateY(3px)}
+  .sk-side .it{height:28px;padding:0 16px 0 26px;display:flex;align-items:center;gap:8px;font-size:15px;white-space:nowrap}
+  .sk-side .it.on{background:#1164A3;color:#fff}
+  .sk-side .it .h{opacity:.7;width:12px}
+  .sk-side .it.on .h{opacity:1}
+  .sk-side .it .dot{width:9px;height:9px;border-radius:50%;background:#2BAC76;margin:0 2px}
+  .sk-side .it .dot.off{background:transparent;border:1.5px solid rgba(255,255,255,.55)}
+  .sk-side .it.bold{color:#fff;font-weight:700}
+  .sk-side .it .badge{margin-left:auto;background:#CD2553;color:#fff;font-size:11px;font-weight:700;line-height:18px;padding:0 7px;border-radius:9px}
+  .sk-pane{position:absolute;left:260px;top:44px;width:1660px;height:1036px;background:#fff}
+  .sk-head{height:49px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #DDDDDD}
+  .sk-head .ch{font-weight:700;font-size:18px;display:flex;align-items:center;gap:6px}
+  .sk-head .ch::after{content:"";display:inline-block;margin-left:4px;border:5px solid transparent;border-top-color:#1D1C1D;transform:translateY(3px)}
+  .sk-head .meta{display:flex;align-items:center;gap:14px;color:#616061;font-size:13px}
+  .sk-head .members{display:flex;align-items:center;border:1px solid #DDD;border-radius:6px;padding:3px 8px 3px 4px;gap:6px}
+  .sk-head .members .av{width:20px;height:20px;border-radius:4px;margin-left:-6px;border:1.5px solid #fff;font-size:9px;line-height:17px}
+  .sk-head .members .av:first-child{margin-left:0}
+  .sk-msgs{padding:8px 0 0}
+  .datepill{display:flex;align-items:center;justify-content:center;height:36px;position:relative;margin:2px 0 4px}
+  .datepill::before{content:"";position:absolute;left:0;right:0;top:18px;height:1px;background:#DDD}
+  .datepill span{position:relative;background:#fff;border:1px solid #DDD;border-radius:24px;padding:0 12px;font-size:13px;font-weight:700;line-height:26px}
+  .msg{display:flex;gap:8px;padding:8px 20px}
+  .av{width:36px;height:36px;border-radius:4px;color:#fff;font-weight:600;font-size:14px;line-height:36px;text-align:center;flex:none}
+  .av.pik{background:#111;position:relative}
+  .av.pik::before,.av.pik::after{content:"";position:absolute;top:12px;width:5px;height:12px;border-radius:3px;background:#fff}
+  .av.pik::before{left:12px}.av.pik::after{left:20px}
+  .msg .b{flex:1;min-width:0}
+  .msg .nm{display:flex;align-items:baseline;gap:8px}
+  .msg .nm b{font-weight:700}
+  .msg .nm span{font-size:12px;color:#616061}
+  .msg .nm .app{font-size:10px;font-weight:700;color:#616061;background:#E8E8E8;border-radius:2px;padding:1px 4px;line-height:12px;letter-spacing:.02em}
+  .msg .tx{max-width:1180px}
+  .reacts{display:flex;gap:4px;margin-top:6px}
+  .reacts span{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 8px;border:1px solid #E2E2E2;background:#F8F8F8;border-radius:12px;font-size:12px}
+  .reacts span em{font-style:normal;font-size:15px;line-height:1}
+  .reacts span.add{color:#616061;width:32px;justify-content:center;font-size:14px}
+  .mention{background:#E8F5FA;color:#1264A3;border-radius:3px;padding:0 2px}
+  /* Block Kit card, as Slack renders card() */
+  .card{max-width:920px}
+  .card .sec{margin-top:2px}
+  .card .why{margin:2px 0 0 0;list-style:none}
+  .card .why li::before{content:"•  "}
+  .card .ctx{font-size:12px;line-height:18px;color:#616061;margin-top:8px}
+  .card .q{margin-top:8px;border-left:4px solid #DDDDDD;padding-left:12px}
+  .card .q p{margin-top:6px}
+  .card .q p:first-child{margin-top:0}
+  .card .q i{color:#616061}
+  .card .btns{display:flex;gap:8px;margin-top:10px}
+  .card .btn{height:36px;padding:0 12px;border-radius:4px;border:1px solid #BBBABB;background:#fff;font-weight:700;font-size:13px;line-height:34px;color:#1D1C1D}
+  .card .btn.pri{background:#007A5A;border-color:#007A5A;color:#fff}
+  .eph{font-size:12px;color:#616061;margin-top:8px;display:flex;align-items:center;gap:6px}
+  .eph i{width:14px;height:9px;border:1.5px solid #616061;border-radius:50%;display:block;position:relative}
+  .eph i::after{content:"";position:absolute;left:4px;top:1.5px;width:3px;height:3px;border-radius:50%;background:#616061}
+  .sk-comp{position:absolute;left:20px;right:20px;bottom:20px;height:104px;border:1px solid #8D8D8D;border-radius:8px;background:#fff;overflow:hidden}
+  .sk-comp.focus{border-color:#1D1C1D;box-shadow:0 0 0 1px #1D1C1D}
+  .sk-comp .bar{height:36px;background:#F8F8F8;display:flex;align-items:center;gap:6px;padding:0 10px;border-bottom:1px solid #EEE}
+  .sk-comp .bar i,.sk-comp .foot i{display:block;width:16px;height:16px;border-radius:3px;background:#B9B9B9;opacity:.75}
+  .sk-comp .bar i.sep{width:1px;height:18px;background:#DDD;margin:0 4px}
+  .sk-comp .in{height:36px;padding:0 12px;line-height:36px;color:#1D1C1D}
+  .sk-comp .in .ph{color:#616061}
+  .sk-comp .in .caret{width:2px;height:18px;vertical-align:-3px;margin-left:1px}
+  .sk-comp .foot{height:32px;display:flex;align-items:center;gap:12px;padding:0 10px}
+  .sk-comp .foot .send{margin-left:auto;width:60px;height:26px;border-radius:4px;background:#F0F0F0;position:relative}
+  .sk-comp .foot .send.on{background:#007A5A}
+  .sk-comp .foot .send::after{content:"";position:absolute;left:21px;top:7px;width:0;height:0;border:6px solid transparent;border-left:10px solid #B9B9B9;border-right:0}
+  .sk-comp .foot .send.on::after{border-left-color:#fff}
+  #cursor{position:absolute;left:0;top:0;width:26px;height:36px;pointer-events:none;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35))}
+  .enter{opacity:0}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="sk-top"><div class="nav"><i></i><i></i><i style="margin-left:6px"></i></div><div class="search">Search Kaede Works</div><div class="me">AN</div></div>
+  <div class="sk-side">
+    <div class="ws"><b>Kaede Works</b><i></i></div>
+    <div class="sec">Channels</div>
+    <div class="it"><span class="h">#</span>general</div>
+    <div class="it on"><span class="h">#</span>pricing-team</div>
+    <div class="it"><span class="h">#</span>northwind-sync</div>
+    <div class="it bold"><span class="h">#</span>learning<span class="badge">2</span></div>
+    <div class="it"><span class="h">#</span>platform</div>
+    <div class="it"><span class="h">#</span>growth-analytics</div>
+    <div class="it"><span class="h">#</span>all-hands-questions</div>
+    <div class="it"><span class="h">#</span>random</div>
+    <div class="sec">Direct messages</div>
+    <div class="it"><span class="dot"></span>Rin Mori</div>
+    <div class="it"><span class="dot"></span>Kei Tanaka</div>
+    <div class="it"><span class="dot off"></span>Okada</div>
+    <div class="it"><span class="dot off"></span>Aya Nakamura <span style="opacity:.6">(you)</span></div>
+    <div class="sec">Apps</div>
+    <div class="it"><span class="av pik" style="width:18px;height:18px;border-radius:3px;transform:scale(.5);margin:-4px -6px -4px -8px"></span>Pik</div>
+  </div>
+  <div class="sk-pane">
+    <div class="sk-head">
+      <div class="ch"># pricing-team</div>
+      <div class="meta"><div class="members"><span class="av" style="background:#E8912D">YS</span><span class="av" style="background:#4A7BD8">RM</span><span class="av" style="background:#6B8E23">OK</span><span>12</span></div><span>Huddle</span></div>
+    </div>
+    <div class="sk-msgs">
+      <div class="datepill"><span>July 31st</span></div>
+      <div class="msg"><div class="av" style="background:#4A7BD8">RM</div><div class="b"><div class="nm"><b>Rin Mori</b><span>10:48 AM</span></div><div class="tx">Nice write-up. The SMB segmentation matches what I see in the cohort data.</div></div></div>
+      <div class="datepill"><span>August 12th</span></div>
+      <div class="msg"><div class="av" style="background:#6B8E23">OK</div><div class="b"><div class="nm"><b>Okada</b><span>2:31 PM</span></div><div class="tx">Who can cover the partner pricing review on Aug 20? Yui is out.</div></div></div>
+      <div class="msg"><div class="av" style="background:#E8912D">YS</div><div class="b"><div class="nm"><b>Yui Sato</b><span>2:40 PM</span></div><div class="tx">Actually I'm back on the 19th, I'll take it so nobody has to reshuffle.</div><div class="reacts"><span><em>🙏</em>2</span><span><em>✅</em>1</span><span class="add">+</span></div></div></div>
+      <div class="enter" id="todaypill"><div class="datepill"><span>Today</span></div></div>
+      <div class="msg enter" id="ask"><div class="av" style="background:#7D5BA6">AN</div><div class="b"><div class="nm"><b>Aya Nakamura</b><span>11:02 AM</span></div><div class="tx">who's best to lead the pricing task force?</div></div></div>
+      <div class="msg enter" id="card">
+        <div class="av pik"></div>
+        <div class="b card">
+          <div class="nm"><b>Pik</b><span class="app">APP</span><span>11:02 AM</span></div>
+          <div class="sec"><b>Yui Sato</b>, Product operations, Pricing</div>
+          <ul class="why">
+            <li>pricing (5/5)</li>
+            <li>I want to work with the US product team on pricing experiments. My spoken English in meetings is weak but my writing is strong, and I want to fix the speaking part by being immersed.</li>
+          </ul>
+          <div class="ctx">On their plate: 2 open tickets, 24 h booked this week · available</div>
+          <div class="q">
+            <p>Q2 result: the 3% increase held retention flat in the SMB segment. Full write-up in the doc, including what I'd do differently.  <i>(Slack #pricing, 2026-07-30)</i></p>
+            <p>Six weeks of practice done. Ran today's Northwind sync in English myself for the first time.  <i>(Slack #learning, 2026-07-15)</i></p>
+          </div>
+          <div class="ctx">Also: Rin Mori (Senior marketing analyst) · Kei Tanaka (Software engineer)</div>
+          <div class="btns"><div class="btn pri" id="loop">Loop in Yui</div><div class="btn">Why? See the receipts</div></div>
+          <div class="ctx">Order is evidence overlap with your words, minus load. Not a score. The person sees the same receipts.</div>
+          <div class="eph"><i></i>Only visible to you</div>
+        </div>
+      </div>
+      <div class="msg enter" id="looped"><div class="av pik"></div><div class="b"><div class="nm"><b>Pik</b><span class="app">APP</span><span>11:03 AM</span></div><div class="tx"><span class="mention">@Yui</span>, looping you in: who's best to lead the pricing task force? Pik named you; the receipts are attached.</div></div></div>
+    </div>
+    <div class="sk-comp focus" id="comp">
+      <div class="bar"><i></i><i></i><i></i><i></i><i class="sep"></i><i></i><i></i><i></i><i class="sep"></i><i></i><i></i></div>
+      <div class="in"><span id="typed"></span><span class="ph" id="ph">Message #pricing-team</span><span class="caret on" id="ccaret"></span></div>
+      <div class="foot"><i style="border-radius:50%"></i><i></i><i></i><i></i><i></i><div class="send" id="send"></div></div>
+    </div>
+  </div>
+  <svg id="cursor" viewBox="0 0 26 36"><path d="M2 2 L2 27 L8.5 21 L13 32 L18 30 L13.5 19.5 L22 19 Z" fill="#111" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>
+</div>
+<script src="assets/shared.js"></script>
+<script>
+(function(){
+  const P = window.PIK, $ = s => document.querySelector(s);
+  const typedEl = $('#typed'), ph = $('#ph'), ccaret = $('#ccaret'), send = $('#send'), comp = $('#comp');
+  const todaypill = $('#todaypill'), ask = $('#ask'), card = $('#card'), looped = $('#looped'), loop = $('#loop'), cursor = $('#cursor');
+  const Q = "who's best to lead the pricing task force?";
+  const T = { type: 400, enter: 2100, ask: 2150, card: 2800, cur: [4000, 5100], press: 5250, post: 5550 };
+  const DUR = 8000;
+  let btn = null;
+  function enter(el, ms, at, dur = 380) {   // ease-out rise + fade
+    const t = P.seg(ms, at, dur, P.easeOut);
+    el.style.opacity = String(t);
+    el.style.transform = `translateY(${(1 - t) * 12}px)`;
+  }
+  function seek(ms) {
+    if (!btn) { const r = loop.getBoundingClientRect(); btn = { x: r.left + r.width / 2, y: r.top + r.height / 2 }; }
+    // composer: type, then Enter clears it
+    const sent = ms >= T.enter;
+    const shown = sent ? '' : P.typed(Q, ms, T.type, 28);
+    typedEl.textContent = shown;
+    ph.style.display = shown || sent ? 'none' : 'inline';
+    ph.style.display = (shown.length === 0 && !sent) ? 'inline' : (sent ? 'inline' : 'none');
+    send.classList.toggle('on', shown.length > 0 && !sent);
+    ccaret.classList.toggle('on', !sent && ((ms % 1000) < 500 || (ms >= T.type && shown.length < Q.length)));
+    comp.classList.toggle('focus', !sent || ms > T.post + 400);
+    // the question posts, then Pik's card slides in
+    enter(todaypill, ms, T.ask, 300); enter(ask, ms, T.ask);
+    enter(card, ms, T.card, 420);
+    // cursor: parked by the composer, moves once to "Loop in Yui", presses
+    const from = { x: 1420, y: 1012 };
+    const t = P.seg(ms, T.cur[0], T.cur[1] - T.cur[0], P.easeInOut);
+    const to = { x: btn.x - 10, y: btn.y - 2 };
+    cursor.style.transform = `translate(${P.lerp(from.x, to.x, t)}px,${P.lerp(from.y, to.y, t)}px)`;
+    cursor.style.opacity = ms >= T.cur[0] - 600 ? '1' : '0';
+    const pr = ms >= T.press && ms < T.press + 160;
+    loop.style.transform = pr ? 'scale(.97)' : '';
+    loop.style.background = pr ? '#00563F' : '';
+    loop.style.borderColor = pr ? '#00563F' : '';
+    // the loop-in message posts
+    enter(looped, ms, T.post, 340);
+  }
+  P.init(seek, DUR);
+})();
+</script>
+</body>
+</html>
