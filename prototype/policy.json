@@ -37,5 +37,9 @@
   "The subject sees the same page as the evaluator.",
   "No score is presented as a verdict; ranking is a re-ordering of evidence for a stated criterion.",
   "The page exists for one named decision and is deleted when it is made."
- ]
+ ],
+ "crud_log": {
+  "file": "state/people-log.jsonl",
+  "note": "every add, edit or remove of a person record: who asked, what they said, what changed. Drafts are never logged; only confirmed writes."
+ }
 }

@@ -1,0 +1,18 @@
+{
+ "name": "crud",
+ "badge": "scripted",
+ "description": "Choreography B (UI-SPEC §9): the page runs this itself under ?take=crud. It types `sentence` into the real B2 input at `type_ms` per character, submits to the real POST /api/chat, waits, then presses the real Confirm (POST /api/people). Times are seconds from the take start. Mika Ono is not in people.json (Mina Costa is, so that name would trigger the ask-back).",
+ "duration": 5.5,
+ "requester": "Aya Nakamura",
+ "sentence": "Add Mika Ono, product ops on Pricing, based in Singapore, speaks Japanese and English.",
+ "type_ms": 22,
+ "expected_draft": {"name": "Mika Ono", "role": "Product operations", "team": "Pricing", "location": "Singapore", "languages": ["Japanese", "English"], "availability": "available", "will": null, "receipts": []},
+ "rows": [
+  {"at": 0.0, "op": "focus", "text": "input focused, page at rest"},
+  {"at": 0.3, "op": "type", "text": "start typing the sentence at type_ms per character (ends at ~2.1)"},
+  {"at": 2.2, "op": "enter", "text": "submit to POST /api/chat; render the draft tile (Will blank, 0 receipts, read-scope line); Singapore pin outlines"},
+  {"at": 3.0, "op": "confirm", "text": "press Confirm: POST /api/people; record row; hollow node flies into Pricing; Singapore count +1; panel header 'added by Aya Nakamura'"},
+  {"at": 5.5, "op": "end", "text": "cut"}
+ ],
+ "mirror": {"name": "08b_mirror", "duration": 3.0, "url": "/?as=yui&present=1", "note": "record_candidate.py re-run on the subject page; no VO"}
+}

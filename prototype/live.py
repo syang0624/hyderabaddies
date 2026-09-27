@@ -148,7 +148,10 @@ def resolve(block: dict):
             r = (p.get("receipts") or [None])[0]
             if not r:
                 continue  # a tile without a receipt has no source id: the page would drop it anyway
-            tiles.append({"id": p["id"], "name": p["name"], "role": p["role"], "team": p["team"], "why": r["text"], "source": r["source"], "source_id": r["source_id"]})
+            tiles.append({"id": p["id"], "name": p["name"], "role": p["role"], "team": p["team"], "why": r["text"], "source": r["source"], "source_id": r["source_id"],
+                          # coverage of the ask's words by this person's own receipts (engine.ask): never a score, never sorted by
+                          "confidence": p.get("confidence", 0), "asked": p.get("asked", []), "covered": p.get("covered", {}), "missing": p.get("missing", []),
+                          "location": p.get("location"), "badge": p.get("badge")})
         b.update(criterion=crit, tiles=tiles)
         return (b if tiles else None), (None if tiles else a.get("follow_up"))
     if t == "receipt":
@@ -294,7 +297,7 @@ async def handle_tool_call(fc, session=None, on_placed=None):
         elif "ask" in kinds:  # the model wrote its own follow-up: say it now
             result.update(speak_now(next(b["text"] for b in DOC if b["type"] == "ask")))
     elif fc.name == "conclude":
-        emit("conclude", **args)
+        conclude(args)
         kinds.add("conclude")
     else:
         result = {"error": f"unknown tool {fc.name}"}
@@ -321,6 +324,33 @@ def emit(kind, **payload):
     with EVENTS.open("a") as f:
         f.write(json.dumps(row, ensure_ascii=False) + "\n")
     print(f"[{time.strftime('%H:%M:%S')}] {kind}: {json.dumps(payload, ensure_ascii=False)[:200]}", flush=True)
+    return row
+
+
+def _who(text: str):
+    """The candidate an open question is addressed to, by id or first name in the text; None when nobody is named."""
+    low = (text or "").lower()
+    for c in engine.load("company.json")["candidates"]:
+        if re.search(rf"\b{re.escape(c['id'])}\b", low) or re.search(rf"\b{re.escape(c['name'].split()[0].lower())}\b", low):
+            return c["id"]
+    return None
+
+
+def filed(**args):
+    """The decision record grows: the conclusion is filed (state/asks.jsonl) and the page hears 'filed'.
+    {ask_id, summary, open_questions:[{person, text}], notified:[ids]}. Nothing is read; nobody's file changes."""
+    row = engine.file_ask(args)
+    return emit("filed", **{k: v for k, v in row.items() if k != "filed_at"})
+
+
+def conclude(args: dict):
+    """conclude as the model called it, then filed right after (additive: the conclude row is unchanged)."""
+    args = dict(args or {})
+    emit("conclude", **args)
+    oq = [q if isinstance(q, dict) else {"person": _who(str(q)), "text": str(q)} for q in (args.get("open_questions") or [])]
+    q_text = next((b["text"] for b in DOC if b["type"] == "question"), None)
+    return filed(ask_id=f"ask-{int(time.time())}", summary=args.get("summary", ""), question=q_text, open_questions=oq,
+                 notified=list(args.get("candidate_ids") or []))
 
 
 def pick_mic():
