@@ -1,25 +1,29 @@
-# Recording the Meet take (Carl + Steven), Sun ~00:50
+# The Meet take, hard-coded (Sun 01:05 plan, replaces the five-line HR script)
 
-Target: the whole take under 40 seconds of tape from the first word to the printed conclusion. The video gives this beat 35 s; I cut the ends.
+Pik's part is scripted on ONE cue: its four spoken lines and every screen change run on a fixed clock. You two speak between them. Judges are tired: the whole take is one small story in about 42 seconds.
 
-## Setup (already done for you)
-- State reset, listener running in the "Pik listener" tab with voice on (it speaks only for its follow-up, or when called "Pik").
-- Page: `localhost:8787/?present=1` in Dia, reloaded, at rest. Full-screen the tab (no browser chrome). 1920x1080 or 16:9.
-- Record screen + mic with Cap (or QuickTime). Laptop mic between you two. No music, no talking over each other.
-- Steven = manager. Carl = HR planner. Speak at a normal pace, then WAIT for the screen; do not fill the gap.
+## The story on tape
 
-## The beat sheet (target seconds from your first word)
+| tape s | who | what happens |
+|---|---|---|
+| 0 to 6 | Carl and Steven | Hellos. Steven: "Hey Carl. Let's figure out who should lead the company hackathon this year." Carl: "Yeah, I never know who's actually done this before." |
+| 6 | CUE | Carl presses SPACE on the Pik tab (or runs `make take NAME=hackathon`). Pik's clock starts at 0. |
+| 6 to 10 | Pik (voice) | "Since you're on that, I can help. What does the person need to have done?" The waveform moves with its voice. |
+| 10 to 15.5 | Steven | "Someone who has run a cross-team event, and can present the outcome to the exec team." |
+| 15.5 to 23 | Pik | Words drift in from the centre; Rin and Yui appear with their receipts; Pik: "Two people have receipts for that. Rin presented the pricing roadmap to the exec team. Yui ran the Northwind syncs in English. On screen, word for word." |
+| 23.5 to 25.5 | Carl | "What did Rin actually do?" |
+| 26 to 32.5 | Pik | Rin's receipt flashes on the right with its channel; Pik reads it: "Rin wrote: I'll present the pricing analytics roadmap to the exec team on the ninth. Slack, growth analytics, June." |
+| 33 to 35 | Steven | "Great. Let's ask Rin and Yui this week." |
+| 35.5 to 39 | Pik | The conclusion card prints, Rin and Yui light up. Pik: "Filed. Rin and Yui can see this same page." |
+| 39 to 42 | Carl | "Thanks, Pik." Hold on the card. Stop. |
 
-| t | who | line (say it close to this) | what you wait for |
-|---|---|---|---|
-| 0 | Steven | "For the Northwind slot I need someone who will push back on the job-based culture instead of just absorbing it, and they have to hold their own in English in meetings." | words drift in, three people light on the map (~2 s after you stop) |
-| 11 | Carl | "One constraint from my side: nobody leaves pricing before the Q1 close." | the locked keyword, Yui dims with "on the Pricing team" |
-| 17 | Carl | "Actually, just someone good." | Pik asks out loud (~4 s). Let it finish. Nobody answers. |
-| 24 | Steven | "I keep coming back to Yui. What did she actually write about this herself?" | the hub appears, her quote flashes on the right |
-| 31 | Steven | "Okay. Let's set up calls with Yui and Kei this week, and ask Yui whether that location note is actually true." | the conclusion card prints (~2 s) |
-| 38 | both | silence, 3 seconds, on the conclusion card | stop recording |
+Pik's clock (from the cue): speaks 0 to 4, screen grows at 9.5, speaks 10.2 to 17, receipt at 20, speaks 20.2 to 26.6, conclusion at 29.5, speaks 30 to 33, filed at 33, end at 36. Your lines sit in the holds: 4 to 9.5, 17.5 to 19.5, 27 to 29. Speak at a normal pace and stop; do not fill silence.
 
-If a line does not land within 3 s, say it again once, then keep going. If the listener dies, Ctrl-C the tab, rerun `MIC="MacBook" SPEAK=1 make live`, reload the page, start over. Two takes maximum.
+## Setup
+1. `prototype/dia_pik.sh` once (Dia relaunches with the Meet flags), then `prototype/meet_dia.sh`: the call is created from your Somach profile, Pik joins as a guest and presents the Pik tab. Steven joins the printed link from his laptop, camera on. Your host tab: camera on, mic off (Pik's voice comes from the presented tab's audio; your own voices go through Steven's mic or the recording's mic).
+2. On the presented Pik tab (Dia profile O-Intuition) the page shows a small "ready" dot when armed. Press SPACE there on the cue. If you would rather not touch it, run `cd prototype && make take NAME=hackathon` in a terminal on the cue.
+3. Record the host tab with Cap (screen + mic). Three seconds of silence before the first hello. Two takes maximum.
+4. Reset between takes: `make reset` and reload the Pik tab (Cmd-R in that tab, or `prototype/meet_dia.sh` again for a fresh call).
 
 ## Hand it over
-Drop the file at `deck/video/v5/captures/meet_real.mov` (or .mp4) and say "take is in". I cut it into V5: the front beats tightened, the new-hire and Yui-page beats out, your take at 29 to 64 s, then Slack, Notion, verticals, end.
+`deck/video/v5/captures/meet_real.mov` (or .mp4), then say "take is in". V5 = tightened front, your take at about 29 to 71 s, Slack, Notion, verticals, end.
