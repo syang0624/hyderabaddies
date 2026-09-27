@@ -27,3 +27,7 @@ prototype/ui/vendor/pik_audio.json
 prototype/MEET_TAKE.md
 prototype/MEET_REHEARSAL.md
 prototype/LIVE_DEMO.md
+
+# deck render scratch
+deck/site/_render/
+deck/site/_pw/

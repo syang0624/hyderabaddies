@@ -1,0 +1,59 @@
+# Every number on the Pik deck, with its source
+
+Built Sun 2026-09-27 from `deck_research_market.md` and `deck_research_interviews.md`. [P] = the researcher read the primary source; [S] = confirmed via search snippet or a secondary page, re-check if load-bearing; [I] = from our own interviews, the speaker's own past organisations, cleared; [F] = the demo's fictional fixtures under `prototype/data/`.
+
+## 02 Problem
+| Number | Slide text | Source |
+|---|---|---|
+| 80.9% | of employees in Japan use AI at work | [P] Recruit Management Solutions, AI活用が変える職場とマネジメント業務調査, n=1,429 regular employees, surveyed 2026-01-22 to 01-26, published 2026-04-22. https://www.recruit-ms.co.jp/news/pressrelease/1737072110/ |
+| 63% (notes only) | of work falls outside core job descriptions | [P] Deloitte, "The skills-based organization", 1,021 workers and 225 executives, 2022-11-02. https://www.deloitte.com/global/en/issues/work/skills-based-organizations.html |
+
+## 03 Inspiration
+| Number | Slide text | Source |
+|---|---|---|
+| 30 to 40 | a product leader, 30 to 40 reports | [I] interview, Sat 11:42-12:30 (ryo 11-40 03:38-03:59): 5 to 6 PMs, 30 to 40 people |
+| 150; 5 to 10; 4 or 5 days per quarter | a former leader of 150 engineers ran a calibration room: 5 to 10 managers pitching 150 people, "easily 4 or 5 days per quarter" | [I] interview, Sat 13:40-14:05 (hiro 13-40 03:49-04:36); his own past organisations, "not a Recruit figure, so no clearance needed" (PRD.md:694) |
+| quote 「理屈上は使えます。説明責任、透明性。」 | a head of HR | [I] VP meeting, reconciled transcript R 0:44:24:1118; a quote, not a figure; the speaker is a role only |
+
+## 06 Impact
+| Number | Slide text | Source |
+|---|---|---|
+| 51.2%, n=2,761 | of HR staff in Japan say their company's way of placing and transferring people needs rethinking; top reason: skills vs assigned work mismatch; surveyed 2023-03-29 to 03-31 | [P] Recruit Co., Ltd., 企業の人材マネジメントに関する調査2023 人材配置・異動編, published 2023-09-26. https://www.recruit.co.jp/newsroom/pressrelease/2023/0926_12639.html (50.9% of those who see the need have not acted yet, notes only) |
+| 75% vs 56% | an employee who made an internal move has a 75% chance of still being there at two years, versus 56% | [P for wording, S for numbers] LinkedIn Workplace Learning Report 2023; the report's text says "a greater chance of staying"; the percentages are chart values quoted on LinkedIn's career-pathing page. https://business.linkedin.com/learn/resources/workplace-learning-report-2023 ; https://learning.linkedin.com/resources/career-development/career-pathing-employee-retention |
+| 41.2%, n=335 (notes only) | HR managers at Japanese companies say putting the right person in the right place is hard | [P] Recruit Management Solutions, 配置・異動とキャリア支援施策に関する実態調査, surveyed 2026-02-20 to 02-23, published 2026-05-14. https://www.recruit-ms.co.jp/news/pressrelease/8659380542/ |
+| TAM $11.3B | talent management software, global, 2025 | Fortune Business Insights, 2025 base year. https://www.fortunebusinessinsights.com/industry-reports/talent-management-software-market-100374 |
+| SAM ¥138.5B (about $0.92B) | Japan HRTech cloud market, FY2024 | [S] Deloitte Tohmatsu MIC Research Institute, HRTechクラウド市場の実態と展望 2025年度版. https://mic-r.co.jp/mr/03710/ ; Nikkei coverage https://www.nikkei.com/article/DGXZRSP691010_U5A510C2000000/ . USD figure = ¥138.5B ÷ 150, an assumed rate stated on the slide |
+| SOM $4.4M / yr | 45,586 Recruit Holdings employees × $8 × 12 = $4,376,256 | headcount as of 2026-03-31 [S] S&P Global via https://stockanalysis.com/quote/tyo/6098/employees/ (the FY2025 annual report PDF 404'd; the primary FY2024 figure is 49,480 as of 2025-03-31, https://recruit-holdings.com/files/ir/library/upload/report_202503Q4_ar_en.pdf). $8 = Lattice Goals & OKRs list price; Lattice's list runs $4 to $10 per seat per month [P] https://lattice.com/pricing |
+| $1.2M / yr | 12,709 employees of Recruit Co., Ltd. × $8 × 12 = $1,220,064 | headcount as of 2026-04-01, including part-time [P] https://www.recruit.co.jp/company/profile/ |
+| rings | "rings not to scale" | the three circles are schematic; area-proportional rings would make SOM invisible (SOM/TAM radius ratio about 0.02) |
+
+## 07 Different
+| Number | Slide text | Source |
+|---|---|---|
+| $4 to $10 per seat | Lattice | [P] https://lattice.com/pricing (Performance $10, Goals $8, Engagement $4, Compensation +$6, Grow +$4, $4,000 minimum) |
+| 2024-12-16 | Microsoft Delve retired | [P] https://learn.microsoft.com/en-us/sharepoint/delve-retirement ; Message Center MC698136 |
+| GA 2025 | Microsoft 365 People Skills | [P] https://techcommunity.microsoft.com/blog/microsoft365copilotblog/announcing-people-skills-general-availability-and-new-skills-agent/4406364 ; transparency page https://support.microsoft.com/en-us/office/ai-transparency-in-people-skills-4fc9a94d-24cf-42c4-9f2f-e95ff95b263e |
+| 0 to 5 | Eightfold's match score | [P] Eightfold engineering blog: "ranges from 0 through 5 in increments of 0.5". https://eightfold.ai/engineering-blog/retaining-and-growing-talent-through-skills-based-hiring-insights-from-eightfold-ais-match-score/ |
+| (no number) | Talent Palette ranks placements by match degree | [P] https://www.pa-consul.co.jp/talentpalette/function/transfer-and-assignment/ai-placement.html |
+| (no number) | Glean expert search ranks experts from documents | [P] https://docs.glean.com/tools/glean/expert-search |
+
+## 08 Technical design
+No numbers. Model names (Gemini 3.8 Flash, Gemini 3.8 Live) and the stack are from `prototype/Makefile`, `README.md` and `DEMO.md`.
+
+## 09 Roadmap (notes only)
+| Number | Notes text | Source |
+|---|---|---|
+| 474,108 patients, eight procedures | surgeon volume was inversely related to operative mortality for all eight procedures | [S] Birkmeyer et al., NEJM 2003. https://www.nejm.org/doi/full/10.1056/NEJMsa035205 |
+| 43% of firms | named hiring more staff a top initiative | [P] Deltek Clarity A&E Industry Study, 43rd edition, 2022-05-19. https://www.prnewswire.com/news-releases/deltek-releases-the-43rd-annual-deltek-clarity-architecture--engineering-industry-study-revealing-strong-outlook-despite-talent-crisis-301551173.html |
+
+## Appendix
+| Number | Slide | Source |
+|---|---|---|
+| 200 people; 34 Slack messages, 5 documents, 3 Will Can Must sheets, 3 manager notes, 5 session summaries (4 opted in), 2 DMs never read | A4 What is real in the demo | [F] `prototype/data/manifest.json` (counts) and `prototype/data/sessions.json`; the company Kaede Works is fictional and generated |
+| "2 of 7 words in the ask have a receipt" | A2 Is that a score? | [F] the engine's coverage wording, `prototype/engine.py` coverage() and `DEMO.md` |
+| 2024-12-16, 2025-02-22, GA 2025, 0 to 5, $4 to $10, $4,000 minimum | A8 Competitors | as in 07 Different; Viva Topics retirement [P] https://learn.microsoft.com/en-us/microsoft-365/topics/changes-coming-to-topics?view=o365-worldwide |
+| 5 conversations, about 3 h 20 min: 72, 48, 40, 25, 14 minutes | A9 The interviews | [I] recording times in `deck_research_interviews.md`: VP meeting 00:09:40 to 01:21 (72 min); product leader Sat 11:42-12:30; recruiter Fri 20:30-21:10; mentor Sat 13:40-14:05; engineer Fri 19:56-20:10 |
+| 5 to 6 PMs, 30 to 40 people; 30 to 40 and up to 150 | A9 The interviews | [I] ryo 11-40 03:38-03:59; hiro 13-40 03:26 |
+
+## Kept off every slide and note (uncleared, per `deck_research_interviews.md` section ii)
+All figures from the VP meeting (organisation size, yen amounts, manager counts, years of data, tag counts), the internal pilot and internal prototype (VP-FACT-1 and 2), the gender-skew example (VP-FACT-3), every interviewee name, and led statements presented as the VP's findings. Also not used, on the market researcher's advice: the "30% of first-year earnings" mis-hire figure (no primary source) and the $1.8B internal-talent-marketplace figure (weak publisher).
