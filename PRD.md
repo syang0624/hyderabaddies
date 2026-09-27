@@ -4,7 +4,84 @@ Working title **Receipts**. Team hyderabaddies: Carl Kho, Steven Yang. Recruit I
 
 ---
 
-## 0. In plain words (read this first)
+# Receipts, v4: company intelligence, wherever you already work
+
+*Rewritten Sat Sep 26, ~17:30 PDT, from Carl and Steven's 17:00 conversation. Part A (below) is the plan. Part B (after the line) is the evidence and the detail behind it; nothing in Part B overrides Part A.*
+
+## 0. In plain words
+
+**Receipts tracks your achievements for you, so you do the work instead of proving it.** It reads what you already wrote and shipped, in places your company allows, and keeps a receipt for each with the original attached.
+
+**Then it answers one question wherever you already are: who is the best person for this?** In a Google Meet, in a Slack channel, on a Jira ticket. It answers with people, each with their receipts, their current load, and a "why". It never scores anyone, it asks a clarifying question when the request is vague, and the person it names can see the same receipts.
+
+It is an operating system for the humans in a company. Jobs are dissolving into skills; this keeps the map current as people learn, ship, join and leave.
+
+## 1. Where it shows up (the three surfaces, and nothing else before Sunday)
+
+| Surface | Trigger | What appears | One action |
+|---|---|---|---|
+| **Google Meet** (video demo, Carl) | Two people talking. Someone says who they need ("for the Northwind exchange I need someone who will push back and can hold their own in English"). | The bot is a participant. It shares a screen: three people re-sorted on those words, receipts attached. If the ask is vague it **asks one follow-up out loud** ("Do they need to lead meetings in English, or write?") and updates as they answer. When they agree, a written conclusion prints. | Nothing to click. Talk. |
+| **Slack** (text, Steven) | In a channel someone types "who's best for the pricing experiment write-up?" | An ephemeral card: the best person, why (two receipts), their load this week, and two alternates. | One press: mention them. The bot posts "@Yui, looping you in: (why)". |
+| **Jira** (text, Steven) | Assigning a ticket. | A pop-up beside the assignee field: the best person for this ticket, "why" on hover, what else is on their plate, alternates. | One click: assign. |
+
+Behind every "why" is the receipts page (today's `prototype/ui`): the person's own words beside the manager's note, every claim with its source, the candidate's own notes. It is the "more" layer, not the product.
+
+## 2. What it is not
+
+- Not a dashboard. The page exists behind a "why"; nobody starts their day in it.
+- Not a score. Order is how much evidence bears on the words; the candidate never sees a number.
+- Not an AI employee. It names humans and hands them the work. Human empowerment, stated on stage.
+- Not covert. Allowlisted sources only; DMs never read; the named person sees what the asker sees.
+- Not every surface. Meet, Slack, Jira. Anything else is roadmap (hiring interviews, skills gaps, retirements, airlines and pilots, hospitals and surgeons).
+
+## 3. The story (video and pitch, same spine)
+
+1. A big question, no answer: "Who do I reach out to for this?" A blob looks at a Slack logo.
+2. Where the answer already is: what people wrote and shipped. Receipts gather for one person, then zoom out: 199 others, all at once, always current.
+3. The product, in the tools: Meet (live, the two of us), Slack (one enter to mention), Jira (one click to assign). Each one sentence.
+4. The careful part: the named person sees the same receipts. No score. Their rubric.
+5. Beyond the slot: the same map answers hiring, skills gaps, who is retiring, any vertical where the wrong person on the wrong job is expensive.
+6. End: same page for both sides, a receipt on every line, no score.
+
+The PDF answers every question the video raises (numbers, competitors, architecture). The video does not prove; it makes someone want the PDF.
+
+## 4. The core engine (one, shared; nobody builds a second one)
+
+Both surfaces and the Meet bot call the same engine. It lives in `core/` (today `prototype/engine.py` plus `live.py`; moving is a rename, not a rewrite).
+
+- **People**: a fictional company of ~200 employees (`data/people.json`, generated locally, deterministic): name, role, team, location, languages, skill tags with 1 to 5, a "will" line in their own words, current load (open tickets, hours booked this week), availability. Three of them (Rin, Yui, Kei) have full receipts; the rest have generated receipts of the same shape.
+- **Receipts**: allowlisted sources → claims, each with a source id and a verbatim quote checked against the source; the dropped list is visible.
+- **Ask**: `POST /api/ask {question, context, requester}` → `{people:[{id, name, why, receipts[], load, availability}], follow_up?: "one question", criterion}`. Ranking is evidence overlap on the words, minus a load penalty; ties broken by availability. `follow_up` is set when the question is too vague to rank (fewer than two receipts overlap for everyone).
+- **Interjection**: when the engine speaks or pops up. Meet: on a need sentence; a follow-up question only when `follow_up` is set; a conclusion when they agree. Slack: only when asked in a channel it is in. Jira: only on assignment. Never unprompted.
+- **Audit**: read / never read, counted from a manifest.
+
+## 5. Architecture (draw this on slide 07)
+
+`Sources (public Slack, docs, sheets, notes, opted-in sessions) → policy gate → extractor (Gemini 3.8 Flash, verbatim quotes) → validation → receipt store` in the middle. `people.json` beside it. On top, one API: `/api/ask`, `/api/evidence`, `/api/rank`, `/api/annotate`, `/api/memo`, `/api/audit`, `/api/live`. Three thin surfaces call it: **Meet** (mic → Gemini 3.8 Live → tool calls → shared page; follow-up spoken back), **Slack** (Bolt, Socket Mode, ephemeral card → mention), **Jira** (mock ticket page with the pop-up; the real Jira API is roadmap). The receipts page is the "why" behind all three.
+
+## 6. Who builds what, in what order
+
+| When (PDT) | Agent in Carl's session (the engine) | Carl | Steven |
+|---|---|---|---|
+| Sat 18:00 | `people.json` (200), `/api/ask`, load and availability, `follow_up`; `make ask` smoke | Storyboard and motion for the video; the blob character system | Pull `main`; read §4; start the Slack surface against `/api/ask` |
+| Sat 20:00 | Meet bot speaks the follow-up (Gemini Live audio out, only for `follow_up`); conclusion unchanged | Record the Meet beat with Steven (two takes) | Jira mock page with the pop-up; Slack mention action |
+| Sat 22:00 | Smoke on all three surfaces; truth table; README | Cut the video (Cap); deck stills from all three surfaces | Slack + Jira demo takes for the video |
+| Sun 08:30 | `make reset && make manifest && make warm`; final `live-sim` | Deck final; PDF export; competitor slide | Repo split to `hyderabaddies-receipts`; README |
+| Sun 10:45 | | Submit | |
+
+Rule: one engine. If a surface needs something the engine lacks, add it to `/api/ask` and tell the other person in the commit message.
+
+## 7. Judging criteria, checked
+
+- **Impact 40**: importance (proving your work is a second job; 4 to 5 days a quarter of managers deciding from memory); benefit (workers do the work; the named person sees the receipts); business (HR COE buys per decision cycle; the same engine sells into any vertical where the wrong person on the job is expensive). Needs: one **competitor slide** (score tools: Workday, Smart Screening; AI-employee products: the opposite bet; internal skill-tag matching: one-sided). Add to the deck.
+- **Creativity 30**: fresh (receipts for both sides, not a score); novel combination (achievement tracking + live meeting + the tools people already use); differentiated (nobody names humans with receipts inside Meet, Slack and Jira).
+- **Technical 30**: appropriate (Gemini 3.8 Flash for extraction, Gemini 3.8 Live for the meeting, stdlib server); realistic (one engine, thin surfaces); PoC works (scripted call regression 5/5; the judges can type a question into `/api/ask`); path (connectors replace fixtures; the taxonomy is the customer's).
+
+---
+
+# Part B: evidence and detail (v3.2 and earlier; superseded where it conflicts with Part A)
+
+## B0. In plain words (v3.2 version, kept for the record)
 
 **Receipts tracks your achievements for you.** It reads what you already wrote and shipped, in the places your company allows (public Slack channels, shared documents, the sheet you gave HR), turns each into a receipt with the original attached, and shows the same page to you and your manager. You do the work; the proof is automatic.
 
