@@ -12,3 +12,7 @@ __pycache__/
 deck/video/broll/
 deck/video/_seg/
 deck/video/vo/*.raw.wav
+
+# V2 assets folder (AirDropped, 118 MB); see deck/video/v2/README.md
+deck/video/_assets/
+deck/video/v2/vo/*.raw.wav
