@@ -4,7 +4,7 @@ Pik answers one question inside the tools a team already uses: **who is the best
 
 Built by Carl Kho and Steven Yang (team hyderabaddies) at the Recruit Holdings Innovation Cup, San Francisco, September 25 to 27, 2026.
 
-**Demo video:** [deck/pik_demo_90s.mp4](deck/pik_demo_90s.mp4) (90 s). **Deck:** [deck/site](deck/site/) and [deck/Pik_deck.pdf](deck/Pik_deck.pdf). **Run it yourself:** [DEMO.md](DEMO.md).
+**Demo video:** [deck/pik_demo_90s.mp4](deck/pik_demo_90s.mp4) (90 s). **Deck:** [deck/site](deck/site/) and [deck/Pik_deck_final.pdf](deck/Pik_deck_final.pdf). **Run it yourself:** [DEMO.md](DEMO.md).
 
 ## Where it answers
 

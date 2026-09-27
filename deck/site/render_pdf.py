@@ -4,10 +4,10 @@
     cd /Users/carl/CODELocalProjects/hyderabaddies/deck
     video/pw/bin/python site/render_pdf.py --png-dir /tmp/pik_render --no-notes
         # renders the canonical deck, "final/Pik Pitch Deck/", to deck/hyderabaddies.pdf (the submission PDF)
-        # and copies the same PDF to deck/Pik_deck.pdf, so only one deck PDF is in circulation
+        # and copies the same PDF to deck/Pik_deck_final.pdf, so only one deck PDF is in circulation
 
 Options: --site DIR (default "deck/final/Pik Pitch Deck"; deck/site is the earlier version), --png-dir DIR (default <site>/_render,
-keep it outside git), --pdf PATH (default deck/hyderabaddies.pdf), --also PATH (default deck/Pik_deck.pdf; "" to skip),
+keep it outside git), --pdf PATH (default deck/hyderabaddies.pdf), --also PATH (default deck/Pik_deck_final.pdf; "" to skip),
 --no-notes, --allow-receipt (the earlier deck/site says "receipt"; the final deck never does).
 Headless Chromium only (Playwright). Opens index.html?print=1, which stacks every slide in its final build state at 1920x1080.
 PDF metadata: title "hyderabaddies", no author (organisers' privacy notice: the team name only, no individual names).
@@ -38,7 +38,7 @@ def main():
     ap.add_argument("--site", default=str(FINAL))
     ap.add_argument("--png-dir", default=None)
     ap.add_argument("--pdf", default=str(DECK / "hyderabaddies.pdf"))
-    ap.add_argument("--also", default=str(DECK / "Pik_deck.pdf"))
+    ap.add_argument("--also", default=str(DECK / "Pik_deck_final.pdf"))
     ap.add_argument("--no-notes", action="store_true")
     ap.add_argument("--allow-receipt", action="store_true")
     a = ap.parse_args()
