@@ -115,9 +115,9 @@
   /* ---------- Pik layer ---------- */
   #pik{position:absolute;left:1440px;top:640px;width:200px;height:260px}
   #ant{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none}
-  #plus{position:absolute;left:0;top:0;transform-origin:center;display:flex;align-items:center;gap:12px;height:56px;padding:0 22px;border-radius:12px;background:#fff;border:1px solid #DDD;box-shadow:0 10px 30px -12px rgba(0,0,0,.35);font-family:var(--mono);font-size:22px;color:#1D1C1D;white-space:nowrap;opacity:0}
+  #plus{position:absolute;left:0;top:0;transform-origin:center;display:flex;align-items:center;gap:12px;height:56px;padding:0 22px;border-radius:12px;background:var(--card);border:0;box-shadow:var(--shadow),0 10px 30px -12px rgba(0,0,0,.25);font-family:var(--mono);font-size:22px;color:#1D1C1D;white-space:nowrap;opacity:0}
   #plus b{font-weight:500;font-size:26px}
-  #say{position:absolute;left:700px;top:520px;width:1000px;text-align:right;font-family:var(--sans);font-weight:500;font-size:34px;line-height:44px;letter-spacing:-.01em;color:#1D1C1D}
+  #say{position:absolute;left:700px;top:520px;width:1000px;text-align:right;font-family:var(--sans);font-weight:500;font-size:34px;line-height:44px;letter-spacing:-.01em;color:var(--ink)}
   #say .ln{display:block;min-height:44px}
   #say .caret{width:3px;height:34px;vertical-align:-5px}
 </style>
@@ -232,7 +232,7 @@
   </div>
 
   <!-- ================= Pik layer ================= -->
-  <svg id="ant" viewBox="0 0 1920 1080"><path id="spring" fill="none" stroke="#111" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><circle id="tip" r="0" fill="#111"/></svg>
+  <svg id="ant" viewBox="0 0 1920 1080"><path id="spring" fill="none" stroke="#171717" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/><circle id="tip" r="0" fill="#171717"/></svg>
   <div id="pik"></div>
   <div id="plus"><b>+</b><span id="plusTx">Yui's Slack</span></div>
   <div id="say"><span class="ln"><span id="l1"></span><span class="caret" id="c1"></span></span><span class="ln"><span id="l2"></span><span class="caret" id="c2"></span></span></div>

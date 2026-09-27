@@ -22,16 +22,18 @@ window.PIK = (function () {
     }
     return shown.length >= text.length;
   };
-  // inline the mascot: returns the <svg> element inserted into host
-  const pikbot = (host, size = 200) => {
+  // inline the mascot: the screen's mark (index.html #pikmark) in the video's 200x260 box. opts.disc draws the lime disc
+  // behind it (the screen's avatar). Returns the <svg> element inserted into host. Antenna root stays at (96,84).
+  const pikbot = (host, size = 200, opts = {}) => {
     const w = size, h = size * 1.3;
+    const disc = opts.disc ? `<circle class="pk-disc" cx="100" cy="150" r="118" fill="#D6F25A"/>` : '';
     host.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 260" width="${w}" height="${h}" style="display:block;overflow:visible">
-  <g class="pk-root" style="transform-origin:100px 254px">
-    <path class="pk-antenna" d="M96 78 C 72 64, 66 30, 88 18 C 106 8, 124 26, 114 44" fill="none" stroke="#111111" stroke-width="13" stroke-linecap="round" style="transform-origin:96px 78px"/>
-    <path class="pk-body" d="M100 68 C 142 68, 168 120, 168 178 C 168 228, 138 254, 100 254 C 62 254, 32 228, 32 178 C 32 120, 58 68, 100 68 Z" fill="#111111"/>
-    <g class="pk-eyes" fill="#FFFFFF" style="transform-origin:100px 117px">
-      <rect x="82" y="102" width="13" height="30" rx="6.5"/>
-      <rect x="105" y="102" width="13" height="30" rx="6.5"/>
+  ${disc}<g class="pk-root" style="transform-origin:100px 244px">
+    <path class="pk-antenna" d="M96 84 C 96 46, 134 46, 134 72" fill="none" stroke="#171717" stroke-width="14" stroke-linecap="round" style="transform-origin:96px 84px"/>
+    <ellipse class="pk-body" cx="100" cy="166" rx="70" ry="78" fill="#171717"/>
+    <g class="pk-eyes" fill="#D6F25A" style="transform-origin:100px 160px">
+      <rect x="74" y="140" width="17" height="39" rx="8.5"/>
+      <rect x="109" y="140" width="17" height="39" rx="8.5"/>
     </g>
   </g></svg>`;
     return host.firstElementChild;

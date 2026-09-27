@@ -1,20 +1,25 @@
 #!/usr/bin/env python3
-"""Stitch the Pik 90-second video, V3: V2's animated beats + the two real takes + the new Pik screen (Meet, CRUD, mirror) + V3 narration + a ducked music bed.
+"""Stitch the Pik 90-second video, V4: V3's cut on ONE brand (the product screen's tokens): the animated beats re-rendered from ../v2/html and ../v3/html,
+the two real takes, the new Pik screen captures (../v3/captures, re-recorded on the rebuilt screen), V3 narration and the ducked music bed.
 
-Inputs: ../v2/renders/<id>.mp4 (render.py, unchanged from V2), captures/*.webm + *_timeline.json (capture_ui.py), vo/*.wav (narrate_v3.py),
-music/bed.wav (music_bed.py). Output: pik_90s_v3.mp4 (1920x1080, 30 fps, H.264 + AAC). Writes TIMING.md.
+Inputs: ../v2/renders/<id>.mp4 and ../v3/renders/11_end.mp4 (render.py, re-rendered on the tokens), ../v3/captures/*.webm + *_timeline.json
+(capture_ui.py, run by the capture agent, never from here), ../v3/vo/*.wav, ../v3/music/bed.wav. Output: pik_90s_v4.mp4 (1920x1080, 30 fps, H.264 + AAC). Writes TIMING.md.
+Before building it waits (up to 20 min) for every capture timeline to be from after 2026-09-27 00:00 PDT, i.e. recorded on the rebuilt screen.
 The SEGMENTS table is the edit: one row per beat; dur is the seconds kept; `speed` plays an animated beat faster (frames dropped, no
 content lost); vo offsets are relative to the segment start (negative = a J-cut from the previous beat); caps are (text, start, end)
 relative to the segment. A missing render becomes a page-coloured slate that says the beat id, so timing can be checked before every beat lands.
 Audio: narration mixed and loudnorm'd to -16 LUFS as in V2; the bed is multiplied by an envelope built from the narration offsets
 (-26 dB under speech, -18 dB in gaps, 150 ms down / 500 ms up ramps, 2 s fade in, 3 s fade out on the end card), then summed and limited.
-Run: python3 deck/video/v3/build_v3.py   (ffmpeg + PIL + Geist in ~/Library/Fonts; the envelope needs numpy: MUSIC_PY=<python with numpy>, else pure python)
+Run: python3 deck/video/v4/build_v4.py   (ffmpeg + PIL + Geist in ~/Library/Fonts; the envelope needs numpy: MUSIC_PY=<python with numpy>, else pure python)
 """
 import subprocess, pathlib, glob, shlex, sys, json, os, wave, struct, math
 D = pathlib.Path(__file__).resolve().parent
-R2 = D.parent / "v2" / "renders"
-C, V, M = D / "captures", D / "vo", D / "music"
-OUT = D / "pik_90s_v3.mp4"
+R2, R3 = D.parent / "v2" / "renders", D.parent / "v3" / "renders"
+V3 = D.parent / "v3"
+C, V, M = V3 / "captures", V3 / "vo", V3 / "music"
+OUT = D / "pik_90s_v4.mp4"
+FRESH_AFTER = "2026-09-27 00:00"  # captures older than this were made on the old screen
+WAIT_MAX = 20 * 60
 FONT = next(iter(glob.glob(str(pathlib.Path.home()/"Library/Fonts/Geist-Medium.ttf")) + glob.glob(str(pathlib.Path.home()/"Library/Fonts/Geist-*.ttf"))), None)
 MONO = next(iter(glob.glob(str(pathlib.Path.home()/"Library/Fonts/GeistMono-Regular.ttf"))), FONT)
 W, H, FPS = 1920, 1080, 30
@@ -31,41 +36,46 @@ def tl(name, default):
 MEET = tl("meet_v3", {"beat_ss": 2.0, "beat_len": 21.4, "vo": {"07_manager": -1.4, "07_english": 6.7, "07_manager2_alt": 15.5}, "marks": {}})
 CRUD = tl("crud", {"beat_ss": 2.2, "marks": {}})
 MIRROR = tl("mirror", {"beat_ss": 4.0, "marks": {}})
-M2 = next((k for k in MEET["vo"] if k.startswith("07_manager2")), "07_manager2_alt")
-mk = MEET.get("marks", {})
-meet_len = float(MEET["beat_len"])
-c_tiles = mk.get("tiles", 4.5); c_own = mk.get("own_words", 6.3); c_ask = mk.get("ask", 8.6); c_concl = mk.get("conclusion", meet_len - 1.8)
+def segments():
+    global M2, mk, meet_len, c_tiles, c_own, c_ask, c_concl
+    M2 = next((k for k in MEET["vo"] if k.startswith("07_manager2")), "07_manager2_alt")
+    mk = MEET.get("marks", {})
+    meet_len = float(MEET["beat_len"])
+    c_tiles = mk.get("tiles", 4.5); c_own = mk.get("own_words", 6.3); c_ask = mk.get("ask", 8.6); c_concl = mk.get("conclusion", meet_len - 1.8)
 
-SEGMENTS = [
- dict(name="00_disclosure", src=R2/"00_disclosure.mp4", dur=2.1, light=True),
- dict(name="01_blur",       src=R2/"01_blur.mp4",       dur=4.4, light=True, vo=[("01_blur", 0.1)]),
- dict(name="02_asked",      src=R2/"02_asked.mp4",      dur=7.4, light=True, vo=[("02_asked", 0.1)],
-      caps=[("Team formation. Internal mobility. Decided from memory.", 0.8, 5.6)]),
- dict(name="03_asks",       src=R2/"03_asks.mp4",       dur=4.5, speed=1.15, light=True, vo=[("03_asks", 0.1)],
-      caps=[("Same question, every week.", 2.9, 4.5)]),
- dict(name="04_meetpik",    src=R2/"04_meetpik.mp4",    dur=3.7, light=True, vo=[("04_meetpik", 0.1)]),
- dict(name="05_mining",     src=R2/"05_mining.mp4",     dur=8.9, speed=1.3, light=True, vo=[("05_mining", 0.4)],
-      caps=[("It reads what she already did.", 0.6, 4.0), ("Every line keeps its source. DMs never.", 4.3, 8.7)]),
- dict(name="06_receipts",   src=R2/"06_receipts.mp4",   dur=4.4, light=True, vo=[("06_receipts", 0.15)],
-      caps=[("Any size. Always current.", 2.3, 4.4)]),
- dict(name="07_meet",       src=C/"meet_v3.webm", ss=MEET["beat_ss"], dur=meet_len, light=False,
-      vo=[(k, float(v)) for k, v in MEET["vo"].items()],
-      caps=[("Heard the criterion. Receipts for their words. No rank.", c_tiles + 0.4, c_ask - 0.2),
-            ("Her own words, then what her manager wrote. Both attached, word for word.", c_ask + 0.2, c_concl - 0.3),
-            ("What the meeting concluded. Receipts attached.", c_concl + 0.2, meet_len)]),
- dict(name="08_slack",      src=R2/"08_slack_real_pik.mp4", dur=7.6, light=False, vo=[("08_slack", 0.4)],  # real take in Carl's Dia with Pik on it (V2)
-      caps=[("Ask where you already are. One press to loop her in.", 0.8, 7.4)]),
- dict(name="08b_crud",      src=C/"crud.webm", ss=CRUD["beat_ss"], dur=5.4, light=False, vo=[("08_crud", 0.2)],
-      caps=[("HR adds a person by talking to Pik. Allowlisted channels only. DMs never.", 0.4, 5.4)]),
- dict(name="08c_mirror",    src=C/"mirror.webm", ss=MIRROR["beat_ss"], dur=3.0, light=False,
-      caps=[("Yui sees the same page. She answers first.", 0.2, 3.0)]),
- dict(name="09_ticket",     src=R2/"09_notion_real_pik.mp4", dur=9.0, light=False, vo=[("09_ticket", 0.4)],  # real Notion take with Pik on it (V2)
-      caps=[("A new ticket. Pik fills in the owner, and the why.", 1.0, 8.8)]),
- dict(name="10_verticals",  src=R2/"10_verticals.mp4",  dur=5.4, speed=1.1, light=True, vo=[("10_verticals_alt", 0.1)],
-      caps=[("Anywhere the wrong person on the job is expensive.", 2.6, 5.4)]),
- dict(name="11_end",        src=(D/"renders"/"11_end.mp4") if (D/"renders"/"11_end.mp4").exists() else R2/"11_end.mp4",  # v3: + the music credit line (html/11_end.html, render.py)
-      dur=3.6, light=True, vo=[("11_end", 0.25)]),
-]
+    return [
+     dict(name="00_disclosure", src=R2/"00_disclosure.mp4", dur=2.1, light=True),
+     dict(name="01_blur",       src=R2/"01_blur.mp4",       dur=4.4, light=True, vo=[("01_blur", 0.1)]),
+     dict(name="02_asked",      src=R2/"02_asked.mp4",      dur=7.4, light=True, vo=[("02_asked", 0.1)],
+          caps=[("Team formation. Internal mobility. Decided from memory.", 0.8, 5.6)]),
+     dict(name="03_asks",       src=R2/"03_asks.mp4",       dur=4.5, speed=1.15, light=True, vo=[("03_asks", 0.1)],
+          caps=[("Same question, every week.", 2.9, 4.5)]),
+     dict(name="04_meetpik",    src=R2/"04_meetpik.mp4",    dur=3.7, light=True, vo=[("04_meetpik", 0.1)]),
+     dict(name="05_mining",     src=R2/"05_mining.mp4",     dur=8.9, speed=1.3, light=True, vo=[("05_mining", 0.4)],
+          caps=[("It reads what she already did.", 0.6, 4.0), ("Every line keeps its source. DMs never.", 4.3, 8.7)]),
+     dict(name="06_receipts",   src=R2/"06_receipts.mp4",   dur=4.4, light=True, vo=[("06_receipts", 0.15)],
+          caps=[("Any size. Always current.", 2.3, 4.4)]),
+     dict(name="07_meet",       src=C/"meet_v3.webm", ss=MEET["beat_ss"], dur=meet_len, light=False,
+          vo=[(k, float(v)) for k, v in MEET["vo"].items()],
+          caps=[("Heard the criterion. Receipts for their words. No rank.", c_tiles + 0.4, c_ask - 0.2),
+                ("Her own words, then what her manager wrote. Both attached, word for word.", c_ask + 0.2, c_concl - 0.3),
+                ("What the meeting concluded. Receipts attached.", c_concl + 0.2, meet_len)]),
+     dict(name="08_slack",      src=R2/"08_slack_real_pik.mp4", dur=7.6, light=False, vo=[("08_slack", 0.4)],  # real take in Carl's Dia with Pik on it (V2)
+          caps=[("Ask where you already are. One press to loop her in.", 0.8, 7.4)]),
+     dict(name="08b_crud",      src=C/"crud.webm", ss=CRUD["beat_ss"], dur=5.4, light=False, vo=[("08_crud", 0.2)],
+          caps=[("HR adds a person by talking to Pik. Allowlisted channels only. DMs never.", 0.4, 5.4)]),
+     dict(name="08c_mirror",    src=C/"mirror.webm", ss=MIRROR["beat_ss"], dur=3.0, light=False,
+          caps=[("Yui sees the same page. She answers first.", 0.2, 3.0)]),
+     dict(name="09_ticket",     src=R2/"09_notion_real_pik.mp4", dur=9.0, light=False, vo=[("09_ticket", 0.4)],  # real Notion take with Pik on it (V2)
+          caps=[("A new ticket. Pik fills in the owner, and the why.", 1.0, 8.8)]),
+     dict(name="10_verticals",  src=R2/"10_verticals.mp4",  dur=5.4, speed=1.1, light=True, vo=[("10_verticals_alt", 0.1)],
+          caps=[("Anywhere the wrong person on the job is expensive.", 2.6, 5.4)]),
+     dict(name="11_end",        src=(R3/"11_end.mp4") if (R3/"11_end.mp4").exists() else R2/"11_end.mp4",  # v3 end card (+ the music credit line), re-rendered on the tokens
+          dur=3.6, light=True, vo=[("11_end", 0.25)]),
+    ]
+
+
+SEGMENTS = segments()
 
 
 def run(cmd):
@@ -161,8 +171,38 @@ def envelope_wav(speech, total, path, sr=48000):
         w.setnchannels(2); w.setsampwidth(2); w.setframerate(sr); w.writeframes(stereo)
 
 
+def capture_stamp(name):
+    """When a capture was recorded: its timeline's `recorded` field, else the file's mtime (local time, 'YYYY-MM-DD HH:MM')."""
+    import datetime
+    p = C / f"{name}_timeline.json"
+    if not p.exists(): return None
+    try:
+        r = json.loads(p.read_text()).get("recorded")
+        if r: return str(r)[:16]
+    except Exception: pass
+    return datetime.datetime.fromtimestamp(p.stat().st_mtime).strftime("%Y-%m-%d %H:%M")
+
+
+def wait_for_captures(names=("meet_v3", "crud", "mirror")):
+    """Block until every capture is from after FRESH_AFTER (the capture agent re-records on the rebuilt screen), up to WAIT_MAX s.
+    Never silent: prints what it waits for, and returns the names still stale so TIMING.md can say so."""
+    import time
+    t0 = time.time()
+    while True:
+        stale = [n for n in names if (capture_stamp(n) or "0000") < FRESH_AFTER]
+        if not stale: print("captures fresh:", {n: capture_stamp(n) for n in names}); return []
+        waited = time.time() - t0
+        if waited > WAIT_MAX:
+            print(f"WARNING: still stale after {waited/60:.0f} min, building anyway with the OLD-screen captures: {stale}"); return stale
+        print(f"waiting for fresh captures ({int(waited)}s): {', '.join(f'{n}={capture_stamp(n)}' for n in stale)}"); time.sleep(20)
+
+
 def main():
     if not FONT: sys.exit("Geist font not found in ~/Library/Fonts")
+    stale = wait_for_captures()
+    global MEET, CRUD, MIRROR, SEGMENTS
+    MEET, CRUD, MIRROR = tl("meet_v3", MEET), tl("crud", CRUD), tl("mirror", MIRROR)
+    SEGMENTS = segments()
     segs, t, vo_events, slates = [], 0.0, [], []
     for i, seg in enumerate(SEGMENTS):
         p, slate = build_segment(seg, i); segs.append(p)
@@ -204,7 +244,7 @@ def main():
     (D/"TIMING.md").write_text("| start | beat | dur | source | narration (offset) | captions |\n|---|---|---|---|---|---|\n" + "".join(
         f"| {s['start']:5.1f}s | {s['name']} | {s['dur']:.1f}s | {'SLATE' if s['name'] in slates else pathlib.Path(s['src']).name}{' x' + str(s['speed']) if s.get('speed') else ''} | "
         f"{', '.join(f'{n} @{o:+.1f}' for n,o in s.get('vo',[])) or '(silent)'} | {' / '.join(c[0] for c in s.get('caps',[])) or ''} |\n" for s in SEGMENTS)
-        + f"\nTotal {t:.1f}s. Built by build_v3.py. Slates: {', '.join(slates) or 'none'}. Music: {'bed.wav, ' + str(DUCK_SPEECH) + ' dB under speech, ' + str(DUCK_GAP) + ' dB in gaps' if bed.exists() else 'none'}.\n"
+        + f"\nTotal {t:.1f}s. Built by build_v4.py. Slates: {', '.join(slates) or 'none'}. Stale (old-screen) captures: {', '.join(stale) or 'none'}. Music: {'bed.wav, ' + str(DUCK_SPEECH) + ' dB under speech, ' + str(DUCK_GAP) + ' dB in gaps' if bed.exists() else 'none'}.\n"
         + f"Meet capture: captures/meet_v3.webm ss {MEET['beat_ss']} (page seconds when each block was visible: {json.dumps(mk)}).\n"
         + "Music: Kosmose Vaikus by Kevin MacLeod, incompetech.com, CC BY 4.0.\n")
     print("wrote", OUT)

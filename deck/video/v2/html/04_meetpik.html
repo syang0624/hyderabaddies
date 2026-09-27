@@ -5,17 +5,17 @@
 #txt{position:absolute;left:840px;top:392px}
 .line{overflow:hidden;padding-bottom:.08em}
 .line .in{display:inline-block;font-weight:600;font-size:124px;line-height:1;letter-spacing:-0.04em;color:var(--ink)}
-#tag{margin-top:26px;font-weight:400;font-size:40px;line-height:1.3;letter-spacing:-0.012em;color:var(--ink)}
+#tag{margin-top:26px;font-weight:400;font-size:40px;line-height:1.3;letter-spacing:-0.012em;color:var(--body)}
 #tag div{overflow:hidden;padding-bottom:.18em;margin-bottom:-.18em}
 #tag span{display:inline-block}
 </style></head><body><div id="stage">
 <div id="bot"></div>
 <div id="txt"><div class="line"><div class="in">Meet Pik.</div></div>
 <div id="tag"><div><span>It knows who’s done what,</span></div><div><span>and answers where you ask.</span></div></div></div>
-<div class="grain"></div></div>
+</div>
 <script src="assets/shared.js"></script><script>
 const {seg,lerp,easeInOut}=PIK;
-const svg=PIK.pikbot(document.getElementById('bot'),300);
+const svg=PIK.pikbot(document.getElementById('bot'),300,{disc:true});
 function seek(ms){
   const p=seg(ms,0,700); document.getElementById('bot').style.transform=`translateX(${lerp(-760,0,p).toFixed(1)}px)`;
   PIK.spring(svg,ms,620,1000,24); PIK.blink(svg,ms,1500); PIK.blink(svg,ms,3100);

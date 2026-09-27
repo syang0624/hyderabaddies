@@ -1,5 +1,5 @@
-/* Pik V2 video: shared tokens for every beat (animated beats and product replicas alike).
-   Stage is a fixed 1920x1080 canvas. Palette from ASTRA_PROMPT section 4. Fonts: Geist, copied from ~/Library/Fonts. */
+/* Pik video: shared tokens for every beat. ONE brand: the product screen's (prototype/ui/index.html :root, commit f7d96aa).
+   Stage is a fixed 1920x1080 canvas. Fonts: Geist, copied from ~/Library/Fonts. Weight 600 max. */
 @font-face{font-family:Geist;src:url(fonts/Geist-Regular.ttf) format('truetype');font-weight:400}
 @font-face{font-family:Geist;src:url(fonts/Geist-Medium.ttf) format('truetype');font-weight:500}
 @font-face{font-family:Geist;src:url(fonts/Geist-SemiBold.ttf) format('truetype');font-weight:600}
@@ -8,47 +8,59 @@
 @font-face{font-family:"Geist Mono";src:url(fonts/GeistMono-Medium.ttf) format('truetype');font-weight:500}
 
 :root{
-  /* animated beats */
-  --bone:#EFEAE2;      /* canvas */
-  --ink:#2B2521;       /* espresso, all type */
-  --mute:#8A817A;      /* espresso at ~55% on bone: eyebrows, sources */
-  --rule:#D9D2C6;      /* hairlines on bone */
-  --sand:#E3DCD0;      /* cards */
-  --sand2:#DBD3C5;     /* card edge / pressed */
-  --clay:#B5654A;      /* ONE accent per beat, never more */
-  --pik:#111111;       /* Pikbot body */
-  /* product beats (the prototype's own palette) */
-  --paper:#0A0A0A;--paper2:#161616;--paper-ink:#EDEDED;--paper-body:#A1A1A1;--paper-mute:#7A7A7A;--paper-rule:#2A2A2A;
+  /* the screen's tokens, verbatim */
+  --page:#fafafa;      /* canvas */
+  --card:#ffffff;      /* cards, stubs, eyes of the blob people */
+  --soft:#f5f5f5;      /* pressed / secondary surfaces */
+  --ink:#171717;       /* all type, the Pik mascot, blob people */
+  --body:#4d4d4d;      /* body copy */
+  --mute:#888888;      /* eyebrows, sources, credits */
+  --hair:#ebebeb;      /* hairlines */
+  --land:#e6e6e6;      /* map land on the screen; here: dividers that must read on the page */
+  --lime:#D6F25A;      /* THE accent: the mascot's eyes and disc, the highlight, the lit ring */
+  --lime-deep:#bfe030; /* the lit edge on the screen; underlines and rings */
+  --lime-tint:#f4fbd6; /* tinted surfaces (the ask pill on the screen) */
+  --red:#ee0000;       /* only for never-read / dropped */
+  --red-soft:#f7d4d6;
+  --shadow:0 0 0 1px #00000014,0 1px 1px #00000005,0 2px 2px #0000000a;  /* the screen's stacked hairline shadow */
   --sans:Geist,Inter,system-ui,-apple-system,sans-serif;
   --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  /* legacy name kept for the disclosure/blur dividers */
+  --rule:var(--land);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:1920px;height:1080px;overflow:hidden}
-body{background:var(--bone);color:var(--ink);font-family:var(--sans);font-weight:400;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
-#stage{position:relative;width:1920px;height:1080px;overflow:hidden}
+body{background:var(--page);color:var(--ink);font-family:var(--sans);font-weight:400;letter-spacing:-0.01em;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--page)}
 .abs{position:absolute}
 /* type scale: one idea per screen, big and airy */
 .h1{font-weight:600;font-size:112px;line-height:1.02;letter-spacing:-0.035em}
 .h2{font-weight:600;font-size:80px;line-height:1.06;letter-spacing:-0.03em}
 .h3{font-weight:500;font-size:52px;line-height:1.15;letter-spacing:-0.02em}
-.body{font-weight:400;font-size:34px;line-height:1.35;letter-spacing:-0.01em}
+.body{font-weight:400;font-size:34px;line-height:1.35;letter-spacing:-0.01em;color:var(--body)}
 .small{font-weight:400;font-size:26px;line-height:1.35}
 .eyebrow{font-family:var(--mono);font-weight:500;font-size:22px;letter-spacing:0.08em;text-transform:uppercase;color:var(--mute)}
 .mono{font-family:var(--mono)}
 .mute{color:var(--mute)}
-.clay{color:var(--clay)}
-/* a sand card: the quote cards, the asks, the receipt stubs */
-.card{background:var(--sand);border-radius:28px;box-shadow:0 1px 0 var(--sand2) inset,0 18px 40px -28px rgba(43,37,33,.35)}
-/* receipt stub: a verbatim line with its source */
-.stub{background:var(--sand);border-radius:16px;padding:22px 26px;font-family:var(--mono);font-size:22px;line-height:1.35;color:var(--ink)}
+.lime{color:var(--lime-deep)}
+/* a card: white with the screen's stacked hairline shadow (quote cards, the asks, the vertical cards) */
+.card{background:var(--card);border-radius:16px;box-shadow:var(--shadow)}
+/* receipt stub: a verbatim line with its source; matched words are lime-underlined */
+.stub{background:var(--card);border-radius:12px;padding:22px 26px;font-family:var(--mono);font-size:22px;line-height:1.35;color:var(--ink);box-shadow:var(--shadow)}
 .stub .src{display:block;margin-top:10px;font-size:17px;letter-spacing:0.04em;color:var(--mute)}
-.stub .stamp{display:inline-block;margin-left:10px;padding:2px 8px;border:1.5px solid var(--ink);border-radius:6px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase}
+.stub .stamp{display:inline-block;margin-left:10px;padding:2px 8px;border:1.5px solid var(--ink);border-radius:6px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink)}
+.stub mark{background:transparent;color:inherit;text-decoration:underline;text-decoration-color:var(--lime-deep);text-decoration-thickness:3px;text-underline-offset:4px}
+.stub.dropped{color:var(--mute);box-shadow:0 0 0 1px var(--red-soft)}
+.stub.dropped .src{color:var(--red)}
+.stub.dropped .stamp{border-color:var(--red);color:var(--red)}
+/* a lime highlight behind a word (the end card's "Pik") */
+.hl{background:var(--lime);color:var(--ink);padding:0 .06em;margin:0 -.02em;border-radius:.06em;box-decoration-break:clone}
 /* typewriter caret; the beat toggles .on */
 .caret{display:inline-block;width:0.08em;height:0.95em;background:currentColor;vertical-align:-0.12em;margin-left:0.06em;opacity:0}
 .caret.on{opacity:1}
-/* caption pill, for reference only: build_v2.py burns captions with PIL; beats do not render captions */
-.pill{position:absolute;left:50%;bottom:110px;transform:translateX(-50%);padding:16px 28px;border-radius:14px;background:rgba(43,37,33,.92);color:#fff;font-weight:500;font-size:38px;white-space:nowrap}
-/* paper grain, optional: <div class="grain"></div> as the last child of #stage */
-.grain{position:absolute;inset:0;pointer-events:none;opacity:.045;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.9 0'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>");background-size:240px 240px}
-/* blob character: a person, anonymous */
+/* caption pill, for reference only: build_v4.py burns captions with PIL; beats do not render captions */
+.pill{position:absolute;left:50%;bottom:110px;transform:translateX(-50%);padding:16px 28px;border-radius:14px;background:rgba(23,23,23,.92);color:#fff;font-weight:500;font-size:38px;white-space:nowrap}
+/* the old paper grain is gone: the screen is flat */
+.grain{display:none}
+/* blob character: a person, anonymous (ink, white eyes) */
 .blob{background:var(--ink);border-radius:46% 46% 48% 48%/52% 52% 46% 46%}

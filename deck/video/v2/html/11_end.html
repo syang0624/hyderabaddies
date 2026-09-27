@@ -8,15 +8,15 @@
 #bot{position:absolute;left:1560px;top:610px;width:200px;height:260px;will-change:transform}
 </style></head><body><div id="stage">
 <div id="head"><div class="line"><div class="in">Because the future of your work</div></div>
-<div class="line"><div class="in">depends on who you <span class="clay">Pik</span>.</div></div></div>
+<div class="line"><div class="in">depends on who you <span class="hl">Pik</span>.</div></div></div>
 <div id="sm">Same page for both sides. A receipt on every line. No score.</div>
 <div id="bot"></div>
-<div class="grain"></div></div>
+</div>
 <script src="assets/shared.js"></script><script>
 const {seg,lerp}=PIK;
-const svg=PIK.pikbot(document.getElementById('bot'),200);
+const svg=PIK.pikbot(document.getElementById('bot'),200,{disc:true});
 function seek(ms){
-  document.querySelectorAll('#head .in').forEach((el,i)=>{ const p=seg(ms,300+i*90,640); el.style.transform=`translateY(${lerp(110,0,p).toFixed(1)}%)`; });
+  document.querySelectorAll('#head .in').forEach((el,i)=>{ const p=seg(ms,300+i*90,640); el.style.transform=`translateY(${lerp(130,0,p).toFixed(1)}%)`; });
   const s=seg(ms,1700,500); const sm=document.getElementById('sm'); sm.style.opacity=s; sm.style.transform=`translateY(${lerp(12,0,s).toFixed(1)}px)`;
   const b=seg(ms,900,600); const bot=document.getElementById('bot'); bot.style.opacity=b; bot.style.transform=`translateY(${lerp(40,0,b).toFixed(1)}px)`;
   PIK.spring(svg,ms,1450,900,18); PIK.blink(svg,ms,2600); PIK.blink(svg,ms,4100);
