@@ -10,7 +10,8 @@
 |  35.4s | 07_meet | 20.3s | meet_v3.webm | 07_manager @-1.4, 07_english @+5.8, 07_manager2_alt @+14.2 | Heard the criterion. Receipts for their words. No rank. / Her own words, then what her manager wrote. Both attached, word for word. / What the meeting concluded. Receipts attached. |
 |  55.7s | 08_slack | 7.6s | 08_slack_real_pik.mp4 | 08_slack @+0.4 | Ask where you already are. One press to loop her in. |
 |  63.3s | 08b_crud | 5.4s | crud.webm | 08_crud @+0.2 | HR adds a person by talking to Pik. Allowlisted channels only. DMs never. |
-|  68.7s | 08c_mirror | 3.0s | mirror.webm | (silent) | Yui sees the same page. She answers first. |
+|  68.7s | 08c_mirror_a | 1.5s | mirror.webm | (silent) | Yui sees the same page. She answers first. |
+|  70.2s | 08c_mirror_b | 1.5s | mirror.webm | (silent) | Yui sees the same page. She answers first. |
 |  71.7s | 09_ticket | 9.0s | 09_notion_real_pik.mp4 | 09_ticket @+0.4 | A new ticket. Pik fills in the owner, and the why. |
 |  80.7s | 10_verticals | 5.4s | 10_verticals.mp4 x1.1 | 10_verticals_alt @+0.1 | Anywhere the wrong person on the job is expensive. |
 |  86.1s | 11_end | 3.6s | 11_end.mp4 | 11_end @+0.2 |  |

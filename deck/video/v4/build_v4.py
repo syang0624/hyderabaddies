@@ -64,8 +64,11 @@ def segments():
           caps=[("Ask where you already are. One press to loop her in.", 0.8, 7.4)]),
      dict(name="08b_crud",      src=C/"crud.webm", ss=CRUD["beat_ss"], dur=5.4, light=False, vo=[("08_crud", 0.2)],
           caps=[("HR adds a person by talking to Pik. Allowlisted channels only. DMs never.", 0.4, 5.4)]),
-     dict(name="08c_mirror",    src=C/"mirror.webm", ss=MIRROR["beat_ss"], dur=3.0, light=False,
-          caps=[("Yui sees the same page. She answers first.", 0.2, 3.0)]),
+     # the raw capture blanks for ~1 s mid-typing (page re-render); cut around it: typing, then the press and the note landing
+     dict(name="08c_mirror_a",  src=C/"mirror.webm", ss=MIRROR["beat_ss"], dur=1.5, light=False,
+          caps=[("Yui sees the same page. She answers first.", 0.2, 1.5)]),
+     dict(name="08c_mirror_b",  src=C/"mirror.webm", ss=MIRROR["beat_ss"] + 2.85, dur=1.5, light=False,
+          caps=[("Yui sees the same page. She answers first.", 0.0, 1.5)]),
      dict(name="09_ticket",     src=R2/"09_notion_real_pik.mp4", dur=9.0, light=False, vo=[("09_ticket", 0.4)],  # real Notion take with Pik on it (V2)
           caps=[("A new ticket. Pik fills in the owner, and the why.", 1.0, 8.8)]),
      dict(name="10_verticals",  src=R2/"10_verticals.mp4",  dur=5.4, speed=1.1, light=True, vo=[("10_verticals_alt", 0.1)],
