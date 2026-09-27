@@ -1,6 +1,8 @@
 # Meet rehearsal (Pik in a Google Meet)
 
-**Status, Sat Sep 26 22:55 PDT: works in Dia up to one click.** Tested on a live call (meet.google.com/pcg-dqab-tgi): the host (carl@somach.life, Dia profile "Somach Systems, Inc.") created the call; Pik joined from the signed-out Dia profile "O-Intuition" as a guest named **Pik**; the host admitted it (two participants); Pik opened the live screen (`localhost:8787/?present=1`, title "Pik") and clicked Share screen, and the share picker listed the Pik tab. The pick itself needs a real click (Chrome's rule). Everything runs in Dia; no other browser. `meet_bot.py` (Chromium) is removed; it is in git history (a9f3db6).
+**Status, Sat Sep 26 23:10 PDT: works end to end, no hand step.** Live test on meet.google.com/err-vtmw-xzp: `./meet_dia.sh` created the call as carl@somach.life (Dia profile 2, mic and camera off), Pik joined from the signed-out Dia profile 4 as a guest named **Pik** (mic and camera off), the host admitted it, Pik opened the live screen and shared its tab; the host's view said "Pik is presenting" (`state/meet_dia/proof_host_view.png`). Everything is Dia; no other browser. The tab is auto-picked because Dia is launched by `./dia_pik.sh` with `--auto-select-tab-capture-source-by-title=Pik`.
+
+**Pik's face.** As a signed-out guest Pik's tile is a "P" disc. A fake camera showing Pik's face (`./dia_pik.sh --face`) made Google Meet refuse the guest ("You can't join this video call"), so it is off. The only route to a face is a Google account named Pik with the avatar (`deck/video/v2/renders/pik_avatar_loop.mp4`, first frame) signed in on profile 4; that is Carl's call and Carl's sign-in.
 
 ## Terminals, in order (from `prototype/`)
 
@@ -8,14 +10,14 @@
 |---|---|---|
 | 1 | `make run-heuristic` (usually already up on :8787) | `http://localhost:8787/?present=1` loads, tab title "Pik" |
 | 2 | `MIC="MacBook" SPEAK=1 make live` | terminal prints `status: listening on <mic> via gemini-3.8-live`. Then reload the Pik tab; the old conclusion clears |
-| 3 | `./meet_dia.sh` (new call) or `./meet_dia.sh <meet link>` (your call) | prints `SHARE PICKER OPEN`; click the **Pik** tab, then **Share** |
+| 3 | `./meet_dia.sh` (new call) or `./meet_dia.sh <meet link>` (your call; click Admit when Pik knocks) | prints `Pik is presenting its tab` |
 
 ## Carl's hand steps
 
-1. Once per Dia launch: Dia must run with `--enable-applescript-javascript` (quit Dia, then `open -a Dia --args --enable-applescript-javascript`; tabs restore).
-2. `./meet_dia.sh` makes the call as carl@somach.life and admits Pik by itself. It takes the keyboard for one second to type "Pik". To use your own call instead, pass its link and click **Admit** when Pik knocks.
-3. When it prints `SHARE PICKER OPEN`: in Pik's Meet tab click the **Pik** tab, then **Share**. The composed screen is now what the call sees.
-4. Steven joins the same link from his laptop (mic on). Carl's host tab stays muted: `make live` hears the room through the laptop mic.
+1. Once per Dia launch: `./dia_pik.sh` (quits and relaunches Dia with the flags; tabs restore, unsent text is lost). `./dia_pik.sh --plain` afterwards.
+2. `./meet_dia.sh`. It takes the keyboard for one second to type "Pik". Nothing else. It prints the meeting link; Steven joins that link from his laptop with his mic on.
+3. Carl's host tab stays muted: `make live` hears the room through the laptop mic and the follow-up comes out of the laptop speaker.
+4. Before the take: `make reset`, then reload the Pik tab in profile 4 so the old conclusion is gone.
 
 ## The five beats (Steven = manager, Carl = HR planner; lines from `live_sim.py`)
 

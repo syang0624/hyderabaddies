@@ -15,8 +15,8 @@ STATE="$(cd "$(dirname "$0")" && pwd)/state/meet_dia"; mkdir -p "$STATE"
 log() { echo "$(date +%H:%M:%S) $*"; }
 die() { echo "meet_dia: $*" >&2; exit 1; }
 
-js() {  # js <tab-id> <javascript>  -> result
-  osascript - "$1" "$2" <<'AS'
+js() {  # js <tab-id> <javascript>  -> result (osascript prints text results in quotes; they are stripped)
+  osascript - "$1" "$2" <<'AS' | sed -e 's/^"//' -e 's/"$//'
 on run argv
   set tid to item 1 of argv
   set code to item 2 of argv
@@ -39,8 +39,10 @@ click_label() {  # click the first button whose aria-label or text starts with $
   js "$1" "(function(){var b=[].slice.call(document.querySelectorAll('button,[role=button]')).filter(function(e){return ((e.getAttribute('aria-label')||e.innerText||'').trim()).indexOf('$2')===0})[0]; if(!b) return 'none'; b.click(); return 'ok'})()"
 }
 
-js_ok=$(osascript -e 'tell application "Dia" to execute active tab of front window javascript "1+1"' 2>&1 || true)
-[[ "$js_ok" == "2" ]] || die "Dia is not accepting JavaScript from AppleScript ($js_ok). Quit Dia and run: open -a Dia --args --enable-applescript-javascript"
+PROBE=$(newtab "$PIK_P" "about:blank"); sleep 1
+js_ok=$(js "$PROBE" "1+1" 2>&1 || true)
+osascript -e 'tell application "Dia"' -e 'repeat with w in windows' -e 'repeat with p in profiles of w' -e 'repeat with t in tabs of p' -e "if (id of t) is \"$PROBE\" then close t" -e 'end repeat' -e 'end repeat' -e 'end repeat' -e 'end tell' >/dev/null 2>&1 || true
+[[ "$js_ok" == *"enable-applescript-javascript"* ]] && die "Dia is not accepting JavaScript from AppleScript. Run prototype/dia_pik.sh (relaunches Dia with the flag)."
 curl -fsS -o /dev/null http://localhost:8787/ || die "the engine is not on :8787; run make run-heuristic"
 
 HOST=""
@@ -59,10 +61,15 @@ fi
 echo "$URL" > "$STATE/url"
 
 PIK=$(newtab "$PIK_P" "$URL"); log "Pik tab opened (profile $PIK_P)"
-for i in $(seq 1 20); do sleep 1; [[ "$(js "$PIK" "String(!!document.querySelector('input[type=text]'))")" == "true" ]] && break; done
+for i in $(seq 1 45); do sleep 1; [[ "$(js "$PIK" "String(!!document.querySelector('input[type=text]'))")" == "true" ]] && break; done
 [[ "$(js "$PIK" "String(!!document.querySelector('input[type=text]'))")" == "true" ]] || die "Pik's tab shows no name field; is profile $PIK_P signed in to Google? (it must be signed out)"
+# With dia_pik.sh's fake camera, Pik joins with its face on camera and its (silent) mic off. Without it, Meet shows "Continue without
+# microphone and camera" (guest, no devices) and we take that.
 click_label "$PIK" "Continue without microphone and camera" >/dev/null || true
 click_label "$PIK" "Got it" >/dev/null || true
+for l in "Turn off microphone" "Turn off camera"; do r=$(click_label "$PIK" "$l"); log "Pik: $l -> $r (none = no such device, fine)"; done
+devs=$(js "$PIK" "JSON.stringify([].slice.call(document.querySelectorAll('button')).map(function(e){return e.getAttribute('aria-label')||''}).filter(function(x){return /^Turn (on|off) (microphone|camera)/.test(x)}))")
+[[ "$devs" == *"Turn off"* ]] && die "Pik's mic or camera is still on: $devs"
 focustab "$PIK"; sleep 0.8
 js "$PIK" "(function(){var i=document.querySelector('input[type=text]'); i.focus(); i.select(); document.execCommand('delete'); return 'ok'})()" >/dev/null
 osascript -e 'tell application "System Events" to keystroke "Pik"'   # Meet enables "Ask to join" only after real typing
@@ -87,5 +94,11 @@ APP=$(newtab "$PIK_P" "http://localhost:8787/?present=1"); sleep 3
 log "Pik screen open in profile $PIK_P: $(js "$APP" "document.title")"
 focustab "$PIK"; sleep 0.8
 click_label "$PIK" "Share screen" >/dev/null
-log "SHARE PICKER OPEN in Pik's Meet tab: click the 'Pik' tab, then Share. That is the one hand step."
+presenting=false
+for i in $(seq 1 12); do sleep 1; [[ "$(js "$PIK" "String(/Stop presenting|You're presenting|You are presenting/.test(document.body.innerText))")" == "true" ]] && presenting=true && break; done
+if $presenting; then
+  log "Pik is presenting its tab (auto-picked; Dia was launched by dia_pik.sh)"
+else
+  log "SHARE PICKER OPEN in Pik's Meet tab: click the 'Pik' tab, then Share. (Launch Dia with prototype/dia_pik.sh to skip this.)"
+fi
 printf 'host=%s\npik=%s\napp=%s\nurl=%s\n' "$HOST" "$PIK" "$APP" "$URL" > "$STATE/tabs"
