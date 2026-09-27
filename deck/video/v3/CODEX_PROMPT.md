@@ -1,4 +1,8 @@
-# Pik video V3: handoff for the next session (GPT-6 Astra / Codex, run by Steven)
+# Pik video: handoff for the next session (GPT-6 Astra / Codex, run by Steven)
+
+> **Current cut: V4** (`deck/video/v4/pik_90s_v4.mp4`, 89.7 s; stage video `deck/video/v4/meet_stage_demo.mp4` + `STAGE_CUES.md`; `STORYBOARD_v4.md`, `TIMING.md`).
+> V4 = this V3 cut on ONE brand (the product screen's tokens: page #fafafa, white cards with the hairline shadow, ink #171717, one lime accent #D6F25A; the mascot is the screen's Pik mark), with every animated beat re-rendered and the product-page captures re-recorded on the rebuilt screen (00:21 to 00:23).
+> Re-stitch V4 with `python3 deck/video/v4/build_v4.py` (reads `../v2/renders`, `../v3/renders`, `../v3/captures`, `../v3/vo`, `../v3/music`) and `python3 deck/video/v4/build_stage_v4.py`. Everything below about V3's pieces still holds; V3's own mp4 is superseded.
 
 Written Sun Sep 27 2026, ~00:00 PDT, by Claude in Carl's session. V3 is built and pushed; do not redo it. Run `date` first. Deadline Sun 11:00 PDT (repo + video ≤ 90 s + deck); Carl posts the submission.
 
