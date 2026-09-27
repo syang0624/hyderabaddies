@@ -467,6 +467,7 @@ async def run_session(session, q):
                 await session.send_realtime_input(audio=types.Blob(data=chunk, mime_type=f"audio/pcm;rate={RATE}"))
 
         heard_box = {"text": "", "t": 0.0}
+        said_box = {"text": ""}  # Pik's own words arrive in fragments; one 'said' row per turn
 
         async def flush_on_pause():
             while True:
@@ -491,9 +492,11 @@ async def run_session(session, q):
                           emit("heard", text=txt)
                           asyncio.create_task(maybe_trigger(txt))
                   if sc and sc.output_transcription and sc.output_transcription.text:
-                      _st = sc.output_transcription.text.strip()
-                      if _st and not (_st.startswith("<") and _st.endswith(">")):  # "<no speech detected>" is the model staying quiet, not a line
-                          emit("said", text=_st)
+                      _st = sc.output_transcription.text
+                      if not (_st.strip().startswith("<") and _st.strip().endswith(">")):  # "<no speech detected>" is the model staying quiet, not a line
+                          said_box["text"] += _st
+                  if sc and (sc.turn_complete or getattr(sc, "generation_complete", False)) and said_box["text"].strip():
+                      emit("said", text=" ".join(said_box["text"].split())); said_box["text"] = ""
                   if sc and getattr(sc, "interrupted", False):
                       PLAYING["until"] = 0.0
                   if sc and sc.model_turn and SPEAK:
