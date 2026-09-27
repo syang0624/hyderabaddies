@@ -36,14 +36,19 @@
 
   /* frame: left column and the right card */
   #app{display:grid;grid-template-columns:minmax(0,1.68fr) minmax(0,1fr);gap:24px;padding:32px;min-height:100vh}
-  body.present:not(.subjectonly) #app{height:1080px;min-height:0}
+  body.present:not(.subjectonly){width:auto;height:100vh;overflow:hidden}
+  body.present:not(.subjectonly) #stage{position:fixed;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden}
+  body.present:not(.subjectonly) #app{width:1920px;height:1080px;min-height:0}
   .left{display:flex;flex-direction:column;gap:16px;min-width:0;min-height:0}
   .right{min-width:0;min-height:0}
   #hdr{display:flex;align-items:center;gap:12px;height:44px;flex:none}
-  #hdr .tab{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:10px;font-size:14px;line-height:20px;letter-spacing:-.28px;color:var(--body);white-space:nowrap;max-width:560px;overflow:hidden;text-overflow:ellipsis}
-  #hdr .tab.on{background:var(--card);box-shadow:var(--shadow);color:var(--ink);font-weight:500}
-  #hdr .tab svg{width:14px;height:14px;flex:none}
+  #hdr .brand{font-size:20px;line-height:28px;font-weight:600;letter-spacing:-.6px}
   #hdr .sp{flex:1}
+  #hdr #counts{font:400 12px/16px var(--mono);color:var(--mute);white-space:nowrap;display:flex;gap:16px}
+  #hdr #counts .red{color:var(--red)}
+  #hdr .ready{font:400 12px/16px var(--mono);color:var(--mute);display:none;align-items:center;gap:6px;white-space:nowrap}
+  #hdr .ready::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--lime-deep)}
+  #hdr .ready.on{display:inline-flex}
   #hdr .pill{font:400 12px/16px var(--mono);text-transform:uppercase;padding:3px 10px;border-radius:9999px;background:var(--card);box-shadow:var(--shadow);color:var(--mute);white-space:nowrap;transition:background .3s,color .3s}
   #hdr .pill.on{background:var(--lime);color:var(--ink);box-shadow:none}
   #hdr .pill.done{color:var(--ink)}
@@ -52,7 +57,7 @@
   #panel{position:relative;flex:1;min-height:380px;background:var(--soft);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
   #map{position:absolute;inset:0}
   #map svg{display:block;width:100%;height:100%}
-  #map .land{fill:var(--land)}
+  #map .land{fill:var(--land);opacity:.18}
   #map .city circle{fill:var(--mute)}
   #map .city text{font:400 12px var(--mono);fill:var(--mute);paint-order:stroke;stroke:var(--soft);stroke-width:3px;stroke-linejoin:round}
   #map .edge{fill:none;stroke:var(--ink);stroke-opacity:.35;stroke-width:1.2;stroke-dasharray:4 5;transition:stroke .4s,stroke-opacity .4s,opacity .4s}
@@ -84,6 +89,7 @@
   #map .pill rect{fill:var(--ink)}
   #map .pill text{font:400 12px var(--mono);fill:#f2f2f2}
   #map .pik .disc{fill:var(--lime)}
+  #map .pik .pulse{fill:none;stroke:var(--lime-deep);stroke-width:2}
   #map .pik text{font:400 12px var(--mono);fill:var(--mute);text-anchor:middle}
   #map .reason text{font:400 11px var(--mono);fill:var(--mute);paint-order:stroke;stroke:var(--soft);stroke-width:3px;stroke-linejoin:round}
   .tools{position:absolute;top:16px;display:flex;gap:8px;z-index:2}
@@ -212,20 +218,18 @@
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <g id="pikmark"><path d="M14 9 C14 3 20 3 20 7" stroke="#171717" stroke-width="2.4" stroke-linecap="round" fill="none"/><ellipse cx="14" cy="21" rx="10" ry="11" fill="#171717"/><rect x="10" y="17" width="2.6" height="6" rx="1.3" fill="#D6F25A"/><rect x="15.4" y="17" width="2.6" height="6" rx="1.3" fill="#D6F25A"/></g>
 </defs></svg>
-<div id="app">
+<div id="stage"><div id="app">
   <div class="left">
     <header id="hdr">
       <svg width="24" height="28" viewBox="0 0 28 32" aria-hidden="true"><use href="#pikmark"/></svg>
-      <span class="tab on" id="dtab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg><span id="dtitle"></span></span>
-      <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>New</span>
-      <span class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>History</span>
+      <span class="brand">Pik</span>
       <span class="sp"></span>
       <span class="na hidden" id="hna"></span>
+      <span class="ready" id="ready"></span>
+      <span id="counts"></span>
       <span class="pill" id="status">At rest</span>
     </header>
     <div id="panel">
-      <div class="tools l"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8 7l3 9M16 7l-3 9"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 12l8-8 8 8-8 8z"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20l4-1L19 8l-3-3L5 16z"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4l9 5-9 5-9-5zM3 14l9 5 9-5"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16l-6 8v6l-4-2v-4z"/></svg></span></div>
-      <div class="tools r"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M20 12a8 8 0 1 1-3-6.2M20 4v5h-5"/></svg></span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span></div>
       <div id="map"></div>
       <span class="na pna hidden" id="mna"></span>
       <div class="plabel">Network</div>
@@ -240,7 +244,7 @@
     <footer id="foot"></footer>
   </div>
   <aside class="right"><div id="rcard"></div></aside>
-</div>
+</div></div>
 <div id="subject" class="hidden"></div>
 <div id="pop" role="dialog"></div>
 <div id="toast"></div>
@@ -325,42 +329,34 @@ function countText(t){const asked=Array.isArray(t.asked)?t.asked:null;const cov=
   if(asked&&asked.length<3)return 'too few words to count';if(!asked||!cov)return 'n/a';return `${cov.length} of ${asked.length} words have a receipt`}
 
 // ---------- header, footer ----------
-function renderHeader(){const d=(S.company||{}).decision||{};$('#dtitle').textContent=d.title?nd(d.title).replace(/\s*\(.*?\)/g,'').split(',').slice(0,2).join(',').replace(/^Two-year exchange to/,'').trim().replace(/^(\w)/,m=>m.toUpperCase()):'Pik';}
+function renderHeader(){const a=S.audit;const read=a&&a.used?`Read ${Object.values(a.used).reduce((n,v)=>n+(v.count||0),0)}`:`Read ${NA('audit unreachable')}`;const dm=a&&a.never_read&&a.never_read.dm?a.never_read.dm.count:null;$('#counts').innerHTML=`<span>${read}</span><span class="red">Never read: DMs ${dm==null?'?':dm}</span>`;}
 function renderFoot(){const a=S.audit;const el=$('#foot');
   const read=a&&a.used?`Read ${Object.values(a.used).reduce((n,v)=>n+(v.count||0),0)}`:`Read ${NA('audit unreachable')}`;const dm=a&&a.never_read&&a.never_read.dm?a.never_read.dm.count:null;
   const mode=S.source==='scripted'?'Scripted take':S.source==='live'?'Live call':((S.company||{}).backend==='heuristic'?'Keyword mode':(S.company&&S.company.backend?'Read by Gemini':''));
-  el.innerHTML=`<span>${read} \u00b7 <span class="red">Never read: DMs ${dm==null?'?':dm}</span></span><span>A to Z, not a rank</span><span>Every line carries its source</span><span class="sp"></span>${S.drops?`<span class="red">${S.drops} dropped, no source</span>`:''}<span>${esc(mode)}</span>`;}
+  el.innerHTML=`<span>A to Z, not a rank</span><span>Every line carries its source</span><span class="sp"></span>${S.drops?`<span class="red">${S.drops} dropped, no source</span>`:''}<span>${esc(mode)}</span>`;}
 
 // ---------- the network over the map ----------
-const M={ready:false,W:0,H:0,svg:null,g:{},proj:null,pik:{x:0,y:0},cities:{},nodes:{},kw:{},hubs:{},edges:{},slots:{},clock:{}};
-const LP={Tokyo:{dx:0,dy:-14,a:'middle'},Osaka:{dx:-10,dy:12,a:'end'},Fukuoka:{dx:-10,dy:-2,a:'end'},Manila:{dx:-10,dy:4,a:'end'},Singapore:{dx:-10,dy:4,a:'end'},Austin:{dx:10,dy:12,a:'start'}};
-const TF={};function clock(tz,abbr){try{TF[tz]=TF[tz]||new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',hour12:false,timeZone:tz});return TF[tz].format(new Date())+(abbr?' '+abbr:'')}catch(e){return ''}}
-function refreshClocks(){Object.values(M.cities).forEach(c=>{if(c.label)c.label.text(`${c.name} \u00b7 ${clock(c.tz,c.abbr)}`)})}
-setInterval(refreshClocks,30000);
+const M={ready:false,W:0,H:0,svg:null,g:{},proj:null,pik:{x:0,y:0},nodes:{},kw:{},hubs:{},edges:{},slots:{},pslots:{},ring:{}};
 async function buildMap(){
   const box=$('#map');if(M.ready||F.as)return;M.W=box.clientWidth||1100;M.H=box.clientHeight||440;
   if(typeof d3==='undefined'){$('#mna').textContent='n/a: d3 did not load';$('#mna').classList.remove('hidden');return}
   const svg=d3.select(box).append('svg').attr('viewBox',`0 0 ${M.W} ${M.H}`).attr('preserveAspectRatio','none');M.svg=svg;
   const s=M.W/(2*Math.PI);const ty=8+72*Math.PI/180*s;
   M.proj=d3.geoEquirectangular().rotate([-150,0]).scale(s).translate([M.W/2,ty]).clipExtent([[0,0],[M.W,Math.min(M.H,ty+60*Math.PI/180*s)]]);
-  M.g.land=svg.append('g');M.g.edges=svg.append('g');M.g.leaders=svg.append('g');M.g.hubs=svg.append('g');M.g.kw=svg.append('g');M.g.cities=svg.append('g');M.g.people=svg.append('g');M.g.pills=svg.append('g');M.g.reasons=svg.append('g');
-  const land=await fetchJ('/vendor/land-110m.geo.json');
+  M.g.land=svg.append('g');M.g.edges=svg.append('g');M.g.leaders=svg.append('g');M.g.hubs=svg.append('g');M.g.kw=svg.append('g');M.g.people=svg.append('g');M.g.pills=svg.append('g');M.g.reasons=svg.append('g');
+  const land=await fetchJ('/vendor/land-110m.geo.json'); // a faint backdrop only: nothing is placed by geography
   if(land.ok&&land.data&&land.data.type)M.g.land.append('path').attr('class','land').attr('d',d3.geoPath(M.proj)(land.data));
-  else{$('#mna').textContent=`n/a: /vendor/land-110m.geo.json ${land.status||'unreachable'}, cities only`;$('#mna').classList.remove('hidden')}
-  const r=await fetchJ('/api/cities');let cities={};
-  if(r.ok&&r.data&&r.data.cities)cities=r.data.cities;else{$('#mna').textContent=`n/a: /api/cities ${r.status||'unreachable'}`;$('#mna').classList.remove('hidden')}
-  S.cities=cities;
-  Object.entries(cities).forEach(([name,c])=>{if(c.lat==null||c.lon==null)return;const [x,y]=M.proj([c.lon,c.lat]);const lp=LP[name]||{dx:9,dy:4,a:'start'};const g=M.g.cities.append('g').attr('class','city').attr('transform',`translate(${x},${y})`);g.append('circle').attr('r',3.5);
-    const label=g.append('text').attr('x',lp.dx).attr('y',lp.dy).attr('text-anchor',lp.a).attr('dy','.35em');const tw=(name.length+13)*7.3;const bx=lp.a==='end'?x+lp.dx-tw:lp.a==='middle'?x-tw/2:x+lp.dx;M.cities[name]={name,x,y,tz:c.tz,abbr:c.abbr,count:c.count,label,box:{x0:bx-6,x1:bx+tw+6,y0:y+lp.dy-14,y1:y+lp.dy+14}};});
-  refreshClocks();
-  const [px,py]=M.proj([192,-16]);M.pik={x:px,y:py}; // over the Pacific, between Japan and the US partner
-  const pg=M.g.people.append('g').attr('class','pik').attr('transform',`translate(${px},${py})`);pg.append('circle').attr('class','disc').attr('r',18);pg.append('g').attr('transform','translate(-9,-11) scale(.68)').append('use').attr('href','#pikmark');pg.append('text').attr('y',34).text('Pik');
+  else{$('#mna').textContent=`n/a: /vendor/land-110m.geo.json ${land.status||'unreachable'}`;$('#mna').classList.remove('hidden')}
+  M.pik={x:M.W/2,y:M.H/2};M.ring={rx1:Math.min(250,M.W*.22),ry1:Math.min(118,M.H*.22),rx2:Math.min(460,M.W*.42),ry2:Math.min(215,M.H*.4)}; // Pik in the centre; keywords on the inner ring, people on the outer
+  const pg=M.g.people.append('g').attr('class','pik').attr('transform',`translate(${M.pik.x},${M.pik.y})`);pg.append('circle').attr('class','disc').attr('r',18);pg.append('g').attr('transform','translate(-9,-11) scale(.68)').append('use').attr('href','#pikmark');pg.append('text').attr('y',34).text('Pik');
   M.ready=true;
   if(S.tiles.length){addPeople(S.tiles);applyConstraints();focusMap(S.focus)}if(S.concl)concludeMap(S.concl.candidate_ids||[]);
 }
 function occupied(x,y,min){const all=[M.pik].concat(Object.values(M.nodes),Object.values(M.kw),Object.values(M.hubs));return all.some(n=>Math.hypot(n.x-x,n.y-y)<min)}
-function slotXY(k){const x=M.pik.x+k*122;if(x<70||x>M.W-70)return null;return {x,y:M.pik.y+118-Math.abs(k)*4}}
-function takeSlot(key){const order=[0,-1,1,-2,2,-3,3,-4,4,-5,5];for(const k of order){if(M.slots[k]&&M.slots[k]!==key)continue;const p=slotXY(k);if(!p)continue;M.slots[k]=key;return p}for(const k of [10,9,11,8,12,7,13]){if(M.slots[k]&&M.slots[k]!==key)continue;const x=M.pik.x+(k-10)*122;if(x<70||x>M.W-70)continue;M.slots[k]=key;return {x,y:M.pik.y+154}}return {x:M.pik.x,y:M.pik.y+154}}
+function pulsePik(){if(!M.ready||reduced())return;const g=M.g.people.select('.pik');const c=g.append('circle').attr('class','pulse').attr('r',18).style('opacity',.8);c.transition().duration(900).ease(d3.easeCubicOut).attr('r',64).style('opacity',0).remove();}
+function slotXY(k){ // inner ring, ten fixed places 36 degrees apart from the top; a second lap sits between them, a little further out
+  const lap=Math.floor(k/10),a=(-90+(k%10)*36+lap*18)*Math.PI/180,f=1+lap*.42;return {x:M.pik.x+M.ring.rx1*f*Math.cos(a),y:M.pik.y+M.ring.ry1*f*Math.sin(a)}}
+function takeSlot(key){for(let k=0;k<20;k++){if(M.slots[k]&&M.slots[k]!==key)continue;M.slots[k]=key;return slotXY(k)}return {x:M.pik.x,y:M.pik.y+M.ring.ry1*1.8}}
 function freeSlot(key){Object.keys(M.slots).forEach(k=>{if(M.slots[k]===key)delete M.slots[k]})}
 function kwWidth(t){return Math.max(44,String(t).length*7.3+18)}
 function addKeyword(word,kind){ // kind: thought (fades in 6 s) | perm | constraint
@@ -379,11 +375,10 @@ function addKeyword(word,kind){ // kind: thought (fades in 6 s) | perm | constra
 function lockGlyph(n){n.g.selectAll('.lock').remove();n.g.append('path').attr('class','lock').attr('d','M-4 -1h8v6h-8zM-2 -1v-2a2 2 0 0 1 4 0v2').attr('fill','none').attr('stroke','#171717').attr('stroke-width',1.2).attr('transform',`translate(${-n.w/2+11},0)`)}
 function fadeKeyword(key){const n=M.kw[key];if(!n||n.kind!=='thought')return;delete M.kw[key];freeSlot(key);n.g.transition().duration(400).style('opacity',0).remove();n.leader&&n.leader.transition().duration(400).style('opacity',0).remove();}
 function addThoughts(text){if(!M.ready||S.concl)return;extractTerms(text).forEach((w,i)=>setTimeout(()=>{if(!M.kw[w])addKeyword(w,'thought')},60*i))}
-function onLabel(x,y){return Object.values(M.cities).some(c=>c.box&&x+52>c.box.x0&&x-52<c.box.x1&&y+46>c.box.y0&&y-22<c.box.y1)}
-function personXY(t){ // near the person's city: rings outward, the open sea side first, never over a label or another node
-  const c=M.cities[t.location];const cx=c?c.x:M.pik.x+(Object.keys(M.nodes).length*90-120),cy=c?c.y:M.pik.y-140;
-  for(const R of [100,150,200,250])for(const a of [-50,25,-25,0,50,75,-75,100,-100,130,-130,180]){const x=cx+R*Math.cos(a*Math.PI/180),y=cy+R*Math.sin(a*Math.PI/180);if(x<70||x>M.W-70||y<72||y>M.H-76)continue;if(occupied(x,y,80)||onLabel(x,y))continue;return {x,y}}
-  return {x:Math.max(70,Math.min(M.W-70,cx+60)),y:Math.max(72,Math.min(M.H-76,cy+60))};
+function personXY(t){ // the outer ring: fixed places, first the right side, then the left, then top and bottom; nothing moves once placed
+  const angles=[-32,32,180,-148,148,-90,90,0,-60,60,-120,120];
+  for(let k=0;k<angles.length;k++){if(M.pslots[k]&&M.pslots[k]!==t.id)continue;const a=angles[k]*Math.PI/180;const x=M.pik.x+M.ring.rx2*Math.cos(a),y=M.pik.y+M.ring.ry2*Math.sin(a);if(occupied(x,y,70)&&!M.pslots[k])continue;M.pslots[k]=t.id;return {x,y}}
+  return {x:M.pik.x+M.ring.rx2,y:M.pik.y+M.ring.ry2};
 }
 function drawEdge(id,from,to,cls){ // a dashed hairline that draws in over 500 ms; lit = lime
   if(!M.ready)return null;let e=M.edges[id];const d=`M${from.x},${from.y}L${to.x},${to.y}`;
@@ -441,8 +436,8 @@ function drawReasons(){if(!M.ready)return;M.g.reasons.selectAll('*').remove();Ob
 function concludeMap(ids){if(!M.ready)return;Object.values(M.nodes).forEach(n=>{n.g.classed('chosen',ids.includes(n.id)).classed('settle',!ids.includes(n.id)).classed('lit',false)});
   Object.values(M.edges).forEach(e=>{const on=ids.some(id=>e.id.endsWith('>'+id));e.path.classed('lit',on).classed('settle',!on)});Object.values(M.kw).forEach(k=>k.g.classed('settle',true));M.g.pills.selectAll('*').remove();}
 function flyIn(p){if(!M.ready||!p||!p.id||M.nodes[p.id])return;const n=addPersonNode({id:p.id,name:p.name,role:p.role,team:p.team,location:p.location,confidence:null});if(n){n.g.select('.rl').text('0 receipts');drawEdge(`pik>${p.id}`,M.pik,n,'')}}
-function removeNode(id){const n=M.nodes[id];if(!n)return;delete M.nodes[id];n.g.transition().duration(400).style('opacity',0).remove();Object.keys(M.edges).forEach(k=>{if(k.endsWith('>'+id))removeEdge(k)})}
-function mapReset(){if(!M.ready)return;Object.values(M.nodes).forEach(n=>n.g.remove());Object.values(M.kw).forEach(n=>{clearTimeout(n.fade);n.g.remove();n.leader&&n.leader.remove()});Object.values(M.hubs).forEach(h=>h.g.remove());Object.values(M.edges).forEach(e=>e.path.remove());M.nodes={};M.kw={};M.hubs={};M.edges={};M.slots={};M.g.pills.selectAll('*').remove();M.g.reasons.selectAll('*').remove();}
+function removeNode(id){const n=M.nodes[id];if(!n)return;delete M.nodes[id];Object.keys(M.pslots).forEach(k=>{if(M.pslots[k]===id)delete M.pslots[k]});n.g.transition().duration(400).style('opacity',0).remove();Object.keys(M.edges).forEach(k=>{if(k.endsWith('>'+id))removeEdge(k)})}
+function mapReset(){if(!M.ready)return;Object.values(M.nodes).forEach(n=>n.g.remove());Object.values(M.kw).forEach(n=>{clearTimeout(n.fade);n.g.remove();n.leader&&n.leader.remove()});Object.values(M.hubs).forEach(h=>h.g.remove());Object.values(M.edges).forEach(e=>e.path.remove());M.nodes={};M.kw={};M.hubs={};M.edges={};M.slots={};M.pslots={};M.g.pills.selectAll('*').remove();M.g.reasons.selectAll('*').remove();}
 
 // ---------- greeting row: Pik's last spoken line ----------
 function setPikLine(text,keys){S.pikLine=text;const names=Object.values(S.people).map(p=>p.name).filter(Boolean);const words=(keys||[]).concat(names.filter(n=>String(text).includes(n)));$('#pikline').innerHTML=highlight(text,words)}
@@ -486,7 +481,7 @@ async function renderRight(){const box=$('#rcard');if(F.as)return;
   if(S.record){return renderRightRecord()}
   const id=S.focus;
   if(!id){const a=S.audit||{};const u=a.used||{};const c={slack:(u.slack||{}).count||0,docs:(u.docs||{}).count||0,wcm:(u.wcm||{}).count||0,sessions:(u.sessions||{}).count||0};const tot=Object.values(u).reduce((n,v)=>n+(v.count||0),0);const co=String((S.company||{}).name||'').replace(/\s*\(.*\)$/,'');const d=(S.company||{}).decision||{};
-    box.innerHTML=`<div class="ttl"><div><div class="nm">${esc(co||'Pik')}</div><div class="rl">${S.cities?`${Object.values(S.cities).reduce((n,x)=>n+(x.count||0),0)} people on file`:'People on file'}</div></div><div class="stat"><span class="k">receipts</span><span class="n">${a.used?tot:'n/a'}</span></div></div>
+    box.innerHTML=`<div class="ttl"><div><div class="nm">${esc(co||'Pik')}</div><div class="rl">People on file</div></div><div class="stat"><span class="k">receipts</span><span class="n">${a.used?tot:'n/a'}</span></div></div>
     <div class="hero"><div class="ch"><span>The decision</span></div><div class="q">${esc(d.purpose||d.title||'Ask who fits, and Pik shows the receipts.')}</div><div class="src">${esc(nd(d.title||''))}</div></div>
     <div class="para"><div class="t">Pik reads public Slack channels, shared docs, Will Can Must sheets, opted-in AI sessions, and manager notes only beside the person's own words. It never reads DMs or private channels.</div></div>
     ${activityHTML(a.used?tot:'n/a',c,`${((u.manager_notes||{}).count||0)} manager notes, paraphrases, never shown alone`,null)}<div id="toastp"><span class="k"></span><span class="p"></span><span class="bar"></span></div>`;return}
@@ -691,7 +686,9 @@ async function runTake(){
 
 // ---------- init ----------
 const PRESENT=F.present&&!F.as;
-async function init(){
+function fitStage(){if(!PRESENT)return;const s=Math.min(innerWidth/1920,innerHeight/1080);const st=$('#stage');st.style.transform=`translate(${Math.round((innerWidth-1920*s)/2)}px,${Math.round((innerHeight-1080*s)/2)}px) scale(${s})`;} // the whole 1920x1080 stage, scaled to the window, centred
+addEventListener('resize',fitStage);
+async function init(){fitStage();
   if(F.present)document.body.classList.add('present');if(F.admin)document.body.classList.add('admin');
   if(F.as){document.body.classList.add('subjectonly');$('#app').classList.add('hidden');$('#subject').classList.remove('hidden');}
   if(F.take){S.source='scripted';const rr=await postJ('/api/reset',{people:true});if(!rr.ok)headerNA(`n/a: /api/reset ${rr.status||'unreachable'}`);}
