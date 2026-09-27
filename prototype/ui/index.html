@@ -40,7 +40,15 @@
   body.present:not(.subjectonly) #stage{position:fixed;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden}
   body.present:not(.subjectonly) #app{width:1920px;height:1080px;min-height:0}
   .left{display:flex;flex-direction:column;gap:16px;min-width:0;min-height:0}
-  .right{min-width:0;min-height:0}
+  .right{min-width:0;min-height:0;position:relative}
+  #drawer{position:absolute;inset:0;background:var(--card);border-radius:12px;box-shadow:var(--shadow);padding:28px;display:flex;flex-direction:column;gap:12px;overflow:auto;transform:translateX(106%);transition:transform .3s ease-out;z-index:8}
+  #drawer.on{transform:none}
+  #drawer .dh{display:flex;justify-content:space-between;gap:12px}
+  #drawer .it{display:flex;flex-direction:column;gap:6px;padding:14px 16px;background:var(--soft);border-radius:8px}
+  #drawer .it .q{font-size:16px;line-height:24px;letter-spacing:-.2px;color:var(--ink)}
+  #drawer .it .src{font:400 12px/16px var(--mono);color:var(--mute)}
+  #drawer .none{font-size:14px;line-height:20px;color:var(--body)}
+  #rcard [data-drawer]{cursor:pointer}
   #hdr{display:flex;align-items:center;gap:12px;height:44px;flex:none}
   #hdr .brand{font-size:20px;line-height:28px;font-weight:600;letter-spacing:-.6px}
   #hdr .sp{flex:1}
@@ -247,7 +255,7 @@
     <div id="inbar"><span class="lnk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></span><span id="whochip"></span><input id="ask" type="text" placeholder="Ask who fits, or tell Pik about a person" autocomplete="off"><button class="send" id="go" aria-label="Ask Pik"><svg viewBox="0 0 24 24" fill="none" stroke="#f2f2f2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 3L10 14M21 3l-7 18-4-7-7-4z"/></svg></button></div>
     <footer id="foot"></footer>
   </div>
-  <aside class="right"><div id="rcard"></div></aside>
+  <aside class="right"><div id="rcard"></div><div id="drawer"><div class="dh"><span class="eyebrow" id="dtitle"></span><span class="eyebrow">Esc closes</span></div><div id="dlist"></div></div></aside>
 </div></div>
 <div id="subject" class="hidden"></div>
 <div id="pop" role="dialog"></div>
@@ -499,7 +507,7 @@ function monthsHTML(f){const m={};Object.values(f.items||{}).forEach(it=>{const 
   const [y0,m0]=ks[0].split('-').map(Number),[y1,m1]=ks[ks.length-1].split('-').map(Number);const out=[];for(let y=y0,mo=m0;y<y1||(y===y1&&mo<=m1);){out.push(`${y}-${String(mo).padStart(2,'0')}`);mo++;if(mo>12){mo=1;y++}}
   const max=Math.max(...out.map(k=>m[k]||0),1);const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   return `<div class="bars">${out.map(k=>`<div class="b"><i style="height:${Math.max(4,Math.round((m[k]||0)/max*44))}px"></i><span>${MN[Number(k.slice(5))-1]}</span></div>`).join('')}</div>`}
-function activityHTML(total,c,note,f){return `<div class="act-h"><span class="t">Activity</span><span class="eyebrow">receipts by source</span></div><div class="big">${total}</div>${f?monthsHTML(f):''}<div class="mini">${[['Slack','slack','public channels'],['Docs','docs','shared documents'],['Sheets','wcm','Will Can Must'],['Sessions','sessions','opted-in AI sessions']].map(([k,s,d])=>`<div class="m"><span class="k">${k}</span><span class="n">${c[s]||0}</span><span class="d">${d}</span></div>`).join('')}</div>${note?`<div class="note">${esc(note)}</div>`:''}`}
+function activityHTML(total,c,note,f){return `<div class="act-h"><span class="t">Activity</span><span class="eyebrow">receipts by source</span></div><div class="big">${total}</div>${f?monthsHTML(f):''}<div class="mini">${[['Slack','slack','public channels'],['Docs','docs','shared documents'],['Sheets','wcm','Will Can Must'],['Sessions','sessions','opted-in AI sessions']].map(([k,s,d])=>`<div class="m" data-drawer="${s}"><span class="k">${k}</span><span class="n">${c[s]||0}</span><span class="d">${d}</span></div>`).join('')}</div>${note?`<div class="note">${esc(note)}</div>`:''}`}
 async function renderRight(){const box=$('#rcard');if(F.as)return;
   if(S.record){return renderRightRecord()}
   const id=S.focus;
@@ -515,7 +523,7 @@ async function renderRight(){const box=$('#rcard');if(F.as)return;
   else if(f.will)hero={text:f.will.text,src:labelOf(f.will.item),sid:f.will.sid,kind:`${first(p.name)}'s own words`};
   const words=hero?wordsFor(t,hero.sid):[];const cov=t&&t.covered&&typeof t.covered==='object'?Object.keys(t.covered):[];
   const mgr=recs.find(r=>r.kind==='manager')||(f.manager&&{text:f.manager.text,source:labelOf(f.manager.item)});
-  box.innerHTML=`<div class="ttl"><div><div class="nm">${esc(p.name||id)}</div><div class="rl">${esc([p.role,p.team].filter(Boolean).join(', '))}</div></div><div class="stat"><span class="k">receipts</span><span class="n">${total}</span></div></div>
+  box.innerHTML=`<div class="ttl"><div><div class="nm">${esc(p.name||id)}</div><div class="rl">${esc([p.role,p.team].filter(Boolean).join(', '))}</div></div><div class="stat" data-drawer="all"><span class="k">receipts</span><span class="n">${total}</span></div></div>
   ${hero?`<div class="hero" id="hero"><div class="ch"><span>${esc(hero.kind)}</span><span>Verbatim</span></div><div class="q">"${highlight(hero.text,words)}"</div><div class="src">${esc(srcLine(hero.src||hero.sid||''))}</div></div>`:`<div class="hero"><div class="ch"><span>On file</span></div><div class="q" style="color:var(--body)">Nothing on file yet. Receipts arrive as they work.</div></div>`}
   ${S.tiles.filter(o=>o.id!==id&&o.confidence>0&&o.source_id&&o.why).map(o=>`<div class="also"><span class="eyebrow">Also with a receipt</span><div class="ao"><b>${esc(o.name)}</b> "${esc(splitClaim(o.why).txt)}"</div><span class="src">${esc(srcLine(o.source||o.source_id))}</span></div>`).join('')}
   ${cov.length?`<div class="chips"><span class="eyebrow" style="align-self:center">Receipts for</span>${cov.map(w=>`<span class="chip lime">${esc(w)}</span>`).join('')}${t.missing&&t.missing.length?`<span class="chip">none for ${esc(t.missing.slice(0,3).join(', '))}${t.missing.length>3?'...':''}</span>`:''}</div>`:''}
@@ -523,6 +531,17 @@ async function renderRight(){const box=$('#rcard');if(F.as)return;
   ${activityHTML(total,c,c.manager_notes?`${c.manager_notes} manager note${c.manager_notes===1?'':'s'}, a paraphrase, never shown alone`:'',f)}<div id="toastp"><span class="k"></span><span class="p"></span><span class="bar"></span></div>`;
   if(S.pull)pullShow();
 }
+// the evidence drawer: one person's receipts from one source, verbatim, over the right column
+const SRC_TITLE={slack:'Slack, public channels',docs:'Shared docs',wcm:'Will Can Must sheet',sessions:'AI sessions, opted in',all:'Every receipt on file'};
+function itemWords(it){const s=it.source;if(s==='slack'||s==='manager_notes')return it.text||'';if(s==='docs')return it.excerpt||it.text||'';if(s==='wcm')return it.will||'';if(s==='sessions')return [it.problem,it.outcome?`Outcome: ${it.outcome}`:''].filter(Boolean).join(' ');return it.text||it.rendered||''}
+async function openDrawer(source){const id=S.focus;if(!id)return;const f=await fileOf(id);const p=personOf(id)||{};
+  const items=Object.values(f.items||{}).filter(it=>source==='all'?it.source!=='manager_notes':it.source===source).sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));
+  $('#dtitle').textContent=`${p.name||id}: ${SRC_TITLE[source]||source} (${items.length})`;
+  $('#dlist').innerHTML=items.length?items.map(it=>`<div class="it"><div class="q">"${esc(itemWords(it))}"</div><span class="src">${esc(srcLine(labelOf(it)))}${it.author&&it.author!==id?`, by ${esc(nameOf(it.author))}`:''}</span></div>`).join(''):`<div class="none">No receipts from this source for ${esc(first(p.name||id))}. 0 is the honest count.</div>`;
+  $('#drawer').classList.add('on');}
+function closeDrawer(){$('#drawer').classList.remove('on')}
+document.addEventListener('click',e=>{const t=e.target.closest('#rcard [data-drawer]');if(t){e.stopPropagation();openDrawer(t.dataset.drawer);return}if($('#drawer').classList.contains('on')&&!e.target.closest('#drawer'))closeDrawer()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
 function managerLine(m){const s=String(m.source||'');const mm=/^(.+?)'s note/.exec(s);return mm?`${mm[1]} wrote`:'The manager wrote'}
 function renderRightRecord(){const r=S.record;const p=r.person||{};const box=$('#rcard');const fn=first(p.name||'');
   box.innerHTML=`<div class="ttl"><div><div class="nm">${esc(p.name||'Record')}</div><div class="rl">${esc([p.role,p.team,p.location].filter(Boolean).join(', '))}</div></div><div class="stat"><span class="k">receipts</span><span class="n">0</span></div></div>
