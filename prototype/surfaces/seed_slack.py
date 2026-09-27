@@ -38,6 +38,14 @@ PALETTE = [":large_blue_circle:", ":large_green_circle:", ":large_orange_circle:
            ":large_yellow_circle:", ":red_circle:", ":white_circle:", ":large_brown_circle:"]
 
 
+RENAME = {"search": "search-relevance"}  # Slack refuses conversations.create(name="search") with name_taken
+
+
+def chan(m):
+    n = m["channel"].lstrip("#")
+    return RENAME.get(n, n)
+
+
 def avatar(name):
     return PALETTE[sum(map(ord, name)) % len(PALETTE)]
 
@@ -83,9 +91,15 @@ def ensure_channel(name, existing):
     if name in existing:
         c = existing[name]
     else:
-        c = client.conversations_create(name=name)["channel"]
-        existing[name] = c
-        print(f"  created #{name}")
+        try:
+            c = client.conversations_create(name=name)["channel"]
+        except SlackApiError as e:
+            if e.response.get("error") != "name_taken":
+                raise
+            c = client.conversations_create(name=f"{name}-team")["channel"]  # a private or reserved name we cannot see
+            print(f"  #{name} is taken; using #{name}-team")
+        existing[c["name"]] = c
+        print(f"  created #{c['name']}")
     if not c.get("is_member"):
         client.conversations_join(channel=c["id"])
         c["is_member"] = True
@@ -94,16 +108,17 @@ def ensure_channel(name, existing):
 
 def already_seeded(channel_id, me):
     r = client.conversations_history(channel=channel_id, limit=20)
-    return any(m.get("user") == me or m.get("bot_id") for m in r.get("messages", []))
+    # real posts only: the bot's own "joined the channel" line has subtype channel_join and no bot_id
+    return any(m.get("bot_id") and m.get("subtype") in (None, "bot_message") for m in r.get("messages", []))
 
 
 def main():
     me = client.auth_test()
     msgs = plan()
-    wanted = sorted({m["channel"].lstrip("#") for m in msgs})
+    wanted = sorted({chan(m) for m in msgs})
     print(f"workspace {me.get('team')}, posting as bot {me.get('user')} with names on top. {len(msgs)} messages across {len(wanted)} channels:")
     for ch in wanted:
-        n = sum(1 for m in msgs if m["channel"].lstrip("#") == ch)
+        n = sum(1 for m in msgs if chan(m) == ch)
         print(f"  #{ch:<22} {n:>3} messages")
     if DRY:
         print("DRY=1: nothing posted. First five:")
@@ -111,10 +126,11 @@ def main():
             print(f"  {m['date']} {m['channel']:<20} {m['name']:<16} {m['text'][:70]}")
         return
     existing = channels_by_name()
-    skip = set()
+    skip, actual = set(), {}
     for ch in wanted:
         try:
             c = ensure_channel(ch, existing)
+            actual[ch] = c
         except SlackApiError as e:
             err = e.response.get("error")
             if err == "missing_scope":
@@ -125,18 +141,18 @@ def main():
             skip.add(ch)
     posted = 0
     for m in msgs:
-        ch = m["channel"].lstrip("#")
+        ch = chan(m)
         if ch in skip:
             continue
         try:
-            client.chat_postMessage(channel=existing[ch]["id"], text=m["text"], username=m["name"], icon_emoji=avatar(m["name"]))
+            client.chat_postMessage(channel=actual[ch]["id"], text=m["text"], username=m["name"], icon_emoji=avatar(m["name"]))
         except SlackApiError as e:
             err = e.response.get("error")
             if err == "missing_scope":
                 raise SystemExit("missing scope chat:write.customize: add it under OAuth & Permissions, reinstall the app, retry")
             if err == "ratelimited":
                 time.sleep(int(e.response.headers.get("Retry-After", "5")))
-                client.chat_postMessage(channel=existing[ch]["id"], text=m["text"], username=m["name"], icon_emoji=avatar(m["name"]))
+                client.chat_postMessage(channel=actual[ch]["id"], text=m["text"], username=m["name"], icon_emoji=avatar(m["name"]))
             else:
                 raise
         posted += 1
