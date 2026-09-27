@@ -22,6 +22,8 @@ import sys
 HERE = pathlib.Path(__file__).resolve().parent
 SRC = HERE.parent.parent / "finetune" / "results" / "metrics.json"
 OUT = HERE / "data" / "ft_metrics.js"
+# the canonical deck (deck/final/Pik Pitch Deck/) reads its own copy; both are written unless --out is given
+FINAL_OUT = HERE.parent / "final" / "Pik Pitch Deck" / "data" / "ft_metrics.js"
 
 SYSTEM = [("finetuned", re.compile(r"fine[-_ ]?tun|^ft$|^tuned$|^trained$|^ours$|contrastive")),
           ("keyword", re.compile(r"keyword|heuristic|bm25|lexical|^engine$|^demo$|^kw$")),
@@ -90,8 +92,10 @@ def main():
     args = sys.argv[1:]
     if "--src" in args:
         SRC = pathlib.Path(args[args.index("--src") + 1])
+    outs = [OUT, FINAL_OUT]
     if "--out" in args:
         OUT = pathlib.Path(args[args.index("--out") + 1])
+        outs = [OUT]
     if not SRC.exists():
         print(f"FAIL: {SRC} does not exist yet; nothing written. The deck must not show the measured slide without it.", file=sys.stderr)
         sys.exit(1)
@@ -134,10 +138,11 @@ def main():
         run_date = dt.datetime.fromtimestamp(SRC.stat().st_mtime).strftime("%Y-%m-%d")
     data = {"source": "finetune/results/metrics.json", "run_date": run_date,
             "synced_at": dt.datetime.now().strftime("%Y-%m-%d %H:%M"), "sizes": sizes, "rows": rows, "raw": raw}
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text("/* written by site/sync_metrics.py from finetune/results/metrics.json; do not edit by hand */\n"
-                   "window.FT_METRICS = " + json.dumps(data, ensure_ascii=False, indent=1) + ";\n", encoding="utf-8")
-    print(f"wrote {OUT}  run_date {run_date}  rows {len(rows)}  unclassified {len(unknown)}")
+    for out in outs:
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text("/* written by site/sync_metrics.py from finetune/results/metrics.json; do not edit by hand */\n"
+                       "window.FT_METRICS = " + json.dumps(data, ensure_ascii=False, indent=1) + ";\n", encoding="utf-8")
+        print(f"wrote {out}  run_date {run_date}  rows {len(rows)}  unclassified {len(unknown)}")
     for r in sorted(rows, key=lambda r: (r["task"], r["metric"], r["lang"], r["system"])):
         print(f"  {r['task']:<8} {r['metric']:<4} {r['lang']:<4} {r['system']:<10} {r['value']:.4f}   <- {r['path']}")
     for s in sizes:
