@@ -99,7 +99,11 @@ def run_once(ds_id, title, status_kind):
             continue
         top = a["people"][0]
         load = top.get("load", {})
-        why = "; ".join(top["why"][:2]) + f". Load: {load.get('open_tickets', '?')} tickets, {load.get('hours_booked_this_week', '?')} h this week."
+        tags = [w.rsplit(" (", 1)[0] for w in top["why"] if re.search(r" \(\d/5\)$", w)]  # the company's skill tags; levels are not shown (no score)
+        rec = top["receipts"][0] if top.get("receipts") else None
+        why = " ".join(filter(None, [f"Tagged: {', '.join(tags)}." if tags else "",
+                                     f"Receipt: {rec['text']} ({rec['source']})." if rec else "",
+                                     f"On their plate: {load.get('open_tickets', '?')} tickets, {load.get('hours_booked_this_week', '?')} h this week."]))
         alts = ", ".join(p["name"] for p in a["people"][1:3])
         props_out = {
             "Suggested owner": rt(f"{top['name']} ({top['role']}, {top['team']})" + (f"  ·  also: {alts}" if alts else "")),
