@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Pik Pitch Deck</title>
+<title>hyderabaddies</title>
 <link rel="stylesheet" href="site.css">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <g id="pikmark"><path d="M14 9 C14 3 20 3 20 7" stroke="#171717" stroke-width="2.4" stroke-linecap="round" fill="none"/><ellipse cx="14" cy="21" rx="10" ry="11" fill="#171717"/><rect x="10" y="17" width="2.6" height="6" rx="1.3" fill="#D6F25A"/><rect x="15.4" y="17" width="2.6" height="6" rx="1.3" fill="#D6F25A"/></g>
@@ -15,7 +15,6 @@
     <p class="st sub">Who is the best person for this task? Answered from what people actually did, with the source attached.</p>
     <div class="meta">
       <p class="mono">hyderabaddies</p>
-      <p class="mono">Carl Kho, Steven Yang</p>
       <p class="mono">September 27, 2026</p>
     </div>
   </div></div>
@@ -29,7 +28,7 @@
 <section class="slide main" id="problem" data-name="Problem">
   <div class="camera"><div class="m">
     <p class="lab sec">02 Problem</p>
-    <h1>At Recruit Holdings, AI is blurring every role, yet task forces are still picked from memory.</h1>
+    <h1>At Recruit Holdings, every task needs its own task force, and nobody can see who fits.</h1>
     <div class="list">
       <div class="row b" data-b="1"><p class="lab">Who</p><p class="body">Anyone staffing a task: team leads, HR, and every colleague who needs to loop someone in.</p></div>
       <div class="row b" data-b="2"><p class="lab">What</p><p class="body">Finding who has done this, and who wants to, for every new task.</p></div>
@@ -197,7 +196,7 @@
     <h1>Every signal is checked against its source, then weighed per task. A human decides.</h1>
     <div class="arch"></div>
   </div>
-  <p class="src">Python engine · Vertex AI: Gemini 3.8 Flash; Gemini 3.8 Live joins Google Meet, speech to text · Slack Bolt · Notion API</p></div>
+  <p class="src">Python · Vertex AI: Gemini 3.8 Flash; 3.8 Live joins Meet · Slack Bolt · Notion API · retriever opt-in: PIK_RETRIEVER_URL</p></div>
   <script type="text/x-mermaid" id="arch-mermaid">
   Mermaid source of the same diagram, for the README (kept in a non-rendered block because the arrows would end an HTML comment):
   flowchart LR
@@ -232,7 +231,7 @@
     <p data-step="4"><b>Keypress 4, the core database</b>: validated claims land in three stores: hard skills, soft skills and culture, will and capacity (current load, availability, languages, location).</p>
     <p data-step="5"><b>Keypress 5, the confidence engine</b>: for each task it computes a confidence per person from the three stores; a confidence for a task, never a grade of a person. POST /api/ask is the whole API. Our own fine-tuned models take over this step next (slide 09).</p>
     <p data-step="6"><b>Keypress 6, surfaces</b>: the Meet listener on Gemini 3.8 Live, the Slack bot, the Notion watcher, and the page.</p>
-    <p data-step="7"><b>Keypress 7, the red path</b> (camera pulls back): direct messages and private channels are never opened; the audit counts them from a manifest. Stack: the core engine is Python. On Google Cloud, Vertex AI runs Gemini 3.8 Flash for extraction and Gemini 3.8 Live for the meeting: Pik joins the Google Meet as its own participant, and Live turns the speech into text and tool calls. Slack through Bolt, Notion through its API. The confidence step uses our multilingual retriever, fine-tuned on Japanese and English. Live today: extraction, validation, the retriever, the ask engine, all four surfaces.</p>
+    <p data-step="7"><b>Keypress 7, the red path</b> (camera pulls back): direct messages and private channels are never opened; the audit counts them from a manifest. Stack: the core engine is Python. On Google Cloud, Vertex AI runs Gemini 3.8 Flash for extraction and Gemini 3.8 Live for the meeting: Pik joins the Google Meet as its own participant, and Live turns the speech into text and tool calls. Slack through Bolt, Notion through its API. The confidence step can use our fine-tuned retriever, which answers Japanese and English asks; it is opt-in in the engine (PIK_RETRIEVER_URL), and the demo runs the keyword engine by default. Live today: extraction, validation, the retriever, the ask engine, all four surfaces.</p>
     <p data-step="99"><b>To Jim</b>: the policy gate and the validation are code, not prompts. <b>To Robert</b>: the page has a subject view that is server-scoped to the person named. <b>To Damien</b>: Gemini 3.8 Flash for extraction and Gemini 3.8 Live for the meeting (Pik joins the Meet, speech to text, tool calls only), both on Vertex AI inside the customer’s project. <b>To Ho Joon</b>: the model extracts and cites, software verifies, a human decides; the dropped-claim count is the safeguard made visible.</p>
   </aside>
 </section>
@@ -244,14 +243,70 @@
     <h1>Built: our own multilingual retriever. Next: more layers of capture.</h1>
     <div class="arch"></div>
   </div>
-  <p class="src">Today: retriever fine-tuned on Japanese and English (finetune/) · Next: opt-in OCR and VLM capture, vertical connectors</p></div>
+  <p class="src">Today: a fine-tuned retriever that answers Japanese and English asks (finetune/) · Next: opt-in OCR, VLM, connectors</p></div>
   <aside class="notes">
     <p data-step="0">What we built this weekend, and what comes next. Today’s pipeline sits on the left.</p>
-    <p data-step="1"><b>Keypress 1, the retriever</b>: our own multilingual retriever, fine-tuned on Japanese and English, so a Japanese Slack thread answers an English ask and the other way round. It sits between the core database and the confidence per task.</p>
+    <p data-step="1"><b>Keypress 1, the retriever</b>: our own fine-tuned retriever that answers Japanese and English asks. It was fine-tuned on English pairs built from the fixtures; Japanese works through the multilingual base model, and the fine-tune is level with the base there (86% against 82% in the top five, n=28), so say “answers Japanese asks”, not “trained on Japanese”. It sits between the core database and the confidence per task.</p>
     <p data-step="2"><b>Keypress 2, more capture</b>: the next layers. Screenshots of what someone is working on, read with OCR; screens and designs read with a vision-language model; and connectors for each vertical, such as shift rosters in a hospital or crew logs at an airline. All opt-in, by the person.</p>
     <p data-step="3"><b>Keypress 3, better informed</b>: every new layer lands in the same core database, so the confidence per task is better informed without any new tool for anyone to learn.</p>
     <p data-step="4"><b>Keypress 4, the rules hold</b> (camera pulls back): capture is opt-in, DMs are never read, and the person named sees the same page.</p>
     <p data-step="99"><b>To Damien</b>: OCR and the vision-language model run on Vertex AI in the customer’s project. <b>To Ho Joon</b>: more capture never means covert capture; it is opt-in and visible to the person. <b>To Jim</b>: the same engine reaches verticals where the work is not in Slack. <b>To Robert</b>: the person sees every layer that was read about them.</p>
+  </aside>
+</section>
+
+<!-- 08c THE FINE-TUNE, ON ONE ASK (a held-out ask; finetune/README.md, "One ask, both answers") -->
+<section class="slide main" id="ft-example" data-name="The fine-tune, on one ask">
+  <div class="camera"><div class="m">
+    <p class="lab sec">07 Technical design</p>
+    <h1>The fine-tune, on one ask.</h1>
+    <div class="ask b" data-b="1"><p class="lab">Input</p><p class="q">“Who offered to facilitate the look-back session about A/B tests on what we charge?”</p></div>
+    <div class="pair">
+      <div class="side before b" data-b="2">
+        <p class="lab">Before · keyword engine, the demo today</p>
+        <p class="mono">matches “tests” and “what”</p>
+        <p class="hit">Yui Sato, for “Q2 pricing test: results and what I’d change”</p>
+        <p class="mono">Doc · doc-yui-2</p>
+        <p class="mono">then 2 people with nothing on file</p>
+        <p class="mono back">asks back: “Nothing on file mentions about, charge, facilitate, look-back.”</p>
+      </div>
+      <div class="side after b" data-b="3">
+        <p class="lab">After · fine-tuned retriever</p>
+        <p class="hit">Five of five top results are right.</p>
+        <p class="quote">“Volunteered to run the pricing experiments retro this quarter so the team lead could focus on hiring.”</p>
+        <p class="mono">Jun Murakami · Slack #design-crit, 2026-07-04 <span class="id">(gr-044-0)</span></p>
+        <p class="mono">and 4 more people who said the same</p>
+      </div>
+    </div>
+    <div class="means b" data-b="4"><p class="lab">What better means</p><p class="line">The right evidence in the top five: 51% → 85% on 364 held-out English asks; 0% → 70% on asks that share no word with it.</p></div>
+  </div>
+  <p class="src">A held-out ask; fictional fixtures · output of finetune/ask.py · finetune/results/metrics.json</p></div>
+  <aside class="notes">
+    <p data-step="0">One real ask, before and after the fine-tune. The input is an ask, in English or Japanese, typed, said in the Meet or written in Slack. The output is evidence items, each with its source id; never a number about a person.</p>
+    <p data-step="1"><b>Keypress 1, the input</b>: an ask from an intent held out of training entirely (“retro: pricing experiments”), phrased so it shares no keyword with the evidence that answers it.</p>
+    <p data-step="2"><b>Keypress 2, before</b>: the keyword engine the demo uses today matches only “tests” and “what”, so it names Yui Sato for her doc on a pricing test, which is about pricing tests but is not the offer to run the retro. Then two people with nothing on file for this ask, and it asks back, naming the words it could not match. The base model, off the shelf, ranks the first right item 24th.</p>
+    <p data-step="3"><b>Keypress 3, after</b>: the fine-tuned retriever’s top five are all right: Jun Murakami’s line in Slack #design-crit (source id gr-044-0), then four more people who said the same. “Right” is decided by the fixture generator itself: an item counts as right when it was generated from the same template and topic as the ask. So this is a benchmark on fictional fixtures; the pilot measures the same thing on real decisions.</p>
+    <p data-step="4"><b>Keypress 4, what better means</b>: over all 364 held-out English asks, the right evidence is in the top five 51% of the time with the keyword engine and 85% with the fine-tune (the base model: 60%). On the 162 asks that share no word with the right evidence: 0%, 19% for the base model, 70% fine-tuned. The retriever is opt-in in the engine: set PIK_RETRIEVER_URL and start it with <code>make -C finetune serve</code>; the demo default is unchanged, the keyword engine.</p>
+    <p data-step="99"><b>To Ho Joon</b>: the output is still evidence with a source id; a wrong retrieval shows a wrong source line, which the person can contest, never a wrong score. <b>To Damien</b>: the same training runs in the customer’s Vertex AI project. <b>To Jim</b>: this is the skills-first match working when the words differ. <b>To Robert</b>: whatever the model retrieves, the person named sees the same page.</p>
+  </aside>
+</section>
+
+<!-- 08d MEASURED: the fine-tune, as data (filled from data/ft_metrics.js, written by deck/site/sync_metrics.py) -->
+<section class="slide main" id="measured" data-name="Measured" data-hook="ftchart" data-steps="4" data-task="evidence" data-metric="R@5">
+  <div class="camera"><div class="m">
+    <p class="lab sec">07 Technical design</p>
+    <h1>Fine-tuned, the right evidence is in the top five 85% of the time, up from 51%.</h1>
+    <div class="chart"></div>
+    <div class="tip" role="status" aria-live="polite"></div>
+  </div>
+  <p class="src">Held-out English asks (n=364) and Japanese asks (n=28), fictional fixtures, trained locally <span data-ft="date">2026-09-27</span>; finetune/results/metrics.json</p></div>
+  <aside class="notes">
+    <p data-step="0">A real run this morning, not a mock-up: multilingual-e5-small fine-tuned for 24 seconds on a laptop, contrastive on ask and evidence pairs built from the fixtures (English only). One metric: of the held-out asks, how often a right evidence item is in the top five. An item counts as right when it matches the ask’s generated template and topic, so this is a benchmark on fictional fixtures; the pilot measures the same thing on real decisions.</p>
+    <p data-step="1"><b>Keypress 1, the keyword engine</b>: the demo’s engine today, word overlap with the ask. English 51%; Japanese 0%, because a Japanese ask shares no words with the evidence.</p>
+    <p data-step="2"><b>Keypress 2, the base model</b>: multilingual-e5-small off the shelf. English 60%; Japanese 82%: the multilingual base, not our training, is what unlocks Japanese.</p>
+    <p data-step="3"><b>Keypress 3, fine-tuned</b> (the camera leans in): English 85%, 25 points above the base model and 34 above the keyword engine (MRR difference over base, 95% paired bootstrap: +0.17 to +0.26); on intents held out of training entirely (n=152) it is 51%, 58%, 84%, so the gain is not memorised phrasing. On asks that share no word with any right item (n=162): keyword 0%, base 19%, fine-tuned 70%. Japanese 86%, level with the base model’s 82%: n is 28 and the MRR difference spans zero (−0.16 to +0.18), so say “level”, not “better”.</p>
+    <p data-step="4"><b>Keypress 4</b>: the camera pulls back to the whole chart.</p>
+    <p data-step="97" data-ft="table">Full metrics table: filled from data/ft_metrics.js.</p>
+    <p data-step="99"><b>To Ho Joon</b>: a real run, held-out intents, and the evidence remains the output; the model ranks evidence, never people. <b>To Damien</b>: the same training runs in the customer’s Vertex AI project. <b>To Jim</b>: Japanese and English asks on one engine. <b>To Robert</b>: whatever the model retrieves, the person sees the same page.</p>
   </aside>
 </section>
 
@@ -261,17 +316,17 @@
     <p class="lab sec">08 Future roadmap</p>
     <h1>Recruit first. Then every floor that asks who has done this.</h1>
     <div class="map">
-      <div class="term t1 b" data-b="1"><p class="lab">Near term</p><p class="body">One HR team in Japan, one decision, their rubric.</p></div>
-      <div class="term t2 b" data-b="2"><p class="lab">Medium term</p><p class="body">Hospitals, airlines, construction: the same question.</p></div>
-      <div class="term t3 b" data-b="3"><p class="lab">Long term</p><p class="body">Across borders: one HR team staffs every site; Indeed and Glassdoor carry it west.</p></div>
+      <div class="term t1 b" data-b="1"><p class="lab">Near term</p><p class="body">Recruit: one HR team in Japan, their rubric.</p></div>
+      <div class="term t2 b" data-b="2"><p class="lab">Medium term</p><p class="body">Other verticals within Japan: hospitals, airlines, construction.</p></div>
+      <div class="term t3 b" data-b="3"><p class="lab">Long term</p><p class="body">Across borders, through Indeed and Glassdoor.</p></div>
     </div>
   </div>
   <p class="src">Notes: Birkmeyer, NEJM 2003 · Deltek Clarity 2022 · Recruit Holdings annual report FY2024, “Skills-First Hiring”</p></div>
   <aside class="notes">
-    <p data-step="0">Title, then the map builds in three keypresses with the camera on each place, and pulls back on the fourth.</p>
-    <p data-step="1"><b>Keypress 1, Japan lights</b>: a pilot with one HR team in Japan, one decision type, the customer’s own rubric and taxonomy. Measured on one real cycle: dropped-claim share, contest rate, evaluator minutes.</p>
-    <p data-step="2"><b>Keypress 2, the verticals</b>: hospitals, where surgeon volume predicts outcomes (Birkmeyer et al., NEJM 2003, 474,108 Medicare patients, eight procedures: surgeon volume was inversely related to operative mortality for all eight); airlines, where crew scheduling has to respect aircraft-type qualifications and currency; architecture, engineering and construction, where firms report a staffing crisis (Deltek Clarity A&amp;E study, 43rd edition, 2022: 43% of firms named hiring more staff a top initiative) and every proposal asks who here has done a hospital or a bridge before. The state model (slide 09) is the medium-term build: it is what lets the same engine answer across floors and languages.</p>
-    <p data-step="3"><b>Keypress 3, across borders</b>: a company with sites in several countries can staff and relocate people across all of them from one HR team, because Pik reads work, not a country’s job titles. Recruit’s own words are “Skills-First Hiring”; Pik is that idea pointed inward, and Indeed and Glassdoor are the route west. The group that built the outside marketplace has no equivalent for the inside.</p>
+    <p data-step="0">Title, then the map builds in three keypresses with the camera on each place, and pulls back on the fourth. The order is Carl’s: Recruit first, then other industries inside Japan, then across borders.</p>
+    <p data-step="1"><b>Keypress 1, Japan lights</b>: Recruit first: a pilot with one HR team in Japan, one decision type, the customer’s own rubric and taxonomy. Measured on one real cycle: dropped-claim share, contest rate, evaluator minutes.</p>
+    <p data-step="2"><b>Keypress 2, the verticals, still in Japan</b>: the same question in other Japanese industries before any border. Hospitals, where surgeon volume predicts outcomes (Birkmeyer et al., NEJM 2003, 474,108 Medicare patients, eight procedures: surgeon volume was inversely related to operative mortality for all eight); airlines, where crew scheduling has to respect aircraft-type qualifications and currency; architecture, engineering and construction, where firms report a staffing crisis (Deltek Clarity A&amp;E study, 43rd edition, 2022: 43% of firms named hiring more staff a top initiative) and every proposal asks who here has done a hospital or a bridge before. The state model (A11) is the medium-term build: it is what lets the same engine answer across floors and languages.</p>
+    <p data-step="3"><b>Keypress 3, across borders, through Indeed and Glassdoor</b>: a company with sites in several countries can staff and relocate people across all of them from one HR team, because Pik reads work, not a country’s job titles. Recruit’s own words are “Skills-First Hiring”; Pik is that idea pointed inward, and Indeed and Glassdoor are the route west. The group that built the outside marketplace has no equivalent for the inside.</p>
     <p data-step="4"><b>Keypress 4</b>: the camera pulls back to the whole map, everything lit.</p>
     <p data-step="99"><b>To Jim</b>: “Skills-first hiring” on the long-term line is Recruit’s own strategy phrase from the FY2024 annual report. <b>To Robert</b>: Glassdoor is named as the route west; the contest rate is a milestone. <b>To Damien</b>: the pilot replaces fixtures with connectors to the customer’s exports, inside their project. <b>To Ho Joon</b>: the invariants (no score, both sides, verified quotes) hold before any scale.</p>
   </aside>
@@ -497,6 +552,7 @@
 <script src="vendor/d3.min.js"></script>
 <script src="vendor/p5.min.js"></script>
 <script src="vendor/land-110m.geo.js"></script>
+<script src="data/ft_metrics.js"></script>
 <script src="site.js"></script>
 
 </body></html>

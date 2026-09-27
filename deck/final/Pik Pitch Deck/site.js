@@ -218,6 +218,66 @@ HOOKS.archnext=function(s){
       $$('.edge',g).forEach(p=>{if(p.dataset.len){if(instant||PRINT)p.style.transition='none';p.style.strokeDashoffset=on?0:p.dataset.len;if(instant||PRINT){void p.getBoundingClientRect();p.style.transition=''}}})})}}
 };
 
+/* 08d measured: the fine-tune metrics (window.FT_METRICS, from data/ft_metrics.js, written by deck/site/sync_metrics.py) as a
+   grouped column chart. Emphasis form: one accent, two de-emphasis grays; columns 24px with a 4px rounded data end on one zero
+   baseline, no gridlines, value labels in ink, a legend that mirrors the mark, a per-mark hover/focus tooltip.
+   The slide says "evidence"; the metrics file keys the same task as "receipt" (FT_TASK maps one to the other). */
+const FT=window.FT_METRICS||null;
+const FT_SYS=[['keyword','Keyword engine, the demo today','--kw'],['base','Base model, off the shelf','--base'],['finetuned','Fine-tuned on our data','--ft']];
+const FT_LANGS=[['en','English asks'],['ja','Japanese asks']];
+const FT_TASK={evidence:'receipt',person:'person'};
+function ftValue(task,lang,system,metric){const r=((FT&&FT.rows)||[]).find(r=>r.task===task&&r.lang===lang&&r.system===system&&r.metric===metric);return r?r.value:null}
+function ftSize(task,lang){const sz=(FT&&FT.sizes)||[];const a=sz.find(z=>z.task===task&&z.lang===lang)||sz.find(z=>z.lang===lang&&z.task==='any')||sz.find(z=>z.lang===lang);return a?a.n:null}
+const ftPct=v=>Math.round(v*100)+'%';
+const FT_METRIC_NAME={'R@1':'Recall@1','R@5':'Recall@5','MRR':'MRR'};
+HOOKS.ftchart=function(s){
+  if(!FT){console.error('[deck] measured: window.FT_METRICS is missing; run deck/site/sync_metrics.py and copy data/ft_metrics.js');return null}
+  const task=FT_TASK[s.dataset.task||'evidence']||'receipt',metric=s.dataset.metric||'R@5';
+  const box=$('.chart',s),tip=$('.tip',s);const NS='http://www.w3.org/2000/svg';
+  const W=1600,H=560,BASE=440,TOP=90,PH=BASE-TOP,OX=160,OY=160+196;let legX=0;
+  const svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.setAttribute('role','img');box.appendChild(svg);
+  const el=(tag,attrs,parent)=>{const e=document.createElementNS(NS,tag);Object.entries(attrs||{}).forEach(([k,v])=>e.setAttribute(k,v));(parent||svg).appendChild(e);return e};
+  el('line',{class:'base',x1:0,x2:W,y1:BASE+.5,y2:BASE+.5});
+  const centers={en:400,ja:1200},off=[-120,0,120];
+  FT_LANGS.forEach(([lang,name])=>{el('text',{class:'grp',x:centers[lang],y:BASE+42}).textContent=name;const n=ftSize(task,lang);if(n!=null)el('text',{class:'n',x:centers[lang],y:BASE+74}).textContent=`n = ${n} held-out asks`});
+  const series={},aria=[];
+  FT_SYS.forEach(([sys,label,cssvar],i)=>{
+    const g=el('g',{class:'series b','data-b':String(i+1)});series[sys]=g;
+    const lg=el('g',{class:'leg'},g);el('rect',{x:legX,y:6,width:16,height:16,rx:4,fill:`var(${cssvar})`},lg);const lt=el('text',{x:legX+28,y:21},lg);lt.textContent=label;legX+=28+lt.getComputedTextLength()+64;
+    FT_LANGS.forEach(([lang,name])=>{const v=ftValue(task,lang,sys,metric);if(v==null){console.error(`[deck] measured: no ${metric} for ${task}/${lang}/${sys}`);return}
+      const cx=centers[lang]+off[i],h=Math.max(0,v*PH),x=cx-12,y=BASE-h,r=Math.min(4,h);
+      const hit=el('rect',{class:'hit',x:cx-48,y:TOP-60,width:96,height:PH+60,tabindex:'0','aria-label':`${label}, ${name}: ${FT_METRIC_NAME[metric]||metric} ${ftPct(v)}`},g);
+      const d=h<=0?`M${x} ${BASE}H${x+24}`:`M${x} ${BASE}V${y+r}Q${x} ${y} ${x+r} ${y}H${x+24-r}Q${x+24} ${y} ${x+24} ${y+r}V${BASE}Z`;
+      el('path',{class:'bar',d,fill:`var(${cssvar})`},g);
+      el('text',{class:'val',x:cx,y:y-16},g).textContent=ftPct(v);
+      aria.push(`${name}, ${label}: ${ftPct(v)}`);
+      const show=()=>{tip.replaceChildren();const a=document.createElement('div');a.className='v';a.textContent=ftPct(v);const b=document.createElement('div');b.className='k';const k=document.createElement('i');k.style.background=`var(${cssvar})`;b.append(k,document.createTextNode(`${label} · ${name}`));tip.append(a,b);
+        tip.style.display='block';tip.style.top=(196+y-24)+'px';tip.style.left=(cx>1000?cx-44-tip.offsetWidth:cx+44)+'px'};
+      const hide=()=>{tip.style.display='none'};
+      hit.addEventListener('pointerenter',show);hit.addEventListener('pointerleave',hide);hit.addEventListener('focus',show);hit.addEventListener('blur',hide)})});
+  svg.setAttribute('aria-label',`${FT_METRIC_NAME[metric]||metric}: how often the right evidence is in the top five, held-out asks. `+aria.join('; '));
+  // the camera leans in a little on build 3 (the title and the legend stay in frame) and pulls back on build 4
+  CAMERA[s.id]={3:[1000,OY+(TOP+BASE)/2,1.1],4:[960,540,1]};
+  return {step(n,instant){FT_SYS.forEach(([sys],i)=>{const on=(i+1)<=n;const g=series[sys];
+      $$('.bar',g).forEach(b=>{if(instant||PRINT)b.style.transition='none';b.style.transform=on?'scaleY(1)':'scaleY(0)';if(instant||PRINT){void b.getBoundingClientRect();b.style.transition=''}});
+      $$('.val',g).forEach(t=>{t.style.transitionDelay=(on&&!instant&&!PRINT)?'.5s':'0s';t.style.opacity=on?'1':'0'})});
+    if(n<3)tip.style.display='none'},leave(){tip.style.display='none'}}
+};
+/* text from the same data: the source-line date and the full table in the notes (the data's "receipt" task is said as "evidence") */
+function fillFT(){if(!FT)return;
+  $$('[data-ft="date"]').forEach(e=>{e.textContent=FT.run_date});
+  const fmt=(m,v)=>v==null?'n/a':(m==='MRR'?v.toFixed(2):ftPct(v));
+  const GN={en:'English asks, all',en_heldout_intent:'English asks on held-out intents',en_trained_intent_new_phrasing:'English asks, trained intents with new phrasing',en_no_shared_keyword:'English asks sharing no word with any right evidence item',ja:'Japanese asks, hand-written, none in training'};
+  const SN={keyword:'keyword engine',keyword_no_load:'keyword, no load penalty',base:'base model',finetuned:'fine-tuned'};
+  const TN={receipt:'evidence',person:'person'};
+  const groups=((FT.sizes||[]).map(z=>z.lang)).filter((g,k,a)=>a.indexOf(g)===k);
+  const lines=[];groups.forEach(g=>{const n=ftSize(null,g);['receipt','person'].forEach(t=>{
+    const parts=Object.keys(SN).map(sys=>{const vals=['R@1','R@5','MRR'].map(m=>ftValue(t,g,sys,m));return vals.some(v=>v!=null)?`${SN[sys]} ${vals.map((v,k)=>fmt(['R@1','R@5','MRR'][k],v)).join(' / ')}`:null}).filter(Boolean);
+    if(parts.length)lines.push(`${GN[g]||g}${n!=null?` (n=${n})`:''}, ${TN[t]} R@1 / R@5 / MRR: `+parts.join('; ')+'.')});
+    const ci=FT.raw&&FT.raw.groups&&FT.raw.groups[g]&&FT.raw.groups[g].mrr_diff_95ci_paired_bootstrap;
+    if(ci)lines.push(`95% paired bootstrap of the MRR difference (${GN[g]||g}): `+Object.entries(ci).map(([k,[lo,hi]])=>`${k.replace('MRR ','').replace(/receipts?/gi,'evidence')} ${lo>=0?'+':''}${lo.toFixed(2)} to ${hi>=0?'+':''}${hi.toFixed(2)}`).join('; ')+'.')});
+  $$('[data-ft="table"]').forEach(e=>{e.textContent=`Full metrics, run ${FT.run_date} (${FT.source}): `+lines.join(' ')})}
+
 /* 09 roadmap: the product's own map (d3, land-110m); Japan, the verticals, North America, each with its line; the camera follows */
 HOOKS.map=function(s){
   const box=$('.map',s);const W=1600,H=520;const OX=160,OY=160+204; // canvas offset of the map
@@ -287,6 +347,7 @@ HOOKS.altpic=function(s){
 
 /* ---------------- boot ---------------- */
 function boot(){
+  fillFT();
   if(PRINT){document.body.classList.add('print');
     slides.forEach((s,i)=>{init(s);apply(s,maxStep(s),true);const d=document.createElement('div');d.className='prog';d.textContent=label(i);s.appendChild(d)});
     return}

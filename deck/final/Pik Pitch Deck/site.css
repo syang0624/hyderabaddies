@@ -255,6 +255,44 @@ body.print .slide .prog{position:absolute;right:160px;bottom:60px;font:400 20px/
 #technical-next .arch .node text.s{font-size:16px;letter-spacing:.02em}
 #insight .photo:has(img){border:0}
 
+/* 08c the fine-tune, on one ask: the input on top, before and after side by side, what better means along the bottom */
+#ft-example h1{position:absolute;left:0;top:0}
+#ft-example .ask{position:absolute;left:0;top:110px;width:1600px}
+#ft-example .ask .q{margin-top:4px;font-size:32px;line-height:1.35;letter-spacing:-.01em;color:var(--ink)}
+#ft-example .pair{position:absolute;left:0;top:204px;width:1600px;display:grid;grid-template-columns:776px 776px;gap:48px}
+#ft-example .side{height:380px;border:1px solid var(--hair);border-radius:16px;background:var(--card);padding:24px 28px;display:flex;flex-direction:column}
+#ft-example .side.after{background:var(--tint);border-color:var(--lime)}
+#ft-example .side .lab{margin-bottom:4px}
+#ft-example .side .mono{margin-top:8px;color:var(--body)}
+#ft-example .side .hit{margin-top:12px;font-size:32px;line-height:1.3;font-weight:500;letter-spacing:-.01em;color:var(--ink)}
+#ft-example .side .quote{margin-top:12px;font-size:32px;line-height:1.3;letter-spacing:-.01em;color:var(--ink)}
+#ft-example .side .back{color:var(--ink)}
+#ft-example .means{position:absolute;left:0;top:606px;width:1600px}
+#ft-example .means .line{margin-top:6px;font-size:32px;line-height:1.35;letter-spacing:-.01em;color:var(--ink)}
+
+/* 08d measured: the fine-tune as a grouped column chart (emphasis form: one accent, two de-emphasis grays) */
+#measured{--kw:#7a7a7a;--base:#b3b3b3;--ft:#a6bf0a;--baseline:#c3c3c3}
+#measured h1{position:absolute;left:0;top:0}
+#measured .chart{position:absolute;left:0;top:196px;width:1600px;height:560px}
+#measured .chart svg{display:block;width:1600px;height:560px;overflow:visible}
+#measured .chart .leg text{font:400 20px var(--mono);letter-spacing:.06em;fill:var(--body)}
+#measured .chart .val{font:500 32px var(--sans);fill:var(--ink);text-anchor:middle;letter-spacing:-.3px;transition:opacity .24s ease-out}
+#measured .chart .grp{font:400 20px var(--mono);letter-spacing:.06em;fill:var(--ink);text-anchor:middle;text-transform:uppercase}
+#measured .chart .n{font:400 20px var(--mono);letter-spacing:.06em;fill:var(--mute);text-anchor:middle;font-variant-numeric:tabular-nums}
+#measured .chart .base{stroke:var(--baseline);stroke-width:1}
+#measured .chart .bar{transform-box:fill-box;transform-origin:50% 100%;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
+#measured .chart .hit{fill:transparent;cursor:default}
+#measured .chart .hit:focus{outline:none}
+#measured .chart .hit:focus + .bar,#measured .chart .hit:hover + .bar{filter:brightness(1.08)}
+#measured .tip{position:absolute;display:none;pointer-events:none;background:var(--card);border:1px solid var(--hair);border-radius:12px;padding:10px 16px;box-shadow:0 8px 24px -12px rgba(0,0,0,.25)}
+#measured .tip .v{font:500 32px var(--sans);color:var(--ink);letter-spacing:-.3px}
+#measured .tip .k{font:400 20px var(--mono);letter-spacing:.06em;color:var(--body);display:flex;align-items:center;gap:10px}
+#measured .tip .k i{display:inline-block;width:16px;height:2px}
+body.print #measured .tip{display:none!important}
+#ft-example .side .id{white-space:nowrap}
+/* the measured source line is quoted in full; without the tracking it fits the 1600 px */
+#measured .src{letter-spacing:0}
+
 /* source chips beside each number on the impact slide */
 .chip{display:inline-flex;align-items:center;gap:8px;vertical-align:middle;margin-left:10px;padding:4px 12px;border:1px solid var(--hair);border-radius:8px;background:var(--card);font:600 20px/26px var(--sans);letter-spacing:0;color:var(--ink);white-space:nowrap;transform:translateY(-3px)}
 .chip.rec b{color:#1d4a9c;letter-spacing:.12em;font-weight:700}
