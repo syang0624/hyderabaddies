@@ -1,6 +1,6 @@
 """Slack surface: ask in a channel, get the best person with receipts, one button to loop them in.
 
-Needs (in ~/.config/carl-life-os/.env): RECEIPTS_SLACK_BOT_TOKEN=xoxb-..., RECEIPTS_SLACK_APP_TOKEN=xapp-... (Socket Mode).
+Needs (in <repo>/.env, gitignored, or ~/.config/carl-life-os/.env): RECEIPTS_SLACK_BOT_TOKEN=xoxb-..., RECEIPTS_SLACK_APP_TOKEN=xapp-... (Socket Mode).
 Scopes: app_mentions:read, channels:history, channels:read, chat:write. Invite the bot to the channel.
 Run: make slack   (server must be running: make run-heuristic)
 
@@ -21,7 +21,7 @@ from slack_sdk.errors import SlackApiError  # noqa: E402
 BOT = os.environ.get("RECEIPTS_SLACK_BOT_TOKEN")
 APP = os.environ.get("RECEIPTS_SLACK_APP_TOKEN")
 if not BOT or not APP:
-    raise SystemExit("set RECEIPTS_SLACK_BOT_TOKEN and RECEIPTS_SLACK_APP_TOKEN in ~/.config/carl-life-os/.env")
+    raise SystemExit("set RECEIPTS_SLACK_BOT_TOKEN and RECEIPTS_SLACK_APP_TOKEN in <repo>/.env (gitignored) or ~/.config/carl-life-os/.env")
 
 try:
     app = App(token=BOT)  # Bolt calls auth.test here, so a wrong bot token fails now, not on the first ask

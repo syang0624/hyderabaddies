@@ -1,6 +1,6 @@
 """Notion board surface: a ticket without a suggested owner gets one, with a why and a receipts link, while you watch.
 
-Needs (in ~/.config/carl-life-os/.env): RECEIPTS_NOTION_TOKEN=secret_..., RECEIPTS_NOTION_DB=<database id>.
+Needs (in <repo>/.env, gitignored, or ~/.config/carl-life-os/.env): RECEIPTS_NOTION_TOKEN=secret_..., RECEIPTS_NOTION_DB=<database id>.
 Database properties (create these in Notion): Name (title), Description (rich text), Status (select),
 Suggested owner (rich text), Why (rich text), Receipts (url). Share the database with the integration.
 Run: make notion   (server must be running). Polls every 5 s; writes only rows whose Suggested owner is empty.
@@ -17,7 +17,7 @@ from notion_client import Client  # noqa: E402
 TOKEN = os.environ.get("RECEIPTS_NOTION_TOKEN")
 DB = os.environ.get("RECEIPTS_NOTION_DB")
 if not TOKEN or not DB:
-    raise SystemExit("set RECEIPTS_NOTION_TOKEN and RECEIPTS_NOTION_DB in ~/.config/carl-life-os/.env")
+    raise SystemExit("set RECEIPTS_NOTION_TOKEN and RECEIPTS_NOTION_DB in <repo>/.env (gitignored) or ~/.config/carl-life-os/.env")
 notion = Client(auth=TOKEN)
 
 
