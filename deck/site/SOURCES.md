@@ -51,6 +51,9 @@ No numbers. Model names (Gemini 3.8 Flash, Gemini 3.8 Live) and the stack (the s
 | 43% of firms | notes | named hiring more staff a top initiative | [P] Deltek Clarity A&E Industry Study, 43rd edition, 2022-05-19. https://www.prnewswire.com/news-releases/deltek-releases-the-43rd-annual-deltek-clarity-architecture--engineering-industry-study-revealing-strong-outlook-despite-talent-crisis-301551173.html |
 | "Skills-First Hiring" | slide (long-term line) and source line | Recruit's own strategy phrase | [P] Recruit Holdings Annual Report FY2024. https://recruit-holdings.com/files/ir/library/upload/report_202503Q4_ar_en.pdf |
 
+## 09 Technical design, next, and A11 The state model
+No external numbers. The design (time-aware encoder over receipt timelines, multilingual embeddings, contrastive retrieval on filed decisions, contests and dropped claims as corrections, evaluation on held-out cycles) is the team's own proposal; the invariants restate `prototype/policy.json`. Added 2026-09-27 08:40 on Carl's instruction.
+
 ## Appendix
 | Number | Where | Slide | Source |
 |---|---|---|---|

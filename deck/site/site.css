@@ -151,8 +151,8 @@ body.print #impact .rings circle{transform:none}
 #different .copy{position:absolute;left:0;top:684px;width:1600px;max-width:1600px}
 
 /* 08 technical: the pipeline, 1600 wide, centred in the space under the title */
-#technical h1{position:absolute;left:0;top:0}
-#technical .arch{position:absolute;left:0;top:212px;width:1600px;height:508px}
+#technical h1,#technical-next h1{position:absolute;left:0;top:0}
+#technical .arch,#technical-next .arch{position:absolute;left:0;top:212px;width:1600px;height:508px}
 #technical .arch svg{display:block;width:1600px;height:508px;overflow:visible}
 #technical .arch .node rect{fill:var(--card);stroke:var(--hair);stroke-width:1;rx:12}
 #technical .arch .node.lime rect{fill:var(--tint);stroke:var(--lime)}
@@ -169,6 +169,25 @@ body.print #impact .rings circle{transform:none}
 #technical .arch .g.past{opacity:.35}
 #technical .arch .edge{transition:stroke-dashoffset .7s cubic-bezier(.2,.7,.2,1) .1s}
 
+#technical-next .arch svg{display:block;width:1600px;height:508px;overflow:visible}
+#technical-next .arch .node rect{fill:var(--card);stroke:var(--hair);stroke-width:1;rx:12}
+#technical-next .arch .node.lime rect{fill:var(--tint);stroke:var(--lime)}
+#technical-next .arch .node.dark rect{fill:var(--ink);stroke:var(--ink)}
+#technical-next .arch .node.dark text,#technical-next .arch .node.dark text.t{fill:#ededed}
+#technical-next .arch .node.never rect{fill:none;stroke:var(--red);stroke-dasharray:6 6}
+#technical-next .arch .node.never text{fill:var(--red)}
+#technical-next .arch .node text.t{font:500 24px var(--sans);letter-spacing:-.2px;fill:var(--ink)}
+#technical-next .arch .node text.s{font:400 20px var(--mono);letter-spacing:.06em;fill:var(--mute)}
+#technical-next .arch .edge{fill:none;stroke:var(--mute);stroke-width:1.5}
+#technical-next .arch .edge.never{stroke:var(--red);stroke-dasharray:6 6}
+#technical-next .arch .g{opacity:0;transform:translateY(12px);transition:opacity .24s ease-out,transform .24s ease-out}
+#technical-next .arch .g.on{opacity:1;transform:none}
+#technical-next .arch .g.past{opacity:.35}
+#technical-next .arch .edge{transition:stroke-dashoffset .7s cubic-bezier(.2,.7,.2,1) .1s}
+#technical-next .arch .lab{font:400 20px var(--mono);letter-spacing:.06em;fill:var(--ink)}
+#technical-next .arch .lab.sub{fill:var(--mute)}
+#technical-next .arch .g.dim{opacity:.35}
+body.print #technical-next .arch .g.dim{opacity:.35}
 /* 09 roadmap: three terms on the left, the map on the right */
 #roadmap h1{position:absolute;left:0;top:0}
 #roadmap .map{position:absolute;left:0;top:204px;width:1600px;height:520px;border-radius:16px;background:var(--card);border:1px solid var(--hair);overflow:hidden}

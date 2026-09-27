@@ -157,6 +157,41 @@ HOOKS.arch=function(s){
       $$('.edge',g).forEach(p=>{if(p.dataset.len){if(instant||PRINT)p.style.transition='none';p.style.strokeDashoffset=on?0:p.dataset.len;if(instant||PRINT){void p.getBoundingClientRect();p.style.transition=''}}})})}}
 };
 
+
+/* 08b technical, next: the 08 pipeline compressed at .35 on the left; the state model, retrieval, the training loop, the invariants */
+HOOKS.archnext=function(s){
+  const box=$('.arch',s);const NS='http://www.w3.org/2000/svg';const OX=160,OY=160+212+36;
+  const svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox','0 0 1600 508');box.appendChild(svg);
+  const defs=document.createElementNS(NS,'defs');defs.innerHTML='<marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#888888"/></marker><marker id="ah2l" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#bfe030"/></marker>';svg.appendChild(defs);
+  const root=document.createElementNS(NS,'g');root.setAttribute('transform','translate(0,36)');svg.appendChild(root);
+  const groups={},bbox={};const G=st=>{if(!groups[st]){const g=document.createElementNS(NS,'g');g.setAttribute('class','g'+(st===0?' dim on':''));g.dataset.stage=st;root.appendChild(g);groups[st]=g}return groups[st]};
+  function grow(st,x,y,w,h){const b=bbox[st]||(bbox[st]=[1e9,1e9,-1e9,-1e9]);b[0]=Math.min(b[0],x);b[1]=Math.min(b[1],y);b[2]=Math.max(b[2],x+w);b[3]=Math.max(b[3],y+h)}
+  function node(st,x,y,w,h,lines,cls){const g=document.createElementNS(NS,'g');g.setAttribute('class','node '+(cls||''));
+    const r=document.createElementNS(NS,'rect');r.setAttribute('x',x);r.setAttribute('y',y);r.setAttribute('width',w);r.setAttribute('height',h);r.setAttribute('rx',12);g.appendChild(r);
+    const lh=[30,26,26];const total=lines.reduce((a,l,i)=>a+lh[Math.min(i,2)],0);let yy=y+h/2-total/2;
+    lines.forEach((l,i)=>{const t=document.createElementNS(NS,'text');t.setAttribute('x',x+w/2);t.setAttribute('text-anchor','middle');const size=lh[Math.min(i,2)];yy+=size;t.setAttribute('y',yy-7);t.setAttribute('class',i===0?'t':'s');t.textContent=l;g.appendChild(t)});
+    G(st).appendChild(g);grow(st,x,y,w,h)}
+  function edge(st,d,cls,lime){const p=document.createElementNS(NS,'path');p.setAttribute('d',d);p.setAttribute('class','edge '+(cls||''));if(lime)p.style.stroke='#bfe030';p.setAttribute('marker-end',lime?'url(#ah2l)':'url(#ah2)');G(st).appendChild(p);
+    const L=p.getTotalLength()||600;p.dataset.len=L;p.style.strokeDasharray=L;p.style.strokeDashoffset=L}
+  function label(st,x,y,txt,sub,anchor){const t=document.createElementNS(NS,'text');t.setAttribute('x',x);t.setAttribute('y',y);t.setAttribute('class','lab'+(sub?' sub':''));t.setAttribute('text-anchor',anchor||'middle');t.textContent=txt;G(st).appendChild(t);grow(st,x-120,y-24,240,30)}
+  // the 08 pipeline, compressed and dim on the left
+  ['Sources','Gate','Extractor','Validator','Receipts'].forEach((t,i)=>{node(0,0,i*64,220,52,[t])});
+  // build 1: the state model between the receipts and the surfaces
+  node(1,420,116,360,120,['State model','time-aware encoder,','receipt timelines'],'lime');
+  edge(1,'M220 282 C320 282 320 176 420 176');
+  // build 2: retrieval to the surfaces
+  node(2,1360,116,240,120,['Surfaces']);
+  edge(2,'M780 176 L1360 176',null,true);label(2,1070,150,'ask → receipts');label(2,1070,204,'never a score',true);
+  // build 3: the training loop back into the model
+  edge(3,'M1480 236 C1480 400 600 400 600 236',null,true);label(3,1040,388,'learns from decisions',true);
+  // build 4: the invariants along the bottom
+  label(4,0,470,'a verbatim quote with its source',false,'start');label(4,800,470,'no number about anyone',false,'middle');label(4,1600,470,'same page; contests are labels',false,'end');
+  CAMERA[s.id]={};[1,2,3].forEach(st=>{const b=bbox[st];CAMERA[s.id][st]=[OX+(b[0]+b[2])/2,OY+(b[1]+b[3])/2,st===1?1.7:1.5]});CAMERA[s.id][4]=[960,540,1];
+  return {step(n,instant){let newest=0;Object.keys(groups).forEach(st=>{if(+st>0&&+st<=n)newest=Math.max(newest,+st)});
+    Object.keys(groups).forEach(st=>{if(+st===0)return;const on=+st<=n;const g=groups[st];g.classList.toggle('on',on);g.classList.toggle('past',on&&+st<newest);
+      $$('.edge',g).forEach(p=>{if(p.dataset.len){if(instant||PRINT)p.style.transition='none';p.style.strokeDashoffset=on?0:p.dataset.len;if(instant||PRINT){void p.getBoundingClientRect();p.style.transition=''}}})})}}
+};
+
 /* 09 roadmap: the product's own map (d3, land-110m); Japan, the verticals, North America, each with its line; the camera follows */
 HOOKS.map=function(s){
   const box=$('.map',s);const W=1600,H=520;const OX=160,OY=160+204; // canvas offset of the map

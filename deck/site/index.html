@@ -224,6 +224,23 @@
   </aside>
 </section>
 
+<!-- 08b TECHNICAL, NEXT -->
+<section class="slide main" id="technical-next" data-name="Technical design, next" data-hook="archnext" data-steps="4">
+  <div class="camera"><div class="m">
+    <h1>Next: a learned employee state, finding what keywords miss.</h1>
+    <div class="arch"></div>
+  </div>
+  <p class="src">Trained inside the customer’s Vertex AI project; evaluation on held-out past decisions; nothing leaves.</p></div>
+  <aside class="notes">
+    <p data-step="0">Where the 08 pipeline goes. The pipeline sits compressed on the left; everything it feeds stays a verbatim quote with its source.</p>
+    <p data-step="1"><b>Keypress 1, the state model</b> (camera on it): a time-aware sequence encoder over each person’s timeline of timestamped, validated claims; multilingual embeddings, so a Japanese receipt answers an English ask; recency and current load as features. It sits between the receipt store and POST /api/ask.</p>
+    <p data-step="2"><b>Keypress 2, retrieval</b>: an ask goes in, receipts come out. The model retrieves evidence and never emits a score; the surfaces show quotes with sources, as today.</p>
+    <p data-step="3"><b>Keypress 3, the training loop</b>: filed decisions and the receipts they used are positive pairs; a contest, or a claim the validator dropped, is a correction. The organisation’s own decisions are the training signal.</p>
+    <p data-step="4"><b>Keypress 4, the invariants</b> (camera pulls back): every result is still a verbatim quote with its source; no number about a person is ever shown; the person sees the same page, and a contest is a training label.</p>
+    <p data-step="99"><b>To Ho Joon</b>: the model retrieves evidence and is trained on the organisation’s own decisions; the output is a set of quotes, so a wrong model shows a wrong receipt, which the person can contest, never a wrong score. <b>To Damien</b>: fine-tuned and served in the customer’s Vertex AI project. <b>To Jim and Robert</b>: skills-first matching across Japanese and English receipts; the same page rule holds.</p>
+  </aside>
+</section>
+
 <!-- 09 ROADMAP -->
 <section class="slide main" id="roadmap" data-name="Roadmap" data-hook="map" data-steps="4">
   <div class="camera"><div class="m">
@@ -238,7 +255,7 @@
   <aside class="notes">
     <p data-step="0">Title, then the map builds in three keypresses with the camera on each place, and pulls back on the fourth.</p>
     <p data-step="1"><b>Keypress 1, Japan lights</b>: a pilot with one HR team in Japan, one decision type, the customer’s own rubric and taxonomy. Measured on one real cycle: dropped-claim share, contest rate, evaluator minutes.</p>
-    <p data-step="2"><b>Keypress 2, the verticals</b>: hospitals, where surgeon volume predicts outcomes (Birkmeyer et al., NEJM 2003, 474,108 Medicare patients, eight procedures: surgeon volume was inversely related to operative mortality for all eight); airlines, where crew scheduling has to respect aircraft-type qualifications and currency; architecture, engineering and construction, where firms report a staffing crisis (Deltek Clarity A&amp;E study, 43rd edition, 2022: 43% of firms named hiring more staff a top initiative) and every proposal asks who here has done a hospital or a bridge before.</p>
+    <p data-step="2"><b>Keypress 2, the verticals</b>: hospitals, where surgeon volume predicts outcomes (Birkmeyer et al., NEJM 2003, 474,108 Medicare patients, eight procedures: surgeon volume was inversely related to operative mortality for all eight); airlines, where crew scheduling has to respect aircraft-type qualifications and currency; architecture, engineering and construction, where firms report a staffing crisis (Deltek Clarity A&amp;E study, 43rd edition, 2022: 43% of firms named hiring more staff a top initiative) and every proposal asks who here has done a hospital or a bridge before. The state model (slide 09) is the medium-term build: it is what lets the same engine answer across floors and languages.</p>
     <p data-step="3"><b>Keypress 3, North America</b>: Recruit’s own words are “Skills-First Hiring”, evaluating people on skills gained through past experience; Pik is that idea pointed inward, and Indeed and Glassdoor are the route west. The group that built the outside marketplace has no equivalent for the inside.</p>
     <p data-step="4"><b>Keypress 4</b>: the camera pulls back to the whole map, everything lit.</p>
     <p data-step="99"><b>To Jim</b>: “Skills-first hiring” on the long-term line is Recruit’s own strategy phrase from the FY2024 annual report. <b>To Robert</b>: Glassdoor is named as the route west; the contest rate is a milestone. <b>To Damien</b>: the pilot replaces fixtures with connectors to the customer’s exports, inside their project. <b>To Ho Joon</b>: the invariants (no score, both sides, verified quotes) hold before any scale.</p>
@@ -267,7 +284,7 @@
       <p class="mono">A2 Is that a score?</p><p class="mono">A7 Pilot plan and metrics</p>
       <p class="mono">A3 What if it is wrong?</p><p class="mono">A8 Competitors in detail</p>
       <p class="mono">A4 What is real in the demo</p><p class="mono">A9 The interviews</p>
-      <p class="mono">A5 Japanese and English</p><p class="mono">A10 Inspiration, alt</p>
+      <p class="mono">A5 Japanese and English</p><p class="mono">A10 Inspiration, alt</p><p class="mono"></p><p class="mono">A11 The state model</p>
     </div>
   </div></div>
   <aside class="notes"><p data-step="0">For Q&amp;A. Jump with the arrow keys; each appendix slide answers one question.</p></aside>
@@ -441,6 +458,21 @@
     <p data-step="2"><b>Keypress 2</b>: the sheets resolve into receipts laid out flat, each with where it came from. Nothing new was collected; the same evidence, now visible to both sides.</p>
     <p data-step="99"><b>To Jim</b>: the sheets are the Will Can Must sheets and Slack threads people already write. <b>To Robert</b>: laid out flat, both sides read the same receipts. <b>To Damien</b>: the flat layout is what Gemini 3.8 Flash extracts, with the source id on every line. <b>To Ho Joon</b>: a receipt without a source line does not exist on the page.</p>
   </aside>
+</section>
+
+<!-- A11 STATE MODEL -->
+<section class="slide appx" id="a-state" data-name="A11 The state model">
+  <div class="camera"><div class="m">
+    <p class="lab eyebrow">A11 The state model</p>
+    <h1>A retrieval model over receipts, never a prediction about a person.</h1>
+    <div class="two">
+      <div class="grp b" data-b="1"><p class="lab">What it learns</p><span class="rule"></span><p class="body">What each person has done, wants and can take on, as a time-aware vector, from allowed receipts only.</p></div>
+      <div class="grp b" data-b="2"><p class="lab">How it is trained</p><span class="rule"></span><p class="body">Contrastive retrieval: asks paired with the receipts filed decisions used; contests and dropped claims as corrections.</p><p class="body" style="margin-top:14px">Evaluated by recall of decision-used receipts on held-out cycles, contest rate, dropped-claim share.</p></div>
+    </div>
+  </div>
+  <p class="src">Retrieval objective, not a prediction about a person; no protected attributes; the receipt is the unit; a human decides.</p></div>
+  <aside class="notes"><p data-step="0">The state model in detail: a time-aware vector per person, learned only from allowed receipts and opted-in outcomes. Trained by contrastive retrieval (an ask paired with the receipts a filed decision used); contests and dropped claims are corrections; no protected attributes; drift is audited. Evaluated on held-out past cycles: recall of the receipts decisions used, contest rate, dropped-claim share.</p>
+  <p data-step="99"><b>To Ho Joon</b>: the model retrieves evidence and is trained on the organisation’s own decisions; the output is a set of quotes, so a wrong model shows a wrong receipt, which the person can contest, never a wrong score. <b>To Damien</b>: fine-tuned and served in the customer’s Vertex AI project. <b>To Jim and Robert</b>: skills-first matching across Japanese and English receipts; the same page rule holds.</p></aside>
 </section>
 
 <div id="prog"></div>
