@@ -30,3 +30,7 @@ deck/video/v3/**/_*.log
 # a worktree symlinks these to the main checkout's venvs (pw/ and .venv/ above only match real directories)
 deck/video/pw
 prototype/.venv
+
+# V4 build scratch
+deck/video/v4/_seg/
+deck/video/v4/_frames/
