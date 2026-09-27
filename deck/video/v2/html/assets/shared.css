@@ -1,0 +1,54 @@
+/* Pik V2 video: shared tokens for every beat (animated beats and product replicas alike).
+   Stage is a fixed 1920x1080 canvas. Palette from ASTRA_PROMPT section 4. Fonts: Geist, copied from ~/Library/Fonts. */
+@font-face{font-family:Geist;src:url(fonts/Geist-Regular.ttf) format('truetype');font-weight:400}
+@font-face{font-family:Geist;src:url(fonts/Geist-Medium.ttf) format('truetype');font-weight:500}
+@font-face{font-family:Geist;src:url(fonts/Geist-SemiBold.ttf) format('truetype');font-weight:600}
+@font-face{font-family:Geist;src:url(fonts/Geist-Bold.ttf) format('truetype');font-weight:700}
+@font-face{font-family:"Geist Mono";src:url(fonts/GeistMono-Regular.ttf) format('truetype');font-weight:400}
+@font-face{font-family:"Geist Mono";src:url(fonts/GeistMono-Medium.ttf) format('truetype');font-weight:500}
+
+:root{
+  /* animated beats */
+  --bone:#EFEAE2;      /* canvas */
+  --ink:#2B2521;       /* espresso, all type */
+  --mute:#8A817A;      /* espresso at ~55% on bone: eyebrows, sources */
+  --rule:#D9D2C6;      /* hairlines on bone */
+  --sand:#E3DCD0;      /* cards */
+  --sand2:#DBD3C5;     /* card edge / pressed */
+  --clay:#B5654A;      /* ONE accent per beat, never more */
+  --pik:#111111;       /* Pikbot body */
+  /* product beats (the prototype's own palette) */
+  --paper:#0A0A0A;--paper2:#161616;--paper-ink:#EDEDED;--paper-body:#A1A1A1;--paper-mute:#7A7A7A;--paper-rule:#2A2A2A;
+  --sans:Geist,Inter,system-ui,-apple-system,sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden}
+body{background:var(--bone);color:var(--ink);font-family:var(--sans);font-weight:400;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden}
+.abs{position:absolute}
+/* type scale: one idea per screen, big and airy */
+.h1{font-weight:600;font-size:112px;line-height:1.02;letter-spacing:-0.035em}
+.h2{font-weight:600;font-size:80px;line-height:1.06;letter-spacing:-0.03em}
+.h3{font-weight:500;font-size:52px;line-height:1.15;letter-spacing:-0.02em}
+.body{font-weight:400;font-size:34px;line-height:1.35;letter-spacing:-0.01em}
+.small{font-weight:400;font-size:26px;line-height:1.35}
+.eyebrow{font-family:var(--mono);font-weight:500;font-size:22px;letter-spacing:0.08em;text-transform:uppercase;color:var(--mute)}
+.mono{font-family:var(--mono)}
+.mute{color:var(--mute)}
+.clay{color:var(--clay)}
+/* a sand card: the quote cards, the asks, the receipt stubs */
+.card{background:var(--sand);border-radius:28px;box-shadow:0 1px 0 var(--sand2) inset,0 18px 40px -28px rgba(43,37,33,.35)}
+/* receipt stub: a verbatim line with its source */
+.stub{background:var(--sand);border-radius:16px;padding:22px 26px;font-family:var(--mono);font-size:22px;line-height:1.35;color:var(--ink)}
+.stub .src{display:block;margin-top:10px;font-size:17px;letter-spacing:0.04em;color:var(--mute)}
+.stub .stamp{display:inline-block;margin-left:10px;padding:2px 8px;border:1.5px solid var(--ink);border-radius:6px;font-size:14px;letter-spacing:0.08em;text-transform:uppercase}
+/* typewriter caret; the beat toggles .on */
+.caret{display:inline-block;width:0.08em;height:0.95em;background:currentColor;vertical-align:-0.12em;margin-left:0.06em;opacity:0}
+.caret.on{opacity:1}
+/* caption pill, for reference only: build_v2.py burns captions with PIL; beats do not render captions */
+.pill{position:absolute;left:50%;bottom:110px;transform:translateX(-50%);padding:16px 28px;border-radius:14px;background:rgba(43,37,33,.92);color:#fff;font-weight:500;font-size:38px;white-space:nowrap}
+/* paper grain, optional: <div class="grain"></div> as the last child of #stage */
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.045;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.9 0'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>");background-size:240px 240px}
+/* blob character: a person, anonymous */
+.blob{background:var(--ink);border-radius:46% 46% 48% 48%/52% 52% 46% 46%}

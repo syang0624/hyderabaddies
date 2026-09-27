@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pik V2 09 ticket: the assignee fills itself</title>
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+  /* Beat 09 (10 s): a Linear-style issue page in the product's palette. Title and two task lines are typed in; then the
+     Assignee dropdown opens by itself, Yui Sato is first with a one-line why, she is selected, a "?" appears and presses,
+     and a tooltip shows the Notion watcher's fields (Suggested owner, Why, Receipts) with two mini receipt stubs.
+     Receipts verbatim from prototype/data: doc-yui-1 (substring, as the product's claims are), sl-029. No cursor. */
+  body{background:var(--paper)}
+  #stage{background:var(--paper);color:var(--paper-ink);font-family:var(--sans);font-size:15px;line-height:22px;letter-spacing:-.2px}
+  .side{position:absolute;left:0;top:0;width:240px;height:1080px;background:#0D0D0D;border-right:1px solid var(--paper-rule);padding:14px 12px;color:var(--paper-body);font-size:13.5px;line-height:20px}
+  .side .ws{display:flex;align-items:center;gap:10px;padding:6px 8px;color:var(--paper-ink);font-weight:600;font-size:14px}
+  .side .ws i{width:20px;height:20px;border-radius:5px;background:var(--paper-ink);display:block}
+  .side .ws::after{content:"";margin-left:2px;border:4px solid transparent;border-top-color:var(--paper-mute);transform:translateY(2px)}
+  .side .it{display:flex;align-items:center;gap:10px;padding:5px 8px;border-radius:6px;margin-top:2px}
+  .side .it i{width:14px;height:14px;border-radius:3px;border:1.5px solid var(--paper-mute);display:block;opacity:.8}
+  .side .it.on{background:#1A1A1A;color:var(--paper-ink)}
+  .side .grp{margin:18px 0 4px;padding:0 8px;font-size:12px;color:var(--paper-mute);display:flex;align-items:center;gap:6px}
+  .side .grp::before{content:"";border:4px solid transparent;border-top-color:var(--paper-mute);transform:translateY(2px)}
+  .side .team{display:flex;align-items:center;gap:8px;padding:5px 8px;color:var(--paper-ink)}
+  .side .team i{width:14px;height:14px;border-radius:50%;background:#8A8A8A;display:block}
+  .side .sub{padding-left:22px}
+  .top{position:absolute;left:240px;top:0;right:0;height:52px;border-bottom:1px solid var(--paper-rule);display:flex;align-items:center;padding:0 24px;color:var(--paper-mute);font-size:13px;gap:8px}
+  .top b{color:var(--paper-body);font-weight:500}
+  .top .id{font-family:var(--mono);color:var(--paper-ink)}
+  .top .rt{margin-left:auto;display:flex;gap:16px}
+  .top .rt i{width:16px;height:16px;border-radius:4px;border:1.5px solid var(--paper-mute);display:block;opacity:.7}
+  .issue{position:absolute;left:560px;top:96px;width:720px}
+  .issue .title{font-size:30px;line-height:38px;font-weight:600;letter-spacing:-.6px;color:var(--paper-ink);min-height:38px}
+  .issue .title .ph,.issue .desc .ph{color:#4A4A4A;font-weight:400}
+  .issue .desc{margin-top:22px;font-size:16px;line-height:26px;color:var(--paper-body);min-height:52px}
+  .issue .desc .ln{display:block;min-height:26px}
+  .issue .desc .ln .tx{color:#D4D4D4}
+  .caret{width:2px;height:1em;vertical-align:-.12em;background:currentColor}
+  .issue .title .caret{height:28px;vertical-align:-3px}
+  .issue .act{margin-top:56px;border-top:1px solid var(--paper-rule);padding-top:18px;color:var(--paper-mute);font-size:13px}
+  .issue .act .row{display:flex;align-items:center;gap:10px;margin-top:10px}
+  .issue .act .row .dot{width:8px;height:8px;border-radius:50%;background:#4A4A4A}
+  .issue .act .row .av{width:18px;height:18px;border-radius:50%;font-size:9px;line-height:18px;text-align:center;color:#0A0A0A;background:#B9B9B9;font-weight:600}
+  .props{position:absolute;left:1600px;top:52px;width:320px;height:1028px;border-left:1px solid var(--paper-rule);padding:18px 20px}
+  .props .hd{font-size:12px;color:var(--paper-mute);text-transform:uppercase;letter-spacing:.06em;font-family:var(--mono);margin-bottom:12px}
+  .props .row{display:flex;align-items:center;min-height:36px;position:relative}
+  .props .row .k{width:96px;color:var(--paper-mute);font-size:13px;flex:none}
+  .props .val{display:inline-flex;align-items:center;gap:8px;height:28px;padding:0 8px;border-radius:6px;font-size:13.5px;color:var(--paper-ink);background:transparent}
+  .props .val.chip{border:1px solid var(--paper-rule)}
+  .props .val .ic{width:14px;height:14px;border-radius:50%;border:1.5px solid var(--paper-body);display:block;flex:none}
+  .props .val .ic.dash{border-style:dashed;border-color:var(--paper-mute)}
+  .props .val .bars{display:flex;gap:2px;align-items:flex-end;height:12px}
+  .props .val .bars i{width:3px;background:var(--paper-body);display:block}
+  .props .val .bars i:nth-child(1){height:5px}.props .val .bars i:nth-child(2){height:8px}.props .val .bars i:nth-child(3){height:12px;opacity:.3}
+  .props .val .dot{width:9px;height:9px;border-radius:50%;display:block}
+  .props .val .av{width:18px;height:18px;border-radius:50%;background:#E8912D;color:#fff;font-size:9px;line-height:18px;text-align:center;font-weight:600;font-family:var(--sans)}
+  .props .unassigned{color:var(--paper-body)}
+  #assigned{display:none}
+  #why{display:inline-block;margin-left:8px;width:26px;height:26px;flex:none;border-radius:50%;border:1px solid var(--paper-rule);background:#141414;color:var(--paper-ink);font-family:var(--mono);font-size:13px;line-height:24px;text-align:center;opacity:0;transform-origin:center}
+  #dd{position:absolute;right:0;top:40px;width:312px;background:#161616;border:1px solid var(--paper-rule);border-radius:10px;box-shadow:0 24px 48px -24px #000,0 0 0 1px #ffffff08;z-index:3;opacity:0;transform-origin:top left;overflow:hidden}
+  #dd .srch{padding:10px 12px;border-bottom:1px solid var(--paper-rule);color:var(--paper-mute);font-size:13.5px;display:flex;align-items:center;gap:8px}
+  #dd .srch .caret{background:var(--paper-body)}
+  #dd .opt{display:flex;align-items:center;gap:10px;padding:8px 12px;font-size:13.5px;color:var(--paper-ink);position:relative}
+  #dd .opt .av{width:20px;height:20px;border-radius:50%;font-size:9px;line-height:20px;text-align:center;color:#fff;font-weight:600;flex:none}
+  #dd .opt .b{display:flex;flex-direction:column;gap:1px;min-width:0}
+  #dd .opt .b .w{font-size:11.5px;line-height:15px;color:var(--paper-body);font-family:var(--mono);white-space:nowrap}
+  #dd .opt.hl{background:#262626}
+  #dd .opt .pk{margin-left:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--paper-mute);border:1px solid var(--paper-rule);border-radius:4px;padding:1px 6px}
+  #dd .opt .ic{width:20px;height:20px;border-radius:50%;border:1.5px dashed var(--paper-mute);display:block;flex:none}
+  /* tooltip: the mini receipts UI, lifted from prototype/ui/index.html (.stub, .fn, .stamp) */
+  #tip{position:absolute;left:1128px;top:170px;width:460px;background:#0F0F0F;border:1px solid var(--paper-rule);border-radius:12px;padding:18px 20px 16px;box-shadow:0 30px 60px -24px #000;opacity:0;transform-origin:right top;z-index:4}
+  #tip .eb{font:500 11px/16px var(--mono);letter-spacing:.5px;text-transform:uppercase;color:var(--paper-mute)}
+  #tip .who{margin:4px 0 14px;font-size:15px;color:var(--paper-ink)}
+  #tip .who span{color:var(--paper-body)}
+  #tip .whyl{margin:4px 0 14px;font-size:14px;color:var(--paper-body)}
+  .rs{position:relative;background:#111;border-radius:4px 4px 0 0;padding:12px 14px 12px;box-shadow:0 0 0 1px #ffffff12,0 1px 1px #00000060,0 8px 24px -14px #00000080;margin-top:6px}
+  .rs+.rs{margin-top:16px}
+  .rs::after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:9px;background:radial-gradient(circle at 6px -2px,transparent 5px,#111 5.5px) repeat-x;background-size:12px 9px}
+  .rs .txt{font-size:15px;line-height:22px;color:var(--paper-ink);letter-spacing:-.2px}
+  .rs .ctx{display:flex;gap:10px;align-items:center;flex-wrap:nowrap;margin-top:8px}
+  .rs .fn{display:inline-block;font:12px/18px var(--mono);color:var(--paper-body);background:#0A0A0A;border:1px solid var(--paper-rule);border-radius:6px;padding:2px 8px;max-width:310px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rs .stamp{display:inline-flex;align-items:center;font:600 11px/16px var(--mono);letter-spacing:.5px;text-transform:uppercase;color:var(--paper-ink);border:1.5px solid var(--paper-ink);border-radius:4px;padding:1px 7px;transform:rotate(-2deg);margin-left:auto}
+  .rs .src{margin-top:6px;font:12px/16px var(--mono);color:var(--paper-mute)}
+  #tip .ft{margin-top:22px;font:12px/16px var(--mono);color:var(--paper-mute)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="side">
+    <div class="ws"><i></i>Kaede Works</div>
+    <div class="it"><i></i>Inbox</div>
+    <div class="it"><i></i>My issues</div>
+    <div class="it"><i></i>Views</div>
+    <div class="grp">Your teams</div>
+    <div class="team"><i></i>Product</div>
+    <div class="sub"><div class="it on">Issues</div><div class="it">Projects</div><div class="it">Cycles</div></div>
+    <div class="team" style="margin-top:8px"><i style="background:#4A4A4A"></i>Platform</div>
+    <div class="sub"><div class="it">Issues</div><div class="it">Projects</div></div>
+  </div>
+  <div class="top"><b>Product</b><span>›</span><span class="id">PRO-142</span><div class="rt"><i></i><i></i><i></i></div></div>
+  <div class="issue">
+    <div class="title"><span id="t"></span><span class="ph" id="tph">Issue title</span><span class="caret" id="tc"></span></div>
+    <div class="desc">
+      <span class="ln"><span class="tx" id="d1"></span><span class="ph" id="dph">Add description…</span><span class="caret" id="dc1"></span></span>
+      <span class="ln"><span class="tx" id="d2"></span><span class="caret" id="dc2"></span></span>
+    </div>
+    <div class="act">Activity
+      <div class="row"><span class="av">AN</span><span>Aya Nakamura created the issue</span><span>·</span><span>just now</span></div>
+    </div>
+  </div>
+  <div class="props">
+    <div class="hd">Properties</div>
+    <div class="row"><span class="k">Status</span><span class="val chip"><i class="ic"></i>Todo</span></div>
+    <div class="row"><span class="k">Priority</span><span class="val chip"><span class="bars"><i></i><i></i><i></i></span>Medium</span></div>
+    <div class="row" id="arow"><span class="k">Assignee</span>
+      <span class="val chip unassigned" id="unassigned"><i class="ic dash"></i>Unassigned</span>
+      <span class="val chip" id="assigned"><span class="av">YS</span>Yui Sato</span>
+      <span id="why">?</span>
+      <div id="dd">
+        <div class="srch">Assign to…<span class="caret on" style="height:14px"></span></div>
+        <div class="opt" id="o0"><i class="ic"></i>No assignee</div>
+        <div class="opt" id="o1"><span class="av" style="background:#E8912D">YS</span><span class="b"><span>Yui Sato</span><span class="w">documentation 5/5 · 2 receipts</span></span><span class="pk">Pik</span></div>
+        <div class="opt"><span class="av" style="background:#4A7BD8">RM</span><span class="b"><span>Rin Mori</span></span></div>
+        <div class="opt"><span class="av" style="background:#6B8E23">KT</span><span class="b"><span>Kei Tanaka</span></span></div>
+        <div class="opt"><span class="av" style="background:#7D5BA6">AN</span><span class="b"><span>Aya Nakamura</span></span></div>
+      </div>
+    </div>
+    <div class="row"><span class="k">Labels</span><span class="val chip"><i class="dot" style="background:#EDEDED"></i>design</span><span class="val chip" style="margin-left:6px"><i class="dot" style="background:#8A8A8A"></i>frontend</span></div>
+    <div class="row"><span class="k">Project</span><span class="val chip"><i class="ic" style="border-radius:3px"></i>Receipts page</span></div>
+    <div class="row"><span class="k">Due date</span><span class="val chip">Nov 2</span></div>
+  </div>
+  <div id="tip">
+    <div class="eb">Suggested owner</div>
+    <div class="who">Yui Sato <span>· Product operations, Pricing</span></div>
+    <div class="eb">Why</div>
+    <div class="whyl">documentation (5/5) · product thinking (4/5) · 2 open tickets</div>
+    <div class="eb">Receipts</div>
+    <div class="rs"><div class="txt">Proposal: add both fields; I've filled them in retroactively for Q1.</div><div class="ctx"><span class="fn">Doc: Experiment registry: Kaede vs Northwind, field-by-field</span><span class="stamp">verbatim</span></div><div class="src">doc-yui-1 · 2026-05-27</div></div>
+    <div class="rs"><div class="txt">Thanks Yui for the registry comparison, we've adopted two of your fields.</div><div class="ctx"><span class="fn">Slack #northwind-sync, 2026-06-24</span><span class="stamp">verbatim</span></div><div class="src">sl-029 · northwind-pm</div></div>
+    <div class="ft">Not a score. Yui sees the same receipts.</div>
+  </div>
+</div>
+<script src="assets/shared.js"></script>
+<script>
+(function(){
+  const P = window.PIK, $ = s => document.querySelector(s);
+  const t = $('#t'), tph = $('#tph'), tc = $('#tc'), d1 = $('#d1'), d2 = $('#d2'), dph = $('#dph'), dc1 = $('#dc1'), dc2 = $('#dc2');
+  const dd = $('#dd'), o1 = $('#o1'), unassigned = $('#unassigned'), assigned = $('#assigned'), why = $('#why'), tip = $('#tip'), stage = $('#stage');
+  const TITLE = "UI refresh", L1 = "Rework the receipts page navigation before the Nov launch.", L2 = "Keep the verbatim stamp on every stub.";
+  const CPS = 28;
+  const T = { fade: 300, title: 400, l1: 1100, l2: 3400, dd: 5100, hl: 5500, pick: 6100, fill: 6150, why: 6500, press: 7000, tip: 7200 };
+  const DUR = 10000;
+  function seek(ms) {
+    stage.style.opacity = String(P.seg(ms, 0, T.fade));
+    // typing
+    const s1 = P.typed(TITLE, ms, T.title, CPS); t.textContent = s1; tph.style.display = s1 ? 'none' : 'inline';
+    const titleDone = s1.length >= TITLE.length;
+    tc.classList.toggle('on', ms >= 100 && !titleDone && (ms < T.title || true) && ms < T.l1 && ((ms % 1000) < 500 || (ms >= T.title && !titleDone)));
+    const s2 = P.typed(L1, ms, T.l1, CPS); d1.textContent = s2; dph.style.display = (ms >= T.l1 - 250 || s2) ? 'none' : 'inline';
+    const l1done = s2.length >= L1.length;
+    dc1.classList.toggle('on', ms >= T.l1 - 250 && !l1done);
+    const s3 = P.typed(L2, ms, T.l2, CPS); d2.textContent = s3;
+    const l2done = s3.length >= L2.length;
+    dc2.classList.toggle('on', ms >= T.l2 - 200 && ms < T.dd && (!l2done || (ms % 1000) < 500));
+    // the assignee dropdown opens by itself, Yui first, highlighted, chosen
+    const open = ms >= T.dd && ms < T.pick + 150;
+    const o = ms < T.pick ? P.seg(ms, T.dd, 260, P.easeOut) : 1 - P.seg(ms, T.pick, 150, P.easeIn);
+    dd.style.display = open ? 'block' : 'none';
+    dd.style.opacity = String(o);
+    dd.style.transform = `translateY(${(1 - o) * -6}px) scale(${0.97 + 0.03 * o})`;
+    o1.classList.toggle('hl', ms >= T.hl);
+    const f = P.seg(ms, T.fill, 320, P.easeOut);
+    unassigned.style.display = ms >= T.fill ? 'none' : 'inline-flex';
+    assigned.style.display = ms >= T.fill ? 'inline-flex' : 'none';
+    assigned.style.opacity = String(f); assigned.style.transform = `translateY(${(1 - f) * 4}px)`;
+    // the "?" appears, then presses
+    const w = P.seg(ms, T.why, 260, P.easeOut);
+    const pr = ms >= T.press && ms < T.press + 160;
+    why.style.opacity = String(w);
+    why.style.transform = `scale(${(0.6 + 0.4 * w) * (pr ? .92 : 1) + (w > .6 && w < 1 ? .06 * Math.sin((w - .6) / .4 * Math.PI) : 0)})`;
+    why.style.background = pr || ms >= T.tip ? '#262626' : '#141414';
+    // the tooltip with the mini receipts
+    const tt = P.seg(ms, T.tip, 320, P.easeOut);
+    tip.style.opacity = String(tt);
+    tip.style.transform = `translateY(${(1 - tt) * 8}px) scale(${0.985 + 0.015 * tt})`;
+  }
+  P.init(seek, DUR);
+})();
+</script>
+</body>
+</html>

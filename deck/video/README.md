@@ -1,5 +1,7 @@
 # The 90-second video, and how to rebuild it
 
+> **V2 (Sun):** the brief for the next cut, Carl's dictated revisions and the TTS route on the shared GCP project are in [`v2/`](v2/README.md).
+
 Output: `pik_90s_v1.mp4` (1920x1080, 30 fps, H.264 + AAC, 88 s). Built Sat Sep 26 2026, ~20:10 PDT.
 
 ## Pieces

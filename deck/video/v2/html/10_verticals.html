@@ -1,0 +1,41 @@
+<!doctype html><html><head><meta charset="utf-8"><title>10 verticals</title>
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+.v{position:absolute;width:700px;height:280px;padding:40px 44px;transform-origin:50% 50%;will-change:transform;opacity:0}
+.v .ic{position:absolute;left:44px;top:40px;width:52px;height:52px}
+.v .ic svg{width:52px;height:52px;stroke:var(--ink);fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.v .lab{position:absolute;left:112px;top:52px;font-family:var(--mono);font-size:19px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.v .ask{position:absolute;left:44px;top:126px;width:440px;font-weight:500;font-size:40px;line-height:1.12;letter-spacing:-0.02em;color:var(--ink)}
+.v .who{position:absolute;right:64px;top:112px;width:100px;height:100px}
+.v .who .b{position:absolute;left:24px;top:22px;width:52px;height:60px}
+.v .who .b i{position:absolute;top:18px;width:6px;height:13px;border-radius:3px;background:#fff}
+.v .who .b i:first-child{left:18px}.v .who .b i:last-child{left:28px}
+.v .who svg{position:absolute;left:-18px;top:-16px;width:136px;height:136px}
+.v .who circle{fill:none;stroke:var(--ink);stroke-width:3;stroke-dasharray:9 7;stroke-linecap:round}
+#bot{position:absolute;left:895px;top:438px;width:130px;height:169px;will-change:transform}
+</style></head><body><div id="stage">
+<div class="v card" id="v0" style="left:150px;top:130px"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 4v16M4 12h16"/><rect x="3" y="3" width="18" height="18" rx="4"/></svg></div><div class="lab">hospital</div><div class="ask">Which surgeon for this case?</div><div class="who"><svg viewBox="0 0 136 136"><circle cx="68" cy="68" r="58"/></svg><div class="b blob"><i></i><i></i></div></div></div>
+<div class="v card" id="v1" style="left:1070px;top:130px"><div class="ic"><svg viewBox="0 0 24 24"><path d="M2.5 12.5 21 4l-5 17-4.5-7z"/><path d="M11.5 14 21 4"/></svg></div><div class="lab">airline</div><div class="ask">Which crew for this route?</div><div class="who"><svg viewBox="0 0 136 136"><circle cx="68" cy="68" r="58"/></svg><div class="b blob"><i></i><i></i></div></div></div>
+<div class="v card" id="v2" style="left:150px;top:610px"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 16a8 8 0 0 1 16 0"/><path d="M2 16h20"/><path d="M12 8v-4"/></svg></div><div class="lab">construction</div><div class="ask">Which foreman for this site?</div><div class="who"><svg viewBox="0 0 136 136"><circle cx="68" cy="68" r="58"/></svg><div class="b blob"><i></i><i></i></div></div></div>
+<div class="v card" id="v3" style="left:1070px;top:610px"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17.5" cy="9.5" r="2.6"/><path d="M15 15.5a5 5 0 0 1 7 4.5"/></svg></div><div class="lab">any company</div><div class="ask">Which mentor for the new hire?</div><div class="who"><svg viewBox="0 0 136 136"><circle cx="68" cy="68" r="58"/></svg><div class="b blob"><i></i><i></i></div></div></div>
+<div id="bot"></div>
+<div class="grain"></div></div>
+<script src="assets/shared.js"></script><script>
+const {seg,lerp,easeInOut,clamp}=PIK;
+const svg=PIK.pikbot(document.getElementById('bot'),130);
+const T=[500,1700,2900,4100], R=[-1,0.8,-0.6,0.9], DIR=[[-1,-1],[1,-1],[-1,1],[1,1]];
+const C=2*Math.PI*58;
+function seek(ms){
+  let ex=0,ey=0,ant=0;
+  T.forEach((t,i)=>{ const v=document.getElementById('v'+i); const p=seg(ms,t,320);
+    v.style.opacity=clamp(p*3).toFixed(3); v.style.transform=`scale(${lerp(1.16,1,p).toFixed(3)}) rotate(${(R[i]*p).toFixed(2)}deg)`;
+    const ring=v.querySelector('circle'); const r=seg(ms,t+350,600); ring.style.strokeDasharray=`${(C*r).toFixed(1)} ${C}`; ring.style.opacity=r>0?1:0;
+    // Pik looks at the card that just landed
+    const w=clamp((ms-t)/300)*(1-clamp((ms-t-1000)/500)); ex+=DIR[i][0]*7*w; ey+=DIR[i][1]*5*w; ant+=DIR[i][0]*10*w; });
+  const b=seg(ms,0,600); document.getElementById('bot').style.opacity=b; document.getElementById('bot').style.transform=`translateY(${lerp(30,0,b).toFixed(1)}px)`;
+  svg.querySelector('.pk-eyes').style.transform=`translate(${ex.toFixed(1)}px,${ey.toFixed(1)}px)`;
+  svg.querySelector('.pk-antenna').style.transform=`rotate(${ant.toFixed(1)}deg)`;
+  PIK.blink(svg,ms,5600);
+}
+PIK.init(seek,7000);
+</script></body></html>

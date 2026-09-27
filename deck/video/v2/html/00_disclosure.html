@@ -1,0 +1,22 @@
+<!doctype html><html><head><meta charset="utf-8"><title>00 disclosure</title>
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+#wrap{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;text-align:center}
+#l1{font-family:var(--mono);font-weight:500;font-size:30px;letter-spacing:-0.01em;color:var(--ink)}
+#l2{font-family:var(--mono);font-weight:400;font-size:22px;color:var(--mute);letter-spacing:0.01em}
+#rule{width:64px;height:2px;background:var(--rule);margin:8px 0 6px}
+</style></head><body><div id="stage">
+<div id="wrap"><div id="l1">Recorded Sep 27, 2026. Fictional company and people.</div><div id="rule"></div>
+<div id="l2">Live in the product: listener tool calls, extraction, re-ranking.</div></div>
+<div class="grain"></div></div>
+<script src="assets/shared.js"></script><script>
+const {seg,lerp}=PIK;
+function seek(ms){
+  const p=seg(ms,0,520); const p2=seg(ms,180,520);
+  const l1=document.getElementById('l1'), l2=document.getElementById('l2'), r=document.getElementById('rule');
+  l1.style.opacity=1; l1.style.transform=`translateY(${lerp(10,0,p)}px)`;
+  r.style.transform=`scaleX(${seg(ms,120,500)})`;
+  l2.style.opacity=(0.35+0.65*p2).toFixed(3); l2.style.transform=`translateY(${lerp(10,0,p2)}px)`;
+}
+PIK.init(seek,2500);
+</script></body></html>

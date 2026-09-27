@@ -37,7 +37,9 @@ def card(question, a):
         return [{"type": "section", "text": {"type": "mrkdwn", "text": f"*Pik asks:* {a.get('follow_up') or 'What would this person actually do in the first month?'}"}}]
     top, alts = a["people"][0], a["people"][1:3]
     load = top.get("load", {})
-    why = "\n".join(f"• {w}" for w in top["why"][:3])
+    tags = [w.rsplit(" (", 1)[0] for w in top["why"] if re.search(r" \(\d/5\)$", w)]  # the company's own skill tags; levels are not shown (no score)
+    notes = [w for w in top["why"] if not re.search(r" \(\d/5\)$", w) and not any(w[:40] in r["text"] for r in top["receipts"])]
+    why = "\n".join([f"• Tagged: {', '.join(tags)}"] * bool(tags) + [f"• {w}" for w in notes[:1]])
     rec = "\n".join(f"> {r['text']}  _({r['source']})_" for r in top["receipts"][:2])
     blocks = [
         {"type": "section", "text": {"type": "mrkdwn", "text": f"*{top['name']}*, {top['role']}, {top['team']}\n{why}"}},
@@ -49,7 +51,7 @@ def card(question, a):
         blocks.append({"type": "context", "elements": [{"type": "mrkdwn", "text": "Also: " + " · ".join(f"{p['name']} ({p['role']})" for p in alts)}]})
     blocks.append({"type": "actions", "elements": [
         {"type": "button", "text": {"type": "plain_text", "text": f"Loop in {top['name'].split()[0]}"}, "style": "primary", "action_id": "loop_in",
-         "value": f"{top['name']}|{top['why'][0] if top['why'] else ''}"},
+         "value": f"{top['name']}|{question}"[:1900]},
         {"type": "button", "text": {"type": "plain_text", "text": "Why? See the receipts"}, "url": _env.why_link(question, top["id"]), "action_id": "why"},
     ]})
     blocks.append({"type": "context", "elements": [{"type": "mrkdwn", "text": "Order is evidence overlap with your words, minus load. Not a score. The person sees the same receipts."}]})
@@ -60,24 +62,32 @@ def handle(question, say, thread_ts=None):
     try:
         a = _env.ask(question, context="slack")
     except Exception as e:  # noqa: BLE001  (engine down: say so instead of silence)
-        say(text=f"Pik: the engine at {_env.API} is not answering ({type(e).__name__}). Start it with `make run-heuristic`.", thread_ts=thread_ts)
+        say(username="Pik", text=f"Pik: the engine at {_env.API} is not answering ({type(e).__name__}). Start it with `make run-heuristic`.", thread_ts=thread_ts)
         return
     answer = a["people"][0]["name"] if a["people"] else f"asks: {a.get('follow_up')}"
     print(f"[{time.strftime('%H:%M:%S')}] ask {question!r} -> {answer}", flush=True)
-    say(blocks=card(question, a), text=f"Pik: {answer}", thread_ts=thread_ts)
+    say(username="Pik", blocks=card(question, a), text=f"Pik: {answer}", thread_ts=thread_ts)
+
+
+INLINE = os.environ.get("PIK_SLACK_INLINE") == "1"  # demo: answer a top-level ask in the channel, not in a thread
+
+
+def _thread(msg):
+    """Where to reply: in the thread if the ask was in one; for a top-level ask, a thread unless INLINE."""
+    return msg.get("thread_ts") or (None if INLINE else msg.get("ts"))
 
 
 @app.event("app_mention")
 def on_mention(event, say):
     q = re.sub(r"<@[^>]+>", "", event.get("text", "")).strip()
-    handle(q, say, event.get("thread_ts") or event.get("ts"))
+    handle(q, say, _thread(event))
 
 
 @app.message(ASK)
 def on_ask(message, say):
     if ME and f"<@{ME}>" in message.get("text", ""):
         return  # on_mention answers this one
-    handle(message.get("text", ""), say, message.get("thread_ts") or message.get("ts"))
+    handle(message.get("text", ""), say, _thread(message))
 
 
 @app.event("message")
@@ -89,8 +99,8 @@ def on_other_message(body, logger):
 @app.action("loop_in")
 def on_loop(ack, body, say):
     ack()
-    name, why = body["actions"][0]["value"].split("|", 1)
-    say(text=f"@{name}, looping you in. {why}".strip(), thread_ts=body.get("message", {}).get("thread_ts") or body.get("message", {}).get("ts"))
+    name, question = body["actions"][0]["value"].split("|", 1)
+    say(username="Pik", text=f"@{name}, looping you in on this: {question.strip()} Pik suggested you from what you already shared; the receipts are one click away, and you see the same ones.", thread_ts=_thread(body.get("message", {})))
 
 
 @app.action("why")

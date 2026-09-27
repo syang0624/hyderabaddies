@@ -1,0 +1,39 @@
+<!doctype html><html><head><meta charset="utf-8"><title>02 asked</title>
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+#eyebrow{position:absolute;left:160px;top:128px}
+.qcard{position:absolute;top:290px;width:500px;height:440px;padding:44px 44px 40px;display:flex;flex-direction:column;justify-content:space-between;transform-origin:50% 50%;will-change:transform}
+.qcard .mark{font-weight:600;font-size:72px;line-height:.6;color:var(--ink);height:34px}
+.qcard .q{font-weight:400;font-size:30px;line-height:1.32;letter-spacing:-0.012em;color:var(--ink);flex:1;margin-top:18px}
+.qcard .who{font-family:var(--mono);font-size:18px;letter-spacing:.02em;color:var(--mute)}
+#head{position:absolute;left:0;right:0;top:770px;text-align:center}
+.line{overflow:hidden;padding-bottom:.08em}
+.line .in{display:inline-block;font-weight:600;font-size:84px;line-height:1.04;letter-spacing:-0.03em;color:var(--ink)}
+</style></head><body><div id="stage">
+<div id="eyebrow" class="eyebrow">What we heard this week</div>
+<div class="qcard card" id="c0" style="left:160px"><div class="mark">“</div><div class="q"></div><div class="who">a head of HR</div></div>
+<div class="qcard card" id="c1" style="left:710px"><div class="mark">“</div><div class="q"></div><div class="who">a product leader who manages 40</div></div>
+<div class="qcard card" id="c2" style="left:1260px"><div class="mark">“</div><div class="q"></div><div class="who">a former engineering leader of 150</div></div>
+<div id="head"><div class="line"><div class="in">Decided from memory.</div></div></div>
+<div class="grain"></div></div>
+<script src="assets/shared.js"></script><script>
+const {seg,lerp,easeInOut,typed}=PIK;
+const Q=["Team formation, as AI dissolves the roles. That is what we're most troubled by.",
+         "Every cycle I build my own deck of everything my boss didn't see.",
+         "Managers pitch people from memory. Four or five days a quarter."];
+const T=[200,2000,3600], CPS=44;
+function seek(ms){
+  const st=seg(ms,5900,700,easeInOut); // stack phase
+  document.getElementById('eyebrow').style.opacity=(seg(ms,0,400)*(1-seg(ms,5900,300))).toFixed(3);
+  Q.forEach((q,i)=>{ const c=document.getElementById('c'+i); const p=seg(ms,T[i],460);
+    const shown=typed(q,ms,T[i]+260,CPS); const qe=c.querySelector('.q'); if(qe.textContent!==shown) qe.textContent=shown;
+    const done=shown.length>=q.length; c.querySelector('.who').style.opacity=done?seg(ms,T[i]+260+q.length/CPS*1000,300):0;
+    // stack: all three to the centre, scaled, fanned, newest on top
+    const x0=[160,710,1260][i], x1=710+[-14,0,14][i], y1=[-54,-60,-66][i], rot=[-4,0,4][i]*st;
+    c.style.left=lerp(x0,x1,st).toFixed(1)+'px';
+    c.style.transform=`translateY(${lerp(lerp(28,0,p),y1,st).toFixed(1)}px) scale(${lerp(lerp(.96,1,p),.72,st).toFixed(3)}) rotate(${rot.toFixed(2)}deg)`;
+    c.style.opacity=p.toFixed(3); c.style.zIndex=i; });
+  const h=seg(ms,6400,620); document.querySelector('#head .in').style.transform=`translateY(${lerp(110,0,h).toFixed(1)}%)`;
+}
+PIK.init(seek,8400);
+</script></body></html>
