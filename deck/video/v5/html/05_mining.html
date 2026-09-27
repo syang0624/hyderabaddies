@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pik V2 05 mining: Slack, then Gmail</title>
+<link rel="stylesheet" href="../../v2/html/assets/shared.css">
+<style>
+  /* Beat 05 (11.5 s): Pikbot extends its antenna into a Slack replica; the table, reactions, names, avatars and channel
+     header are sucked in one by one and each leaves plain white behind (Carl's cut). "+ Yui's Slack", a typed remark,
+     one hop, "What else can I learn about Yui?", cut to a Gmail Sent replica, same suck, "+ Yui's email", two remarks.
+     Every quoted line is verbatim from prototype/data (slack.json sl-019..sl-023, docs.json doc-yui-1). No DMs. */
+  body{background:#fff}
+  #stage{background:#fff}
+  .scene{position:absolute;inset:0}
+  .piece{will-change:transform}
+  /* ---------- Slack replica (light theme, aubergine rails), real proportions ---------- */
+  #slack{font-family:var(--sans);color:#1D1C1D;font-size:15px;line-height:22px;letter-spacing:0;transform:scale(1.5);transform-origin:260px 44px}
+  .sk-top{position:absolute;left:0;top:0;width:1920px;height:44px;background:#350D36;display:flex;align-items:center;justify-content:center}
+  .sk-top .nav{position:absolute;left:276px;top:10px;display:flex;gap:10px;color:rgba(255,255,255,.55)}
+  .sk-top .nav i{display:block;width:22px;height:22px;border-radius:6px;opacity:.5}
+  .sk-top .search{width:720px;height:28px;border-radius:6px;background:rgba(255,255,255,.22);color:rgba(255,255,255,.85);font-size:13px;line-height:28px;padding-left:34px;position:relative}
+  .sk-top .search::before{content:"";position:absolute;left:11px;top:7px;width:11px;height:11px;border:2px solid rgba(255,255,255,.85);border-radius:50%}
+  .sk-top .search::after{content:"";position:absolute;left:23px;top:18px;width:6px;height:2px;background:rgba(255,255,255,.85);transform:rotate(45deg)}
+  .sk-top .me{position:absolute;right:20px;top:9px;width:26px;height:26px;border-radius:5px;background:#E8912D;color:#fff;font-weight:600;font-size:12px;line-height:26px;text-align:center}
+  .sk-side{position:absolute;left:0;top:44px;width:260px;height:1036px;background:#3F0E40;color:rgba(255,255,255,.72)}
+  .sk-side .ws{height:49px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;color:#fff;font-weight:700;font-size:18px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .sk-side .ws b::after{content:"";display:inline-block;margin-left:8px;border:5px solid transparent;border-top-color:#fff;vertical-align:-3px}
+  .sk-side .ws i{width:30px;height:30px;border-radius:50%;background:#fff;display:block;position:relative}
+  .sk-side .ws i::after{content:"";position:absolute;left:9px;top:9px;width:12px;height:12px;border-left:2px solid #3F0E40;border-bottom:2px solid #3F0E40;transform:rotate(-45deg) translate(2px,-2px)}
+  .sk-side .sec{margin-top:14px;padding:0 16px;height:28px;display:flex;align-items:center;font-size:15px}
+  .sk-side .sec::before{content:"";display:inline-block;margin-right:10px;border:5px solid transparent;border-top-color:rgba(255,255,255,.72);vertical-align:-3px;transform:translateY(3px)}
+  .sk-side .it{height:28px;padding:0 16px 0 26px;display:flex;align-items:center;gap:8px;font-size:15px;white-space:nowrap}
+  .sk-side .it.on{background:#1164A3;color:#fff}
+  .sk-side .it .h{opacity:.7;width:12px}
+  .sk-side .it.on .h{opacity:1}
+  .sk-side .it .dot{width:9px;height:9px;border-radius:50%;background:#2BAC76;margin-left:2px;margin-right:2px}
+  .sk-side .it .dot.off{background:transparent;border:1.5px solid rgba(255,255,255,.55)}
+  .sk-side .it.bold{color:#fff;font-weight:700}
+  .sk-pane{position:absolute;left:260px;top:44px;width:1660px;height:1036px;background:#fff}
+  .sk-head{height:49px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #DDDDDD}
+  .sk-head .ch{font-weight:700;font-size:18px;display:flex;align-items:center;gap:6px}
+  .sk-head .ch::after{content:"";display:inline-block;margin-left:4px;border:5px solid transparent;border-top-color:#1D1C1D;transform:translateY(3px)}
+  .sk-head .meta{display:flex;align-items:center;gap:14px;color:#616061;font-size:13px}
+  .sk-head .members{display:flex;align-items:center;border:1px solid #DDD;border-radius:6px;padding:3px 8px 3px 4px;gap:6px}
+  .sk-head .members .av{width:20px;height:20px;border-radius:4px;margin-left:-6px;border:1.5px solid #fff;font-size:9px;line-height:17px}
+  .sk-head .members .av:first-child{margin-left:0}
+  .sk-msgs{padding:16px 0 0}
+  .datepill{display:flex;align-items:center;justify-content:center;height:36px;position:relative;margin:4px 0 6px}
+  .datepill::before{content:"";position:absolute;left:0;right:0;top:18px;height:1px;background:#DDD}
+  .datepill span{position:relative;background:#fff;border:1px solid #DDD;border-radius:24px;padding:0 12px;font-size:13px;font-weight:700;line-height:26px}
+  .msg{display:flex;gap:8px;padding:8px 20px}
+  .av{width:36px;height:36px;border-radius:4px;color:#fff;font-weight:600;font-size:14px;line-height:36px;text-align:center;flex:none}
+  .msg .b{flex:1;min-width:0}
+  .msg .nm{display:flex;align-items:baseline;gap:8px}
+  .msg .nm b{font-weight:900;font-weight:700}
+  .msg .nm span{font-size:12px;color:#616061}
+  .msg .tx{max-width:1180px}
+  .reacts{display:flex;gap:4px;margin-top:6px}
+  .reacts span{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 8px;border:1px solid #E2E2E2;background:#F8F8F8;border-radius:12px;font-size:12px;color:#1D1C1D}
+  .reacts span.me{background:#E8F5FA;border-color:#1D9BD1;color:#1264A3}
+  .reacts span em{font-style:normal;font-size:15px;line-height:1}
+  .reacts span.add{color:#616061;width:32px;justify-content:center;font-size:14px}
+  .sk-comp{position:absolute;left:20px;right:20px;bottom:20px;height:104px;border:1px solid #8D8D8D;border-radius:8px;background:#fff;overflow:hidden}
+  .sk-comp .bar{height:36px;background:#F8F8F8;display:flex;align-items:center;gap:6px;padding:0 10px;border-bottom:1px solid #EEE}
+  .sk-comp .bar i,.sk-comp .foot i{display:block;width:16px;height:16px;border-radius:3px;background:#B9B9B9;opacity:.75}
+  .sk-comp .bar i.sep{width:1px;height:18px;background:#DDD;margin:0 4px}
+  .sk-comp .in{height:36px;padding:0 12px;line-height:36px;color:#616061}
+  .sk-comp .foot{height:32px;display:flex;align-items:center;gap:12px;padding:0 10px}
+  .sk-comp .foot .send{margin-left:auto;width:60px;height:26px;border-radius:4px;background:#F0F0F0;position:relative}
+  .sk-comp .foot .send::after{content:"";position:absolute;left:21px;top:7px;width:0;height:0;border:6px solid transparent;border-left:10px solid #B9B9B9;border-right:0}
+  /* ---------- Gmail replica (light), Sent view, reading pane ---------- */
+  #gmail{font-family:var(--sans);color:#202124;font-size:14px;line-height:20px;background:#F6F8FC;display:none;transform:scale(1.5);transform-origin:256px 64px}
+  .gm-top{position:absolute;left:0;top:0;width:1920px;height:64px;display:flex;align-items:center}
+  .gm-top .m{position:absolute;left:26px;top:20px;width:34px;height:24px;border:3px solid #5F6368;border-radius:4px}
+  .gm-top .m::before{content:"";position:absolute;left:-1px;top:-1px;width:30px;height:16px;border:3px solid #5F6368;border-top:0;border-left-color:transparent;border-right-color:transparent;border-bottom-color:transparent;background:linear-gradient(135deg,transparent 46%,#5F6368 46% 62%,transparent 62%) left top/50% 100% no-repeat,linear-gradient(225deg,transparent 46%,#5F6368 46% 62%,transparent 62%) right top/50% 100% no-repeat}
+  .gm-top .m i,.gm-top .m em{display:none}
+  .gm-top .word{position:absolute;left:72px;top:18px;font-size:22px;color:#5F6368;letter-spacing:-.01em}
+  .gm-top .search{position:absolute;left:256px;top:8px;width:720px;height:48px;border-radius:24px;background:#EAF1FB;color:#444746;font-size:16px;line-height:48px;padding-left:56px}
+  .gm-top .search::before{content:"";position:absolute;left:20px;top:15px;width:13px;height:13px;border:2px solid #444746;border-radius:50%}
+  .gm-top .search::after{content:"";position:absolute;left:34px;top:30px;width:8px;height:2px;background:#444746;transform:rotate(45deg)}
+  .gm-top .rt{position:absolute;right:24px;top:16px;display:flex;gap:22px;align-items:center}
+  .gm-top .rt i{display:block;width:24px;height:24px;border-radius:50%;background:#5F6368;opacity:.55}
+  .gm-top .rt i.me{width:32px;height:32px;background:#7B1FA2;opacity:1;color:#fff;font-size:13px;line-height:32px;text-align:center;font-style:normal;font-weight:500}
+  .gm-nav{position:absolute;left:0;top:64px;width:256px;height:1016px;padding:8px 8px 0 8px}
+  .gm-nav .compose{margin:0 0 16px 8px;width:138px;height:56px;border-radius:16px;background:#C2E7FF;display:flex;align-items:center;gap:14px;padding-left:16px;font-weight:500;font-size:14px;color:#001D35;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+  .gm-nav .compose i{width:22px;height:22px;position:relative}
+  .gm-nav .compose i::before{content:"";position:absolute;left:3px;top:3px;width:14px;height:3px;background:#001D35;transform:rotate(-45deg);transform-origin:left;top:15px;left:4px}
+  .gm-nav .compose i::after{content:"";position:absolute;left:3px;bottom:2px;width:14px;height:2px;background:#001D35}
+  .gm-nav .it{height:32px;border-radius:16px;display:flex;align-items:center;padding:0 12px 0 26px;gap:18px;color:#202124;font-size:14px}
+  .gm-nav .it i{width:20px;height:20px;border-radius:4px;background:#5F6368;opacity:.6;flex:none}
+  .gm-nav .it.on{background:#D3E3FD;font-weight:700}
+  .gm-nav .it .n{margin-left:auto;font-weight:700;font-size:12px}
+  .gm-nav .it .n.l{font-weight:400}
+  .gm-nav .lbl{margin:22px 0 4px;padding:0 12px 0 26px;font-weight:500;color:#444746;font-size:14px;display:flex;justify-content:space-between}
+  .gm-pane{position:absolute;left:256px;top:64px;width:1648px;height:1000px;background:#fff;border-radius:16px 16px 0 0}
+  .gm-tools{height:48px;display:flex;align-items:center;gap:26px;padding:0 20px;position:relative}
+  .gm-tools i{display:block;width:20px;height:20px;border-radius:4px;background:#444746;opacity:.55}
+  .gm-tools i.sep{width:1px;height:20px;opacity:.25;border-radius:0}
+  .gm-tools .pg{position:absolute;right:28px;top:14px;font-size:12px;color:#444746;display:flex;gap:26px;align-items:center}
+  .gm-tools .pg i{width:10px;height:10px;border-left:2px solid #444746;border-bottom:2px solid #444746;background:none;opacity:.7;border-radius:0;transform:rotate(45deg)}
+  .gm-tools .pg i.r{transform:rotate(-135deg)}
+  .gm-subj{padding:14px 72px 0;font-size:22px;line-height:28px;font-weight:400;display:flex;align-items:center;gap:12px}
+  .gm-subj .chip{font-size:12px;line-height:20px;padding:0 8px;background:#F1F3F4;border-radius:4px;color:#444746;font-weight:500;margin-left:6px}
+  .gm-from{display:flex;align-items:flex-start;gap:16px;padding:22px 72px 0 12px}
+  .gm-from .av{width:40px;height:40px;border-radius:50%;font-size:16px;line-height:40px;flex:none;margin-left:6px}
+  .gm-from .who b{font-weight:700;font-size:14px}
+  .gm-from .who span{color:#5F6368;font-size:12px;margin-left:6px}
+  .gm-from .who .to{color:#5F6368;font-size:12px;display:block;margin-top:2px}
+  .gm-from .who .to::after{content:"";display:inline-block;margin-left:6px;border:4px solid transparent;border-top-color:#5F6368;transform:translateY(2px)}
+  .gm-from .when{margin-left:auto;color:#5F6368;font-size:12px;display:flex;gap:26px;align-items:center;padding-top:2px}
+  .gm-from .when i{display:block;width:18px;height:18px;border-radius:4px;background:#5F6368;opacity:.5}
+  .gm-body{padding:26px 72px 0 74px;max-width:1000px;font-size:14px;line-height:22px}
+  .gm-body p+p{margin-top:16px}
+  .gm-sig{color:#5F6368;margin-top:16px}
+  /* ---------- Pik layer ---------- */
+  #pik{position:absolute;left:1440px;top:640px;width:200px;height:260px}
+  #ant{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none}
+  #plus{position:absolute;left:0;top:0;transform-origin:center;display:flex;align-items:center;gap:12px;height:56px;padding:0 22px;border-radius:12px;background:var(--card);border:0;box-shadow:var(--shadow),0 10px 30px -12px rgba(0,0,0,.25);font-family:var(--mono);font-size:22px;color:#1D1C1D;white-space:nowrap;opacity:0}
+  #plus b{font-weight:500;font-size:26px}
+  #say{position:absolute;left:560px;top:470px;width:1160px;text-align:right;font-family:var(--sans);font-weight:600;font-size:54px;line-height:66px;letter-spacing:-.025em;color:var(--ink)}
+  .title{position:absolute;left:1100px;top:110px;padding:18px 40px;border-radius:18px;background:var(--card);box-shadow:var(--shadow);font-weight:600;font-size:84px;line-height:1;letter-spacing:-.03em;color:var(--ink);opacity:0;transform-origin:center}
+  #say .ln{display:block;min-height:44px}
+  #say .caret{width:4px;height:50px;vertical-align:-6px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <!-- ================= Slack ================= -->
+  <div id="slack" class="scene">
+    <div class="sk-top"><div class="nav"><i style="background:rgba(255,255,255,.14)"></i><i style="background:rgba(255,255,255,.14)"></i><i style="background:rgba(255,255,255,.14);margin-left:6px"></i></div><div class="search">Search Kaede Works</div><div class="me">AN</div></div>
+    <div class="sk-side">
+      <div class="ws"><b>Kaede Works</b><i></i></div>
+      <div class="sec">Channels</div>
+      <div class="it"><span class="h">#</span>general</div>
+      <div class="it on"><span class="h">#</span>pricing-team</div>
+      <div class="it"><span class="h">#</span>northwind-sync</div>
+      <div class="it bold"><span class="h">#</span>learning</div>
+      <div class="it"><span class="h">#</span>platform</div>
+      <div class="it"><span class="h">#</span>growth-analytics</div>
+      <div class="it"><span class="h">#</span>random</div>
+      <div class="sec">Direct messages</div>
+      <div class="it"><span class="dot"></span>Rin Mori</div>
+      <div class="it"><span class="dot"></span>Kei Tanaka</div>
+      <div class="it"><span class="dot off"></span>Okada</div>
+      <div class="it"><span class="dot off"></span>Aya Nakamura <span style="opacity:.6">(you)</span></div>
+    </div>
+    <div class="sk-pane">
+      <div class="sk-head piece" data-p="channel">
+        <div class="ch"># pricing-team</div>
+        <div class="meta"><div class="members"><span class="av" style="background:#E8912D">YS</span><span class="av" style="background:#4A7BD8">RM</span><span class="av" style="background:#6B8E23">OK</span><span>12</span></div><span>Huddle</span></div>
+      </div>
+      <div class="sk-msgs">
+        <div class="datepill piece" data-p="table"><span>April 9th</span></div>
+        <div class="msg">
+          <div class="av piece" data-p="avatar" style="background:#E8912D">YS</div>
+          <div class="b">
+            <div class="nm piece" data-p="name"><b>Yui Sato</b><span>9:14 AM</span></div>
+            <div class="tx piece" data-p="table">Q2 test plan is in the registry. Sample sizes are tight, so I've added a sequential stopping rule.</div>
+            <div class="reacts piece" data-p="reactions"><span><em>👀</em>3</span><span class="add">+</span></div>
+          </div>
+        </div>
+        <div class="datepill piece" data-p="table"><span>July 30th</span></div>
+        <div class="msg">
+          <div class="av piece" data-p="avatar" style="background:#E8912D">YS</div>
+          <div class="b">
+            <div class="nm piece" data-p="name"><b>Yui Sato</b><span>4:02 PM</span></div>
+            <div class="tx piece" data-p="table">Q2 result: the 3% increase held retention flat in the SMB segment. Full write-up in the doc, including what I'd do differently.</div>
+            <div class="reacts piece" data-p="reactions"><span class="me"><em>🙌</em>4</span><span><em>📈</em>2</span><span class="add">+</span></div>
+          </div>
+        </div>
+        <div class="datepill piece" data-p="table"><span>July 31st</span></div>
+        <div class="msg">
+          <div class="av piece" data-p="avatar" style="background:#4A7BD8">RM</div>
+          <div class="b">
+            <div class="nm piece" data-p="name"><b>Rin Mori</b><span>10:48 AM</span></div>
+            <div class="tx piece" data-p="table">Nice write-up. The SMB segmentation matches what I see in the cohort data.</div>
+          </div>
+        </div>
+        <div class="datepill piece" data-p="table"><span>August 12th</span></div>
+        <div class="msg">
+          <div class="av piece" data-p="avatar" style="background:#6B8E23">OK</div>
+          <div class="b">
+            <div class="nm piece" data-p="name"><b>Okada</b><span>2:31 PM</span></div>
+            <div class="tx piece" data-p="table">Who can cover the partner pricing review on Aug 20? Yui is out.</div>
+          </div>
+        </div>
+        <div class="msg">
+          <div class="av piece" data-p="avatar" style="background:#E8912D">YS</div>
+          <div class="b">
+            <div class="nm piece" data-p="name"><b>Yui Sato</b><span>2:40 PM</span></div>
+            <div class="tx piece" data-p="table">Actually I'm back on the 19th, I'll take it so nobody has to reshuffle.</div>
+            <div class="reacts piece" data-p="reactions"><span><em>🙏</em>2</span><span><em>✅</em>1</span><span class="add">+</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sk-comp piece" data-p="channel">
+        <div class="bar"><i></i><i></i><i></i><i></i><i class="sep"></i><i></i><i></i><i></i><i class="sep"></i><i></i><i></i></div>
+        <div class="in">Message #pricing-team</div>
+        <div class="foot"><i style="border-radius:50%"></i><i></i><i></i><i></i><i></i><div class="send"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= Gmail (Sent) ================= -->
+  <div id="gmail" class="scene">
+    <div class="gm-top"><div class="m"><i></i><em></em><i></i></div><div class="word">Mail</div><div class="search">Search mail</div><div class="rt"><i></i><i></i><i></i><i class="me">YS</i></div></div>
+    <div class="gm-nav">
+      <div class="compose"><i></i>Compose</div>
+      <div class="it"><i></i>Inbox<span class="n">1,204</span></div>
+      <div class="it"><i></i>Starred</div>
+      <div class="it"><i></i>Snoozed</div>
+      <div class="it on"><i></i>Sent</div>
+      <div class="it"><i></i>Drafts<span class="n l">7</span></div>
+      <div class="it"><i></i>More</div>
+      <div class="lbl"><span>Labels</span><span>+</span></div>
+      <div class="it"><i style="border-radius:50%;background:#E8912D;opacity:1"></i>Northwind</div>
+      <div class="it"><i style="border-radius:50%;background:#4A7BD8;opacity:1"></i>Pricing</div>
+    </div>
+    <div class="gm-pane">
+      <div class="gm-tools piece" data-p="header"><i></i><i class="sep"></i><i></i><i></i><i></i><i class="sep"></i><i></i><i></i><i></i><i class="sep"></i><i></i><i></i><div class="pg">1 of 6<i></i><i class="r"></i></div></div>
+      <div class="gm-subj piece" data-p="header">Experiment registry: Kaede vs Northwind, field-by-field<span class="chip">Sent</span><span class="chip">Northwind</span></div>
+      <div class="gm-from piece" data-p="sender">
+        <div class="av" style="background:#E8912D">YS</div>
+        <div class="who"><b>Yui Sato</b><span>&lt;yui.sato@kaede.works&gt;</span><span class="to">to Northwind PM</span></div>
+        <div class="when">Wed, May 27, 2026, 6:12 PM<i></i><i></i><i></i></div>
+      </div>
+      <div class="gm-body piece" data-p="body">
+        <p>Northwind records a pre-registered stopping rule and a named decision owner for every test. We record neither.</p>
+        <p>Proposal: add both fields; I've filled them in retroactively for Q1.</p>
+        <p class="gm-sig">Yui</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= Pik layer ================= -->
+  <svg id="ant" viewBox="0 0 1920 1080"><path id="spring" fill="none" stroke="#171717" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/><circle id="tip" r="0" fill="#171717"/></svg>
+  <div id="pik"></div>
+  <div class="title" id="t1">Her Slack</div><div class="title" id="t2">Her email</div>
+  <div id="plus"><b>+</b><span id="plusTx">Yui's Slack</span></div>
+  <div id="say"><span class="ln"><span id="l1"></span><span class="caret" id="c1"></span></span><span class="ln"><span id="l2"></span><span class="caret" id="c2"></span></span></div>
+</div>
+<script src="../../v2/html/assets/shared.js"></script>
+<script>
+(function(){
+  const P = window.PIK, $ = s => document.querySelector(s), $$ = s => Array.from(document.querySelectorAll(s));
+  const svg = P.pikbot($('#pik'), 200);
+  const slack = $('#slack'), gmail = $('#gmail'), plus = $('#plus'), plusTx = $('#plusTx');
+  const l1 = $('#l1'), l2 = $('#l2'), c1 = $('#c1'), c2 = $('#c2'), spring = $('#spring'), tipEl = $('#tip');
+
+  // ---- timeline (ms) ----
+  const CPS = 62;
+  const T = {
+    fade: [0, 300], title1: 250, title2: 5000,
+    ant1: [1200, 1600], sk: { table: 1650, reactions: 1850, name: 2050, avatar: 2250, channel: 2450 }, pieceDur: 380,
+    ant1back: [2850, 3100], plus1: 2950,
+    r1: { at: 3100, tx: "Oh. She took the partner review herself." },
+    hop: 4350,
+    cut: 4900,
+    ant2: [5900, 6200], gm: { header: 6250, sender: 6450, body: 6650 },
+    ant2back: [7050, 7300], plus2: 7150,
+    r2: { at: 7300, tx: "She proposed the registry fields. Northwind adopted two." },
+    blinks: [900, 4300, 5600, 8400],
+  };
+  const DUR = 8800;
+  // antenna geometry: the mascot's curl tip (114,44 in its 200x260 box) at #pik's position, extended to a target inside the app
+  const PIK = { x: 1440, y: 640 };
+  const CURL = { x: PIK.x + 96, y: PIK.y + 78 };   // antenna root on the head
+  const TIP1 = { x: 1120, y: 430 }, TIP2 = { x: 1010, y: 400 };
+
+  // measure every piece once, with both scenes laid out
+  let boxes = null;
+  function measure() {
+    gmail.style.display = 'block'; slack.style.display = 'block';
+    boxes = new Map();
+    $$('.piece').forEach(el => { const r = el.getBoundingClientRect(); boxes.set(el, { cx: r.left + r.width / 2, cy: r.top + r.height / 2 }); });
+  }
+  function suck(el, e, tip) {   // e = eased progress 0..1; pieces fly to the tip, shrink, tilt, and vanish
+    if (e <= 0) { el.style.transform = ''; el.style.opacity = ''; el.style.visibility = ''; return; }
+    if (e >= 1) { el.style.visibility = 'hidden'; return; }
+    const b = boxes.get(el);
+    el.style.visibility = '';
+    el.style.transform = `translate(${(tip.x - b.cx) * e / 1.5}px,${(tip.y - b.cy) * e / 1.5}px) rotate(${-14 * e}deg) scale(${Math.max(.02, 1 - e * .98)})`;
+    el.style.opacity = e > .85 ? String(1 - (e - .85) / .15) : '1';
+  }
+  function drawSpring(ext, tip, ms) {  // ext 0..1: the antenna, a thick bowed arc (the storyboard's), reaching from the root toward tip
+    svg.querySelector('.pk-antenna').style.opacity = ext > 0 ? '0' : '1';
+    if (ext <= 0) { spring.setAttribute('d', ''); tipEl.setAttribute('r', '0'); return; }
+    const ex = P.lerp(CURL.x, tip.x, ext), ey = P.lerp(CURL.y, tip.y, ext);
+    const dx = ex - CURL.x, dy = ey - CURL.y, L = Math.hypot(dx, dy) || 1;
+    let nx = -dy / L, ny = dx / L; if (ny > 0) { nx = -nx; ny = -ny; }   // bow upward
+    const bow = 0.30 * L;
+    const cx = (CURL.x + ex) / 2 + nx * bow, cy = (CURL.y + ey) / 2 + ny * bow;
+    spring.setAttribute('d', `M${CURL.x} ${CURL.y} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`);
+    tipEl.setAttribute('cx', ex); tipEl.setAttribute('cy', ey);
+    tipEl.setAttribute('r', String(9 + 2 * Math.abs(Math.sin(ms / 90))));
+  }
+  function popIn(el, ms, at, dur = 350) {  // ease-out pop with a little overshoot
+    const t = P.clamp((ms - at) / dur);
+    if (t <= 0) { el.style.opacity = '0'; return; }
+    const s = 0.82 + 0.18 * P.easeOut(t) + (t > .55 && t < 1 ? .04 * Math.sin((t - .55) / .45 * Math.PI) : 0);
+    el.style.opacity = String(Math.min(1, t * 2.5));
+    el.style.transform = `translate(-50%,-50%) scale(${s.toFixed(3)})`;
+  }
+  function seek(ms) {
+    if (!boxes) measure();
+    const inSlack = ms < T.cut;
+    slack.style.display = inSlack ? 'block' : 'none';
+    gmail.style.display = inSlack ? 'none' : 'block';
+    // scene fade at the very start
+    slack.style.opacity = String(P.seg(ms, T.fade[0], T.fade[1] - T.fade[0]));
+    // pieces
+    const tip = inSlack ? TIP1 : TIP2;
+    for (const [k, at] of Object.entries(T.sk)) $$(`#slack .piece[data-p="${k}"]`).forEach(el => suck(el, P.seg(ms, at, T.pieceDur, P.easeIn), TIP1));
+    for (const [k, at] of Object.entries(T.gm)) $$(`#gmail .piece[data-p="${k}"]`).forEach(el => suck(el, P.seg(ms, at, T.pieceDur, P.easeIn), TIP2));
+    // antenna: extend, hold while sucking, retract
+    let ext = 0;
+    if (inSlack) ext = P.seg(ms, T.ant1[0], T.ant1[1] - T.ant1[0], P.easeOut) * (1 - P.seg(ms, T.ant1back[0], T.ant1back[1] - T.ant1back[0], P.easeInOut));
+    else ext = P.seg(ms, T.ant2[0], T.ant2[1] - T.ant2[0], P.easeOut) * (1 - P.seg(ms, T.ant2back[0], T.ant2back[1] - T.ant2back[0], P.easeInOut));
+    drawSpring(ext, tip, ms);
+    // Pikbot: blinks, one hop, antenna wobble after each retract
+    P.hop(svg, ms, T.hop);
+    let b = 1; for (const at of T.blinks) { const t = P.clamp((ms - at) / 180); if (t > 0 && t < 1) b = 0.08 + 0.92 * Math.abs(t * 2 - 1); }
+    svg.querySelector('.pk-eyes').style.transform = `scaleY(${b})`;
+    P.spring(svg, ms, inSlack ? T.ant1back[1] : T.ant2back[1], 800, 16);
+    // "+ Yui's ..." card at the spot the pieces vanished into
+    plusTx.textContent = inSlack ? "Yui's Slack" : "Yui's email";
+    plus.style.left = (tip.x) + 'px'; plus.style.top = (tip.y - 10) + 'px';
+    popIn(plus, ms, inSlack ? T.plus1 : T.plus2);
+    popIn($('#t1'), ms, T.title1); if (!inSlack) $('#t1').style.opacity = '0'; popIn($('#t2'), ms, T.title2); if (inSlack) $('#t2').style.opacity = '0';
+    // Pik's typed lines: one surprise per app, typed large and held
+    if (inSlack) { l1.parentElement.style.opacity = '1'; P.type(l1, T.r1.tx, ms, T.r1.at, CPS, c1); l2.textContent = ''; c2.classList.remove('on'); }
+    else { l1.parentElement.style.opacity = '1'; P.type(l1, T.r2.tx, ms, T.r2.at, CPS, c1); l2.textContent = ''; c2.classList.remove('on'); }
+  }
+  P.init(seek, DUR);
+})();
+</script>
+</body>
+</html>

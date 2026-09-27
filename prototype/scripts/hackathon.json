@@ -1,0 +1,113 @@
+{
+ "name": "hackathon",
+ "badge": "scripted",
+ "description": "The live Meet take, hard-coded on one cue (Space or Enter on the present page, or make take NAME=hackathon). Pik's four lines are pre-rendered in ui/vendor/pik_audio.json and played by the page (say rows); every tile, quote and coverage number is filled by the engine at replay time from the fixtures (Rin: sl-025 in #growth-analytics; Yui: her Northwind-sync session). Times are seconds from the cue. Holds: 4.0 to 9.5 Steven speaks the ask; 17.5 to 19.5 Carl asks what Rin actually did; 27.0 to 29.0 Steven closes.",
+ "duration": 36.0,
+ "pool": [
+  "rin",
+  "yui"
+ ],
+ "lines": {
+  "steven_1": "Someone who has run a cross-team event and can present the outcome to the exec team.",
+  "carl_1": "What did Rin actually do?",
+  "steven_2": "Great, let's ask Rin and Yui this week."
+ },
+ "rows": [
+  {
+   "at": 0.0,
+   "op": "status",
+   "text": "scripted take: listening on the call"
+  },
+  {
+   "at": 0.0,
+   "op": "say",
+   "id": "pik_01_offer",
+   "text": "Since you're on that, I can help. What does the person need to have done?"
+  },
+  {
+   "at": 13.0,
+   "op": "heard",
+   "text": "Someone who has run a cross-team event and can present the outcome to the exec team."
+  },
+  {
+   "at": 13.5,
+   "op": "compose",
+   "blocks": [
+    {
+     "type": "question",
+     "id": "q1",
+     "text": "Someone who has run a cross-team event and can present the outcome to the exec team."
+    },
+    {
+     "type": "people",
+     "id": "p1",
+     "criterion": "has run a cross-team event and can present the outcome to the exec team"
+    }
+   ]
+  },
+  {
+   "at": 13.7,
+   "op": "say",
+   "id": "pik_02_two",
+   "text": "Two people have receipts for that. Rin presented the pricing roadmap to the exec team. Yui ran the Northwind syncs in English."
+  },
+  {
+   "at": 26.0,
+   "op": "place",
+   "op_kind": "add",
+   "block": {
+    "type": "receipt",
+    "id": "r1",
+    "person": "rin",
+    "kind": "claim",
+    "about": "exec team roadmap"
+   }
+  },
+  {
+   "at": 26.2,
+   "op": "say",
+   "id": "pik_03_rin",
+   "text": "Rin wrote: I'll present the pricing analytics roadmap to the exec team on the ninth. Slack, growth analytics, June."
+  },
+  {
+   "at": 38.0,
+   "op": "conclude",
+   "args": {
+    "summary": "Ask Rin and Yui this week who leads the hackathon.",
+    "candidate_ids": [
+     "rin",
+     "yui"
+    ],
+    "next_steps": [
+     "Ask Rin and Yui this week"
+    ],
+    "open_questions": []
+   }
+  },
+  {
+   "at": 38.5,
+   "op": "say",
+   "id": "pik_04_filed",
+   "text": "Filed. Rin and Yui can see this same page."
+  },
+  {
+   "at": 41.5,
+   "op": "filed",
+   "args": {
+    "ask_id": "hackathon-1",
+    "summary": "Ask Rin and Yui this week who leads the hackathon.",
+    "question": "Someone who has run a cross-team event and can present the outcome to the exec team.",
+    "open_questions": [],
+    "notified": [
+     "rin",
+     "yui"
+    ]
+   }
+  },
+  {
+   "at": 45.0,
+   "op": "status",
+   "text": "scripted take: end"
+  }
+ ]
+}

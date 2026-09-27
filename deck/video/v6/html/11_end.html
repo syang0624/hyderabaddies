@@ -1,0 +1,55 @@
+<!doctype html><html><head><meta charset="utf-8"><title>11 end (v6: task force, then the tagline)</title>
+<link rel="stylesheet" href="../../v2/html/assets/shared.css">
+<style>
+#p1{position:absolute;left:0;top:0;width:1920px;height:1080px}
+#tf{position:absolute;left:160px;top:372px}
+#tf .l{font-weight:600;font-size:104px;line-height:1.04;letter-spacing:-0.035em;color:var(--ink);opacity:0;transform-origin:0 60%}
+#tf .l .u{box-shadow:inset 0 -0.16em 0 var(--lime)}
+.pc{position:absolute;left:1090px;width:680px;height:136px;padding:0 34px;display:flex;align-items:center;gap:26px;opacity:0;transform-origin:50% 50%}
+.pc .av{width:64px;height:74px;flex:none;position:relative}
+.pc .av i{position:absolute;top:24px;width:8px;height:18px;border-radius:4px;background:var(--card)}
+.pc .av i:first-child{left:22px}.pc .av i:last-child{left:34px}
+.pc .nm{font-weight:600;font-size:36px;letter-spacing:-0.02em;color:var(--ink);line-height:1.1}
+.pc .rl{white-space:nowrap;font-family:var(--mono);font-size:20px;letter-spacing:.01em;color:var(--mute);margin-top:6px}
+.pc .tag{margin-left:auto;font-family:var(--mono);font-size:17px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:var(--lime-tint);border-radius:8px;padding:6px 10px}
+#head{position:absolute;left:160px;top:330px}
+.line{overflow:hidden;padding-bottom:.08em}
+.line .in{display:inline-block;font-weight:600;font-size:96px;line-height:1.02;letter-spacing:-0.035em;color:var(--ink)}
+#credit{position:absolute;left:164px;top:1010px;font-family:var(--mono);font-size:17px;letter-spacing:.01em;color:var(--mute);opacity:0}
+#bot{position:absolute;left:1560px;top:610px;width:200px;height:260px;will-change:transform;opacity:0}
+</style></head><body><div id="stage">
+<div id="p1">
+  <div id="tf"><div class="l">Tailor a <span class="u">task force</span></div><div class="l">to every task.</div></div>
+  <div class="pc card" id="k0" style="top:318px"><div class="av blob"><i></i><i></i></div><div><div class="nm">Rin Mori</div><div class="rl">Senior marketing analyst</div></div><div class="tag">receipts</div></div>
+  <div class="pc card" id="k1" style="top:434px"><div class="av blob"><i></i><i></i></div><div><div class="nm">Yui Sato</div><div class="rl">Product operations, Pricing</div></div><div class="tag">receipts</div></div>
+  <div class="pc card" id="k2" style="top:550px"><div class="av blob"><i></i><i></i></div><div><div class="nm">Yuto Murakami</div><div class="rl">Growth manager</div></div><div class="tag">receipts</div></div>
+</div>
+<div id="head"><div class="line"><div class="in">Because the future of your work</div></div>
+<div class="line"><div class="in">depends on who you <span class="hl">Pik</span>.</div></div></div>
+<div id="credit">Music: Kosmose Vaikus by Kevin MacLeod, incompetech.com, CC BY 4.0</div>
+<div id="bot"></div>
+</div>
+<script src="../../v2/html/assets/shared.js"></script><script>
+const {seg,lerp,easeIn,clamp}=PIK;
+const svg=PIK.pikbot(document.getElementById('bot'),200,{disc:true});
+const P2=2800;           // the tagline phase starts here (its narration starts at the same offset in build_v6.py)
+const ROT=[-1.4,0.9,-0.5], FAN=[0,14,28];
+function seek(ms){
+  // phase 1: "Tailor a task force to every task." soft lines, then three people cards arrive softly and stack
+  const out=seg(ms,P2-250,380,easeIn);
+  document.getElementById('p1').style.opacity=(1-out).toFixed(3);
+  document.getElementById('p1').style.transform=`translateY(${(-14*out).toFixed(1)}px)`;
+  document.querySelectorAll('#tf .l').forEach((el,i)=>{ const e=seg(ms,120+i*120,700); el.style.opacity=e.toFixed(3); el.style.transform=`translateY(${lerp(24,0,e).toFixed(1)}px) scale(${lerp(.98,1,e).toFixed(3)})`; });
+  [0,1,2].forEach(i=>{ const el=document.getElementById('k'+i); const e=seg(ms,520+i*120,700);
+    const st=seg(ms,1500,700);   // the stack settles: cards tuck under each other, a slight fan
+    const dy=lerp(0,-i*10,st), dx=lerp(0,FAN[i],st), r=lerp(0,ROT[i],st);
+    el.style.opacity=e.toFixed(3); el.style.zIndex=10+i;
+    el.style.transform=`translate(${dx.toFixed(1)}px,${(lerp(24,0,e)+dy).toFixed(1)}px) scale(${lerp(.98,1,e).toFixed(3)}) rotate(${r.toFixed(2)}deg)`; });
+  // phase 2: the V5 tagline, unchanged
+  document.querySelectorAll('#head .in').forEach((el,i)=>{ const p=seg(ms,P2+200+i*90,640); el.style.transform=`translateY(${lerp(130,0,p).toFixed(1)}%)`; });
+  document.getElementById('credit').style.opacity=(0.85*seg(ms,P2+1500,500)).toFixed(3);
+  const b=seg(ms,P2+600,700); const bot=document.getElementById('bot'); bot.style.opacity=b; bot.style.transform=`translateY(${lerp(24,0,b).toFixed(1)}px) scale(${lerp(.98,1,b).toFixed(3)})`;
+  PIK.spring(svg,ms,P2+1150,900,18); PIK.blink(svg,ms,P2+2300);
+}
+PIK.init(seek,6600);
+</script></body></html>

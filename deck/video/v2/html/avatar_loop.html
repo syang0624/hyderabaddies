@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pik avatar loop</title>
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+  /* Pik's camera tile for Google Meet: a seamless 6 s idle loop at 640x480 on bone. Blink at 1.2 s and 3.7 s, a slow
+     antenna bob and a breath, both with a 3 s period so frame 0 and frame 180 match. Nothing else. */
+  html,body{width:640px;height:480px}
+  #stage{width:640px;height:480px;background:var(--page)}
+  #pik{position:absolute;left:190px;top:80px;width:260px;height:338px}
+</style>
+</head>
+<body>
+<div id="stage"><div id="pik"></div></div>
+<script src="assets/shared.js"></script>
+<script>
+(function(){
+  const P = window.PIK, svg = P.pikbot(document.getElementById('pik'), 260);
+  const root = svg.querySelector('.pk-root'), ant = svg.querySelector('.pk-antenna'), eyes = svg.querySelector('.pk-eyes');
+  const DUR = 6000;
+  function seek(ms) {
+    const ph = ms / 3000 * Math.PI * 2;                       // 3 s period: two full cycles per loop
+    root.style.transform = `translateY(${(1.5 * Math.sin(ph)).toFixed(2)}px) scale(1,${(1 + 0.008 * Math.sin(ph)).toFixed(4)})`;
+    ant.style.transform = `rotate(${(4 * Math.sin(ph + 0.9)).toFixed(2)}deg)`;
+    let b = 1; for (const at of [1200, 3700]) { const t = P.clamp((ms - at) / 180); if (t > 0 && t < 1) b = 0.08 + 0.92 * Math.abs(t * 2 - 1); }
+    eyes.style.transform = `scaleY(${b})`;
+  }
+  P.init(seek, DUR);
+})();
+</script>
+</body>
+</html>

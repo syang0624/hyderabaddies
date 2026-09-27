@@ -1,0 +1,33 @@
+<!doctype html><html><head><meta charset="utf-8"><title>04b meet yui (v5)</title>
+<link rel="stylesheet" href="../../v2/html/assets/shared.css">
+<style>
+#disc{position:absolute;left:400px;top:365px;width:350px;height:350px;border-radius:50%;background:var(--lime-tint);opacity:0;display:flex;align-items:center;justify-content:center}
+#yui{width:150px;height:172px;position:relative}
+#yui i{position:absolute;top:56px;width:15px;height:35px;border-radius:8px;background:var(--card)}
+#yui i:first-child{left:55px}#yui i:last-child{left:80px}
+#txt{position:absolute;left:840px;top:378px}
+.line{overflow:visible;padding-bottom:.08em}
+.line .in{display:inline-block;font-weight:600;font-size:124px;line-height:1;letter-spacing:-0.04em;color:var(--ink)}
+#role{margin-top:14px;font-size:36px;color:var(--mute);letter-spacing:-0.01em;opacity:0}
+#l2{margin-top:40px;font-size:42px;line-height:1.3;letter-spacing:-0.012em;color:var(--body);opacity:0}
+#l3{margin-top:16px;font-family:var(--mono);font-size:26px;letter-spacing:.02em;color:var(--mute);opacity:0}
+</style></head><body><div id="stage">
+<div id="disc"><div id="yui" class="blob"><i></i><i></i></div></div>
+<div id="txt"><div class="line"><div class="in">Meet Yui.</div></div><div id="role">Product operations, Pricing</div>
+<div id="l2">Pik lives where she works.</div><div id="l3">her Slack · her email</div></div>
+</div>
+<script src="../../v2/html/assets/shared.js"></script><script>
+const {seg,lerp,easeInOut,clamp}=PIK;
+function seek(ms){
+  // V6: soft entrances (fade, small rise, 0.98 -> 1, ~700 ms ease-out, ~120 ms stagger)
+  const soft=(el,at,rise=18)=>{ const e=seg(ms,at,700); el.style.opacity=e.toFixed(3); el.style.transform=`translateY(${lerp(rise,0,e).toFixed(1)}px) scale(${lerp(.98,1,e).toFixed(3)})`; };
+  const d=seg(ms,0,700); const disc=document.getElementById('disc'); disc.style.opacity=d; disc.style.transform=`translateY(${lerp(18,0,d).toFixed(1)}px) scale(${lerp(.98,1,d).toFixed(3)})`;
+  const h=seg(ms,120,700); const hin=document.querySelector('#txt .in'); hin.style.transform=`translateY(${lerp(24,0,h).toFixed(1)}px) scale(${lerp(.98,1,h).toFixed(3)})`; hin.style.opacity=h.toFixed(3); hin.style.transformOrigin='0 60%';
+  soft(document.getElementById('role'),240,12);
+  soft(document.getElementById('l2'),1750,16);
+  soft(document.getElementById('l3'),1870,12);
+  let b=1; for(const at of [1400,3000]){ const t=clamp((ms-at)/180); if(t>0&&t<1) b=0.08+0.92*Math.abs(t*2-1); }
+  document.querySelectorAll('#yui i').forEach(i=>i.style.transform=`scaleY(${b.toFixed(3)})`);
+}
+PIK.init(seek,3600);
+</script></body></html>
