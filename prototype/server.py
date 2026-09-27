@@ -24,7 +24,7 @@ SCRIPTS = HERE / "scripts"
 VENDOR = UI / "vendor"
 PORT = int(os.environ.get("PORT", "8787"))
 VENV_PY = HERE / ".venv" / "bin" / "python"
-TAKE = {"proc": None, "name": None}  # the one scripted take running at a time
+TAKE = {"proc": None, "name": None}  # one transcript replay running at a time
 TAKE_LOCK = threading.Lock()  # ThreadingHTTPServer: two POST /api/take at once must not both spawn
 
 

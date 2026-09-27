@@ -32,7 +32,7 @@ cd prototype && MIC="MacBook" SPEAK=1 make live     # tab 4; prints "listening o
 ```
 Reload the present page once after it prints that. Then talk. Anything about people or work makes the screen react within one to two seconds; words drift in as they are heard, people appear only where their own receipts cover the words, a receipt flashes when someone asks what a person actually wrote, the conclusion prints when the speakers agree. Pik speaks only when addressed by name ("Pik, ...") or when the engine has one follow-up question. `SPEAK=0` mutes its voice.
 
-To have Pik sit inside a real Google Meet as its own participant presenting this screen: `prototype/dia_pik.sh` once (relaunches the Dia browser with the flags it needs), then `prototype/meet_dia.sh` (creates the call, joins Pik, presents). Documented in `prototype/MEET_REHEARSAL.md`.
+To have Pik sit inside a real Google Meet as its own participant presenting this screen: `prototype/dia_pik.sh` once (relaunches the Dia browser with the flags it needs), then `prototype/meet_dia.sh` (creates the call, joins Pik, presents).
 
 Lines that work well on the fixtures:
 - "For the Northwind slot I need someone who will push back on the job-based culture instead of just absorbing it, and they have to hold their own in English in meetings."

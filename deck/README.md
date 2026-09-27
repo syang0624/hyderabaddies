@@ -1,8 +1,5 @@
-# Deck
+# Deck and demo video
 
-Both decks are Slides artifacts (present with builds; export PDF from Share > Export):
-
-- Main deck, 14 slides, template sections 01 to 08 in order: https://claude.ai/artifact/LFhPNTRDq3F5tKCb8wpYWZ
-- Q&A backup, 16 questions: https://claude.ai/artifact/GAcAukCEZDJMRQVSfeqsAi
-
-`assets/` holds the prototype stills used on the solution slides (captured Sat 15:45 from the running prototype in present mode) and the organizer template's background frame. `JUDGE-MAP.md` argues each slide against the rubric and each judge.
+- `pik_demo_90s.mp4`: the 90 second demo (1920x1080). Music: "Kosmose Vaikus" by Kevin MacLeod, incompetech.com, CC BY 4.0.
+- `site/`: the pitch deck as a web page (open `site/index.html`; arrow keys move, each slide builds on a keypress). `Pik_deck.pdf` is its static export.
+- `assets/`: stills of the running prototype used on the slides.

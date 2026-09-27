@@ -7,35 +7,23 @@
 # local state
 .DS_Store
 __pycache__/
+prototype/.venv/
+prototype/state/*
+!prototype/state/.keep
 
-# video build scratch (86 MB of Pexels b-roll, per-beat renders); ids are in deck/video/build.py
-deck/video/broll/
-deck/video/_seg/
-deck/video/vo/*.raw.wav
+# local build scratch for the deck and the video
+deck/video/
+deck/site/_frames/
 pw/
 .deckwork/
+.claude/worktrees/
 
-# V2 assets folder (AirDropped, 118 MB); see deck/video/v2/README.md
-deck/video/_assets/
-deck/video/v2/vo/*.raw.wav
-# V2 frame dumps from render.py
-deck/video/v2/_frames/
-deck/video/v2/_seg/
-# V3 scratch: frame dumps, per-beat segments, Playwright's temporary video dir
-deck/video/v3/_frames/
-deck/video/v3/_seg/
-deck/video/v3/captures/_tmp/
-deck/video/v3/vo/*.take*.wav
-deck/video/v3/**/_*.log
-# a worktree symlinks these to the main checkout's venvs (pw/ and .venv/ above only match real directories)
-deck/video/pw
-prototype/.venv
-
-# V4 build scratch
-deck/video/v4/_seg/
-deck/video/v4/_frames/
-
-# V5 build scratch; the raw Meet take from Cap may exceed the 20 MB rule, so it stays local (force-add if small)
-deck/video/v5/_seg/
-deck/video/v5/_frames/
-deck/video/v5/captures/meet_real.*
+# stage-only files some of us keep locally for rehearsals (not part of the product)
+prototype/scripts/
+prototype/live_script.py
+prototype/cue.sh
+prototype/ui/vendor/pik/
+prototype/ui/vendor/pik_audio.json
+prototype/MEET_TAKE.md
+prototype/MEET_REHEARSAL.md
+prototype/LIVE_DEMO.md

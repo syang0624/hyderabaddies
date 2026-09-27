@@ -69,13 +69,10 @@ smoke:            ## end-to-end API check against a running server
 	curl -sf localhost:$(PORT)/api/audit | $(PY) -c 'import sys,json;d=json.load(sys.stdin);print("never read:",{k:v["count"] for k,v in d["never_read"].items()})'
 	@$(PY) -c 'import json,pathlib;p=pathlib.Path("state/annotations.json");r=[a for a in json.loads(p.read_text()) if a.get("author")!="smoke"] if p.exists() else [];p.write_text(json.dumps(r,indent=1))' && echo "smoke annotation removed"
 
-take:             ## start a scripted take through the running server: make take NAME=meet (truncates state/live.jsonl, spawns live_script.py)
+take:             ## replay a transcript (scripts/<name>.json) through the running server's live layer: make take NAME=meet
 	curl -sf -X POST localhost:$(PORT)/api/take -H 'Content-Type: application/json' -d '{"name": "$(NAME)"}'; echo
 
-take-meet:        ## Choreography A: the 19 s Meet beat replayed through live.py's compose/place/emit (page: /?present=1&take=meet)
-	$(MAKE) take NAME=meet
-
-live-script:      ## replay a script directly, no server needed: make live-script SCRIPT=scripts/meet.json (FAST=1 skips the waits)
+live-script:      ## replay a transcript directly, no server needed: make live-script SCRIPT=scripts/meet.json (FAST=1 skips the waits)
 	SPEAK=0 MODE=heuristic $(PYV) live_script.py $(or $(SCRIPT),scripts/meet.json)
 
 people-reset:     ## put data/people.json back to the committed fixture (data/people.base.json) and clear the record logs; annotations and caches survive (make reset clears those)

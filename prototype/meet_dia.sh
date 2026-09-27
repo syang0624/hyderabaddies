@@ -63,7 +63,7 @@ echo "$URL" > "$STATE/url"
 PIK=$(newtab "$PIK_P" "$URL"); log "Pik tab opened (profile $PIK_P)"
 for i in $(seq 1 45); do sleep 1; [[ "$(js "$PIK" "String(!!document.querySelector('input[type=text]'))")" == "true" ]] && break; done
 [[ "$(js "$PIK" "String(!!document.querySelector('input[type=text]'))")" == "true" ]] || die "Pik's tab shows no name field; is profile $PIK_P signed in to Google? (it must be signed out)"
-# With dia_pik.sh's fake camera, Pik joins with its face on camera and its (silent) mic off. Without it, Meet shows "Continue without
+# Pik joins as a guest with no camera and no microphone; Meet asks to continue without them.
 # microphone and camera" (guest, no devices) and we take that.
 click_label "$PIK" "Continue without microphone and camera" >/dev/null || true
 click_label "$PIK" "Got it" >/dev/null || true
