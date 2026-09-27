@@ -1,1 +1,27 @@
-{"version":"0.0.1","configurations":[{"name":"evidence-demo","runtimeExecutable":"make","runtimeArgs":["-C","/private/tmp/hyderabaddies/prototype","run-heuristic"],"port":8787}]}
+{
+ "version": "0.0.1",
+ "configurations": [
+  {
+   "name": "receipts-heuristic",
+   "runtimeExecutable": "/usr/bin/env",
+   "runtimeArgs": [
+    "PORT=8787",
+    "MODE=heuristic",
+    "python3",
+    "/Users/stevenyang/Desktop/code/hyderabaddies/prototype/server.py"
+   ],
+   "port": 8787
+  },
+  {
+   "name": "receipts-auto",
+   "runtimeExecutable": "/usr/bin/env",
+   "runtimeArgs": [
+    "PORT=8787",
+    "MODE=auto",
+    "/Users/stevenyang/Desktop/code/hyderabaddies/prototype/.venv/bin/python",
+    "/Users/stevenyang/Desktop/code/hyderabaddies/prototype/server.py"
+   ],
+   "port": 8787
+  }
+ ]
+}

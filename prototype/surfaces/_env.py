@@ -7,10 +7,12 @@ if ENV.exists():
     for line in ENV.read_text().splitlines():
         if line.startswith("RECEIPTS_") and "=" in line:
             k, v = line.split("=", 1)
-            os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+            v = v.strip().strip('"').strip("'")
+            if v:  # an empty "KEY=" line means unset, so defaults still apply
+                os.environ.setdefault(k.strip(), v)
 
-API = os.environ.get("RECEIPTS_API", "http://localhost:8787")
-PUBLIC = os.environ.get("RECEIPTS_PUBLIC_URL", API)  # what a link in Slack/Notion should point at (LAN ip for a phone)
+API = os.environ.get("RECEIPTS_API") or "http://localhost:8787"
+PUBLIC = (os.environ.get("RECEIPTS_PUBLIC_URL") or API).rstrip("/")  # what a link in Slack/Notion should point at (LAN ip for a phone)
 
 
 def ask(question, context="", requester=None, k=3):

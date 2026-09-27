@@ -16,13 +16,18 @@ sys.path.insert(0, str(Path(__file__).parent))
 import _env  # noqa: E402,F401
 from slack_bolt import App  # noqa: E402
 from slack_bolt.adapter.socket_mode import SocketModeHandler  # noqa: E402
+from slack_sdk.errors import SlackApiError  # noqa: E402
 
 BOT = os.environ.get("RECEIPTS_SLACK_BOT_TOKEN")
 APP = os.environ.get("RECEIPTS_SLACK_APP_TOKEN")
 if not BOT or not APP:
     raise SystemExit("set RECEIPTS_SLACK_BOT_TOKEN and RECEIPTS_SLACK_APP_TOKEN in ~/.config/carl-life-os/.env")
 
-app = App(token=BOT)
+try:
+    app = App(token=BOT)  # Bolt calls auth.test here, so a wrong bot token fails now, not on the first ask
+except Exception as e:
+    raise SystemExit(f"Slack rejected RECEIPTS_SLACK_BOT_TOKEN: {e}\nRe-copy the Bot User OAuth Token (xoxb-...) from OAuth & Permissions after installing the app to the workspace.")
+ME = app.client.auth_test().get("user_id")  # the bot's own user id, so a message that @mentions it is answered once, not twice
 ASK = re.compile(r"^\s*(who|whom)\b.*\b(best|should|for|can)\b", re.I)
 
 
@@ -51,19 +56,25 @@ def card(question, a):
 
 
 def handle(question, say, thread_ts=None):
-    a = _env.ask(question, context="slack")
+    try:
+        a = _env.ask(question, context="slack")
+    except Exception as e:  # noqa: BLE001  (engine down: say so instead of silence)
+        say(text=f"Receipts: the engine at {_env.API} is not answering ({type(e).__name__}). Start it with `make run-heuristic`.", thread_ts=thread_ts)
+        return
     say(blocks=card(question, a), text=f"Receipts: {a['people'][0]['name'] if a['people'] else a.get('follow_up')}", thread_ts=thread_ts)
 
 
 @app.event("app_mention")
 def on_mention(event, say):
     q = re.sub(r"<@[^>]+>", "", event.get("text", "")).strip()
-    handle(q, say, event.get("ts"))
+    handle(q, say, event.get("thread_ts") or event.get("ts"))
 
 
 @app.message(ASK)
 def on_ask(message, say):
-    handle(message.get("text", ""), say, message.get("ts"))
+    if ME and f"<@{ME}>" in message.get("text", ""):
+        return  # on_mention answers this one
+    handle(message.get("text", ""), say, message.get("thread_ts") or message.get("ts"))
 
 
 @app.action("loop_in")
@@ -79,5 +90,9 @@ def on_why(ack):
 
 
 if __name__ == "__main__":
-    print("Receipts for Slack: listening (Socket Mode). Ask 'who is best for ...' in a channel I am in, or @mention me.")
-    SocketModeHandler(app, APP).start()
+    print(f"Receipts for Slack: listening (Socket Mode) as <@{ME}>. Ask 'who is best for ...' in a public channel I am in, or @mention me.")
+    print(f"Engine: {_env.API}   'Why?' links open: {_env.PUBLIC}")
+    try:
+        SocketModeHandler(app, APP).start()
+    except SlackApiError as e:
+        raise SystemExit(f"Slack rejected RECEIPTS_SLACK_APP_TOKEN ({e.response.get('error')}).\nIt must be an App-Level Token (xapp-...) with the connections:write scope: Basic Information -> App-Level Tokens -> Generate.")
