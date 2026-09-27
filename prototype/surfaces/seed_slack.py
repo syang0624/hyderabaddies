@@ -23,9 +23,9 @@ FORCE = os.environ.get("FORCE") == "1"
 PER_CHANNEL = int(os.environ.get("PER_CHANNEL", "5"))   # generated receipts per channel, on top of the fixture messages
 PAUSE = 1.05                                             # chat.postMessage allows about one message per second
 
-TOKEN = os.environ.get("RECEIPTS_SLACK_BOT_TOKEN")
+TOKEN = os.environ.get("PIK_SLACK_BOT_TOKEN")
 if not TOKEN:
-    raise SystemExit("set RECEIPTS_SLACK_BOT_TOKEN in <repo>/.env (gitignored) or ~/.config/carl-life-os/.env")
+    raise SystemExit("set PIK_SLACK_BOT_TOKEN in <repo>/.env (gitignored) or ~/.config/carl-life-os/.env")
 client = WebClient(token=TOKEN)
 
 company = json.loads((DATA / "company.json").read_text())

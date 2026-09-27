@@ -1,11 +1,11 @@
 {
   "display_information": {
-    "name": "Receipts",
+    "name": "Pik",
     "description": "Ask who is best for a task; get the best person with receipts. Fictional demo company."
   },
   "features": {
     "bot_user": {
-      "display_name": "Receipts",
+      "display_name": "Pik",
       "always_online": true
     }
   },

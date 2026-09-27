@@ -36,7 +36,7 @@ make run-heuristic            # terminal 1, the page
 make live                     # terminal 2, mic -> gemini-3.8-live (Vertex, us-central1) -> tool calls
 ```
 
-`MIC="MacBook" make live` picks an input device by name. The model only calls tools (`show_candidates`, `note`, `conclude`); it never speaks unless addressed as "Receipts", and it never ranks anyone itself. Events land in `state/live.jsonl`; the page polls `/api/live`. Nothing is recorded to disk except those events.
+`MIC="MacBook" make live` picks an input device by name. The model only calls tools (`show_candidates`, `note`, `conclude`); it never speaks unless addressed as "Pik", and it never ranks anyone itself. Events land in `state/live.jsonl`; the page polls `/api/live`. Nothing is recorded to disk except those events.
 
 ## The engine behind every surface (Meet, Slack, Jira)
 
@@ -60,7 +60,7 @@ make slack     # Socket Mode bot: ask "who is best for ..." in a channel it is i
 make notion    # board watcher: a ticket whose "Suggested owner" is empty gets an owner, a why and a receipts link within 5 s
 ```
 
-Secrets live in `.env` at the repo root (gitignored; copy `.env.example`) or in `~/.config/carl-life-os/.env`, never committed: `RECEIPTS_SLACK_BOT_TOKEN`, `RECEIPTS_SLACK_APP_TOKEN`, `RECEIPTS_NOTION_TOKEN`, `RECEIPTS_NOTION_DB`, optional `RECEIPTS_PUBLIC_URL` (a LAN address so links open from a phone). Third-party: `slack_bolt` (MIT), `notion-client` (MIT). The people are fictional, so a "mention" is text and the board's owner is a text property; a Jira or Linear assignee field would need real users.
+Secrets live in `.env` at the repo root (gitignored; copy `.env.example`) or in `~/.config/carl-life-os/.env`, never committed: `PIK_SLACK_BOT_TOKEN`, `PIK_SLACK_APP_TOKEN`, `PIK_NOTION_TOKEN`, `PIK_NOTION_DB`, optional `PIK_PUBLIC_URL` (a LAN address so links open from a phone). Third-party: `slack_bolt` (MIT), `notion-client` (MIT). The people are fictional, so a "mention" is text and the board's owner is a text property; a Jira or Linear assignee field would need real users.
 
 The "why" link opens the receipts page with the question prefilled: `/?q=<question>&focus=<person id>`.
 

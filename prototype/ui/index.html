@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Receipts</title>
+<title>Pik</title>
 <style>
   @font-face{font-family:Geist;src:url(/fonts/geist.woff2) format('woff2-variations');font-weight:100 900;font-display:swap}
   @font-face{font-family:"Geist Mono";src:url(/fonts/geist-mono.woff2) format('woff2-variations');font-weight:100 900;font-display:swap}
@@ -177,7 +177,7 @@
 <header>
   <div class="top">
     <div>
-      <div class="brand"><i></i> Receipts</div>
+      <div class="brand"><i></i> Pik</div>
       <h1 id="title" style="margin-top:14px">Loading</h1>
       <div class="sub"><span id="sub"></span> <button class="sources" id="auditlink" onclick="openAudit()">Sources</button></div>
     </div>
@@ -336,7 +336,7 @@ async function pollLive(){
       if(e.kind==='status'){$('#live').classList.toggle('on',!/stopped/.test(e.text));$('#livest').textContent=/stopped/.test(e.text)?'Listener off':'Listening';$('#liveheard').textContent=e.text;}
       if(e.kind==='heard'){$('#live').classList.add('on');$('#liveheard').textContent=e.text;}
       if(e.kind==='note'){liveNotes.push(e.text);$('#livest').textContent='On the record';$('#liveheard').textContent=e.text;}
-      if(e.kind==='follow_up'){$('#live').classList.add('on');$('#livest').textContent='Receipts asks';$('#liveheard').textContent=e.text;}
+      if(e.kind==='follow_up'){$('#live').classList.add('on');$('#livest').textContent='Pik asks';$('#liveheard').textContent=e.text;}
       if(e.kind==='show_candidates'&&!AS){
         if(e.t>LOADED) setToday(false); $('#crit').value=e.criterion; $('#livest').textContent=e.via==='transcript'?'Heard the criterion (transcript)':'Heard the criterion'; $('#liveheard').textContent=e.criterion;
         await doRank(); if(e.ranking&&e.ranking[0]) await selectCand(e.ranking[0]);

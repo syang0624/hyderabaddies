@@ -1,21 +1,30 @@
-"""Load RECEIPTS_* settings from the first .env that has them: <repo>/.env, <repo>/prototype/.env (both gitignored),
-then ~/.config/carl-life-os/.env. Surfaces import this first. Never commit a .env."""
+"""Load PIK_* settings from the first .env that has them: <repo>/.env, <repo>/prototype/.env (both gitignored),
+then ~/.config/carl-life-os/.env. The old RECEIPTS_* names are still read. Surfaces import this first. Never commit a .env."""
 import os
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent            # prototype/surfaces
 ENV_FILES = [HERE.parent.parent / ".env", HERE.parent / ".env", Path.home() / ".config" / "carl-life-os" / ".env"]
+LEGACY = "RECEIPTS_"
+
+
+def _canon(k):
+    return "PIK_" + k[len(LEGACY):] if k.startswith(LEGACY) else k
+
+
+for k in [k for k in os.environ if k.startswith(LEGACY)]:  # a legacy name in the process environment
+    os.environ.setdefault(_canon(k), os.environ[k])
 for env in ENV_FILES:
     if env.exists():
         for line in env.read_text().splitlines():
-            if line.startswith("RECEIPTS_") and "=" in line:
+            if line.startswith(("PIK_", LEGACY)) and "=" in line:
                 k, v = line.split("=", 1)
                 v = v.strip().strip('"').strip("'")
                 if v:  # an empty "KEY=" line means unset, so a later file or the default still applies
-                    os.environ.setdefault(k.strip(), v)
+                    os.environ.setdefault(_canon(k.strip()), v)
 
-API = os.environ.get("RECEIPTS_API") or "http://localhost:8787"
-PUBLIC = (os.environ.get("RECEIPTS_PUBLIC_URL") or API).rstrip("/")  # what a link in Slack/Notion should point at (LAN ip for a phone)
+API = os.environ.get("PIK_API") or "http://localhost:8787"
+PUBLIC = (os.environ.get("PIK_PUBLIC_URL") or API).rstrip("/")  # what a link in Slack/Notion should point at (LAN ip for a phone)
 
 
 def ask(question, context="", requester=None, k=3):

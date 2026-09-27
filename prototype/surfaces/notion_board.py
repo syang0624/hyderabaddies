@@ -1,7 +1,7 @@
 """Notion board surface: a ticket without a suggested owner gets one, with a why and a receipts link, while you watch.
 
-Needs (in <repo>/.env, gitignored, or ~/.config/carl-life-os/.env): RECEIPTS_NOTION_TOKEN=ntn_... (internal integration secret),
-RECEIPTS_NOTION_DB=<database id, or the database's URL>.
+Needs (in <repo>/.env, gitignored, or ~/.config/carl-life-os/.env): PIK_NOTION_TOKEN=ntn_... (internal integration secret),
+PIK_NOTION_DB=<database id, or the database's URL>.
 Database properties (create these in Notion): a title (usually "Name"), Description (text), Status (select or status, with an
 option "Owner suggested"), Suggested owner (text), Why (text), Receipts (url). Connect the integration to the database (... -> Connections).
 Run: make notion   (server must be running). Polls every 5 s; writes only rows whose Suggested owner is empty.
@@ -18,10 +18,10 @@ import _env  # noqa: E402,F401
 from notion_client import Client  # noqa: E402
 from notion_client.errors import APIResponseError  # noqa: E402
 
-TOKEN = os.environ.get("RECEIPTS_NOTION_TOKEN")
-DB = os.environ.get("RECEIPTS_NOTION_DB", "")
+TOKEN = os.environ.get("PIK_NOTION_TOKEN")
+DB = os.environ.get("PIK_NOTION_DB", "")
 if not TOKEN or not DB:
-    raise SystemExit("set RECEIPTS_NOTION_TOKEN and RECEIPTS_NOTION_DB in <repo>/.env (gitignored) or ~/.config/carl-life-os/.env")
+    raise SystemExit("set PIK_NOTION_TOKEN and PIK_NOTION_DB in <repo>/.env (gitignored) or ~/.config/carl-life-os/.env")
 notion = Client(auth=TOKEN)
 
 NEEDED = {"Description": "rich_text", "Suggested owner": "rich_text", "Why": "rich_text", "Receipts": "url"}
@@ -34,7 +34,7 @@ def normalize_id(s):
     tail = s.strip().split("?")[0].rstrip("/").rsplit("/", 1)[-1]
     m = re.search(r"[0-9a-f]{32}$", tail.replace("-", "").lower())
     if not m:
-        raise SystemExit(f"RECEIPTS_NOTION_DB={s!r} is not a Notion database id or URL")
+        raise SystemExit(f"PIK_NOTION_DB={s!r} is not a Notion database id or URL")
     return m.group(0)
 
 
@@ -53,8 +53,8 @@ def resolve(db_or_ds_id):
             notion.data_sources.retrieve(data_source_id=db_or_ds_id)
             ds_id = db_or_ds_id
         except APIResponseError:
-            raise SystemExit("Notion cannot find that database. Check RECEIPTS_NOTION_DB and connect the integration to the database "
-                             "(open the database, ... menu top right -> Connections -> Receipts).")
+            raise SystemExit("Notion cannot find that database. Check PIK_NOTION_DB and connect the integration to the database "
+                             "(open the database, ... menu top right -> Connections -> Pik).")
     props = notion.data_sources.retrieve(data_source_id=ds_id).get("properties", {})
     return ds_id, props
 
@@ -94,7 +94,7 @@ def run_once(ds_id, title, status_kind):
             continue
         a = _env.ask(name, context=desc, requester="notion")
         if a.get("follow_up") or not a["people"]:
-            notion.pages.update(page_id=page["id"], properties={"Why": rt(f"Receipts asks: {a.get('follow_up')}")})
+            notion.pages.update(page_id=page["id"], properties={"Why": rt(f"Pik asks: {a.get('follow_up')}")})
             print(f"[{time.strftime('%H:%M:%S')}] {name!r}: asked a follow-up", flush=True)
             continue
         top = a["people"][0]
@@ -120,7 +120,7 @@ def run_once(ds_id, title, status_kind):
 if __name__ == "__main__":
     ds_id, props = resolve(normalize_id(DB))
     title, status_kind = check_schema(props)
-    print(f"Receipts for Notion: watching the board (data source {ds_id[:8]}..., title property {title!r}, "
+    print(f"Pik for Notion: watching the board (data source {ds_id[:8]}..., title property {title!r}, "
           f"Status: {status_kind or 'none, skipped'}). Add a ticket; the owner, why and receipts fill in within 5 s.", flush=True)
     print(f"Engine: {_env.API}   'Receipts' links open: {_env.PUBLIC}", flush=True)
     while True:
