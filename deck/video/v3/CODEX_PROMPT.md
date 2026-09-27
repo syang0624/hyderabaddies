@@ -1,11 +1,41 @@
 # Pik video: handoff for the next session (GPT-6 Astra / Codex, run by Steven)
 
-> **READ THIS FIRST (Sun 00:55 PDT): V4 is NOT accepted.** Carl and Steven rejected `deck/video/v4/pik_90s_v4.mp4`: it misses its beats, is not engaging, and the new-hire beat (08b_crud, "Add Mika Ono") made no sense on screen. Do not polish V4, do not present it as done. Only the brand tokens, the re-rendered animated beats, the two real Slack/Notion takes and the music bed carry over.
-> **V5 is being cut now (Sun 01:55) from the REAL Meet take** `deck/video/v5/captures/meet_real.mp4` (Carl and Steven inside a Google Meet, Pik as a participant presenting the page, its part hard-coded via `prototype/scripts/hackathon.json` and `pik-cue`). Carl's V5 feedback, all being applied: slower pace in sync with the narration; no disclosure card; a Recruit Holdings wordmark beat, then "Team formation" alone, then the quotes; no caption pills that read as subtitles; a "Meet Yui" bridge; the mining beat legible with a moment of surprise after each pull; receipts pulsate then settle, no "200", no "dropped" text; a bridge into the Meet and a conclusion-page beat after it; Slack shown whole then pushed in to the composer; Notion pushed in to the filled row; no new-hire and no Yui's-page beats; end card without the "Same page for both sides" line. Everything lands under `deck/video/v5/`.
+> **READ THIS FIRST (Sun 02:20 PDT): V5 is the accepted cut.** `deck/video/v5/pik_90s_v5.mp4` (90.0 s, 1920x1080, pushed as `3bac117`). It is built from the REAL Meet recording Carl and Steven made (`deck/video/v5/captures/meet_real.mp4`, 63 s, force-added). V4 and V3 are superseded; do not touch them.
+> Your job now is the deck and the submission assets, not the video. If Carl asks for a change to the video, edit `deck/video/v5/build_v5.py` (the `SEGMENTS` table is the edit), re-run it, and check stills. Never play audio.
 
-> **Current cut: V4** (`deck/video/v4/pik_90s_v4.mp4`, 89.7 s; stage video `deck/video/v4/meet_stage_demo.mp4` + `STAGE_CUES.md`; `STORYBOARD_v4.md`, `TIMING.md`).
-> V4 = this V3 cut on ONE brand (the product screen's tokens: page #fafafa, white cards with the hairline shadow, ink #171717, one lime accent #D6F25A; the mascot is the screen's Pik mark), with every animated beat re-rendered and the product-page captures re-recorded on the rebuilt screen (00:21 to 00:23).
-> Re-stitch V4 with `python3 deck/video/v4/build_v4.py` (reads `../v2/renders`, `../v3/renders`, `../v3/captures`, `../v3/vo`, `../v3/music`) and `python3 deck/video/v4/build_stage_v4.py`. Everything below about V3's pieces still holds; V3's own mp4 is superseded.
+## V5, what is on screen (from `deck/video/v5/TIMING.md` and `STORYBOARD_v5.md`)
+
+| start | beat | what | narration |
+|---|---|---|---|
+| 0.0 | blur | five roles collapse into one blob, headline | "The line between roles is blurring." |
+| 3.4 | asked | "We asked people at Recruit Holdings", "Team formation." alone, three quote cards, "Decided from memory." | "We asked people at Recruit Holdings. Team formation. Every answer: who does what next, decided from memory." |
+| 11.0 | Meet Pik | Pik mark on the lime disc | "Meet Pik. It knows who's done what, and answers where you ask." |
+| 15.3 | Meet Yui | Yui, her role, "Pik lives where she works" | "Pik knows how Yui is doing: it lives where she works." |
+| 18.9 | her Slack, her email | the replicas at 1.5x, a vacuum, one surprise line each | "It reads what she already wrote, where the company allows." |
+| 27.7 | receipts | stubs gather, pulse once, two unsourced fade out | "Every line keeps its source." |
+| 30.1 | bridge | first second of the recording under a scrim: "Pik joins the call." | none |
+| 31.1 | the Meet | the real take, 42.3 s, own sound | none |
+| 73.4 | conclusion | the presented page's conclusion card, "Filed" | none |
+| 75.4 | Slack | real take, push-in to the composer | "Or ask in Slack. One press to loop her in." |
+| 81.6 | ticket | real Notion take, push-in to the filled row | "On a ticket, it fills in the owner, and shows why." |
+| 86.6 | end | headline with Pik on the lime highlight, music credit in small mono | "Because the future of your work depends on who you Pik." |
+
+Stills for the deck: `ffmpeg -ss <s> -i deck/video/v5/pik_90s_v5.mp4 -frames:v 1 out.png`. Good ones: 2.8 (blur), 9.5 (decided from memory), 13 (Meet Pik), 24 (her Slack), 45 (the Meet, tiles landing), 74 (conclusion), 79 (Slack), 85 (Notion), 89 (end).
+
+## Rebuild V5 (only if asked)
+
+```bash
+python3 deck/video/v5/build_v5.py     # reads its own html/, renders/, vo/, captures/, ../v3/music; writes TIMING.md
+```
+`narrate_v5.py --only <id>` re-records one narration line on Vertex Live (project `recruit-hackathon-2026-e`). Check with ffprobe (≤ 90.0 s) and stills, never by playing it.
+
+## Brand, on every asset
+
+Page #fafafa, white cards with a hairline (#ebebeb), ink #171717, body #4d4d4d, mute #888888, one lime accent #D6F25A (tint #f4fbd6). Geist and Geist Mono, weight never above 600, no em dashes. The mascot is the product screen's Pik mark. Lime, never clay.
+
+---
+
+Everything below is history from the V3 build (kept for the paths it documents).
 
 Written Sun Sep 27 2026, ~00:00 PDT, by Claude in Carl's session. V3 is built and pushed; do not redo it. Run `date` first. Deadline Sun 11:00 PDT (repo + video ≤ 90 s + deck); Carl posts the submission.
 
