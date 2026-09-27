@@ -175,3 +175,14 @@ It would sit behind a flag, off by default, in place of the term-overlap step in
 
 - Base model `intfloat/multilingual-e5-small`: MIT. The fine-tuned weights are a derivative and are not committed.
 - Training and test data: the fictional Kaede Works fixtures in `prototype/data/`. No real employee data, no DMs or private channels (the generator never produced any), no hosted model API calls. The base model's weights were downloaded from Hugging Face once; everything else ran on one Mac.
+
+## In production (planned, not built)
+
+Steven's plan for the customer deployment, kept here so the deck and this folder say the same thing:
+
+- **What it learns from:** pairs of an ask and the evidence a filed decision actually used, in Japanese and English; contests and dropped claims as corrections. Per customer, inside that customer's own cloud project, never pooled across customers. Never direct messages, private channels or protected attributes.
+- **Where it trains:** `config.example.yaml` is a placeholder for per-customer training on Vertex AI. Nothing has been trained there; the only training so far is the local run above.
+- **Output:** retrieved evidence with its source, used to weigh one task. Never a grade of a person; the person named sees the same page.
+- **Next layers (not built):** opt-in capture read with OCR and a vision-language model, and connectors for vertical systems such as hospital shift rosters or airline crew logs.
+
+Note on Japanese: the 28 Japanese asks are test only. The model was fine-tuned on English pairs; Japanese asks work through the multilingual base model and score level with it (see the table above).

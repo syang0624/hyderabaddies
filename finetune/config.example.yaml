@@ -1,0 +1,13 @@
+# Planned per-customer fine-tune for Pik's confidence engine. Placeholder values; nothing has been trained.
+project: "<customer-gcp-project>"      # runs inside the customer's own Vertex AI project
+region: "us-central1"
+base_model: "<gemini-flash-tunable>"
+task: "retrieval"                      # ask -> the evidence a filed decision used
+data:
+  positives: "gs://<bucket>/pik/filed_decisions.jsonl"
+  corrections: "gs://<bucket>/pik/contests_and_drops.jsonl"
+  exclude: ["direct_messages", "private_channels", "protected_attributes"]
+eval:
+  holdout: "last_two_cycles"
+  metrics: ["recall_of_decision_evidence", "contest_rate", "dropped_claim_share"]
+output: "confidence per task with sources; never a grade of a person"
