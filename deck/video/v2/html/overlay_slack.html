@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pik overlay: Slack take</title>
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+  /* Transparent overlay for renders/08_slack_real.mp4 (7.6 s). Marks measured from the take: the question posts at
+     ~2.0 s, Pik's card lands at ~2.15 s (card text spans to x 1880 from y 460 down), the Loop in Yui press shows its
+     spinner at ~6.3 s, the loop-in message appears at ~6.7 s. Pik stays small (150 px) in the free top-right corner of
+     the pane (x 1650-1900, y 120-340 is clear in every frame). */
+  html,body{background:transparent!important}
+  #stage{background:transparent}
+  #pik{position:absolute;left:0;top:0;width:115px;height:150px;filter:drop-shadow(0 10px 12px rgba(0,0,0,.55))}
+  #ant{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;filter:drop-shadow(0 5px 7px rgba(0,0,0,.45))}
+  #think{position:absolute;left:0;top:0;width:58px;height:26px;border-radius:13px;background:#EFEAE2;box-shadow:0 4px 10px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;gap:6px;transform-origin:center bottom}
+  #think i{width:7px;height:7px;border-radius:50%;background:#2B2521;display:block}
+</style>
+</head>
+<body>
+<div id="stage">
+  <svg id="ant" viewBox="0 0 1920 1080">
+    <path id="rim" fill="none" stroke="#EFEAE2" stroke-width="15" stroke-linecap="round"/>
+    <path id="arc" fill="none" stroke="#111" stroke-width="10" stroke-linecap="round"/>
+    <circle id="tip" r="0" fill="#111" stroke="#EFEAE2" stroke-width="2.5"/>
+  </svg>
+  <div id="pik"></div>
+  <div id="think"><i></i><i></i><i></i></div>
+</div>
+<script src="assets/shared.js"></script>
+<script>
+(function(){
+  const P = window.PIK, $ = s => document.querySelector(s);
+  const host = $('#pik'), svg = P.pikbot(host, 115), think = $('#think'), dots = Array.from(think.children);
+  const root = svg.querySelector('.pk-root'), body = svg.querySelector('.pk-body'), antenna = svg.querySelector('.pk-antenna'), eyes = svg.querySelector('.pk-eyes');
+  body.setAttribute('stroke', '#EFEAE2'); body.setAttribute('stroke-width', '4'); body.setAttribute('paint-order', 'stroke');
+  const antRim = antenna.cloneNode(); antRim.classList.remove('pk-antenna'); antRim.setAttribute('stroke', '#EFEAE2'); antRim.setAttribute('stroke-width', '19'); antenna.parentNode.insertBefore(antRim, antenna);
+  const rim = $('#rim'), arc = $('#arc'), tip = $('#tip');
+  const SC = 115 / 200, ROOT = { x: 96 * SC, y: 78 * SC };
+  const H = { x: 1732, y: 165 };                              // home (host top-left): the clear top-right corner of the pane
+  const CARD = { x: 1610, y: 432 };                           // just above the card's top edge, right of the question line
+  const T = { enter: [1950, 2350], think: [2050, 2350], ant: [2300, 2650], antBack: [3400, 3700], hop: [6300, 6750], exit: [6900, 7400], blinks: [2900, 5000] };
+  const DUR = 7600;
+  function arcPath(from, to, ext, ms, pulse) {
+    if (ext <= 0) { rim.setAttribute('d', ''); arc.setAttribute('d', ''); tip.setAttribute('r', '0'); return; }
+    const ex = P.lerp(from.x, to.x, ext), ey = P.lerp(from.y, to.y, ext);
+    const dx = ex - from.x, dy = ey - from.y, L = Math.hypot(dx, dy) || 1;
+    let nx = -dy / L, ny = dx / L; if (ny > 0) { nx = -nx; ny = -ny; }        // bow upward
+    const bow = 0.3 * L;
+    const cx = (from.x + ex) / 2 + nx * bow, cy = (from.y + ey) / 2 + ny * bow;
+    const d = `M${from.x.toFixed(1)} ${from.y.toFixed(1)} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`;
+    rim.setAttribute('d', d); arc.setAttribute('d', d);
+    tip.setAttribute('cx', ex); tip.setAttribute('cy', ey); tip.setAttribute('r', String(6 + (pulse ? 1.5 * Math.abs(Math.sin(ms / 110)) : 0)));
+  }
+  function seek(ms) {
+    let x = H.x, y = H.y, sx = 1, sy = 1, rot = 0;
+    const vis = ms >= T.enter[0] && ms < T.exit[1];
+    if (ms < T.enter[1]) { x = P.lerp(1960, H.x, P.seg(ms, T.enter[0], T.enter[1] - T.enter[0], P.easeOut)); }
+    else if (ms >= T.exit[0]) { const t = P.seg(ms, T.exit[0], T.exit[1] - T.exit[0], P.easeIn); x = P.lerp(H.x, 1980, t); rot = 6 * t; }
+    const h = P.clamp((ms - T.hop[0]) / (T.hop[1] - T.hop[0]));            // one hop, when Loop in Yui is pressed
+    if (h > 0 && h < 1) { y -= 55 * Math.sin(h * Math.PI); if (h < .12) { sy = 1 - .12 * (1 - h / .12); sx = 1 + .08 * (1 - h / .12); } }
+    const q = P.clamp((ms - T.hop[1]) / 150); if (q > 0 && q < 1) { sy = 1 - .12 * Math.sin(q * Math.PI); sx = 1 + .08 * Math.sin(q * Math.PI); }
+    host.style.visibility = vis ? 'visible' : 'hidden';
+    host.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${rot.toFixed(2)}deg)`;
+    root.style.transform = `scale(${sx.toFixed(3)},${sy.toFixed(3)})`;
+    let b = 1; for (const at of T.blinks) { const t = P.clamp((ms - at) / 180); if (t > 0 && t < 1) b = 0.08 + 0.92 * Math.abs(t * 2 - 1); }
+    eyes.style.transform = `scaleY(${b})`;
+    // thinking chip above the head while it peeks in
+    const tin = P.seg(ms, T.think[0], 120, P.easeOut), tout = P.seg(ms, T.think[1], 100, P.easeIn);
+    const ts = tin * (1 - tout);
+    think.style.visibility = ts > 0 ? 'visible' : 'hidden';
+    think.style.transform = `translate(${(x + 30).toFixed(1)}px,${(y - 34).toFixed(1)}px) scale(${(0.6 + 0.4 * ts).toFixed(3)})`;
+    think.style.opacity = String(ts);
+    dots.forEach((d, i) => { const ph = ((ms - T.think[0]) / 300 - i * 0.25) % 1; d.style.opacity = String(0.35 + 0.65 * Math.max(0, Math.sin(Math.max(0, ph) * Math.PI))); });
+    // antenna points at the card for a beat, then retracts
+    const ext = P.seg(ms, T.ant[0], T.ant[1] - T.ant[0], P.easeOut) * (1 - P.seg(ms, T.antBack[0], T.antBack[1] - T.antBack[0], P.easeInOut));
+    antenna.style.opacity = antRim.style.opacity = ext > 0 ? '0' : '1';
+    arcPath({ x: x + ROOT.x, y: y + ROOT.y }, CARD, vis ? ext : 0, ms, ms > T.ant[1] && ms < T.antBack[0]);
+    P.spring(svg, ms, T.antBack[1], 700, 12);
+  }
+  P.init(seek, DUR);
+})();
+</script>
+</body>
+</html>

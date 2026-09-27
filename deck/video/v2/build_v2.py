@@ -36,10 +36,10 @@ SEGMENTS = [
       caps=[("Heard the criterion. Re-sorted on their words. No score.", 8.4, 11.6),
             ("Her own words, and what her manager wrote. Both attached.", 12.0, 15.6),
             ("What the meeting concluded. Receipts attached.", 17.6, 19.8)]),
- dict(name="08_slack",      src=R/"08_slack_real.mp4", dur=7.6, light=False,  # real take in Carl's Dia (captures/slack_real.mp4); replica: R/"08_slack.mp4"
+ dict(name="08_slack",      src=R/"08_slack_real_pik.mp4", dur=7.6, light=False,  # real take in Carl's Dia with Pik running around on it (render_alpha.py over 08_slack_real.mp4); replica: R/"08_slack.mp4"
       vo=[("08_slack", 0.4)],
       caps=[("Ask where you already are. One press to loop her in.", 0.8, 7.4)]),
- dict(name="09_ticket",     src=R/"09_notion_real.mp4", dur=9.0, light=False, vo=[("09_ticket", 0.4)],  # real Notion take (captures/notion_real.mp4); replica: R/"09_ticket.mp4"
+ dict(name="09_ticket",     src=R/"09_notion_real_pik.mp4", dur=9.0, light=False, vo=[("09_ticket", 0.4)],  # real Notion take with Pik on it (render_alpha.py over 09_notion_real.mp4); replica: R/"09_ticket.mp4"
       caps=[("A new ticket. Pik fills in the owner, and the why.", 1.0, 8.8)]),
  dict(name="10_verticals",  src=R/"10_verticals.mp4",  dur=6.8, light=True, vo=[("10_verticals", 0.15)],
       caps=[("Anywhere the wrong person on the job is expensive.", 3.6, 6.8)]),
