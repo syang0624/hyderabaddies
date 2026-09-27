@@ -12,3 +12,4 @@ __pycache__/
 deck/video/broll/
 deck/video/_seg/
 deck/video/vo/*.raw.wav
+pw/
