@@ -1,0 +1,81 @@
+{
+ "beat_ss": 1.545,
+ "beat_len": 20.31,
+ "rest": 1.0,
+ "jcut": 1.4,
+ "vo": {
+  "07_manager": -1.4,
+  "07_english": 5.76,
+  "07_manager2_alt": 14.25
+ },
+ "durations": {
+  "m1": 6.913542,
+  "en": 8.287292,
+  "m2": 4.257042,
+  "m2_id": "07_manager2_alt"
+ },
+ "marks": {
+  "listening": 1.73,
+  "question": 3.4,
+  "tiles": 5.23,
+  "own_words": 6.6,
+  "ask": 8.99,
+  "manager_note": 10.61,
+  "conclusion": 18.64,
+  "filed": 19.43
+ },
+ "rows": [
+  [
+   1.3,
+   "status",
+   ""
+  ],
+  [
+   2.2,
+   "heard",
+   ""
+  ],
+  [
+   4.2,
+   "compose",
+   ""
+  ],
+  [
+   6.0,
+   "place",
+   "r1"
+  ],
+  [
+   8.3,
+   "place",
+   "a1"
+  ],
+  [
+   10.07,
+   "place",
+   "r2"
+  ],
+  [
+   17.91,
+   "heard",
+   ""
+  ],
+  [
+   18.01,
+   "conclude",
+   ""
+  ],
+  [
+   18.81,
+   "filed",
+   ""
+  ],
+  [
+   20.41,
+   "status",
+   ""
+  ]
+ ],
+ "webm": "meet_v3.webm",
+ "recorded": "2026-09-27 00:21:28"
+}

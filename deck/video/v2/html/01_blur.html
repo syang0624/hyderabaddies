@@ -1,0 +1,49 @@
+<!doctype html><html><head><meta charset="utf-8"><title>01 blur</title>
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+#row{position:absolute;left:0;right:0;top:0;height:1080px;display:flex;align-items:center;justify-content:center;gap:0}
+.w{font-weight:500;font-size:84px;letter-spacing:-0.02em;color:var(--ink);padding:0 44px;white-space:nowrap;will-change:transform,filter}
+.d{width:2px;height:80px;background:var(--rule);flex:none}
+#blobwrap{position:absolute;left:960px;top:540px;width:0;height:0}
+#blob{position:absolute;left:-84px;top:-96px;width:168px;height:192px;transform-origin:50% 50%}
+#eyes{position:absolute;left:0;top:0;width:168px;height:192px;display:flex;justify-content:center;gap:16px;padding-top:58px}
+#eyes i{display:block;width:12px;height:28px;border-radius:6px;background:var(--card);transform-origin:50% 50%}
+#head{position:absolute;left:0;right:0;top:600px;text-align:center}
+.line{overflow:hidden;padding:0 0 .06em}
+.line .in{display:inline-block;font-weight:600;font-size:104px;line-height:1.02;letter-spacing:-0.035em;color:var(--ink)}
+</style></head><body><div id="stage">
+<div id="row">
+  <span class="w">HR</span><span class="d"></span><span class="w">Engineering</span><span class="d"></span><span class="w">Design</span><span class="d"></span><span class="w">Sales</span><span class="d"></span><span class="w">Ops</span>
+</div>
+<div id="blobwrap"><div id="blob" class="blob"><div id="eyes"><i></i><i></i></div></div></div>
+<div id="head">
+  <div class="line"><div class="in">The line between roles</div></div>
+  <div class="line"><div class="in">is blurring.</div></div>
+</div>
+</div>
+<script src="assets/shared.js">
+</script><script>
+const {seg,lerp,easeInOut,easeIn,clamp}=PIK;
+const words=[...document.querySelectorAll('.w')], divs=[...document.querySelectorAll('.d')];
+let centers=null, final=false;
+function measure(){ words.forEach(w=>{w.style.transform='none'}); const rowL=document.getElementById('row').getBoundingClientRect().left;
+  centers=words.map(w=>{const r=w.getBoundingClientRect(); return r.left-rowL+r.width/2}); final=document.fonts.status==='loaded'; }
+function seek(ms){
+  if(!centers||(!final&&document.fonts.status==='loaded')) measure();
+  // 0-900: words enter, staggered 80 ms; dividers draw
+  words.forEach((w,i)=>{ const p=seg(ms,80+i*80,480); const m=seg(ms,1500,1100,easeInOut); const f=seg(ms,2450,600,easeIn);
+    const dx=(960-centers[i])*m; const blur=lerp(0,14,f); const sc=lerp(1,0.55,f);
+    w.style.opacity=(p*(1-f)).toFixed(3); w.style.filter=blur>0.2?`blur(${blur.toFixed(1)}px)`:'none';
+    w.style.transform=`translate(${dx.toFixed(1)}px,${lerp(18,0,p).toFixed(1)}px) scale(${sc.toFixed(3)})`; });
+  divs.forEach((d,i)=>{ const p=seg(ms,300+i*80,400); const g=seg(ms,1150,700,easeIn); const m=seg(ms,1500,1100,easeInOut);
+    d.style.opacity=(p*(1-g)).toFixed(3); d.style.filter=g>0?`blur(${(g*10).toFixed(1)}px)`:'none'; d.style.transform=`scaleY(${p.toFixed(3)})`; });
+  // the blob forms at the centre as the words vanish, then rises
+  const b=seg(ms,2500,650); const up=seg(ms,3150,650,easeInOut);
+  const blob=document.getElementById('blob'); blob.style.opacity=b>0?1:0;
+  blob.style.transform=`translateY(${lerp(0,-260,up).toFixed(1)}px) scale(${lerp(0.2,1,b).toFixed(3)})`;
+  const e=seg(ms,3250,220); document.querySelectorAll('#eyes i').forEach(i=>i.style.transform=`scaleY(${e.toFixed(3)})`);
+  // headline mask-reveal, two lines, 90 ms apart
+  document.querySelectorAll('#head .in').forEach((el,i)=>{ const p=seg(ms,3450+i*90,620); el.style.transform=`translateY(${lerp(110,0,p).toFixed(1)}%)`; });
+}
+PIK.init(seek,5500);
+</script></body></html>

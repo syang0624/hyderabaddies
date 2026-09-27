@@ -1,0 +1,44 @@
+{
+ "name": "stage_v3",
+ "badge": "scripted",
+ "description": "The STAGE Meet video on the new Pik screen: the five live lines (Carl and Steven say them; see STAGE_CUES.md) with holds. Speakers start at 3, 20, 32, 43, 56 s; the screen reacts 7 to 14 s later, at the rows below. Replayed by prototype/live_script.py through live.py's compose/place/emit (the real engine fills tiles, quotes and coverage). Pik's spoken follow-up (vo/stage_followup.wav) is the ask row's text; capture_ui.py checks it still equals engine.ask(L3)['follow_up'].",
+ "duration": 78.0,
+ "lines": {
+  "L1": "Sure. So for the Northwind exchange slot. Honestly I need someone who will push back on the job-based culture over there instead of just absorbing it. And they have to hold their own in English in meetings.",
+  "L2": "Got it. One constraint from my side: the posting starts April 2027, and we cannot lose anyone from pricing before the Q1 close.",
+  "L3": "Actually, we also need someone good for this. Just someone good.",
+  "L4": "I keep coming back to Yui. What did she actually write about this herself, and what did her manager write about her?",
+  "L5": "Okay. Looking at this, Yui's own words say she wants exactly that, and she has been running the Northwind sync in English. Let's set up calls with Yui and Kei this week, and ask Yui whether her manager's note about being flexible on location is actually true. That's it for today, thanks."
+ },
+ "rows": [
+  {"at": 0.5, "op": "status", "text": "scripted take: listening on the call"},
+  {"at": 12.0, "op": "heard", "text": "Sure. So for the Northwind exchange slot. Honestly I need someone who will push back on the job-based culture over there instead of just absorbing it. And they have to hold their own in English in meetings."},
+  {"at": 12.5, "op": "compose", "blocks": [
+    {"type": "question", "id": "q1", "text": "I need someone who will push back on the job-based culture over there instead of just absorbing it, and they have to hold their own in English in meetings."},
+    {"type": "people", "id": "p1", "criterion": "will push back on the job-based culture instead of just absorbing it, and they have to hold their own in English in meetings"}
+  ]},
+  {"at": 26.0, "op": "heard", "text": "Got it. One constraint from my side: the posting starts April 2027, and we cannot lose anyone from pricing before the Q1 close."},
+  {"at": 26.5, "op": "place", "op_kind": "add", "block": {"type": "constraint", "id": "c1", "text": "starts April 2027"}},
+  {"at": 26.9, "op": "place", "op_kind": "add", "block": {"type": "constraint", "id": "c2", "text": "cannot lose anyone from pricing before the Q1 close"}},
+  {"at": 35.0, "op": "heard", "text": "Actually, we also need someone good for this. Just someone good."},
+  {"at": 35.5, "op": "place", "op_kind": "add", "block": {"type": "ask", "id": "a1", "text": "What would this person actually do in the first month?"}},
+  {"at": 48.0, "op": "heard", "text": "I keep coming back to Yui. What did she actually write about this herself, and what did her manager write about her?"},
+  {"at": 48.5, "op": "place", "op_kind": "add", "block": {"type": "receipt", "id": "r1", "person": "yui", "kind": "own_words"}},
+  {"at": 49.3, "op": "place", "op_kind": "add", "block": {"type": "receipt", "id": "r2", "person": "yui", "kind": "manager"}},
+  {"at": 69.0, "op": "heard", "text": "Okay. Looking at this, Yui's own words say she wants exactly that, and she has been running the Northwind sync in English. Let's set up calls with Yui and Kei this week, and ask Yui whether her manager's note about being flexible on location is actually true. That's it for today, thanks."},
+  {"at": 69.5, "op": "conclude", "args": {
+    "summary": "Set up calls with Yui and Kei this week. Ask Yui whether her manager's note about being flexible on location is actually true before deciding.",
+    "candidate_ids": ["yui", "kei"],
+    "next_steps": ["Set up calls with Yui and Kei this week", "Ask Yui about the location note before deciding"],
+    "open_questions": ["Yui: is your manager's note that you are flexible on location actually true?"]
+  }},
+  {"at": 72.0, "op": "filed", "args": {
+    "ask_id": "exchange-2027-stage-1",
+    "summary": "Set up calls with Yui and Kei this week. Ask Yui whether her manager's note about being flexible on location is actually true before deciding.",
+    "question": "I need someone who will push back on the job-based culture over there instead of just absorbing it, and they have to hold their own in English in meetings.",
+    "open_questions": [{"person": "yui", "text": "Is your manager's note that you are flexible on location actually true?"}],
+    "notified": ["yui", "kei"]
+  }},
+  {"at": 78.0, "op": "status", "text": "scripted take: end"}
+ ]
+}

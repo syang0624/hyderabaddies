@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pik overlay: Notion take</title>
+<link rel="stylesheet" href="assets/shared.css">
+<style>
+  /* Transparent overlay for renders/09_notion_real.mp4 (9.0 s). Marks measured from the take: the new row appears at
+     ~1.0 s with its empty "Suggested owner" cell at x 948-1273, y 632-760; the watcher fills the cells at ~4.05 s and
+     the board jumps up ~260 px at that instant (the antenna retract is timed on it); a slow push-in from 4.2 s.
+     Pik: drops in top-right 0.4-1.0, looks, one hop to below the row 1.3-1.8, antenna into the cell 2.2-2.6, glows,
+     retracts 4.05-4.35, one small happy bounce 4.5-4.9, drifts up-right and out 5.0-6.0. */
+  html,body{background:transparent!important}
+  #stage{background:transparent}
+  #pik{position:absolute;left:0;top:0;width:160px;height:208px;filter:drop-shadow(0 12px 14px rgba(0,0,0,.55))}
+  #ant{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;filter:drop-shadow(0 6px 8px rgba(0,0,0,.45))}
+</style>
+</head>
+<body>
+<div id="stage">
+  <svg id="ant" viewBox="0 0 1920 1080">
+    <path id="rim" fill="none" stroke="#EFEAE2" stroke-width="19" stroke-linecap="round"/>
+    <path id="arc" fill="none" stroke="#111" stroke-width="13" stroke-linecap="round"/>
+    <circle id="glow" r="0" fill="#EFEAE2" opacity="0"/><circle id="tip" r="0" fill="#111" stroke="#EFEAE2" stroke-width="3"/>
+  </svg>
+  <div id="pik"></div>
+</div>
+<script src="assets/shared.js"></script>
+<script>
+(function(){
+  const P = window.PIK, $ = s => document.querySelector(s);
+  const host = $('#pik'), svg = P.pikbot(host, 160);
+  const root = svg.querySelector('.pk-root'), body = svg.querySelector('.pk-body'), antenna = svg.querySelector('.pk-antenna'), eyes = svg.querySelector('.pk-eyes');
+  // bone rim so the black mascot reads on a dark page
+  body.setAttribute('stroke', '#EFEAE2'); body.setAttribute('stroke-width', '4'); body.setAttribute('paint-order', 'stroke');
+  const antRim = antenna.cloneNode(); antRim.classList.remove('pk-antenna'); antRim.setAttribute('stroke', '#EFEAE2'); antRim.setAttribute('stroke-width', '19'); antenna.parentNode.insertBefore(antRim, antenna);
+  const rim = $('#rim'), arc = $('#arc'), tip = $('#tip'), glow = $('#glow');
+  const SC = 160 / 200;                                   // host scale of the 200x260 mascot box
+  const ROOT = { x: 96 * SC, y: 78 * SC };                // antenna root inside the host
+  const CELL = { x: 1112, y: 692 };                       // inside the empty Suggested owner cell
+  const L0 = { x: 1700, y: 800 }, L1 = { x: 1440, y: 800 };   // landing spots (host top-left): the empty band below the table, right of the burned caption (x 510-1410)
+  const T = { drop: [400, 1000], look: [1050, 1300], hop: [1300, 1800], ant: [2200, 2600], antBack: [4050, 4350], bounce: [4500, 4900], exit: [5000, 6000], blinks: [1900, 3300] };
+  const DUR = 9000;
+  function arcPath(from, to, ext, ms, wobble) {
+    if (ext <= 0) { rim.setAttribute('d', ''); arc.setAttribute('d', ''); tip.setAttribute('r', '0'); glow.setAttribute('opacity', '0'); return; }
+    const ex = P.lerp(from.x, to.x, ext), ey = P.lerp(from.y, to.y, ext);
+    const dx = ex - from.x, dy = ey - from.y, L = Math.hypot(dx, dy) || 1;
+    let nx = -dy / L, ny = dx / L; if (nx > 0) { nx = -nx; ny = -ny; }        // bow to the left, away from the body
+    const bow = 0.28 * L + (wobble ? 4 * Math.sin(ms / 70) : 0);
+    const cx = (from.x + ex) / 2 + nx * bow, cy = (from.y + ey) / 2 + ny * bow;
+    const d = `M${from.x.toFixed(1)} ${from.y.toFixed(1)} Q${cx.toFixed(1)} ${cy.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`;
+    rim.setAttribute('d', d); arc.setAttribute('d', d);
+    tip.setAttribute('cx', ex); tip.setAttribute('cy', ey); tip.setAttribute('r', String(8 + (wobble ? 2 * Math.abs(Math.sin(ms / 110)) : 0)));
+    glow.setAttribute('cx', ex); glow.setAttribute('cy', ey);
+    const g = wobble ? 0.35 + 0.35 * Math.abs(Math.sin(ms / 160)) : 0;
+    glow.setAttribute('r', String(22 + 8 * Math.abs(Math.sin(ms / 160)))); glow.setAttribute('opacity', String(g));
+  }
+  function seek(ms) {
+    let x, y, sx = 1, sy = 1, rot = 0, vis = ms >= T.drop[0] && ms < T.exit[1];
+    // drop in from the top-right (gravity: ease-in), landing squash
+    if (ms < T.hop[0]) {
+      const t = P.seg(ms, T.drop[0], T.drop[1] - T.drop[0], P.easeIn);
+      x = P.lerp(1800, L0.x, P.seg(ms, T.drop[0], T.drop[1] - T.drop[0], P.easeInOut)); y = P.lerp(-260, L0.y, t);
+      const q = P.clamp((ms - T.drop[1]) / 180); if (q > 0 && q < 1) { sy = 1 - .14 * Math.sin(q * Math.PI); sx = 1 + .09 * Math.sin(q * Math.PI); }
+    } else if (ms < T.hop[1]) {           // one hop to below the new row
+      const t = (ms - T.hop[0]) / (T.hop[1] - T.hop[0]);
+      x = P.lerp(L0.x, L1.x, P.easeInOut(t)); y = L1.y - 110 * Math.sin(t * Math.PI);
+      if (t < .12) { sy = 1 - .12 * (1 - t / .12); sx = 1 + .08 * (1 - t / .12); }
+      rot = -8 * Math.sin(t * Math.PI);
+    } else if (ms < T.exit[0]) {
+      x = L1.x; y = L1.y;
+      const q = P.clamp((ms - T.hop[1]) / 160); if (q > 0 && q < 1) { sy = 1 - .12 * Math.sin(q * Math.PI); sx = 1 + .08 * Math.sin(q * Math.PI); }
+      const b = P.clamp((ms - T.bounce[0]) / (T.bounce[1] - T.bounce[0]));     // small happy bounce, in place
+      if (b > 0 && b < 1) { y -= 42 * Math.sin(b * Math.PI); sy = 1 + .05 * Math.sin(b * Math.PI); }
+      const bq = P.clamp((ms - T.bounce[1]) / 140); if (bq > 0 && bq < 1) { sy = 1 - .1 * Math.sin(bq * Math.PI); sx = 1 + .06 * Math.sin(bq * Math.PI); }
+    } else {                              // drift up-right and out
+      const t = P.seg(ms, T.exit[0], T.exit[1] - T.exit[0], P.easeIn);
+      x = P.lerp(L1.x, 2000, t); y = P.lerp(L1.y, -320, t); rot = 14 * t;
+    }
+    host.style.visibility = vis ? 'visible' : 'hidden';
+    host.style.transform = `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${rot.toFixed(2)}deg)`;
+    root.style.transform = `scale(${sx.toFixed(3)},${sy.toFixed(3)})`;
+    // look at the board: eyes drift left, then back
+    const lk = P.seg(ms, T.look[0], T.look[1] - T.look[0], P.easeInOut);
+    const back = P.seg(ms, T.hop[0] - 60, 120, P.easeInOut);
+    let b = 1; for (const at of T.blinks) { const t = P.clamp((ms - at) / 180); if (t > 0 && t < 1) b = 0.08 + 0.92 * Math.abs(t * 2 - 1); }
+    eyes.style.transform = `translateX(${(-4 * lk * (1 - back)).toFixed(1)}px) scaleY(${b})`;
+    // antenna into the cell, glow while the watcher works, retract exactly as the cells fill
+    const ext = P.seg(ms, T.ant[0], T.ant[1] - T.ant[0], P.easeOut) * (1 - P.seg(ms, T.antBack[0], T.antBack[1] - T.antBack[0], P.easeInOut));
+    antenna.style.opacity = antRim.style.opacity = ext > 0 ? '0' : '1';
+    const from = { x: x + ROOT.x, y: y + ROOT.y };
+    arcPath(from, CELL, vis ? ext : 0, ms, ms > T.ant[1] && ms < T.antBack[0]);
+    P.spring(svg, ms, T.antBack[1], 700, 14);
+  }
+  P.init(seek, DUR);
+})();
+</script>
+</body>
+</html>

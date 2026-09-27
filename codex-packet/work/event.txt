@@ -1,0 +1,530 @@
+SEPTEMBER 25–27
+
+San Francisco
+
+
+
+
+Supported by
+Agenda
+01   Organizing Team & Mentors   P03
+
+02   Timeline                    P06
+
+03   Theme                       P10
+
+04   Judging                     P13
+
+05   Awards                      P20
+
+06   Tools                       P25
+
+07   Reminders                   P28
+01 Organizing Team & Mentors
+   Who we are, and who is here to help you
+                                                                  04
+
+
+
+Organizing Team
+
+
+
+
+ Shion Kuroda     Sho Adachi    Koki Makino
+
+
+
+
+ Shiori Tsujino   Yuriko Wada   Shota Amamoto   Hidetoshi Ebina
+                                                                05
+
+
+
+Mentor
+
+
+
+
+Hirotaka Moriguchi
+
+Supporters
+
+
+
+
+    Jun Sato         Yuki Kanai   Keisei Okegawa   Ryo Tomiki
+02 Timeline
+   Day 1 to Day 3
+                                                                                                                                  07
+
+
+            DAY 1 Sep 25 (Fri)                       DAY 2 Sep 26 (Sat)                            DAY 3 Sep 27 (Sun)
+
+4:30 - 5:00 PM                            6:00 AM - 12:30 PM                           6:00 - 11:00 AM Free time
+                                                                                      10:00 - 11:00 AM Tech Support (Core Time)
+Registration                              Free time
+                                          10:00 - 11:00 AM Tech Support (Core Time)    11:00 AM         Submission Deadline
+5:00 - 5:35 PM
+Opening Ceremony                          12:30 PM                                    11:00 - 12:00 PM Presentation prep / Free time
+                                          Gather
+5:35 - 6:45 PM
+                                                                                      12:00 - 1:10 PM   Lunch 🍽
+OpenAI / Google Cloud Session             12:30 - ２:30 PM
+                                                                                      1:10 - 1:25 PM    Pitch Opening
+                                          Lunch / Mentoring Session 🍽
+6:45 PM - 0:00 AM                         2:30 - 5:00 PM
+                                                                                       1:30 -2:45 PM    Preliminary Judging
+Work begins / Free time                   Work                                        2:45 - 3:00 PM    Break
+Venue access available
+8:00 - 9:00 PM Tech Support (Core Time)   5:00 - 6:00 PM                              3:00 - 3:10 PM    Prelim Results & Prep
+                                          Mentoring Session                            3:10 - 3:55 PM   Final Judging (3 teams)
+                                          6:00 - 6:40 PM                              3:55 - 4:20 PM    Break
+                                          Work / Announcements
+                                                                                       4:20 - 4:35 PM Results Announcement
+                                          6:40 PM - 0:00 AM
+                                          Work / Free time                            4:35 - 5:00 PM    Judges' Remarks
+                                          Venue access available
+                                          8:00 - 9:00 PM Tech Support (Core Time)     5:00 - 6:30 PM    Networking Reception 🍽
+0:00 - 6:00 AM
+                                          0:00 - 6:00 AM                              6:30 - 7:20 PM    Closing Ceremony
+Restricted entry/exit
+                                          Restricted entry/exit
+Direct hotel travel only
+                                          Direct hotel travel only
+                                                                                                                 08
+
+
+    DAY 2 Sep 26 (Sat)
+  Mentor
+6:00 - 12:30
+Free time
+12:30
+Gather                        Hiro [Reservation Required] @ Golden Gates (1F)
+12:30 - 2:30 PM               A thread will be posted today at 7:00 PM, reply to book your 30 min spot
+Lunch / Mentoring Session 🍽
+2:30 - 5:00 PM
+Work                          Walk-in @ In front of Amazing Grace (1F)
+5:00 - 6:00 PM
+                              No reservation needed. Feel free to let us know if you have a mentor preference!
+Mentoring Session
+6:00 - 6:40 PM
+Work / Announcements
+6:40 PM - 0:00 AM
+Work / Free time
+Venue access available
+
+
+0:00 - 6:00 AM
+Restricted entry/exit
+Direct hotel travel only                    #ask-mentors-techsupporters
+                                                                   09
+
+
+
+Timeline
+
+Technical Support
+
+
+• OpenAI Technical Support core time ：10001100AM, 800900PM
+• Use #ask-mentors-techsupporters
+• Mention @hojoon @nkhurana @evanroberts
+03 Theme
+  What we are asking you to build
+                                 11
+
+
+
+THEME
+
+
+
+
+          Envision a product
+        that drives innovation
+         in the future of work
+                                                                                                       12
+
+
+
+THEME
+
+Three things to keep in mind
+
+
+01                                   02                             03
+"WORK" MEANS EVERYTHING              NO NEED TO FIT RECRUIT'S       AI IS OPTIONAL
+RELATED TO WORK                      BUSINESSES
+                                                                    A clear problem, target user and
+Not just hiring or job hunting —     Ask one question: what value   approach matter more than the
+individuals, teams, organizations,   does your product create for   tech stack.
+labor systems and society.           society?
+04 Judging
+   Judges · criteria · flow
+                                                                                                             14
+
+
+
+JUDGING
+
+Judging Criteria
+                                          How much value could this create on its own?
+                       Social Impact
+                                          • Importance and scale of the problem
+                                          • Potential for meaningful benefits to target users and
+    Potential Impact                      society
+                                                                                                       40%
+                       Business Potential • Customer demand and market opportunity
+                                          • Potential to sustain and grow as a business
+
+                                                Is the insight meaningfully original?
+                                                • Fresh perspective on the problem
+    Creativity & Innovation                     • Novel approach or combination
+                                                                                                       30%
+                                                • Clear differentiation from existing solutions
+
+                                                Is the path to implementation credible?
+                                                • Technology is appropriate for the problem
+    Technical Architecture                      • System design is clear and realistic                 30%
+                                                • PoC shows that the key technical idea works
+                                                • Clear path to making the solution work in practice
+                                                                                          15
+
+
+
+REMINDERS
+
+Notes
+
+
+Everything you submit must be built here, during the hackathon
+
+ ●   Teaming : Need to change teams on Day 1 (absence etc.? Consult the organizing
+     team
+ ●   Output must be original and previously unpublished — no prior submissions or
+     award-winning work
+ ●   No code written before the Opening Ceremony, no existing self-authored libraries →
+     disqualification
+ ●   Discussing / developing ideas beforehand: OK
+ ●   Public frameworks & OSS OK — follow licenses, disclose substantial third-party
+     components in README
+                                                                                                             16
+
+
+
+JUDGING
+
+Judges
+Global experts from Indeed, Glassdoor, Google Cloud and OpenAI
+
+
+
+
+       Jim Giles               Robert Hohman                Damien Contreras           Ho Joon Cha
+      CTO, Indeed             Co-founder & Former         Data Cloud Specialist,     Applied AI Architect,
+                                CEO, Glassdoor          Strategic AI, Google Cloud         OpenAI
+                                                                                   17
+
+
+
+JUDGING
+
+What & when to submit
+No changes after the deadline · late = disqualified
+
+
+
+Deadline: 1100 AM PDT, Sunday, September 27
+
+What to Submit:
+1. Link to a public GitHub repository
+2. Link to a demo or a video of the prototype(Up to 1.5 minutes)
+3. Presentation deck as a .pdf format (you can use the format provided in Slack)
+
+Where to Submit:
+In #announcements-all channel on Recruit Community Workspace through Slack
+                                                                                      18
+
+
+
+JUDGING
+
+Preliminary
+Sun, Sep 27 · 130245 pm · all teams
+
+
+
+3 minutes presentation + 1.5 minutes Q&A
+
+ ●    Keep your presentation and answers as concise as possible
+ ●    Monitor below the stage for slides/demos
+ ●    Please prepare your PC in advance
+ ●    Wait behind the judges during the previous team's turn for smooth transitions
+ ●    Order will randomly be selected and shared at 630pm on Day 2
+                                                                                    19
+
+
+
+JUDGING
+
+Final
+Sun, Sep 27 · 310355 pm · 3 teams
+
+
+
+6 minutes presentation + 6 minutes Q&A
+
+ ●    Same slides/demos from the prelims are allowed, but please add more details
+ ●    Present on stage in the order called (use mic & clicker)
+ ●    Bring your own PC for projection
+ ●    No setup time after the prelim results. Please prepare in advance
+05 Awards
+  $70,000 in prizes & acceleration
+                                                                                 21
+
+
+
+AWARDS
+
+Grand Prize
+PRIZE MONEY                         IF YOU TURN THE PROJECT INTO A BUSINESS
+
+$20,000                              + $30,000
+
+ACCELERATION PROGRAM
+A 3-month Acceleration Program
+ ●   Strategic Mentorship
+      ○ Multiple feedback sessions with active business leaders and interviews
+           with industry experts for deep, real-world insights.
+ ●   User Validation (PoC)
+      ○ Opportunities for hands-on product testing and interviews
+           leveraging Recruit's & Indeed’s assets and vast corporate network.
+                                                 22
+
+
+
+AWARDS
+
+SPECIAL AWARD · 2 TEAMS
+PRIZE MONEY
+
+$10,000 each
+
+
+
+
+               +   ALL WINNING TEAMS RECEIVE …
+                                                                          23
+
+
+
+ AWARDS
+
+ Megagon Labs Catalyst Program
+
+Intensive research program with AI experts
+
+   ●      Megagon Labs:
+          Recruit Group’s AI research hub (Mountain View & Tokyo)
+          advancing cutting-edge AI (LLMs, HCI, compound AI, etc.)
+          for real-world impact.
+
+   ●      Intensive program to refine research plans with expert
+          advice
+          from researchers on methodology and AI utilization
+   ●      Fully covered flights and hotel expenses for 2 days / 1 night
+   ●      Held around January or February,
+          scheduled based on participant availability.
+                                                                                                     24
+
+
+
+ AWARDS
+
+ Fast-Track Selection for Dual Internship Program
+Cross-border internship in both JP and US
+   ●   Paid internship with hands-on work experience in both JP and US
+   ●   Deep dive into both Japanese and global mega-markets,
+       experiencing true “CEO-ship” firsthand with immense autonomy
+   ●   All members of the winning teams will be eligible for an expedited internship selection process
+   ●   Projects and positions are custom-tailored to align with individual skills and aspiration
+06 Tools
+   Codex · Google Cloud
+                                                                                       26
+
+
+
+TOOLS
+
+Codex · Google Cloud
+
+
+Google Cloud                                 Codex
+$200 in credits per participant              $150 in credits per participant
+Each team will receive a dedicated
+                                             Each participant will receive a unique
+Google Cloud project with access to the
+                                             redemption link to claim the credits in
+Gemini API and Google Cloud Storage.
+                                             their personal ChatGPT account.
+Credits will be allocated to each teamʼs
+project.                                     Credits are valid for 4 days from
+                                             redemption.
+An API key will also be provided to use
+the Gemini API in your product, if needed.
+                                                                                          27
+
+
+
+TOOLS
+
+Using other tools
+
+
+Use what you like — at your own risk and expense
+
+• Other AI tools, APIs and paid tools: OK, at your own risk and expense
+• Public frameworks & OSS OK — follow licenses, disclose substantial third-party
+components in README
+• No personal information in prompts
+• Don't reuse AI-suggested ideas as-is; don't alter copyrighted works with AI
+• Code written before the Opening Ceremony / your own existing libraries: NOT allowed →
+disqualification
+07 Reminders
+   Recap of the Pre-Event Material
+                                                     29
+
+
+
+REMINDERS
+
+Venue, access & safety
+
+
+   HOURS & SAFETY
+
+   • Open 24h
+      no sleeping in the office
+      come and go freely during work hours
+   • 000600: venue ⇄ hotel only (no going home)
+   • Red zones off-limits at all times
+     stay east of the venue
+               Entrance                                  30
+
+                          R
+                          e
+                          c
+                          e
+                          p
+             Stage
+
+
+
+
+            Audience
+
+
+
+
+                                  Sofa
+                                            ⛔
+                              C
+                              a
+                 Work         t
+                 Space        e
+                              r          Work
+ DAY1-2                       i          Space
+  Work                        n
+ Space                        g
+                                           Work
+  DAY2                                     Space
+Reserved                                 / Walkin
+Mentoring
+
+  DAY3
+NoEnter⛔
+                                             Staﬀ room
+                                             NoEnter⛔
+                                                                                      31
+
+
+
+REMINDERS
+
+Transportation Expense Reimbursement
+
+
+   • Round-trip travel between your residence and the venue (public transportation,
+   UberX, etc.) is eligible. Please bring your receipts on the final day, as
+   reimbursement will be processed after the event.
+   Reimbursement Procedure: Guidance will be provided on the final day of the
+   event. If you wish to receive reimbursement via an overseas bank account, please
+   have your bank account details SWIFT/BIC, etc.) ready in advance.
+                                                                           32
+
+
+
+REMINDERS
+
+Smoking / alcohol / cannabis · Hotel
+
+
+SMOKING / ALCOHOL / CANNABIS
+
+ ●   Prohibited for all participants during the event, regardless of age
+ ●   No alcohol in the venue
+
+
+HOTEL USE
+
+ ●   Rooms are private — registered guests only
+ ●   No group work in rooms (use the 24h venue)
+ ●   Follow the law and generally accepted standards of conduct
+                                                                                                                                  33
+
+
+
+REMINDERS
+
+Code of Conduct & Emergency Contact
+
+
+CODE OF CONDUCT
+
+ ●    Safe, welcoming, respectful environment — harassment of any kind, incl. sexual harassment, is
+      not tolerated
+  ●   Examples: unwelcome comments on appearance / gender / identity · unwelcome physical contact · sexual jokes ·
+      pressuring for contact info · repeated 11 invitations after refusal · intimidation (shouting, threats, slamming a table)
+  ●   Consequences: asked to stop, leave, or be excluded from further participation · comply with the T&Cs agreed at
+      registration
+
+
+EMERGENCY CONTACT
+
+ ●    Feeling unwell, running late, CoC concerns, anything urgent
+      → Slack DM Shion Kuroda · Shiori Tsujino · Yuriko Wada
+ ●    DM, not public channels — handled promptly and discreetly
+ ●    Leaving part way through or joining online is generally not permitted
+                                                                                                       34
+
+
+
+REMINDERS
+
+Social media
+
+
+Posts about your experience are welcome
+
+ ●   Get consent before posting about anyone identifiable
+ ●   You may publish your output (e.g. Devpost) — IP belongs to your team as a joint work
+
+Sharing Your Experience on LinkedIn
+
+ ●   To continue this program and bring this opportunity to future hackers, we would love for you to
+     share your experience on LinkedIn.
+ ●   Feel free to tag us and use this hashtag in your post!
+       ○    Recommended Hashtag： #InnovationCup2026 #RecruitHoldingsHackathon
+       ○    Who to Tag： Career at Recruit Holdings
+
