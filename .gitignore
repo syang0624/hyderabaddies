@@ -7,3 +7,8 @@
 # local state
 .DS_Store
 __pycache__/
+
+# video build scratch (86 MB of Pexels b-roll, per-beat renders); ids are in deck/video/build.py
+deck/video/broll/
+deck/video/_seg/
+deck/video/vo/*.raw.wav
